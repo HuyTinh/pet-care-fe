@@ -1,8 +1,10 @@
-import "./assets/styles";
 import { ToastContainer } from "react-toastify";
 import { RouterProvider } from "react-router-dom";
 import { RouterHooks } from "./router";
 import { Fragment } from "react/jsx-runtime";
+
+import "./assets/styles/app.css";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const hookRouter = RouterHooks();
