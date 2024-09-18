@@ -1,70 +1,124 @@
-import { Image, StyleSheet, Platform } from 'react-native';
-
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-
-export default function HomeScreen() {
+import { Image, Text, View, StyleSheet } from 'react-native'
+import { Controller, useForm } from "react-hook-form";
+import { Button, Checkbox, TextInput } from 'react-native-paper';
+import { CheckBox } from 'react-native-elements'
+import React from 'react';
+const index = () => {
+  const {
+    control,
+    // handleSubmit,
+    // formState: { errors },
+    // reset
+  } = useForm<any>();
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
-  );
-}
+    <View className='w-full h-full bg-[#0099CF]'>
+      <View className='flex'>
+        <View className='mt-20 static'>
+          <View style={styles.circle_1} />
+          <Image className='ml-36' source={require('@/assets/images/Logo2.png')} />
+        </View>
+        <View>
+          <Text className='ml-[100px] mt-4 text-[58px] font-bold text-white'>Pet care</Text>
+        </View>
+      </View>
+      <View className='px-12 mt-32'>
+        <View style={styles.circle_2} />
+        <View className=' static w-full h-10'>
+          {/* <Image className='ml-4 absolute mt-5' source={require('@/assets/images/mail 1.png')} /> */}
+          <Controller
+            control={control}
+            rules={{
+              required: true,
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                style={styles.icon_1}
+                className='rounded-full p-[1.75px] font-bold text-[#726E6E]'
+                label="Email"
+                onBlur={onBlur}
+                value={value}
+                onChangeText={onChange}
+                left ={<TextInput.Icon icon="email"/>}
+              />
 
+            )}
+            name="email"
+          />
+        </View>
+        <View className=' mt-14 static w-full h-10'>
+          {/* <Image className='ml-[270px] absolute mt-3 ' source={require('@/assets/images/Key.png')} /> */}
+          <Controller
+            control={control}
+            rules={{
+              required: true,
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                style={styles.icon_1}
+                className='rounded-full p-[2px] font-bold text-[#726E6E]'
+                label="Password"
+                onBlur={onBlur}
+                value={value}
+                onChangeText={onChange}
+                left ={<TextInput.Icon icon="key"/>}
+              />
+            )}
+            name="password"
+          />
+        </View>
+        <View className='mt-14 '>
+        <Checkbox.Item label="Remember Me?" status="checked" />
+          
+        </View>
+      </View>
+      <View className='mt-7 ml-24'>
+        <Button mode="contained" className='w-56 h-14 flex justify-center !bg-[#0F74C1]'>Login</Button>
+      </View>
+    </View>
+  )
+}
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
+  circle_1: {
+    width: 600,              // Chiều rộng hình tròn
+    height: 600,             // Chiều cao hình tròn (bằng với chiều rộng)
+    borderRadius: 300,        // Độ cong viền = 1/2 chiều rộng để tạo hình tròn
+    backgroundColor: 'rgba(0, 0, 0, 0.01)', // Màu nền đen với độ trong suốt 0.2
     position: 'absolute',
+    top: -320,
+    left: -70,
+
+    // Viền 
+    borderWidth: 5,
+    borderColor: '#0D74B1',
+
+    // Bóng cho 
+    shadowColor: '#0D74B1',     // Màu của bóng
+    shadowOffset: { width: 1, height: 5 },  // Độ dịch chuyển của bóng
+    shadowOpacity: 0.5,     // Độ trong suốt của bóng
+    shadowRadius: 0.25,      // Độ mờ của bóng
   },
+  icon_1: {
+    zIndex: -1,
+  },
+  circle_2: {
+    width: 800,              // Chiều rộng hình tròn
+    height: 600,             // Chiều cao hình tròn (bằng với chiều rộng)
+    borderRadius: 400,        // Độ cong viền = 1/2 chiều rộng để tạo hình tròn
+    backgroundColor: 'rgba(0, 0, 0, 0.01)', // Màu nền đen với độ trong suốt 0.2
+    position: 'absolute',
+    top: -50,
+    right: -500,
+
+    // Viền 
+    borderWidth: 5,
+    borderColor: '#0D74B1',
+
+    // Bóng cho 
+    shadowColor: '#0D74B1',     // Màu của bóng
+    shadowOffset: { width: 1, height: 5 },  // Độ dịch chuyển của bóng
+    shadowOpacity: 0.5,     // Độ trong suốt của bóng
+    shadowRadius: 0.25,      // Độ mờ của bóng
+  }
 });
+
+export default index
