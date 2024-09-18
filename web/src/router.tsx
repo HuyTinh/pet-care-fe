@@ -10,7 +10,7 @@ const AdminPage = {
 };
 
 export const RouterHooks = () => {
-  const role = "";
+  const role = "receptionist";
 
   const router = createBrowserRouter([
     {
