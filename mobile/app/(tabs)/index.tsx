@@ -1,124 +1,98 @@
-import { Image, Text, View, StyleSheet } from 'react-native'
-import { Controller, useForm } from "react-hook-form";
-import { Button, Checkbox, TextInput } from 'react-native-paper';
-import { CheckBox } from 'react-native-elements'
-import React from 'react';
-const index = () => {
-  const {
-    control,
-    // handleSubmit,
-    // formState: { errors },
-    // reset
-  } = useForm<any>();
-  return (
-    <View className='w-full h-full bg-[#0099CF]'>
-      <View className='flex'>
-        <View className='mt-20 static'>
-          <View style={styles.circle_1} />
-          <Image className='ml-36' source={require('@/assets/images/Logo2.png')} />
-        </View>
-        <View>
-          <Text className='ml-[100px] mt-4 text-[58px] font-bold text-white'>Pet care</Text>
-        </View>
-      </View>
-      <View className='px-12 mt-32'>
-        <View style={styles.circle_2} />
-        <View className=' static w-full h-10'>
-          {/* <Image className='ml-4 absolute mt-5' source={require('@/assets/images/mail 1.png')} /> */}
-          <Controller
-            control={control}
-            rules={{
-              required: true,
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
-                style={styles.icon_1}
-                className='rounded-full p-[1.75px] font-bold text-[#726E6E]'
-                label="Email"
-                onBlur={onBlur}
-                value={value}
-                onChangeText={onChange}
-                left ={<TextInput.Icon icon="email"/>}
-              />
+import { StyleSheet, Text, View, Image } from 'react-native'
+import React from 'react'
+import { Card, Searchbar } from 'react-native-paper';
+import { Avatar } from 'react-native-paper';
 
-            )}
-            name="email"
-          />
+const Home = () => {
+    const [searchQuery, setSearchQuery] = React.useState('');
+    return (
+        <View className='w-full h-full mt-16'>
+            <View className='flex-row gap-y-5 static px-5 py-5 justify-between items-center'>
+                <View>
+                    <Searchbar
+                        style={styles.searchbar}
+                        placeholder="Search list customer"
+                        onChangeText={setSearchQuery}
+                        value={searchQuery}
+                    />
+                </View>
+                <View>
+                    <Avatar.Image size={55} source={require('@/assets/images/26.png')} />
+                </View>
+
+            </View>
+            <View className='px-3 py-1 static'>
+                <View className='flex-row items-center'>
+                    <View>
+                        <View style={styles.square} />
+                        <Image className='absolute ml-[14px] mt-[8px] ' source={require('@/assets/images/calendar.png')} />
+                    </View>
+                    <View className='ml-[5.5px]'>
+                        <Text className='text-[50px] font-bold text-[#0099CF]'>11</Text>
+                    </View>
+                    <View className='ml-[5.5px]'>
+                        <Text className='text-sm text-[#0099CF] opacity-50 font-bold'>Wednesday</Text>
+                        <Text className='text-sm text-[#0099CF]'>September 2024</Text>
+                    </View>
+                    <View className='ml-[75px]'>
+                        <Text className='text-4xl text-[#0099CF] font-bold'>Today</Text>
+                    </View>
+                </View>
+            </View>
+            <View className=' p-5  '>
+                <Card className='bg-[#E7E7E8] mb-5'>
+                    <Card.Content>
+                        <Text className='font-bold text-lg text-[#0D74B1]'>#PC1012</Text>
+                        <Text className='text-[#0D74B1] text-base font-medium'>Thú cưng: <Text className='!text-black'>Cogi</Text></Text>
+                        <Text className='text-[#0D74B1] text-base font-medium'>Bệnh: <Text className='!text-black'>Lùn</Text></Text>
+                        <Image className='absolute top-6 right-4' source={require('@/assets/images/pets 4.png')} />
+                    </Card.Content>
+                </Card>
+                <Card className='bg-[#E7E7E8] mb-5'>
+                    <Card.Content >
+                        <Text className='font-bold text-lg text-[#0D74B1]'>#PC1012</Text>
+                        <Text className='text-[#0D74B1] text-base font-medium'>Thú cưng: <Text className='!text-black'>Cogi</Text></Text>
+                        <Text className='text-[#0D74B1] text-base font-medium'>Bệnh: <Text className='!text-black'>Lùn</Text></Text>
+                        <Image className='absolute top-6 right-4' source={require('@/assets/images/pets 4.png')} />
+                    </Card.Content>
+                </Card>
+                <Card className='bg-[#E7E7E8] mb-5'>
+                    <Card.Content >
+                        <Text className='font-bold text-lg text-[#0D74B1]'>#PC1012</Text>
+                        <Text className='text-[#0D74B1] text-base font-medium'>Thú cưng: <Text className='!text-black'>Cogi</Text></Text>
+                        <Text className='text-[#0D74B1] text-base font-medium'>Bệnh: <Text className='!text-black'>Lùn</Text></Text>
+                        <Image className='absolute top-6 right-4' source={require('@/assets/images/pets 4.png')} />
+                    </Card.Content>
+                </Card>
+                <Card className='bg-[#E7E7E8] mb-5'>
+                    <Card.Content >
+                        <Text className='font-bold text-lg text-[#0D74B1]'>#PC1012</Text>
+                        <Text className='text-[#0D74B1] text-base font-medium'>Thú cưng: <Text className='!text-black'>Cogi</Text></Text>
+                        <Text className='text-[#0D74B1] text-base font-medium'>Bệnh: <Text className='!text-black'>Lùn</Text></Text>
+                        <Image className='absolute top-6 right-4' source={require('@/assets/images/pets 4.png')} />
+                    </Card.Content>
+                </Card>
+            </View>
         </View>
-        <View className=' mt-14 static w-full h-10'>
-          {/* <Image className='ml-[270px] absolute mt-3 ' source={require('@/assets/images/Key.png')} /> */}
-          <Controller
-            control={control}
-            rules={{
-              required: true,
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
-                style={styles.icon_1}
-                className='rounded-full p-[2px] font-bold text-[#726E6E]'
-                label="Password"
-                onBlur={onBlur}
-                value={value}
-                onChangeText={onChange}
-                left ={<TextInput.Icon icon="key"/>}
-              />
-            )}
-            name="password"
-          />
-        </View>
-        <View className='mt-14 '>
-        <Checkbox.Item label="Remember Me?" status="checked" />
-          
-        </View>
-      </View>
-      <View className='mt-7 ml-24'>
-        <Button mode="contained" className='w-56 h-14 flex justify-center !bg-[#0F74C1]'>Login</Button>
-      </View>
-    </View>
-  )
+    )
 }
+
+export default Home
 const styles = StyleSheet.create({
-  circle_1: {
-    width: 600,              // Chiều rộng hình tròn
-    height: 600,             // Chiều cao hình tròn (bằng với chiều rộng)
-    borderRadius: 300,        // Độ cong viền = 1/2 chiều rộng để tạo hình tròn
-    backgroundColor: 'rgba(0, 0, 0, 0.01)', // Màu nền đen với độ trong suốt 0.2
-    position: 'absolute',
-    top: -320,
-    left: -70,
+    searchbar: {
+        width: 320,
+        backgroundColor: 'rgba(0, 0, 0, 0.01)',
+        borderWidth: 1,
+        borderColor: '#0099CF',
+    },
+    square: {
+        width: 60,
+        height: 50,
+        borderRadius: 15,
+        backgroundColor: 'rgba(0, 0, 0, 0.01)',
 
-    // Viền 
-    borderWidth: 5,
-    borderColor: '#0D74B1',
-
-    // Bóng cho 
-    shadowColor: '#0D74B1',     // Màu của bóng
-    shadowOffset: { width: 1, height: 5 },  // Độ dịch chuyển của bóng
-    shadowOpacity: 0.5,     // Độ trong suốt của bóng
-    shadowRadius: 0.25,      // Độ mờ của bóng
-  },
-  icon_1: {
-    zIndex: -1,
-  },
-  circle_2: {
-    width: 800,              // Chiều rộng hình tròn
-    height: 600,             // Chiều cao hình tròn (bằng với chiều rộng)
-    borderRadius: 400,        // Độ cong viền = 1/2 chiều rộng để tạo hình tròn
-    backgroundColor: 'rgba(0, 0, 0, 0.01)', // Màu nền đen với độ trong suốt 0.2
-    position: 'absolute',
-    top: -50,
-    right: -500,
-
-    // Viền 
-    borderWidth: 5,
-    borderColor: '#0D74B1',
-
-    // Bóng cho 
-    shadowColor: '#0D74B1',     // Màu của bóng
-    shadowOffset: { width: 1, height: 5 },  // Độ dịch chuyển của bóng
-    shadowOpacity: 0.5,     // Độ trong suốt của bóng
-    shadowRadius: 0.25,      // Độ mờ của bóng
-  }
-});
-
-export default index
+        // Viền 
+        borderWidth: 1.25,
+        borderColor: '#0D74B1',
+    }
+})
