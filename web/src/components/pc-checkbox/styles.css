@@ -1,0 +1,15 @@
+.checkbox-green {
+  --a: 120 97% 34%;
+  --chkbg: var(--a);
+  --chkfg: var(--ac);
+  --tw-border-opacity: 1;
+  border-color: hsl(var(--a)/var(--tw-border-opacity));
+}
+.checkbox-green:checked, .checkbox-green[checked=true], .checkbox-green[aria-checked=true] {
+  --tw-border-opacity: 1;
+  border-color: hsl(var(--a)/var(--tw-border-opacity));
+  --tw-bg-opacity: 1 !important;
+  background-color: hsl(var(--a)/var(--tw-bg-opacity));
+  --tw-text-opacity: 1 !important;
+  color: hsl(var(--a)/var(--tw-text-opacity)) !important;
+}/*# sourceMappingURL=styles.css.map */
