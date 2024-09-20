@@ -1,10 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
 import { Layout } from "./components/layout";
 import { AdminAuthPage } from "./pages/admin/auth";
+import { ReceptionistPage } from "./pages/admin/receptionist";
+import { DoctorPage } from "./pages/admin/doctor";
 
 const AdminPage = {
-  receptionist: <div>Receptionist</div>,
-  doctor: <div>Doctor</div>,
+  receptionist: <ReceptionistPage />,
+  doctor: <DoctorPage />,
 };
 
 export const RouterHooks = () => {
