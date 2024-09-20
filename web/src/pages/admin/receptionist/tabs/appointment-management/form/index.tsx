@@ -18,12 +18,7 @@ export const AppoimentManageForm = () => {
   const [pets, setPets] = useState<IPet[]>([]);
   const [createAppointment] = useCreateAppointmentMutation();
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<any>();
+  const { register, handleSubmit } = useForm<any>();
   const onSubmit: SubmitHandler<any> = (data) =>
     createAppointment({
       ...data,
@@ -34,20 +29,6 @@ export const AppoimentManageForm = () => {
       },
       pets: pets,
     });
-  // console.log(
-  //   _.omit(
-  //     {
-  //       ...data,
-  //       appointment: {
-  //         services: data.services,
-  //         appointment_date: displayInputDate(new Date()),
-  //         status: "APPROVED",
-  //       },
-  //       pets: pets,
-  //     },
-  //     ["services"],
-  //   ),
-  // );
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">

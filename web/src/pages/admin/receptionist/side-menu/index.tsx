@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { CiCalendar, CiCircleInfo } from "react-icons/ci";
 import { ReactElement } from "react";
 

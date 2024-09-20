@@ -1,10 +1,7 @@
 import { useState, useEffect } from "react";
 import WebSocketManager from "../../../utils/WebSocketManager";
 import { SideMenu } from "./side-menu";
-import {
-  useGetAppointmentsQuery,
-  useGetHospitalServiceQuery,
-} from "./appointment.service";
+import { useGetAppointmentsQuery } from "./appointment.service";
 import { IAppointment } from "../../../types/appoiment.type";
 import { motion } from "framer-motion";
 import { displayInputDate } from "../../../utils/Date";
@@ -14,7 +11,7 @@ import { AppoimentManageForm } from "./tabs/appointment-management/form";
 
 export const ReceptionistPage = () => {
   const [appointment, setAppointment] = useState<IAppointment[]>([]);
-  const [sessionId, setSessionId] = useState(new Date().getTime());
+  const [sessionId, _] = useState(new Date().getTime());
   const stompClient = WebSocketManager.getInstance().getClient();
   const { data: appointmentsData, isFetching: isFetchAppointmentsData } =
     useGetAppointmentsQuery();
@@ -29,15 +26,8 @@ export const ReceptionistPage = () => {
     if (stompClient) {
       stompClient.onConnect = () => {
         console.log("Connected to WebSocket");
-
         // Gửi yêu cầu kết nối
         stompClient.publish({ destination: "/app/connect" });
-
-        // Đăng ký nhận tin nhắn từ server
-        // stompClient.subscribe("/topic/messages", (message) => {
-        //   setMessages(JSON.parse(message.body));
-        // });
-
         stompClient.subscribe("/topic/updateAppointment", (message) => {
           setAppointment((prev) => {
             let arr = [...prev];

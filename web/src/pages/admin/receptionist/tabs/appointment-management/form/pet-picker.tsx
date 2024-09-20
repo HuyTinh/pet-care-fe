@@ -11,12 +11,7 @@ type PetPickerProps = {
 };
 
 export const PetPicker = ({ pets, setPets }: PetPickerProps) => {
-  const {
-    register,
-    getValues,
-    reset,
-    formState: { errors },
-  } = useForm<IPet>();
+  const { register, getValues, reset } = useForm<IPet>();
 
   const [expand, setExpand] = useState(false);
   //   const [pets, setPets] = useState([]);
