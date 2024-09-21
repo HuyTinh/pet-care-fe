@@ -1,8 +1,8 @@
 import { Outlet } from "react-router-dom";
 
-export const Layout = () => {
+export const RootLayout = () => {
   return (
-    <div className="h-screen">
+    <div className="min-h-screen">
       <Outlet />
     </div>
   );

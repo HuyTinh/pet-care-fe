@@ -45,7 +45,7 @@ export const appointmentApi = createApi({
     isCheckin: build.query<APIResponse, string>({
       query: (body) => `appointment/isCheckin/${body}`,
     }),
-    createAppointment: build.mutation<IAppointment, Omit<IAppointment, "id">>({
+    createAppointment: build.mutation<IAppointment, any>({
       query(body) {
         return {
           url: "customer",
