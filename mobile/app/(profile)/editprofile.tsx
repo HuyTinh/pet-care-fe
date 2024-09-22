@@ -12,9 +12,9 @@ const editprofile = () => {
   } = useForm<any>();
 
   return (
-
-    <View className='w-full h-full'>
+    <>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View className='w-full h-full'>
         <View style={styles.square}>
           <View className='flex'>
             <View>
@@ -30,6 +30,7 @@ const editprofile = () => {
             </View>
           </View>
         </View>
+
         <View className='p-5'>
           <View>
             <Text style={styles.text} className='font-semibold'>User Name</Text>
@@ -51,23 +52,56 @@ const editprofile = () => {
           </View>
           <View className='mt-3'>
             <Text style={styles.text} className='font-semibold'>Email</Text>
-            <TextInput
-              className='mt-2'
-              mode="outlined"
+            <Controller
+              control={control}
+              rules={{
+                required: true,
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <TextInput
+                  mode='outlined'
+                  onBlur={onBlur}
+                  value={value}
+                  onChangeText={onChange}
+                />
+              )}
+              name="email"
             />
           </View>
           <View className='mt-3'>
             <Text style={styles.text} className='font-semibold'>Contact</Text>
-            <TextInput
-              className='mt-2'
-              mode="outlined"
+            <Controller
+              control={control}
+              rules={{
+                required: true,
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <TextInput
+                  mode='outlined'
+                  onBlur={onBlur}
+                  value={value}
+                  onChangeText={onChange}
+                />
+              )}
+              name="username"
             />
           </View>
           <View className='mt-3'>
             <Text style={styles.text} className='font-semibold'>Birthday</Text>
-            <TextInput
-              className='mt-2'
-              mode="outlined"
+            <Controller
+              control={control}
+              rules={{
+                required: true,
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <TextInput
+                  mode='outlined'
+                  onBlur={onBlur}
+                  value={value}
+                  onChangeText={onChange}
+                />
+              )}
+              name="birthday"
             />
           </View>
         </View>
@@ -77,8 +111,10 @@ const editprofile = () => {
             <Text className='text-lg text-white'>Update</Text>
           </Button>
         </View>
+
+      </View>
       </TouchableWithoutFeedback>
-    </View>
+    </>
   )
 }
 

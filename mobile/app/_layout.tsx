@@ -32,7 +32,7 @@ export default function RootLayout() {
         <Stack.Screen name="(auth)" options={{ headerShown: false }}/>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="(profile)" options={{ headerShown: false }} />
-        <Stack.Screen name="(change-password)" options={{ headerShown: false }} />
+        <Stack.Screen name="(changepassword)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
       </Stack>
     </ThemeProvider>

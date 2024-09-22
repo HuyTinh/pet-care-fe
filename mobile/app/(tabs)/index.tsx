@@ -2,14 +2,10 @@ import { StyleSheet, Text, View, Image, Modal, TouchableOpacity } from 'react-na
 import React, { useState } from 'react'
 import { Card, Searchbar } from 'react-native-paper';
 import { Avatar } from 'react-native-paper';
-import BottomSheet from 'reanimated-bottom-sheet';
 
 const Home = () => {
     const [searchQuery, setSearchQuery] = React.useState('');
-    const [modalVisible, setModalVisible] = useState(false);
     return (
-     
-            
             <View className='w-full h-full mt-16'>
                 <View className='flex-row gap-y-5 static px-5 py-5 justify-between items-center'>
                     <View>

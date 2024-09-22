@@ -9,7 +9,7 @@ const explore = () => {
       <View style={styles.square}>
         <View >
           <View className='mt-14 items-end px-5'>
-            <Button mode="contained" className='w-36 h-14 flex justify-center !bg-[#0F74C1]'><Link href={"./(profile)/edit-profile"} className='text-lg'>Edit profile</Link></Button>
+            <Button mode="contained" className='w-36 h-14 flex justify-center !bg-[#0F74C1]'><Link href={"../(profile)/editprofile"} className='text-lg'>Edit profile</Link></Button>
           </View>
           <View className='items-center mt-5 static'>
             <Avatar.Image size={100} source={require('@/assets/images/26.png')} />
@@ -27,7 +27,7 @@ const explore = () => {
       </View>
       <View className='p-7'>
         <Card style={styles.card}>
-          <Link href={"./(changePW)/confirm-email"}>
+          <Link href={"../(changepassword)/confirm-email"}>
             <Card.Content className=' h-20'>
               <Image className='absolute top-[23] left-[25px]' source={require('@/assets/images/Lock.png')} />
               <Text className='absolute top-8 left-[85px] text-[17px] text-white font-medium'>Change Password</Text>
