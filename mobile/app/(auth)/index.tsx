@@ -72,19 +72,22 @@ const Auth = () => {
             />
           </View>
           <View className='mt-10 '>
-            <CheckBox
-              title='Remember Me?'
-              checked={true}
-              containerStyle={{
-                backgroundColor: "transparent",
-                borderWidth: 0,
-              }}
-              textStyle={{
-                color: "white",
-                fontSize: 16
-              }}
-              checkedColor='white'
-            />
+            <View >
+              <CheckBox
+                title='Remember Me?'
+                checked={true}
+                containerStyle={{
+                  backgroundColor: "transparent",
+                  borderWidth: 0,
+                }}
+                textStyle={{
+                  color: "white",
+                  fontSize: 16
+                }}
+                checkedColor='white'
+              />
+            </View>
+            <View className='absolute top-[14px] right-5'><Link href={"../(forgotpassword)/forgot-confirm-email"} className='text-white text-base font-medium '>Fogot Password!</Link></View>
           </View>
         </View>
       </TouchableWithoutFeedback>
