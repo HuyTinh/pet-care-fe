@@ -84,14 +84,14 @@ export const ReceptionistPage = () => {
         <div className="relative z-20 w-full pb-2 pe-4 pt-4">
           <div className="flex h-full flex-1 flex-col rounded-lg border-2 border-black bg-white">
             <div className="h-1/6">
-              <button
+              {/* <button
                 className="btn"
                 onClick={() =>
                   (document.getElementById("my_modal_2") as any).showModal()
                 }
               >
                 open modal
-              </button>
+              </button> */}
               <PetCareModal size={"3xl"}>
                 <AppoimentManageForm />
               </PetCareModal>
