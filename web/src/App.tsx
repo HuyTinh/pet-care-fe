@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { setAuthenticated } from "./pages/auth.slice";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { PetCareModalContainer } from "./components/pc-modal";
 
 function App() {
   const hookRouter = RouterHooks();
@@ -25,12 +26,14 @@ function App() {
     <Fragment>
       <RouterProvider router={hookRouter.router} />
       <ToastContainer
-        autoClose={2000}
+        autoClose={2500}
         pauseOnHover={true}
         closeButton={false}
         style={{ zIndex: 1000 }}
         stacked
+        closeOnClick
       />
+      <PetCareModalContainer size="md" />
     </Fragment>
   );
 }

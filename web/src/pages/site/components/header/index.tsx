@@ -11,7 +11,7 @@ export const Header = () => {
   const isAuth = useSelector((state: RootState) => state.authentication.isAuth);
   const { scrollYPosition } = useScrollPetCare();
   const navigate = useNavigate();
-  const { openModal } = useModalPetCare();
+  const { openModalPetCare } = useModalPetCare();
 
   return (
     <div>
@@ -41,6 +41,8 @@ export const Header = () => {
             animate={{
               width: scrollYPosition > 100 ? "14rem" : "16rem",
             }}
+            onClick={() => navigate("/")}
+            className="cursor-pointer"
           >
             {scrollYPosition > 100 ? (
               <img
@@ -82,7 +84,9 @@ export const Header = () => {
             </li>
             <li>
               <span
-                onClick={() => (isAuth ? navigate("/profile") : openModal())}
+                onClick={() =>
+                  isAuth ? navigate("/profile") : openModalPetCare()
+                }
               >
                 <FaUserCircle size={28} />
               </span>

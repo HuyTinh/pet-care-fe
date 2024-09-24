@@ -20,7 +20,7 @@ const Page = (isAuth: Boolean, role: string) => {
           index: true,
           element: <HomePage />,
         },
-        isAuth && {
+        {
           path: "profile",
           element: <ProfilePage />,
         },

@@ -16,7 +16,23 @@ export const customerApi = createApi({
         return [{ type: "Customer" as const, id: result?.result.id }];
       },
     }),
+    updateCustomerProfile: build.mutation<
+      any,
+      { userId: string | null; data: any }
+    >({
+      query(body) {
+        return {
+          url: `customer/account/${body.userId}`,
+          method: "PUT",
+          body: body.data,
+        };
+      },
+      invalidatesTags: (result) => [
+        { type: "Customer" as const, id: result?.result.id },
+      ],
+    }),
   }),
 });
 
-export const { useGetCustomerProfileQuery } = customerApi;
+export const { useGetCustomerProfileQuery, useUpdateCustomerProfileMutation } =
+  customerApi;

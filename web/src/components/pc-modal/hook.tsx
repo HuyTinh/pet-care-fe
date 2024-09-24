@@ -1,11 +1,16 @@
+import { useDispatch } from "react-redux";
+import { openModal, closeModal } from "./modal.slice";
+
 export const useModalPetCare = () => {
-  const openModal = () => {
-    (document.getElementById("pc-modal") as any)?.showModal();
+  const dispatch = useDispatch();
+
+  const openModalPetCare = () => {
+    dispatch(openModal());
   };
 
-  const closeModal = () => {
-    (document.getElementById("pc-modal") as any)?.close();
+  const closeModalPetCare = () => {
+    dispatch(closeModal());
   };
 
-  return { openModal, closeModal };
+  return { openModalPetCare, closeModalPetCare };
 };

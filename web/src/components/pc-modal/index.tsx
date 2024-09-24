@@ -1,21 +1,54 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../store/store";
+import { useModalPetCare } from "./hook";
+import { setContent } from "./modal.slice";
 
-type PCModalProps = {
-  children: ReactNode;
+type PCModalContainerProps = {
   size?: "sm" | "md" | "xl" | "2xl" | "3xl" | "4xl";
   onClose?: Function;
 };
 
-export const PetCareModal = ({ children, size, onClose }: PCModalProps) => {
+type PCModalContentProps = {
+  children: ReactNode;
+};
+
+export const PetCareModalContent = ({ children }: PCModalContentProps) => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setContent(children));
+  }, [dispatch]);
+  return <></>;
+};
+
+export const PetCareModalContainer = ({
+  size,
+  onClose,
+}: PCModalContainerProps) => {
+  const ref = useRef(null);
+  const { closeModalPetCare } = useModalPetCare();
+  const modalVisible = useSelector((state: RootState) => state.modal.visible);
+  const modalContent = useSelector((state: RootState) => state.modal.content);
+
+  if (modalVisible) {
+    (ref.current as any)?.showModal();
+  } else {
+    (ref.current as any)?.close();
+  }
+
   return (
     <dialog
-      id="pc-modal"
+      ref={ref}
       className="modal backdrop:!hidden"
       onClose={() => onClose && onClose()}
     >
-      <div className={`modal-box flex max-w-${size} flex-col`}>{children}</div>
+      <div className={`modal-box flex max-w-${size} flex-col`}>
+        {modalContent}
+      </div>
       <form method="dialog" className="modal-backdrop !-z-10">
-        <button>close</button>
+        <button type="button" onClick={() => closeModalPetCare()}>
+          close
+        </button>
       </form>
     </dialog>
   );

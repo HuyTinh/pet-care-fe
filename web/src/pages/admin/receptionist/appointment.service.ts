@@ -58,8 +58,11 @@ export const appointmentApi = createApi({
     getHospitalService: build.query<APIResponse, void>({
       query: () => `appointment/hospital-service`,
     }),
-    getAppointmentByCustomerId: build.query<APIResponse, any>({
-      query: (body) => `appointment/customer/${body}`,
+    getAppointmentByCustomerId: build.query<
+      APIResponse,
+      { userId: string | number | null }
+    >({
+      query: (body) => `appointment/account/${body.userId}`,
     }),
   }),
 });

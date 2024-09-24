@@ -24,9 +24,12 @@ export const BookingPage = () => {
   const [createAppointment] = useCreateAppointmentMutation();
   const isAuth = useSelector((state: RootState) => state.authentication.isAuth);
   const userId = useSelector((state: RootState) => state.authentication.userId);
-  const { data: customerProfileData } = useGetCustomerProfileQuery({
-    userId,
-  });
+  const { data: customerProfileData } = useGetCustomerProfileQuery(
+    {
+      userId,
+    },
+    { skip: !userId },
+  );
 
   const bookingAgain = () => {
     setStep(1);

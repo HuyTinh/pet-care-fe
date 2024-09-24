@@ -6,7 +6,6 @@ import { IAppointment } from "../../../types/appoiment.type";
 import { motion } from "framer-motion";
 import { displayInputDate } from "../../../utils/Date";
 import { usePdfGenerator } from "../../../hooks/PdfGenerator";
-import { PetCareModal } from "../../../components/pc-modal";
 import { AppoimentManageForm } from "./tabs/appointment-management/form";
 
 export const ReceptionistPage = () => {
@@ -62,6 +61,7 @@ export const ReceptionistPage = () => {
 
     return () => {
       // Không gọi deactivate() ở đây
+      // stompClient?.deactivate;
     };
   }, [stompClient]);
 
@@ -92,9 +92,9 @@ export const ReceptionistPage = () => {
               >
                 open modal
               </button> */}
-              <PetCareModal size={"3xl"}>
+              {/* <PetCareModal size={"3xl"}>
                 <AppoimentManageForm />
-              </PetCareModal>
+              </PetCareModal> */}
             </div>
             <div className="flex-1 p-2">
               <div className="h-[36rem] overflow-auto rounded-xl border">

@@ -6,7 +6,11 @@ import { setAuthenticated } from "../../../auth.slice";
 import { MdOutlineErrorOutline } from "react-icons/md";
 
 import { useModalPetCare } from "../../../../components/pc-modal/hook";
-export const ClientLoginForm = () => {
+export const ClientLoginForm = ({
+  setFormState,
+}: {
+  setFormState: React.Dispatch<React.SetStateAction<string>>;
+}) => {
   const {
     register,
     handleSubmit,
@@ -16,7 +20,7 @@ export const ClientLoginForm = () => {
   });
   const dispatch = useDispatch();
 
-  const { closeModal } = useModalPetCare();
+  const { closeModalPetCare } = useModalPetCare();
 
   const [loginRequest] = useLoginRequestMutation();
 
@@ -42,7 +46,7 @@ export const ClientLoginForm = () => {
 
         dispatch(setAuthenticated(loginResponse.token));
 
-        closeModal();
+        closeModalPetCare();
       }
     });
   };
@@ -98,6 +102,26 @@ export const ClientLoginForm = () => {
             </span>
           )}
         </div>
+        <span className="flex items-center justify-between">
+          <span className="flex">
+            <div className="form-control">
+              <label className="label cursor-pointer space-x-2">
+                <input
+                  type="checkbox"
+                  defaultChecked
+                  className="checkbox checkbox-sm"
+                />
+                <span className="label-text">Remember me</span>
+              </label>
+            </div>
+          </span>
+          <span
+            className="link link-primary !inline-block"
+            onClick={() => setFormState("REGISTER_FORM")}
+          >
+            Register new account!
+          </span>
+        </span>
         <button className="btn bg-blue-700/75 text-white hover:bg-blue-700">
           Login
         </button>
