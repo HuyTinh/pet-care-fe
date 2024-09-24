@@ -7,7 +7,6 @@ import {
 import _ from "lodash";
 import { useNavigate } from "react-router-dom";
 import { setUnauthenticated } from "../../auth.slice";
-import { useGetAppointmentByCustomerIdQuery } from "../../admin/receptionist/appointment.service";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
