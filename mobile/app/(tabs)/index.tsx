@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, Image } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, Image, Modal, TouchableOpacity } from 'react-native'
+import React, { useState } from 'react'
 import { Card, Searchbar } from 'react-native-paper';
 import { Avatar } from 'react-native-paper';
 
@@ -43,32 +43,32 @@ const Home = () => {
                 <Card className='bg-[#E7E7E8] mb-5'>
                     <Card.Content>
                         <Text className='font-bold text-lg text-[#0D74B1]'>#PC1012</Text>
-                        <Text className='text-[#0D74B1] text-base font-medium'>Thú cưng: <Text className='!text-black'>Cogi</Text></Text>
-                        <Text className='text-[#0D74B1] text-base font-medium'>Bệnh: <Text className='!text-black'>Lùn</Text></Text>
+                        <Text className='text-[#0D74B1] text-base font-medium'>Họ và tên: <Text className='!text-black'>Ha Cogi Hieu</Text></Text>
+                        <Text className='text-[#0D74B1] text-base font-medium'>Số điện thoại: <Text className='!text-black'>0101010101</Text></Text>
                         <Image className='absolute top-6 right-4' source={require('@/assets/images/pets 4.png')} />
                     </Card.Content>
                 </Card>
                 <Card className='bg-[#E7E7E8] mb-5'>
-                    <Card.Content >
+                    <Card.Content>
                         <Text className='font-bold text-lg text-[#0D74B1]'>#PC1012</Text>
-                        <Text className='text-[#0D74B1] text-base font-medium'>Thú cưng: <Text className='!text-black'>Cogi</Text></Text>
-                        <Text className='text-[#0D74B1] text-base font-medium'>Bệnh: <Text className='!text-black'>Lùn</Text></Text>
+                        <Text className='text-[#0D74B1] text-base font-medium'>Họ và tên: <Text className='!text-black'>Ha Cogi Hieu</Text></Text>
+                        <Text className='text-[#0D74B1] text-base font-medium'>Số điện thoại: <Text className='!text-black'>0101010101</Text></Text>
                         <Image className='absolute top-6 right-4' source={require('@/assets/images/pets 4.png')} />
                     </Card.Content>
                 </Card>
                 <Card className='bg-[#E7E7E8] mb-5'>
-                    <Card.Content >
+                    <Card.Content>
                         <Text className='font-bold text-lg text-[#0D74B1]'>#PC1012</Text>
-                        <Text className='text-[#0D74B1] text-base font-medium'>Thú cưng: <Text className='!text-black'>Cogi</Text></Text>
-                        <Text className='text-[#0D74B1] text-base font-medium'>Bệnh: <Text className='!text-black'>Lùn</Text></Text>
+                        <Text className='text-[#0D74B1] text-base font-medium'>Họ và tên: <Text className='!text-black'>Ha Cogi Hieu</Text></Text>
+                        <Text className='text-[#0D74B1] text-base font-medium'>Số điện thoại: <Text className='!text-black'>0101010101</Text></Text>
                         <Image className='absolute top-6 right-4' source={require('@/assets/images/pets 4.png')} />
                     </Card.Content>
                 </Card>
                 <Card className='bg-[#E7E7E8] mb-5'>
-                    <Card.Content >
+                    <Card.Content>
                         <Text className='font-bold text-lg text-[#0D74B1]'>#PC1012</Text>
-                        <Text className='text-[#0D74B1] text-base font-medium'>Thú cưng: <Text className='!text-black'>Cogi</Text></Text>
-                        <Text className='text-[#0D74B1] text-base font-medium'>Bệnh: <Text className='!text-black'>Lùn</Text></Text>
+                        <Text className='text-[#0D74B1] text-base font-medium'>Họ và tên: <Text className='!text-black'>Ha Cogi Hieu</Text></Text>
+                        <Text className='text-[#0D74B1] text-base font-medium'>Số điện thoại: <Text className='!text-black'>0101010101</Text></Text>
                         <Image className='absolute top-6 right-4' source={require('@/assets/images/pets 4.png')} />
                     </Card.Content>
                 </Card>

@@ -1,4 +1,4 @@
-import { Image, Text, View, StyleSheet } from 'react-native'
+import { Image, Text, View, StyleSheet, Keyboard, TouchableWithoutFeedback } from 'react-native'
 import { Controller, useForm } from "react-hook-form";
 import { Button, TextInput } from 'react-native-paper';
 import { CheckBox } from 'react-native-elements'
@@ -23,69 +23,76 @@ const Auth = () => {
           <Text className='ml-[100px] mt-4 text-[58px] font-bold text-white'>Pet care</Text>
         </View>
       </View>
-      <View className='px-12 mt-32'>
-        <View style={styles.circle_2} />
-        <View className=' static w-full h-10'>
-          {/* <Image className='ml-4 absolute mt-5' source={require('@/assets/images/mail 1.png')} /> */}
-          <Controller
-            control={control}
-            rules={{
-              required: true,
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
-                style={styles.icon_1}
-                className='rounded-full p-[1.75px] font-bold text-[#726E6E]'
-                label="Email"
-                onBlur={onBlur}
-                value={value}
-                onChangeText={onChange}
-                left={<TextInput.Icon icon="email" />}
-              />
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View className='px-12 mt-32'>
+          <View style={styles.circle_2} />
+          <View className=' static w-full h-10'>
+            {/* <Image className='ml-4 absolute mt-5' source={require('@/assets/images/mail 1.png')} /> */}
+            <Controller
+              control={control}
+              rules={{
+                required: true,
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
 
-            )}
-            name="email"
-          />
-        </View>
-        <View className=' mt-14 static w-full h-10'>
-          {/* <Image className='ml-[270px] absolute mt-3 ' source={require('@/assets/images/Key.png')} /> */}
-          <Controller
-            control={control}
-            rules={{
-              required: true,
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
-                style={styles.icon_1}
-                className='rounded-full p-[2px] font-bold text-[#726E6E]'
-                label="Password"
-                onBlur={onBlur}
-                value={value}
-                onChangeText={onChange}
-                left={<TextInput.Icon icon="key" />}
+                <TextInput
+                  style={styles.icon_1}
+                  className='rounded-full p-[1.75px] font-bold text-[#726E6E]'
+                  label="Email"
+                  onBlur={onBlur}
+                  value={value}
+                  onChangeText={onChange}
+                  left={<TextInput.Icon icon="email" />}
+                />
+
+
+              )}
+              name="email"
+            />
+          </View>
+          <View className=' mt-14 static w-full h-10'>
+            {/* <Image className='ml-[270px] absolute mt-3 ' source={require('@/assets/images/Key.png')} /> */}
+            <Controller
+              control={control}
+              rules={{
+                required: true,
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <TextInput
+                  style={styles.icon_1}
+                  className='rounded-full p-[2px] font-bold text-[#726E6E]'
+                  label="Password"
+                  onBlur={onBlur}
+                  value={value}
+                  onChangeText={onChange}
+                  left={<TextInput.Icon icon="key" />}
+                />
+              )}
+              name="password"
+            />
+          </View>
+          <View className='mt-10 '>
+            <View >
+              <CheckBox
+                title='Remember Me?'
+                checked={true}
+                containerStyle={{
+                  backgroundColor: "transparent",
+                  borderWidth: 0,
+                }}
+                textStyle={{
+                  color: "white",
+                  fontSize: 16
+                }}
+                checkedColor='white'
               />
-            )}
-            name="password"
-          />
+            </View>
+            <View className='absolute top-[14px] right-5'><Link href={"../(forgotpassword)/forgot-confirm-email"} className='text-white text-base font-medium '>Fogot Password!</Link></View>
+          </View>
         </View>
-        <View className='mt-10 '>
-          <CheckBox
-            title='Remember Me?'
-            checked={true}
-            containerStyle={{
-              backgroundColor: "transparent",
-              borderWidth: 0,
-            }}
-            textStyle = {{
-              color: "white",
-              fontSize: 16
-            }}
-            checkedColor='white'
-          />
-        </View>
-      </View>
+      </TouchableWithoutFeedback>
       <View className='mt-7 ml-24'>
-        <Button mode="contained" className='w-56 h-14 flex justify-center !bg-[#0F74C1]'><Link href={"(tabs)"} className='text-lg'>Login</Link></Button>
+        <Button mode="contained" className='w-56 h-14 flex justify-center !bg-[#0F74C1]'><Link href={"/(tabs)"} className='text-lg'>Login</Link></Button>
       </View>
     </View>
   )
