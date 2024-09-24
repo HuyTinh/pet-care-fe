@@ -24,7 +24,7 @@ export const BookingPage = () => {
   const [createAppointment] = useCreateAppointmentMutation();
   const isAuth = useSelector((state: RootState) => state.authentication.isAuth);
   const userId = useSelector((state: RootState) => state.authentication.userId);
-  const { data: customerProfileData, isFetching } = useGetCustomerProfileQuery({
+  const { data: customerProfileData } = useGetCustomerProfileQuery({
     userId,
   });
 
@@ -124,7 +124,7 @@ export const BookingPage = () => {
                 minDate={new Date()}
                 maxDate={displayPlusDate(new Date(), 90)}
                 className="w-[46rem] overflow-hidden rounded-xl"
-                onChange={(value, event) => setValue("date", value?.toString())}
+                onChange={(value) => setValue("date", value?.toString())}
               />
             )}
             {step === 2 && (

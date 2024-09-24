@@ -1,4 +1,4 @@
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import { AnimateSection } from "../../../components/animate-section";
 const textBox = {
   animate: { height: "auto", opacity: 1 },

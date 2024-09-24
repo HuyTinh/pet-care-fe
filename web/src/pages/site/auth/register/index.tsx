@@ -1,18 +1,11 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import {
-  useLoginRequestMutation,
-  useRegisterRequestMutation,
-} from "../../../auth.service";
+import { useRegisterRequestMutation } from "../../../auth.service";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { setAuthenticated } from "../../../auth.slice";
 
 export const ClientRegisterForm = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<any>();
+  const { register, handleSubmit } = useForm<any>();
 
   const dispatch = useDispatch();
 
