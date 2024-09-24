@@ -48,6 +48,11 @@ const authenticationSlice = createSlice({
     closeAuthModal(state) {
       state.isOpenAuthModal = false;
     },
+    logout(state) {
+      state.userId = null;
+      state.email = "";
+      state.isAuth = false;
+    },
   },
 });
 
@@ -57,5 +62,6 @@ export const {
   setUnauthenticated,
   openAuthModal,
   closeAuthModal,
+  logout,
 } = authenticationSlice.actions;
 export default authenticationReducer;

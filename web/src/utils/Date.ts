@@ -4,3 +4,9 @@ export function displayInputDate(date: Date) {
   const year = date.getFullYear().toString();
   return `${year}-${month}-${day}`;
 }
+
+export function displayPlusDate(date: Date, plusNumber: number) {
+  let futureDate = date;
+  futureDate.setDate(futureDate.getDate() + plusNumber);
+  return futureDate;
+}

@@ -6,7 +6,6 @@ import { IAppointment } from "../../../types/appoiment.type";
 import { motion } from "framer-motion";
 import { displayInputDate } from "../../../utils/Date";
 import { usePdfGenerator } from "../../../hooks/PdfGenerator";
-import { PCModal } from "../../../components/pc-modal";
 import { AppoimentManageForm } from "./tabs/appointment-management/form";
 
 export const ReceptionistPage = () => {
@@ -62,6 +61,7 @@ export const ReceptionistPage = () => {
 
     return () => {
       // Không gọi deactivate() ở đây
+      // stompClient?.deactivate;
     };
   }, [stompClient]);
 
@@ -84,17 +84,17 @@ export const ReceptionistPage = () => {
         <div className="relative z-20 w-full pb-2 pe-4 pt-4">
           <div className="flex h-full flex-1 flex-col rounded-lg border-2 border-black bg-white">
             <div className="h-1/6">
-              <button
+              {/* <button
                 className="btn"
                 onClick={() =>
                   (document.getElementById("my_modal_2") as any).showModal()
                 }
               >
                 open modal
-              </button>
-              <PCModal>
+              </button> */}
+              {/* <PetCareModal size={"3xl"}>
                 <AppoimentManageForm />
-              </PCModal>
+              </PetCareModal> */}
             </div>
             <div className="flex-1 p-2">
               <div className="h-[36rem] overflow-auto rounded-xl border">
@@ -119,9 +119,9 @@ export const ReceptionistPage = () => {
                           <td>
                             <div>
                               <span>Customer: </span>
-                              {ap.customer.first_name +
+                              {/* {ap.customer.first_name +
                                 " " +
-                                ap.customer.last_name}
+                                ap.customer.last_name} */}
                             </div>
                             <div className="truncate">
                               <span>Date: </span>
