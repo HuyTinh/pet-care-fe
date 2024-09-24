@@ -3,31 +3,54 @@ import "react-calendar/dist/Calendar.css";
 import { displayInputDate, displayPlusDate } from "../../../utils/Date";
 import Select from "react-select";
 import { useForm } from "react-hook-form";
-
+import { FcApproval } from "react-icons/fc";
 import {
   useGetHospitalServiceQuery,
   useCreateAppointmentMutation,
 } from "../../admin/receptionist/appointment.service";
 import { IHospitalService } from "../../../types/hospital-service.type";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store/store";
+import { useGetCustomerProfileQuery } from "../customer.service";
+import { AnimateSection } from "../../../components/animate-section";
 
 export const BookingPage = () => {
-  // console.log(new Date("2024-09-09 08:00:00"));
   const [step, setStep] = useState(1);
-  const { register, getValues, setValue } = useForm<any>();
+  const { register, getValues, setValue, reset } = useForm<any>();
   const { data: hospitalServicesData, isFetching: _ } =
     useGetHospitalServiceQuery();
 
   const [createAppointment] = useCreateAppointmentMutation();
+  const isAuth = useSelector((state: RootState) => state.authentication.isAuth);
+  const userId = useSelector((state: RootState) => state.authentication.userId);
+  const { data: customerProfileData, isFetching } = useGetCustomerProfileQuery({
+    userId,
+  });
+
+  const bookingAgain = () => {
+    setStep(1);
+    reset({ first_name: "", last_name: "", phone_number: "", email: "" });
+  };
 
   return (
     <div>
-      <div>
+      <div className="relative">
         <img
-          src="https://blogs.cdc.gov/wp-content/uploads/sites/6/2020/05/golden_retiver_cat_cropped.jpg"
+          src="src/assets/images/booking_banner.jpg"
           className="w-full"
           alt=""
         />
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-24 space-y-5 text-3xl text-white">
+          <AnimateSection>
+            <div className="text-center text-5xl font-bold">Booking</div>
+          </AnimateSection>
+          <AnimateSection>
+            <div className="text-xl">
+              Your Time, Your Schedule – Book with Ease!
+            </div>
+          </AnimateSection>
+        </div>
       </div>
       <div className="space-y-5 p-10">
         <div className="flex justify-center">
@@ -107,7 +130,41 @@ export const BookingPage = () => {
             {step === 2 && (
               <div className="space-y-5">
                 <div className="space-y-2">
-                  <span>Customer:</span>
+                  <div className="flex justify-between">
+                    <span>Customer:</span>
+                    {isAuth && userId && (
+                      <label>
+                        <input
+                          type="checkbox"
+                          className="grow"
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              reset({
+                                ...getValues(),
+                                first_name:
+                                  customerProfileData.result.first_name,
+                                last_name: customerProfileData.result.last_name,
+                                phone_number:
+                                  customerProfileData.result.phone_number,
+                                email: customerProfileData.result.email,
+                                account_id:
+                                  customerProfileData.result.account_id,
+                              });
+                            } else {
+                              reset({
+                                ...getValues(),
+                                first_name: "",
+                                last_name: "",
+                                phone_number: "",
+                                email: "",
+                              });
+                            }
+                          }}
+                        />
+                        Use your infor
+                      </label>
+                    )}
+                  </div>
                   <div className="space-y-5">
                     <div className="flex gap-x-5">
                       <label className="input input-bordered flex w-72 items-center gap-2">
@@ -173,8 +230,8 @@ export const BookingPage = () => {
                         <input
                           type="text"
                           className="grow"
-                          placeholder="Weigth"
-                          {...register("pets.weigth")}
+                          placeholder="weight"
+                          {...register("pets.weight")}
                         />
                       </label>
                       <label className="input input-bordered flex w-72 items-center gap-2">
@@ -191,38 +248,63 @@ export const BookingPage = () => {
               </div>
             )}
           </div>
+          {step === 3 && (
+            <div className="flex flex-1 flex-col items-center">
+              <div className="flex w-1/3 flex-col items-center gap-y-2">
+                <FcApproval size={98} />
+                <div className="text-xl font-bold">
+                  Booking Appointment Successful
+                </div>
+                <div className="my-5 text-center">
+                  Please arrive at the scheduled time you have booked. If there
+                  are any issues, we will contact you as soon as possible. Thank
+                  you for using our services.
+                </div>
+                <div>
+                  <button
+                    className="btn btn-neutral"
+                    onClick={() => bookingAgain()}
+                  >
+                    Booking Again
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
-        <div className="flex justify-end pe-10">
-          <button
-            className="btn"
-            onClick={() => {
-              if (step < 3) {
-                setStep(step + 1);
-              }
-              if (step === 2) {
-                createAppointment({
-                  first_name: getValues("first_name"),
-                  last_name: getValues("last_name"),
-                  email: getValues("email"),
-                  phone_number: getValues("phone_number"),
-                  pets: [getValues("pets")],
-                  address: "110/46 HCM",
-                  appointment: {
-                    status: "SCHEDULED",
-                    appointment_date: new Date(
-                      displayInputDate(new Date(getValues("date"))) +
-                        " " +
-                        getValues("time"),
-                    ).toISOString(),
-                    services: [getValues("service")],
-                  },
-                });
-              }
-            }}
-          >
-            next
-          </button>
-        </div>
+        {step !== 3 && (
+          <div className="flex justify-end pe-10">
+            <button
+              className="btn"
+              onClick={() => {
+                if (step < 3) {
+                  setStep(step + 1);
+                }
+                if (step === 2) {
+                  createAppointment({
+                    first_name: getValues("first_name"),
+                    last_name: getValues("last_name"),
+                    email: getValues("email"),
+                    phone_number: getValues("phone_number"),
+                    account_id: userId,
+                    appointment: {
+                      status: "SCHEDULED",
+                      appointment_date: new Date(
+                        displayInputDate(new Date(getValues("date"))) +
+                          " " +
+                          getValues("time"),
+                      ).toISOString(),
+                      pets: [getValues("pets")],
+                      services: [getValues("service")],
+                    },
+                  });
+                }
+              }}
+            >
+              next
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

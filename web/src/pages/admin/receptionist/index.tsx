@@ -6,7 +6,7 @@ import { IAppointment } from "../../../types/appoiment.type";
 import { motion } from "framer-motion";
 import { displayInputDate } from "../../../utils/Date";
 import { usePdfGenerator } from "../../../hooks/PdfGenerator";
-import { PCModal } from "../../../components/pc-modal";
+import { PetCareModal } from "../../../components/pc-modal";
 import { AppoimentManageForm } from "./tabs/appointment-management/form";
 
 export const ReceptionistPage = () => {
@@ -92,9 +92,9 @@ export const ReceptionistPage = () => {
               >
                 open modal
               </button>
-              <PCModal>
+              <PetCareModal size={"3xl"}>
                 <AppoimentManageForm />
-              </PCModal>
+              </PetCareModal>
             </div>
             <div className="flex-1 p-2">
               <div className="h-[36rem] overflow-auto rounded-xl border">
@@ -119,9 +119,9 @@ export const ReceptionistPage = () => {
                           <td>
                             <div>
                               <span>Customer: </span>
-                              {ap.customer.first_name +
+                              {/* {ap.customer.first_name +
                                 " " +
-                                ap.customer.last_name}
+                                ap.customer.last_name} */}
                             </div>
                             <div className="truncate">
                               <span>Date: </span>

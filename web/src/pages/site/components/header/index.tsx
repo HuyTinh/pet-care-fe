@@ -1,25 +1,22 @@
-import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { NavLink } from "react-router-dom";
+import { motion } from "framer-motion";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useScrollPetCare } from "./hook";
+import { FaUserCircle } from "react-icons/fa";
+import { useModalPetCare } from "../../../../components/pc-modal/hook";
+import { AuthModal } from "../../auth";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../store/store";
 
 export const Header = () => {
-  const [scrollYPosition, setScrollYPosition] = useState(0);
-  const handleScroll = () => {
-    const newScrollYPosition = window.pageYOffset;
-    setScrollYPosition(newScrollYPosition);
-  };
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+  const isAuth = useSelector((state: RootState) => state.authentication.isAuth);
+  const { scrollYPosition } = useScrollPetCare();
+  const navigate = useNavigate();
+  const { openModal } = useModalPetCare();
 
   return (
-    <AnimatePresence>
+    <div>
       <motion.div
-        className="navbar fixed border-b bg-transparent px-16"
+        className="navbar fixed z-50 border-b bg-transparent px-16"
         initial={{
           backgroundColor: "rgba(0, 0, 0, 0.2)",
           paddingTop: "1.7rem",
@@ -68,23 +65,32 @@ export const Header = () => {
             animate={{
               color: scrollYPosition > 100 ? "#000000" : "#FFFFFF",
             }}
-            className="menu menu-horizontal px-1 text-xl"
+            className="menu menu-horizontal space-x-5 px-1 text-xl"
           >
             <li>
-              <a>Link</a>
+              <NavLink to={"/"}>Home</NavLink>
             </li>
-            <li>
+
+            {/* <li>
               <a>Link</a>
-            </li>
+            </li> */}
             <li>
-              <a>Link</a>
+              <NavLink to={"/contact"}>Contact</NavLink>
             </li>
             <li>
               <NavLink to={"/booking"}>Booking</NavLink>
             </li>
+            <li>
+              <span
+                onClick={() => (isAuth ? navigate("/profile") : openModal())}
+              >
+                <FaUserCircle size={28} />
+              </span>
+            </li>
           </motion.ul>
         </div>
       </motion.div>
-    </AnimatePresence>
+      <AuthModal />
+    </div>
   );
 };

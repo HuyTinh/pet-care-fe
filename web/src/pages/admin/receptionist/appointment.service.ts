@@ -48,7 +48,7 @@ export const appointmentApi = createApi({
     createAppointment: build.mutation<IAppointment, any>({
       query(body) {
         return {
-          url: "customer",
+          url: "customer/create-appointment",
           method: "POST",
           body,
         };
@@ -57,6 +57,9 @@ export const appointmentApi = createApi({
     }),
     getHospitalService: build.query<APIResponse, void>({
       query: () => `appointment/hospital-service`,
+    }),
+    getAppointmentByCustomerId: build.query<APIResponse, any>({
+      query: (body) => `appointment/customer/${body}`,
     }),
   }),
 });
@@ -67,4 +70,5 @@ export const {
   useIsCheckinQuery,
   useGetHospitalServiceQuery,
   useCreateAppointmentMutation,
+  useGetAppointmentByCustomerIdQuery,
 } = appointmentApi;
