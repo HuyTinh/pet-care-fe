@@ -28,6 +28,7 @@ export const ClientRegisterForm = ({
     registerRequest({
       ..._.omit(data, ["confirm_password"]),
       roles: ["CUSTOMER"],
+      authentication_method: "LOCAL",
     }).then((result) => {
       if ("error" in result) {
         toast.error((result.error as any).data.message, {

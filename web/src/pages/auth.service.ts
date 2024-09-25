@@ -13,7 +13,15 @@ export const authenticationApi = createApi({
           body,
         };
       },
-      invalidatesTags: () => [{ type: "Authentication", id: "LIST" }],
+    }),
+    loginWithGoogleRequest: build.mutation<any, { token: string }>({
+      query(body) {
+        return {
+          url: "identity/auth/google",
+          method: "POST",
+          body,
+        };
+      },
     }),
     registerRequest: build.mutation<any, any>({
       query(body) {
@@ -28,5 +36,8 @@ export const authenticationApi = createApi({
   }),
 });
 
-export const { useLoginRequestMutation, useRegisterRequestMutation } =
-  authenticationApi;
+export const {
+  useLoginRequestMutation,
+  useRegisterRequestMutation,
+  useLoginWithGoogleRequestMutation,
+} = authenticationApi;

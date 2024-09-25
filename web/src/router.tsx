@@ -9,6 +9,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "./store/store";
 import { ProfilePage } from "./pages/site/profile";
 import { ContactPage } from "./pages/site/contact";
+import { AppointmentTab } from "./pages/site/profile/tabs/appointment";
+import { ProfileTab } from "./pages/site/profile/tabs/profile";
 
 const Page = (isAuth: Boolean, role: string) => {
   return {
@@ -21,8 +23,18 @@ const Page = (isAuth: Boolean, role: string) => {
           element: <HomePage />,
         },
         {
-          path: "profile",
+          path: "account",
           element: <ProfilePage />,
+          children: [
+            {
+              index: true,
+              element: <ProfileTab />,
+            },
+            {
+              path: "appointment",
+              element: <AppointmentTab />,
+            },
+          ],
         },
         {
           path: "booking",

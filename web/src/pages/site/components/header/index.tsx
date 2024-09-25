@@ -85,7 +85,7 @@ export const Header = () => {
             <li>
               <span
                 onClick={() =>
-                  isAuth ? navigate("/profile") : openModalPetCare()
+                  isAuth ? navigate("/account") : openModalPetCare()
                 }
               >
                 <FaUserCircle size={28} />

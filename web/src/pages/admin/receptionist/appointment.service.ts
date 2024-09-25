@@ -5,7 +5,7 @@ import { APIResponse } from "../../../types/api-response.type";
 
 export const appointmentApi = createApi({
   reducerPath: "clientApi",
-  tagTypes: ["Appointments"],
+  tagTypes: ["Appointments", "AppointmentsCustomer"],
   baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_BACKEND_URL }),
   endpoints: (build) => ({
     getAppointments: build.query<APIResponse, void>({
@@ -53,7 +53,10 @@ export const appointmentApi = createApi({
           body,
         };
       },
-      invalidatesTags: () => [{ type: "Appointments", id: "LIST" }],
+      invalidatesTags: () => [
+        { type: "Appointments", id: "LIST" },
+        { type: "AppointmentsCustomer" as const, id: "LIST" },
+      ],
     }),
     getHospitalService: build.query<APIResponse, void>({
       query: () => `appointment/hospital-service`,
@@ -63,6 +66,20 @@ export const appointmentApi = createApi({
       { userId: string | number | null }
     >({
       query: (body) => `appointment/account/${body.userId}`,
+      providesTags(result) {
+        if (result) {
+          const final = [
+            ...(result.result as IAppointment[]).map(({ id }) => ({
+              type: "AppointmentsCustomer" as const,
+              id,
+            })),
+            { type: "AppointmentsCustomer" as const, id: "LIST" },
+          ];
+          return final;
+        }
+        const final = [{ type: "AppointmentsCustomer" as const, id: "LIST" }];
+        return final;
+      },
     }),
   }),
 });
