@@ -10,7 +10,7 @@ import { setUnauthenticated } from "../../auth.slice";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
-import { ClientChangePasswordModal } from "./change-password-modal";
+import { ClientChangePasswordModal } from "./change-password";
 import { useModalPetCare } from "../../../components/pc-modal/hook";
 
 export const ProfilePage = () => {
@@ -163,7 +163,7 @@ export const ProfilePage = () => {
               </div>
             </form>
             <ClientChangePasswordModal
-              email={customerProfileResponse.result.email}
+              email={customerProfileResponse?.result.email}
             />
           </div>
         </div>

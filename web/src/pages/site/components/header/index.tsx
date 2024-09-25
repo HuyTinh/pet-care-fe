@@ -94,7 +94,7 @@ export const Header = () => {
           </motion.ul>
         </div>
       </motion.div>
-      <AuthModal />
+      {!isAuth && <AuthModal />}
     </div>
   );
 };

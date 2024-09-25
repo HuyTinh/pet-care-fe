@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { PetCareModalContent } from "../../../components/pc-modal";
+import { PetCareModalContainer } from "../../../components/pc-modal";
 import { ClientLoginForm } from "./login";
 import { ClientRegisterForm } from "./register";
 
@@ -22,12 +22,12 @@ export const AuthModal = () => {
 
   return (
     <div>
-      <PetCareModalContent
-      // size={"md"}
-      // onClose={() => setFormState("LOGIN_FORM")}
+      <PetCareModalContainer
+        size={"md"}
+        onClose={() => setFormState("LOGIN_FORM")}
       >
         {(tabs[formState as keyof Tabs] as Function)(setFormState)}
-      </PetCareModalContent>
+      </PetCareModalContainer>
     </div>
   );
 };

@@ -33,7 +33,7 @@ function App() {
         stacked
         closeOnClick
       />
-      <PetCareModalContainer size="md" />
+      {/* <PetCareModalContainer size="md" /> */}
     </Fragment>
   );
 }
