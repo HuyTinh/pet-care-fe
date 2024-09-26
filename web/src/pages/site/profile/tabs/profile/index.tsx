@@ -13,12 +13,7 @@ import {
 import { useModalPetCare } from "../../../../../components/pc-modal/hook";
 
 export const ProfileTab = () => {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<any>({
+  const { register, handleSubmit, reset } = useForm<any>({
     mode: "onChange",
     defaultValues: {
       first_name: "",
@@ -28,13 +23,12 @@ export const ProfileTab = () => {
     },
   });
   const userId = useSelector((state: RootState) => state.authentication.userId);
-  const { data: customerProfileResponse, isFetching } =
-    useGetCustomerProfileQuery(
-      {
-        userId,
-      },
-      { skip: !userId },
-    );
+  const { data: customerProfileResponse } = useGetCustomerProfileQuery(
+    {
+      userId,
+    },
+    { skip: !userId },
+  );
   const [updateProfileRequest, { isLoading }] =
     useUpdateCustomerProfileMutation();
 
