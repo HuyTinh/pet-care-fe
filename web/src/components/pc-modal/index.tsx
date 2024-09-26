@@ -43,7 +43,9 @@ export const PetCareModalContainer = ({
       className="modal backdrop:!hidden"
       onClose={() => onClose && onClose()}
     >
-      <div className={`modal-box flex max-w-${size} flex-col`}>{children}</div>
+      <div className={`modal-box flex p-0 max-w-${size} flex-col`}>
+        {children}
+      </div>
       <form method="dialog" className="modal-backdrop !-z-10">
         <button type="button" onClick={() => closeModalPetCare()}>
           close

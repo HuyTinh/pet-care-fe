@@ -1,9 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { PetCareModalContainer } from "../../../components/pc-modal";
 import { ClientLoginForm } from "./login";
 import { ClientRegisterForm } from "./register";
-
-import { FacebookProvider, useLogin } from "react-facebook";
 type Tabs = {
   LOGIN_FORM: Function;
   REGISTER_FORM: Function;
@@ -23,14 +21,19 @@ export const AuthModal = () => {
 
   return (
     <div>
-      <FacebookProvider appId="920242286586085">
-        <PetCareModalContainer
-          size={"md"}
-          onClose={() => setFormState("LOGIN_FORM")}
-        >
+      <PetCareModalContainer
+        size={"md"}
+        onClose={() => setFormState("LOGIN_FORM")}
+      >
+        <div className="relative p-5">
+          {/* {
+            <div className="absolute left-0 top-0 flex h-full w-full justify-center bg-black/10">
+              <span className="loading loading-spinner loading-lg text-info"></span>
+            </div>
+          } */}
           {(tabs[formState as keyof Tabs] as Function)(setFormState)}
-        </PetCareModalContainer>
-      </FacebookProvider>
+        </div>
+      </PetCareModalContainer>
     </div>
   );
 };

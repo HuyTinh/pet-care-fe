@@ -65,7 +65,12 @@ export const appointmentApi = createApi({
       APIResponse,
       { userId: string | number | null }
     >({
-      query: (body) => `appointment/account/${body.userId}`,
+      query: (body) => {
+        return {
+          url: `appointment/account/${body.userId}`,
+          params: { status: "SCHEDULED" },
+        };
+      },
       providesTags(result) {
         if (result) {
           const final = [

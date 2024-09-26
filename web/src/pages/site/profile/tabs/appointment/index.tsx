@@ -36,10 +36,10 @@ export const AppointmentTab = () => {
                       <div className="collapse bg-base-200">
                         <input type="checkbox" />
                         <div className="collapse-title text-center text-lg font-medium">
-                          Pets ({val.pets.length})
+                          Pets ({val.pets?.length})
                         </div>
                         <div className="collapse-content">
-                          {(val.pets as any[]).map((pe, subIndex) => (
+                          {(val.pets as any[])?.map((pe, subIndex) => (
                             <div key={subIndex}>
                               <div className="font-bold">- Name: {pe.name}</div>
                               <div className="flex justify-between">
@@ -54,10 +54,10 @@ export const AppointmentTab = () => {
                       <div className="collapse bg-base-200">
                         <input type="checkbox" />
                         <div className="collapse-title text-center text-lg font-medium">
-                          Services ({val.services.length})
+                          Services ({val.services?.length})
                         </div>
                         <div className="collapse-content">
-                          {(val.services as any[]).map((se, subIndex) => (
+                          {(val.services as any[])?.map((se, subIndex) => (
                             <div key={subIndex}>- {se.name}</div>
                           ))}
                         </div>
@@ -69,7 +69,9 @@ export const AppointmentTab = () => {
                       </span>
                     </td>
                     <td>
-                      <span className="rounded-lg bg-yellow-300 p-2">
+                      <span
+                        className={`rounded-lg ${val.status === "SCHEDULED" && "bg-yellow-300"} ${val.status === "APPROVED" && "bg-green-300"} p-2`}
+                      >
                         {val.status}
                       </span>
                     </td>

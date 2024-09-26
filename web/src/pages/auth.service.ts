@@ -23,6 +23,15 @@ export const authenticationApi = createApi({
         };
       },
     }),
+    loginWithFacebookRequest: build.mutation<any, { token: string }>({
+      query(body) {
+        return {
+          url: "identity/auth/facebook",
+          method: "POST",
+          body,
+        };
+      },
+    }),
     registerRequest: build.mutation<any, any>({
       query(body) {
         return {
@@ -40,4 +49,5 @@ export const {
   useLoginRequestMutation,
   useRegisterRequestMutation,
   useLoginWithGoogleRequestMutation,
+  useLoginWithFacebookRequestMutation,
 } = authenticationApi;

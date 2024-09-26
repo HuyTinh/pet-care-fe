@@ -8,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { setAuthenticated } from "./pages/auth.slice";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { GoogleOAuthProvider } from "@react-oauth/google";
+import { AnimatePresence } from "framer-motion";
 
 function App() {
   const hookRouter = RouterHooks();
@@ -25,7 +25,10 @@ function App() {
   return (
     <Fragment>
       {/* <GoogleOAuthProvider clientId="171737653063-1m5elbbm70k45d1p48cj8qakjdfupslb.apps.googleusercontent.com"> */}
-      <RouterProvider router={hookRouter.router} />
+      <AnimatePresence initial={false}>
+        <RouterProvider router={hookRouter.router} />
+      </AnimatePresence>
+
       {/* </GoogleOAuthProvider> */}
       <ToastContainer
         autoClose={2500}

@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import { useGetCustomerProfileQuery } from "../customer.service";
 import { AnimateSection } from "../../../components/animate-section";
+import { motion } from "framer-motion";
 
 export const BookingPage = () => {
   const [step, setStep] = useState(1);
@@ -37,13 +38,20 @@ export const BookingPage = () => {
   };
 
   return (
-    <div>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
       <div className="relative">
-        <img
-          src="src/assets/images/booking_banner.jpg"
-          className="w-full"
-          alt=""
-        />
+        <div
+          className="h-[42rem] w-full bg-cover"
+          style={{
+            backgroundImage: "url(/src/assets/images/booking_banner.jpg)",
+          }}
+        ></div>
+
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-24 space-y-5 text-3xl text-white">
           <AnimateSection>
             <div className="text-center text-5xl font-bold">Booking</div>
@@ -309,6 +317,6 @@ export const BookingPage = () => {
           </div>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 };

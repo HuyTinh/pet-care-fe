@@ -1,23 +1,15 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import {
-  useLoginRequestMutation,
-  useLoginWithGoogleRequestMutation,
-} from "../../../auth.service";
+import { useLoginRequestMutation } from "../../../auth.service";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { setAuthenticated } from "../../../auth.slice";
 import { MdOutlineErrorOutline } from "react-icons/md";
-import {
-  GoogleOAuthProvider,
-  GoogleLogin,
-  googleLogout,
-} from "@react-oauth/google";
-import { FacebookProvider, useLogin } from "react-facebook";
-import {
-  FacebookLoginButton,
-  GoogleLoginButton,
-} from "react-social-login-buttons";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import { FacebookProvider } from "react-facebook";
+
 import { useModalPetCare } from "../../../../components/pc-modal/hook";
+import { PetCareGoogleLoginButton } from "../oauth2/google";
+import { PetCareFacebookLoginButton } from "../oauth2/facebook";
 export const ClientLoginForm = ({
   setFormState,
 }: {
@@ -36,21 +28,9 @@ export const ClientLoginForm = ({
 
   const [loginRequest] = useLoginRequestMutation();
 
-  const [loginGoogleRequest] = useLoginWithGoogleRequestMutation();
+  const GG_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
-  const { login, status, isLoading, error } = useLogin();
-
-  async function handleLogin() {
-    try {
-      const response = await login({
-        scope: "email",
-      });
-
-      console.log(response);
-    } catch (error: any) {
-      console.log(error.message);
-    }
-  }
+  const FB_APP_ID = import.meta.env.VITE_FACEBOOK_APP_ID;
 
   const onSubmit: SubmitHandler<any> = (data) => {
     loginRequest(data).then((result) => {
@@ -77,32 +57,6 @@ export const ClientLoginForm = ({
         closeModalPetCare();
       }
     });
-  };
-  const handleLoginSuccess = (credentialResponse: any) => {
-    loginGoogleRequest(credentialResponse.credential).then((result) => {
-      // if ("error" in result) {
-      //   toast.error((result.error as any).data.message, {
-      //     position: "top-right",
-      //   });
-      // }
-      if ("data" in result) {
-        let { data } = result;
-        toast.success("Login successful", {
-          position: "top-right",
-        });
-        const loginResponse: {
-          token: string;
-          authenticated: boolean;
-        } = data.result;
-        localStorage.setItem("token", loginResponse.token);
-        dispatch(setAuthenticated(loginResponse.token));
-        closeModalPetCare();
-      }
-    });
-  };
-
-  const handleLoginFailure = () => {
-    console.log("Login Failed");
   };
 
   return (
@@ -182,25 +136,13 @@ export const ClientLoginForm = ({
         <div>
           <div className="divider">OR</div>
           <div className="px-10">
-            {/* <GoogleOAuthProvider clientId="171737653063-1m5elbbm70k45d1p48cj8qakjdfupslb.apps.googleusercontent.com">
-              <div className="App">
-                <GoogleLogin
-                  onSuccess={handleLoginSuccess}
-                  onError={handleLoginFailure}
-                />
-              </div>
-            </GoogleOAuthProvider> */}
-            <GoogleLoginButton
-              text="Login with Google"
-              className="!h-10 !text-sm"
-            />
-            <FacebookLoginButton
-              onClick={() => {
-                handleLogin();
-              }}
-              text="Login with Facebook"
-              className="!h-10 !text-sm"
-            />
+            <GoogleOAuthProvider clientId={GG_CLIENT_ID}>
+              <PetCareGoogleLoginButton />
+            </GoogleOAuthProvider>
+
+            <FacebookProvider appId={FB_APP_ID}>
+              <PetCareFacebookLoginButton />
+            </FacebookProvider>
           </div>
         </div>
       </div>

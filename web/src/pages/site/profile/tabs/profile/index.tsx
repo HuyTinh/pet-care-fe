@@ -70,9 +70,25 @@ export const ProfileTab = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <div className="border-b border-solid border-gray-300 px-6 pb-2">
-            <div className="avatar">
-              <div className="mask mask-squircle w-24">
-                <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+            <div className="flex">
+              <div className="avatar">
+                <div className="mask mask-squircle w-24">
+                  <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                </div>
+              </div>
+              <div className="flex flex-1 flex-col justify-center px-4">
+                <div className="text-xl font-bold">My account</div>
+                <div>
+                  <label className="form-control w-full max-w-xs">
+                    <input
+                      type="text"
+                      placeholder="Type here"
+                      className="w-full text-zinc-400 disabled:bg-transparent"
+                      disabled
+                      {...register("email")}
+                    />
+                  </label>
+                </div>
               </div>
             </div>
           </div>
@@ -109,18 +125,6 @@ export const ProfileTab = () => {
           </label>
         </div>
         <div className="flex gap-x-5">
-          <label className="form-control w-full max-w-xs">
-            <div className="label">
-              <span className="label-text">Email:</span>
-            </div>
-            <input
-              type="text"
-              placeholder="Type here"
-              className="input input-bordered w-full max-w-xs"
-              readOnly
-              {...register("email")}
-            />
-          </label>
           <label className="form-control w-full max-w-xs">
             <div className="label">
               <span className="label-text">Phone number:</span>
