@@ -15,6 +15,7 @@ export const HomePage = () => {
       exit={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
+      <div id="chat-container"></div>
       <div className="">
         <header
           className="Header relative h-screen bg-cover bg-center"
