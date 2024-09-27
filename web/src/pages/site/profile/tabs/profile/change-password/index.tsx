@@ -1,7 +1,6 @@
 import { useForm } from "react-hook-form";
-import { PetCareModalContainer } from "../../../../components/pc-modal";
+import { PetCareModalContainer } from "../../../../../../components/pc-modal";
 import { useEffect, useState } from "react";
-import { FcApproval } from "react-icons/fc";
 
 export const ClientChangePasswordModal = ({ email }: { email: string }) => {
   const [step, setStep] = useState(1);
@@ -18,12 +17,7 @@ export const ClientChangePasswordModal = ({ email }: { email: string }) => {
     setLoading(false);
   }, [step]);
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<any>({
+  const { register } = useForm<any>({
     mode: "onChange",
   });
 

@@ -14,7 +14,6 @@ export const PetPicker = ({ pets, setPets }: PetPickerProps) => {
   const { register, getValues, reset } = useForm<IPet>();
 
   const [expand, setExpand] = useState(false);
-  //   const [pets, setPets] = useState([]);
   const addPets = (data: IPet) => {
     setPets((prevState) => [...prevState, data]);
     reset();

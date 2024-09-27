@@ -4,7 +4,7 @@ import _ from "lodash";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
-import { ClientChangePasswordModal } from "../../change-password";
+import { ClientChangePasswordModal } from "./change-password";
 import { RootState } from "../../../../../store/store";
 import {
   useGetCustomerProfileQuery,
@@ -63,14 +63,14 @@ export const ProfileTab = () => {
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
-          <div className="border-b border-solid border-gray-300 px-6 pb-2">
+          <div className="border-b border-solid border-gray-300 px-8 pb-2">
             <div className="flex">
               <div className="avatar">
                 <div className="mask mask-squircle w-24">
                   <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
                 </div>
               </div>
-              <div className="flex flex-1 flex-col justify-center px-4">
+              <div className="flex flex-1 flex-col justify-center gap-y-2 px-4">
                 <div className="text-xl font-bold">My account</div>
                 <div>
                   <label className="form-control w-full max-w-xs">

@@ -63,12 +63,12 @@ export const appointmentApi = createApi({
     }),
     getAppointmentByCustomerId: build.query<
       APIResponse,
-      { userId: string | number | null }
+      { userId: string | number | null; params: {} }
     >({
       query: (body) => {
         return {
           url: `appointment/account/${body.userId}`,
-          params: { status: "SCHEDULED" },
+          params: body.params,
         };
       },
       providesTags(result) {
