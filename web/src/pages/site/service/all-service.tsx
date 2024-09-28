@@ -9,7 +9,12 @@ const imageBox = {
 
 export const AllService = () => {
   return (
-    <div>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
       <div className="relative">
         <div
           className="h-[52rem] w-full bg-cover"
@@ -551,6 +556,6 @@ export const AllService = () => {
           </SwiperSlide>
         </Swiper> */}
       </div>
-    </div>
+    </motion.div>
   );
 };
