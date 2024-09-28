@@ -35,7 +35,8 @@
     "react-social-login-buttons": "^4.1.0",
     "react-toastify": "^10.0.5",
     "sass": "^1.79.1",
-    "sockjs-client": "^1.6.1"
+    "sockjs-client": "^1.6.1",
+    "swiper": "^11.1.14"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
