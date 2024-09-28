@@ -11,6 +11,9 @@ import "react-toastify/dist/ReactToastify.css";
 import "./assets/styles/app.css";
 import "swiper/css";
 
+import "./assets/styles/app.css";
+import "react-toastify/dist/ReactToastify.css";
+
 function App() {
   const hookRouter = RouterHooks();
   const dispatch = useDispatch();
