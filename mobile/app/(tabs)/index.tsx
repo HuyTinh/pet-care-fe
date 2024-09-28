@@ -1,7 +1,8 @@
 import { StyleSheet, Text, View, Image, Keyboard, TouchableWithoutFeedback } from 'react-native'
-import React, { useCallback, useMemo, useRef } from 'react'
+import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { Button, Card, Searchbar } from 'react-native-paper';
 import { Avatar } from 'react-native-paper';
+import Accordion from 'react-native-collapsible/Accordion'
 import {
     BottomSheetModal,
     BottomSheetView,
@@ -18,9 +19,83 @@ const Home = () => {
     const handlePresentModalPress = useCallback(() => {
         bottomSheetModalRef.current?.present();
     }, []);
-    // const handleSheetChanges = useCallback((index: number) => {
-    //     console.log('handleSheetChanges', index);
-    // }, []);
+    const [activeSections, setActiveSections] = useState([])
+
+    const updateSections = (activeSections: any) => {
+        setActiveSections(activeSections)
+    }
+
+    const SECTIONS = [
+        {
+            name: 'Hieu',
+            patient: 'Lun',
+            medicine: {
+                id_medicine: "SEMCTA",
+                name: "Thuốc này kia",
+                quantity: 2,
+                option: "Vien"
+            }
+        },
+        {
+            name: 'Vua',
+            patient: 'Lun',
+            medicine: {
+                id_medicine: "SEMCTA",
+                name: "Thuốc này kia",
+                quantity: 2,
+                option: "Hop"
+            }
+        },
+    ];
+
+    const renderHeader = (session: any) => {
+        return (
+            <Card className='bg-[#E7E7E8] mt-5 p-1'>
+                <Card.Content>
+                    <View className='flex flex-row items-center'>
+                        <Image source={require('@/assets/images/pets 4.png')} />
+                        <View className='left-4'>
+                            <Text className='text-[#0D74B1] text-base font-medium '>Tên: <Text className='!text-black'> {session.name}</Text></Text>
+                            <Text className='text-[#0D74B1] text-base font-medium '>Bệnh: <Text className='!text-black'>{session.patient}</Text></Text>
+                        </View>
+                        <View className='left-52'>
+                            <Image source={require('@/assets/images/arrow_drop_down.png')} />
+                        </View>
+                    </View>
+                </Card.Content>
+            </Card>
+        );
+    };
+    const renderContent = (session: any) => {
+        return (
+            <Card className='bg-[#E7E7E8]  w-96 flex left-[6px]'>
+                <Card.Content>
+                    <View className='flex flex-row items-center'>
+                        <Image source={require('@/assets/images/image.png')} />
+                        <View className='left-4'>
+                            <Text className='text-[#0D74B1] text-sm font-medium '>{session.medicine.name}</Text>
+                            <Text className='text-[#0D74B1] text-base font-medium '>Mã sản phẩm: <Text className='!text-black font-bold'>{session.medicine.id_medicine}</Text></Text>
+                        </View>
+                        <View className='left-[74px]'>
+                            <Text>x{session.medicine.quantity} / <Text>{session.medicine.option}</Text></Text>
+                        </View>
+                    </View>
+                </Card.Content>
+                <Card.Content>
+                    <View className='flex flex-row items-center mt-5'>
+                        <Image source={require('@/assets/images/image.png')} />
+                        <View className='left-4'>
+                            <Text className='text-[#0D74B1] text-sm font-medium '>{session.medicine.name}</Text>
+                            <Text className='text-[#0D74B1] text-base font-medium '>Mã sản phẩm: <Text className='!text-black font-bold'>{session.medicine.id_medicine}</Text></Text>
+                        </View>
+                        <View className='left-[74px]'>
+                            <Text>x{session.medicine.quantity} / <Text>{session.medicine.option}</Text></Text>
+                        </View>
+                    </View>
+                </Card.Content>
+            </Card>
+        );
+    };
     return (
         <>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -102,62 +177,13 @@ const Home = () => {
                                         <View>
                                             <Text className='text-xl font-bold ml-4'>#PC1012</Text>
                                             <View className='px-4 py-4'>
-                                                <Card className='bg-[#E7E7E8] mb-5 p-1'>
-                                                    <Card.Content>
-                                                        <View className='flex flex-row items-center'>
-                                                            <Image source={require('@/assets/images/pets 4.png')} />
-                                                            <View className='left-4'>
-                                                                <Text className='text-[#0D74B1] text-base font-medium '>Tên: <Text className='!text-black'> Hieu</Text></Text>
-                                                                <Text className='text-[#0D74B1] text-base font-medium '>Bệnh: <Text className='!text-black'>Lùn</Text></Text>
-                                                            </View>
-                                                            <View className='left-52'>
-                                                                <Image source={require('@/assets/images/arrow_drop_down.png')} />
-                                                            </View>
-                                                        </View>
-                                                    </Card.Content>
-                                                </Card>
-                                                <Card className='bg-[#E7E7E8] mb-5 p-1'>
-                                                    <Card.Content>
-                                                        <View className='flex flex-row items-center'>
-                                                            <Image source={require('@/assets/images/pets 4.png')} />
-                                                            <View className='left-4'>
-                                                                <Text className='text-[#0D74B1] text-base font-medium '>Tên: <Text className='!text-black'> Vua</Text></Text>
-                                                                <Text className='text-[#0D74B1] text-base font-medium '>Bệnh: <Text className='!text-black'>Lùn</Text></Text>
-                                                            </View>
-                                                            <View className='left-52'>
-                                                                <Image source={require('@/assets/images/arrow_drop_down.png')} />
-                                                            </View>
-                                                        </View>
-                                                    </Card.Content>
-                                                </Card>
-                                                <Card className='bg-[#E7E7E8] mb-5 p-1'>
-                                                    <Card.Content>
-                                                        <View className='flex flex-row items-center'>
-                                                            <Image source={require('@/assets/images/pets 4.png')} />
-                                                            <View className='left-4'>
-                                                                <Text className='text-[#0D74B1] text-base font-medium '>Tên: <Text className='!text-black'> Vua</Text></Text>
-                                                                <Text className='text-[#0D74B1] text-base font-medium '>Bệnh: <Text className='!text-black'>Lùn</Text></Text>
-                                                            </View>
-                                                            <View className='left-52'>
-                                                                <Image source={require('@/assets/images/arrow_drop_down.png')} />
-                                                            </View>
-                                                        </View>
-                                                    </Card.Content>
-                                                </Card>
-                                                <Card className='bg-[#E7E7E8] mb-5 p-1'>
-                                                    <Card.Content>
-                                                        <View className='flex flex-row items-center'>
-                                                            <Image source={require('@/assets/images/pets 4.png')} />
-                                                            <View className='left-4'>
-                                                                <Text className='text-[#0D74B1] text-base font-medium '>Tên: <Text className='!text-black'> Vua</Text></Text>
-                                                                <Text className='text-[#0D74B1] text-base font-medium '>Bệnh: <Text className='!text-black'>Lùn</Text></Text>
-                                                            </View>
-                                                            <View className='left-52'>
-                                                                <Image source={require('@/assets/images/arrow_drop_down.png')} />
-                                                            </View>
-                                                        </View>
-                                                    </Card.Content>
-                                                </Card>
+                                                <Accordion
+                                                    sections={SECTIONS}
+                                                    activeSections={activeSections}
+                                                    renderHeader={renderHeader}
+                                                    renderContent={renderContent}
+                                                    onChange={updateSections}
+                                                />
                                             </View>
                                         </View>
                                         <View className='flex flex-row justify-between px-5'>
