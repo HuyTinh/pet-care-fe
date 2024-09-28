@@ -1,6 +1,7 @@
 import { Outlet, ScrollRestoration } from "react-router-dom";
-import { Header } from "./components/header";
-import { Footer } from "./components/footer";
+import { Header } from "../../components/header";
+import { Footer } from "../../components/footer";
+import { AnimatePresence } from "framer-motion";
 export const ClientLayout = () => {
   return (
     <div className="flex h-screen flex-col">
@@ -17,7 +18,9 @@ export const ClientLayout = () => {
       {!location.pathname.includes("receptionist") && <Header />}
 
       <div className="flex-1">
-        <Outlet />
+        <AnimatePresence>
+          <Outlet />
+        </AnimatePresence>
       </div>
       {!location.pathname.includes("receptionist") && <Footer />}
     </div>

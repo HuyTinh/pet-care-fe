@@ -88,7 +88,7 @@ export const HomePage = () => {
               <AnimateSection>
                 <div className="flex flex-1 flex-col items-center justify-center space-y-4 text-center">
                   <img
-                    src="https://aberdeenvethospital.ca/wp-content/uploads/2022/05/icon1.1.png"
+                    src="/src/assets/images/clock.png"
                     alt="Icon"
                     className="Icon-Size"
                   />
@@ -118,7 +118,7 @@ export const HomePage = () => {
               <AnimateSection>
                 <div className="flex flex-1 flex-col items-center justify-center space-y-4 text-center">
                   <img
-                    src="https://aberdeenvethospital.ca/wp-content/uploads/2022/05/icon2.png"
+                    src="/src/assets/images/wheelchair.png"
                     alt="Icon"
                     className="Icon-Size"
                   />
@@ -145,7 +145,7 @@ export const HomePage = () => {
               <AnimateSection>
                 <div className="flex flex-1 flex-col items-center justify-center space-y-4 text-center">
                   <img
-                    src="https://aberdeenvethospital.ca/wp-content/uploads/2022/05/icon3.png"
+                    src="/src/assets/images/animal_foot.png"
                     alt="Icon"
                     className="Icon-Size"
                   />
@@ -186,261 +186,263 @@ export const HomePage = () => {
               </p>
             </div>
 
-            <div className="DV mb-2.5 grid grid-cols-1 gap-6 px-4 md:grid-cols-3">
-              <AnimateSection>
-                <motion.div
-                  initial="initial"
-                  animate="initial"
-                  whileHover="animate"
-                  className="Service-Image relative overflow-hidden rounded"
-                >
-                  <div className="absolute bottom-10 left-8 z-10">
-                    <p className="p-2 text-2xl font-semibold text-white">
-                      Dentistry
-                    </p>
+            <div className="space-y-6">
+              <div className="DV mb-2.5 grid grid-cols-1 gap-6 px-4 md:grid-cols-3">
+                <AnimateSection>
+                  <motion.div
+                    initial="initial"
+                    animate="initial"
+                    whileHover="animate"
+                    className="Service-Image relative overflow-hidden rounded"
+                  >
+                    <div className="absolute bottom-10 left-8 z-10">
+                      <p className="p-2 text-2xl font-semibold text-white">
+                        Dentistry
+                      </p>
+                      <motion.div
+                        transition={{
+                          duration: 0.8,
+                          height: { duration: 0.5 },
+                        }}
+                        variants={textBox}
+                        className="h-0 !w-[300px] overflow-hidden opacity-0"
+                      >
+                        <b className="w-full text-white">
+                          Aberdeen Veterunary Hopital is well establisshed as a
+                          dentistry facility.
+                        </b>
+                      </motion.div>
+                    </div>
+
                     <motion.div
                       transition={{
-                        duration: 0.8,
-                        height: { duration: 0.5 },
+                        duration: 0.5,
                       }}
-                      variants={textBox}
-                      className="h-0 !w-[300px] overflow-hidden opacity-0"
+                      variants={imageBox}
+                      className="overflow-hidden"
                     >
-                      <b className="w-full text-white">
-                        Aberdeen Veterunary Hopital is well establisshed as a
-                        dentistry facility.
-                      </b>
+                      <img
+                        src="https://aberdeenvethospital.ca/wp-content/uploads/2022/05/services-1-image.jpg"
+                        alt="Service 1"
+                        className="h-[300px] w-full rounded object-cover shadow-lg"
+                      />
                     </motion.div>
-                  </div>
-
-                  <motion.div
-                    transition={{
-                      duration: 0.5,
-                    }}
-                    variants={imageBox}
-                    className="overflow-hidden"
-                  >
-                    <img
-                      src="https://aberdeenvethospital.ca/wp-content/uploads/2022/05/services-1-image.jpg"
-                      alt="Service 1"
-                      className="h-[300px] w-full rounded object-cover shadow-lg"
-                    />
                   </motion.div>
-                </motion.div>
-              </AnimateSection>
-              <AnimateSection>
-                <motion.div
-                  initial="initial"
-                  animate="initial"
-                  whileHover="animate"
-                  className="Service-Image relative overflow-hidden rounded"
-                >
-                  <div className="absolute bottom-10 left-8 z-10">
-                    <p className="p-2 text-2xl font-semibold text-white">
-                      Diagnostics
-                    </p>
+                </AnimateSection>
+                <AnimateSection>
+                  <motion.div
+                    initial="initial"
+                    animate="initial"
+                    whileHover="animate"
+                    className="Service-Image relative overflow-hidden rounded"
+                  >
+                    <div className="absolute bottom-10 left-8 z-10">
+                      <p className="p-2 text-2xl font-semibold text-white">
+                        Diagnostics
+                      </p>
+                      <motion.div
+                        transition={{
+                          duration: 0.8,
+                          height: { duration: 0.5 },
+                        }}
+                        variants={textBox}
+                        className="h-0 !w-[300px] overflow-hidden opacity-0"
+                      >
+                        <b className="w-full text-white">
+                          Our lab consists of a complete idexx blood analyzer
+                          system wwhich enable in-house. Helpful in emergency
+                          cases, it reduces the...
+                        </b>
+                      </motion.div>
+                    </div>
+
                     <motion.div
                       transition={{
-                        duration: 0.8,
-                        height: { duration: 0.5 },
+                        duration: 0.5,
                       }}
-                      variants={textBox}
-                      className="h-0 !w-[300px] overflow-hidden opacity-0"
+                      variants={imageBox}
+                      className="overflow-hidden"
                     >
-                      <b className="w-full text-white">
-                        Our lab consists of a complete idexx blood analyzer
-                        system wwhich enable in-house. Helpful in emergency
-                        cases, it reduces the...
-                      </b>
+                      <img
+                        src="https://aberdeenvethospital.ca/wp-content/uploads/2022/05/ultrasound-new-image.jpg"
+                        alt="Service 1"
+                        className="h-[300px] w-full rounded object-cover shadow-lg"
+                      />
                     </motion.div>
-                  </div>
-
-                  <motion.div
-                    transition={{
-                      duration: 0.5,
-                    }}
-                    variants={imageBox}
-                    className="overflow-hidden"
-                  >
-                    <img
-                      src="https://aberdeenvethospital.ca/wp-content/uploads/2022/05/ultrasound-new-image.jpg"
-                      alt="Service 1"
-                      className="h-[300px] w-full rounded object-cover shadow-lg"
-                    />
                   </motion.div>
-                </motion.div>
-              </AnimateSection>
+                </AnimateSection>
 
-              <AnimateSection>
-                <motion.div
-                  initial="initial"
-                  animate="initial"
-                  whileHover="animate"
-                  className="Service-Image relative overflow-hidden rounded"
-                >
-                  <div className="absolute bottom-10 left-8 z-10">
-                    <p className="p-2 text-2xl font-semibold text-white">
-                      Surgery
-                    </p>
+                <AnimateSection>
+                  <motion.div
+                    initial="initial"
+                    animate="initial"
+                    whileHover="animate"
+                    className="Service-Image relative overflow-hidden rounded"
+                  >
+                    <div className="absolute bottom-10 left-8 z-10">
+                      <p className="p-2 text-2xl font-semibold text-white">
+                        Surgery
+                      </p>
+                      <motion.div
+                        transition={{
+                          duration: 0.8,
+                          height: { duration: 0.5 },
+                        }}
+                        variants={textBox}
+                        className="h-0 !w-[300px] overflow-hidden opacity-0"
+                      >
+                        <b className="w-full text-white">
+                          Our self-contained surgery siute allows the surgeon
+                          access to x-rays and necessary surgical equipment
+                          without...
+                        </b>
+                      </motion.div>
+                    </div>
+
                     <motion.div
                       transition={{
-                        duration: 0.8,
-                        height: { duration: 0.5 },
+                        duration: 0.5,
                       }}
-                      variants={textBox}
-                      className="h-0 !w-[300px] overflow-hidden opacity-0"
+                      variants={imageBox}
+                      className="overflow-hidden"
                     >
-                      <b className="w-full text-white">
-                        Our self-contained surgery siute allows the surgeon
-                        access to x-rays and necessary surgical equipment
-                        without...
-                      </b>
+                      <img
+                        src="https://aberdeenvethospital.ca/wp-content/uploads/2022/05/services-4-image.jpg"
+                        alt="Service 1"
+                        className="h-[300px] w-full rounded object-cover shadow-lg"
+                      />
                     </motion.div>
-                  </div>
-
-                  <motion.div
-                    transition={{
-                      duration: 0.5,
-                    }}
-                    variants={imageBox}
-                    className="overflow-hidden"
-                  >
-                    <img
-                      src="https://aberdeenvethospital.ca/wp-content/uploads/2022/05/services-4-image.jpg"
-                      alt="Service 1"
-                      className="h-[300px] w-full rounded object-cover shadow-lg"
-                    />
                   </motion.div>
-                </motion.div>
-              </AnimateSection>
-            </div>
+                </AnimateSection>
+              </div>
 
-            <div className="DV mb-2.5 grid grid-cols-1 gap-6 px-4 md:grid-cols-3">
-              <AnimateSection>
-                <motion.div
-                  initial="initial"
-                  animate="initial"
-                  whileHover="animate"
-                  className="Service-Image relative overflow-hidden rounded"
-                >
-                  <div className="absolute bottom-10 left-8 z-10">
-                    <p className="p-2 text-2xl font-semibold text-white">
-                      In-Home Euthanasia
-                    </p>
+              <div className="DV mb-2.5 grid grid-cols-1 gap-6 px-4 md:grid-cols-3">
+                <AnimateSection>
+                  <motion.div
+                    initial="initial"
+                    animate="initial"
+                    whileHover="animate"
+                    className="Service-Image relative overflow-hidden rounded"
+                  >
+                    <div className="absolute bottom-10 left-8 z-10">
+                      <p className="p-2 text-2xl font-semibold text-white">
+                        In-Home Euthanasia
+                      </p>
+                      <motion.div
+                        transition={{
+                          duration: 0.8,
+                          height: { duration: 0.5 },
+                        }}
+                        variants={textBox}
+                        className="h-0 !w-[300px] overflow-hidden opacity-0"
+                      >
+                        <b className="w-full text-white">
+                          This is a very specialized service and we are happy to
+                          be able to offer this to uor client.
+                        </b>
+                      </motion.div>
+                    </div>
+
                     <motion.div
                       transition={{
-                        duration: 0.8,
-                        height: { duration: 0.5 },
+                        duration: 0.5,
                       }}
-                      variants={textBox}
-                      className="h-0 !w-[300px] overflow-hidden opacity-0"
+                      variants={imageBox}
+                      className="overflow-hidden"
                     >
-                      <b className="w-full text-white">
-                        This is a very specialized service and we are happy to
-                        be able to offer this to uor client.
-                      </b>
+                      <img
+                        src="https://aberdeenvethospital.ca/wp-content/uploads/2022/05/services-5.1-image.png"
+                        alt="Service 1"
+                        className="h-[300px] w-full rounded object-cover shadow-lg"
+                      />
                     </motion.div>
-                  </div>
-
-                  <motion.div
-                    transition={{
-                      duration: 0.5,
-                    }}
-                    variants={imageBox}
-                    className="overflow-hidden"
-                  >
-                    <img
-                      src="https://aberdeenvethospital.ca/wp-content/uploads/2022/05/services-5.1-image.png"
-                      alt="Service 1"
-                      className="h-[300px] w-full rounded object-cover shadow-lg"
-                    />
                   </motion.div>
-                </motion.div>
-              </AnimateSection>
+                </AnimateSection>
 
-              <AnimateSection>
-                <motion.div
-                  initial="initial"
-                  animate="initial"
-                  whileHover="animate"
-                  className="Service-Image relative overflow-hidden rounded"
-                >
-                  <div className="absolute bottom-10 left-8 z-10">
-                    <p className="rounded p-2 text-2xl font-semibold text-white">
-                      Emergency Care
-                    </p>
+                <AnimateSection>
+                  <motion.div
+                    initial="initial"
+                    animate="initial"
+                    whileHover="animate"
+                    className="Service-Image relative overflow-hidden rounded"
+                  >
+                    <div className="absolute bottom-10 left-8 z-10">
+                      <p className="rounded p-2 text-2xl font-semibold text-white">
+                        Emergency Care
+                      </p>
+                      <motion.div
+                        transition={{
+                          duration: 0.8,
+                          height: { duration: 0.5 },
+                        }}
+                        variants={textBox}
+                        className="h-0 !w-[300px] overflow-hidden opacity-0"
+                      >
+                        <b className="w-full text-white">
+                          Aber Veterinary Hospitaal is a member of the Kamloops
+                          Veterinary On Call Group.
+                        </b>
+                      </motion.div>
+                    </div>
+
                     <motion.div
                       transition={{
-                        duration: 0.8,
-                        height: { duration: 0.5 },
+                        duration: 0.5,
                       }}
-                      variants={textBox}
-                      className="h-0 !w-[300px] overflow-hidden opacity-0"
+                      variants={imageBox}
+                      className="overflow-hidden"
                     >
-                      <b className="w-full text-white">
-                        Aber Veterinary Hospitaal is a member of the Kamloops
-                        Veterinary On Call Group.
-                      </b>
+                      <img
+                        src="https://aberdeenvethospital.ca/wp-content/uploads/2022/05/services-3-image.jpg"
+                        alt="Service 1"
+                        className="h-[300px] w-full rounded object-cover shadow-lg"
+                      />
                     </motion.div>
-                  </div>
-
-                  <motion.div
-                    transition={{
-                      duration: 0.5,
-                    }}
-                    variants={imageBox}
-                    className="overflow-hidden"
-                  >
-                    <img
-                      src="https://aberdeenvethospital.ca/wp-content/uploads/2022/05/services-3-image.jpg"
-                      alt="Service 1"
-                      className="h-[300px] w-full rounded object-cover shadow-lg"
-                    />
                   </motion.div>
-                </motion.div>
-              </AnimateSection>
-              <AnimateSection>
-                {" "}
-                <motion.div
-                  initial="initial"
-                  animate="initial"
-                  whileHover="animate"
-                  className="Service-Image relative overflow-hidden rounded"
-                >
-                  <div className="absolute bottom-10 left-8 z-10">
-                    <p className="p-2 text-2xl font-semibold text-white">
-                      Yearly Health Checks & Vaccinations
-                    </p>
+                </AnimateSection>
+                <AnimateSection>
+                  {" "}
+                  <motion.div
+                    initial="initial"
+                    animate="initial"
+                    whileHover="animate"
+                    className="Service-Image relative overflow-hidden rounded"
+                  >
+                    <div className="absolute bottom-10 left-8 z-10">
+                      <p className="p-2 text-2xl font-semibold text-white">
+                        Yearly Health Checks & Vaccinations
+                      </p>
+                      <motion.div
+                        transition={{
+                          duration: 0.8,
+                          height: { duration: 0.5 },
+                        }}
+                        variants={textBox}
+                        className="h-0 !w-[300px] overflow-hidden opacity-0"
+                      >
+                        <b className="w-full text-white">
+                          Annual health exams are important in identifying
+                          problems before they become complicated.
+                        </b>
+                      </motion.div>
+                    </div>
+
                     <motion.div
                       transition={{
-                        duration: 0.8,
-                        height: { duration: 0.5 },
+                        duration: 0.5,
                       }}
-                      variants={textBox}
-                      className="h-0 !w-[300px] overflow-hidden opacity-0"
+                      variants={imageBox}
+                      className="overflow-hidden"
                     >
-                      <b className="w-full text-white">
-                        Annual health exams are important in identifying
-                        problems before they become complicated.
-                      </b>
+                      <img
+                        src="https://aberdeenvethospital.ca/wp-content/uploads/2022/05/services-6-image.png"
+                        alt="Service 1"
+                        className="h-[300px] w-full rounded object-cover shadow-lg"
+                      />
                     </motion.div>
-                  </div>
-
-                  <motion.div
-                    transition={{
-                      duration: 0.5,
-                    }}
-                    variants={imageBox}
-                    className="overflow-hidden"
-                  >
-                    <img
-                      src="https://aberdeenvethospital.ca/wp-content/uploads/2022/05/services-6-image.png"
-                      alt="Service 1"
-                      className="h-[300px] w-full rounded object-cover shadow-lg"
-                    />
                   </motion.div>
-                </motion.div>
-              </AnimateSection>
+                </AnimateSection>
+              </div>
             </div>
           </div>
         </section>

@@ -11,6 +11,9 @@ import { ProfilePage } from "./pages/site/profile";
 import { ContactPage } from "./pages/site/contact";
 import { AppointmentTab } from "./pages/site/profile/tabs/appointment";
 import { ProfileTab } from "./pages/site/profile/tabs/profile";
+import { ServicePage } from "./pages/site/service";
+import { AllService } from "./pages/site/service/all-service";
+import { DiagnosticsService } from "./pages/site/service/diagnostics";
 
 const Page = (isAuth: Boolean, role: string) => {
   return {
@@ -39,6 +42,20 @@ const Page = (isAuth: Boolean, role: string) => {
         {
           path: "booking",
           element: <BookingPage />,
+        },
+        {
+          path: "service",
+          element: <ServicePage />,
+          children: [
+            {
+              index: true,
+              element: <AllService />,
+            },
+            {
+              path: "diagnostics",
+              element: <DiagnosticsService />,
+            },
+          ],
         },
         {
           path: "contact",

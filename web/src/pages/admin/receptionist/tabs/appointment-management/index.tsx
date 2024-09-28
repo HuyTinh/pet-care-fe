@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import WebSocketManager from "../../../../../utils/WebSocketManager";
 import { useGetAppointmentsQuery } from "../../appointment.service";
 import { IAppointment } from "../../../../../types/appoiment.type";
-import { displayCustomDate } from "../../../../../utils/Date";
+import { displayCustomDate } from "../../../../../utils/date";
 import { usePdfGenerator } from "../../../../../hooks/PdfGenerator";
 import { FcCalendar } from "react-icons/fc";
 import { motion } from "framer-motion";
 import { EditAppointmentModal } from "./edit-appointment-modal";
+import WebSocketManager from "../../../../../config/web-socket-manager";
 
 export const AppointmentManagement = () => {
   const [appointments, setAppointments] = useState<IAppointment[]>([]);

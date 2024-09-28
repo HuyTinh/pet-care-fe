@@ -1,4 +1,4 @@
-import { displayInputDate } from "../../../../../../utils/Date";
+import { displayInputDate } from "../../../../../../utils/date";
 import {
   useGetHospitalServiceQuery,
   useCreateAppointmentMutation,

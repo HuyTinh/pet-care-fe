@@ -1,6 +1,6 @@
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import { displayInputDate, displayPlusDate } from "../../../utils/Date";
+import { displayInputDate, displayPlusDate } from "../../../utils/date";
 import Select from "react-select";
 import { useForm } from "react-hook-form";
 import { FcApproval } from "react-icons/fc";
