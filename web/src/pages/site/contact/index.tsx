@@ -9,9 +9,9 @@ export const ContactPage = () => {
       transition={{ duration: 0.5 }}
     >
       <div className="bg-yellow-100">
-        <section className="Contact bg-white py-16">
+        <section className="Contact bg-white py-28">
           <div className="B02 container mx-auto my-14 text-center">
-            <h2 className="mb-4 text-3xl font-semibold">Contact Us</h2>
+            <h2 className="mb-4 text-4xl font-bold">Contact Us</h2>
             <p className="mb-12 text-lg text-gray-500">
               If you have any questions or would like to book an appointment,
               call us or send us an email.
