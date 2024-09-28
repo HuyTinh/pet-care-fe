@@ -1,25 +1,86 @@
 import { createBrowserRouter } from "react-router-dom";
-import { Layout } from "./components/layout";
-import { AdminAuthPage } from "./pages/admin/auth";
+import { RootLayout } from "./components/root-layout";
+import { ReceptionistPage } from "./pages/admin/receptionist";
+import { DoctorPage } from "./pages/admin/doctor";
+import { ClientLayout } from "./pages/site";
+import { HomePage } from "./pages/site/home";
+import { BookingPage } from "./pages/site/booking";
+import { useSelector } from "react-redux";
+import { RootState } from "./store/store";
+import { ProfilePage } from "./pages/site/profile";
+import { ContactPage } from "./pages/site/contact";
+import { AppointmentTab } from "./pages/site/profile/tabs/appointment";
+import { ProfileTab } from "./pages/site/profile/tabs/profile";
+import { ServicePage } from "./pages/site/service";
+import { AllService } from "./pages/site/service/all-service";
+import { DiagnosticsService } from "./pages/site/service/diagnostics";
 
-const AdminPage = {
-  receptionist: <div>Receptionist</div>,
-  doctor: <div>Doctor</div>,
+const Page = (isAuth: Boolean, role: string) => {
+  return {
+    customer: {
+      path: "/",
+      element: <ClientLayout />,
+      children: [
+        {
+          index: true,
+          element: <HomePage />,
+        },
+        {
+          path: "account",
+          element: <ProfilePage />,
+          children: [
+            {
+              index: true,
+              element: <ProfileTab />,
+            },
+            {
+              path: "appointment",
+              element: <AppointmentTab />,
+            },
+          ],
+        },
+        {
+          path: "booking",
+          element: <BookingPage />,
+        },
+        {
+          path: "service",
+          element: <ServicePage />,
+          children: [
+            {
+              index: true,
+              element: <AllService />,
+            },
+            {
+              path: "diagnostics",
+              element: <DiagnosticsService />,
+            },
+          ],
+        },
+        {
+          path: "contact",
+          element: <ContactPage />,
+        },
+        {
+          path: "receptionist",
+          element: <ReceptionistPage />,
+        },
+      ],
+    },
+    receptionist: <ReceptionistPage />,
+    doctor: <DoctorPage />,
+  }[role];
 };
 
 export const RouterHooks = () => {
-  const role = "receptionist";
+  const isAuth = useSelector((state: RootState) => state.authentication.isAuth);
+  const role = "customer";
 
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Layout />,
-      children: [
-        {
-          path: "/admin",
-          element: role ? AdminPage[role] : <AdminAuthPage />,
-        },
-      ],
+      element: <RootLayout />,
+      children: [Page(isAuth, role) as any],
     },
   ]);
   return { router: router };

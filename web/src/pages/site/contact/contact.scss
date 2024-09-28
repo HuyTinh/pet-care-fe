@@ -1,0 +1,22 @@
+.Contact {
+  .B02 {
+    .B03 {
+      .B04 {
+        .B05 {
+          background-color: #1040c5;
+        }
+      }
+    }
+  }
+
+  .Form {
+    .BT01 {
+      background-color: #1040c5;
+      border: 1px blue solid;
+      border-radius: 10px;
+      &:hover {
+        background-color: #0d74b1;
+      }
+    }
+  }
+}
