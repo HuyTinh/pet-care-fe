@@ -1,10 +1,11 @@
-import { Image, Text, View, StyleSheet, Keyboard, TouchableWithoutFeedback } from 'react-native'
+import { Image, Text, View, StyleSheet, Keyboard, TouchableWithoutFeedback, ScrollView } from 'react-native'
 import { Controller, useForm } from "react-hook-form";
 import { Button, TextInput } from 'react-native-paper';
 import { CheckBox } from 'react-native-elements'
 import React, { useState } from 'react';
 import { Link } from 'expo-router';
 import { useCameraPermissions } from 'expo-camera';
+
 
 const Auth = () => {
   const {
@@ -16,7 +17,7 @@ const Auth = () => {
   const [isSelected, setSelection] = useState(false);
   const [permisson, requestPermissions] = useCameraPermissions()
   return (
-    <View className='w-full h-full bg-[#0099CF]'>
+    <View  className='w-full h-full bg-[#0099CF]'>
       <View className='flex'>
         <View className='mt-20 static'>
           <View style={styles.circle_1} />
@@ -90,7 +91,7 @@ const Auth = () => {
                 checkedColor='white'
               />
             </View>
-            {/* <Button onPress={requestPermissions}> Allow camera approve</Button> */}
+            <Button onPress={requestPermissions}> Allow camera approve</Button>
             <View className='absolute top-[14px] right-5'><Link href={"../(forgotpassword)/forgot-confirm-email"} className='text-white text-base font-medium '>Fogot Password!</Link></View>
           </View>
         </View>
@@ -98,7 +99,7 @@ const Auth = () => {
       <View className='mt-7 ml-24'>
         <Button mode="contained" className='w-56 h-14 flex justify-center !bg-[#0F74C1]'><Link href={"./(tabs)/(scanner)/scannerprescription"} className='text-lg'>Login</Link></Button>
       </View>
-    </View>
+    </View >
   )
 }
 const styles = StyleSheet.create({
