@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, Keyboard, TouchableWithoutFeedback } from 'react-native'
+import { StyleSheet, Text, View, Image, Keyboard, TouchableWithoutFeedback, ScrollView } from 'react-native'
 import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { Button, Card, Searchbar } from 'react-native-paper';
 import { Avatar } from 'react-native-paper';
@@ -9,6 +9,8 @@ import {
     BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { useGetAppointmentQuery } from '@/pharmacist/pharmacist.service';
+import { Appointment } from '@/pharmacist/appointment/AppointmentResponse.type';
 
 const Home = () => {
     const [searchQuery, setSearchQuery] = React.useState('');
@@ -47,7 +49,6 @@ const Home = () => {
             }
         },
     ];
-
     const renderHeader = (session: any) => {
         return (
             <Card className='bg-[#E7E7E8] mt-5 p-1'>
@@ -96,113 +97,91 @@ const Home = () => {
             </Card>
         );
     };
+    const { data, isLoading, isFetching, isError } = useGetAppointmentQuery()
     return (
-        <>
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <GestureHandlerRootView style={{}}>
-                    <BottomSheetModalProvider>
-                        <View className='w-full h-full mt-16'>
-                            <View className='flex-row gap-y-5 static px-5 py-5 justify-between items-center'>
-                                <View>
-                                    <Searchbar
-                                        style={styles.searchbar}
-                                        placeholder="Search list customer"
-                                        onChangeText={setSearchQuery}
-                                        value={searchQuery}
-                                    />
-                                </View>
-                                <View>
-                                    <Avatar.Image size={55} source={require('@/assets/images/26.png')} />
-                                </View>
-                            </View>
-                            <View className='px-3 py-1 static'>
-                                <View className='flex-row items-center'>
+            <ScrollView>
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    <GestureHandlerRootView style={{}}>
+                        <BottomSheetModalProvider>
+                            <View className='w-full h-full mt-16'>
+                                <View className='flex-row gap-y-5 static px-5 py-5 justify-between items-center'>
                                     <View>
-                                        <View style={styles.square} />
-                                        <Image className='absolute ml-[14px] mt-[8px] ' source={require('@/assets/images/calendar.png')} />
+                                        <Searchbar
+                                            style={styles.searchbar}
+                                            placeholder="Search list customer"
+                                            onChangeText={setSearchQuery}
+                                            value={searchQuery}
+                                        />
                                     </View>
-                                    <View className='ml-[5.5px]'>
-                                        <Text className='text-[50px] font-bold text-[#0099CF]'>11</Text>
-                                    </View>
-                                    <View className='ml-[5.5px]'>
-                                        <Text className='text-sm text-[#0099CF] opacity-50 font-bold'>Wednesday</Text>
-                                        <Text className='text-sm text-[#0099CF]'>September 2024</Text>
-                                    </View>
-                                    <View className='ml-[75px]'>
-                                        <Text className='text-4xl text-[#0099CF] font-bold'>Today</Text>
+                                    <View>
+                                        <Avatar.Image size={55} source={require('@/assets/images/26.png')} />
                                     </View>
                                 </View>
-                            </View>
-                            <View className=' p-5  '>
-                                <Card className='bg-[#E7E7E8] mb-5' onPress={handlePresentModalPress}>
-                                    <Card.Content>
-                                        <Text className='font-bold text-lg text-[#0D74B1]'>#PC1013</Text>
-                                        <Text className='text-[#0D74B1] text-base font-medium'>Họ và tên: <Text className='!text-black'>Ha Cogi Hieu</Text></Text>
-                                        <Text className='text-[#0D74B1] text-base font-medium'>Số điện thoại: <Text className='!text-black'>0101010101</Text></Text>
-                                        <Image className='absolute top-6 right-4' source={require('@/assets/images/pets 4.png')} />
-                                    </Card.Content>
-                                </Card>
-                                <Card className='bg-[#E7E7E8] mb-5'>
-                                    <Card.Content>
-                                        <Text className='font-bold text-lg text-[#0D74B1]'>#PC1012</Text>
-                                        <Text className='text-[#0D74B1] text-base font-medium'>Họ và tên: <Text className='!text-black'>Ha Cogi Hieu</Text></Text>
-                                        <Text className='text-[#0D74B1] text-base font-medium'>Số điện thoại: <Text className='!text-black'>0101010101</Text></Text>
-                                        <Image className='absolute top-6 right-4' source={require('@/assets/images/pets 4.png')} />
-                                    </Card.Content>
-                                </Card>
-                                <Card className='bg-[#E7E7E8] mb-5'>
-                                    <Card.Content>
-                                        <Text className='font-bold text-lg text-[#0D74B1]'>#PC1012</Text>
-                                        <Text className='text-[#0D74B1] text-base font-medium'>Họ và tên: <Text className='!text-black'>Ha Cogi Hieu</Text></Text>
-                                        <Text className='text-[#0D74B1] text-base font-medium'>Số điện thoại: <Text className='!text-black'>0101010101</Text></Text>
-                                        <Image className='absolute top-6 right-4' source={require('@/assets/images/pets 4.png')} />
-                                    </Card.Content>
-                                </Card>
-                                <Card className='bg-[#E7E7E8] mb-5'>
-                                    <Card.Content>
-                                        <Text className='font-bold text-lg text-[#0D74B1]'>#PC1012</Text>
-                                        <Text className='text-[#0D74B1] text-base font-medium'>Họ và tên: <Text className='!text-black'>Ha Cogi Hieu</Text></Text>
-                                        <Text className='text-[#0D74B1] text-base font-medium'>Số điện thoại: <Text className='!text-black'>0101010101</Text></Text>
-                                        <Image className='absolute top-6 right-4' source={require('@/assets/images/pets 4.png')} />
-                                    </Card.Content>
-                                </Card>
-
-                                <BottomSheetModal
-                                    ref={bottomSheetModalRef}
-                                    index={1}
-                                    snapPoints={snapPoints}
-                                // handleIndicatorStyle={{ display: "none" }}
-                                >
-                                    <BottomSheetView >
+                                <View className='px-3 py-1 static'>
+                                    <View className='flex-row items-center'>
                                         <View>
-                                            <Text className='text-xl font-bold ml-4'>#PC1012</Text>
-                                            <View className='px-4 py-4'>
-                                                <Accordion
-                                                    sections={SECTIONS}
-                                                    activeSections={activeSections}
-                                                    renderHeader={renderHeader}
-                                                    renderContent={renderContent}
-                                                    onChange={updateSections}
-                                                />
-                                            </View>
+                                            <View style={styles.square} />
+                                            <Image className='absolute ml-[14px] mt-[8px] ' source={require('@/assets/images/calendar.png')} />
                                         </View>
-                                        <View className='flex flex-row justify-between px-5'>
-                                            <View >
-                                                <Text className='font-bold text-2xl text-[#0D74B1]'>Medical total</Text>
-                                                <Text className='text-base ml-4'>200.000 VNĐ</Text>
-                                            </View>
+                                        <View className='ml-[5.5px]'>
+                                            <Text className='text-[50px] font-bold text-[#0099CF]'>11</Text>
+                                        </View>
+                                        <View className='ml-[5.5px]'>
+                                            <Text className='text-sm text-[#0099CF] opacity-50 font-bold'>Wednesday</Text>
+                                            <Text className='text-sm text-[#0099CF]'>September 2024</Text>
+                                        </View>
+                                        <View className='ml-[75px]'>
+                                            <Text className='text-4xl text-[#0099CF] font-bold'>Today</Text>
+                                        </View>
+                                    </View>
+                                </View>
+                                <View className=' p-5  '>
+                                    {!isFetching && ((data as any)?.data as Appointment[]).map((appointment) => (
+                                        <Card className='bg-[#E7E7E8] mb-5' onPress={handlePresentModalPress}>
+                                            <Card.Content>
+                                                <Text className='font-bold text-lg text-[#0D74B1]'>#PC{appointment.appointmentId}</Text>
+                                                <Text className='text-[#0D74B1] text-base font-medium'>Họ và tên: <Text className='!text-black'>{appointment.fullName}</Text></Text>
+                                                <Text className='text-[#0D74B1] text-base font-medium'>Số điện thoại: <Text className='!text-black'>{appointment.phoneNumber}</Text></Text>
+                                                <Image className='absolute top-6 right-4' source={require('@/assets/images/pets 4.png')} />
+                                            </Card.Content>
+                                        </Card>
+                                    ))}
+                                    <BottomSheetModal
+                                        ref={bottomSheetModalRef}
+                                        index={1}
+                                        snapPoints={snapPoints}
+                                    // handleIndicatorStyle={{ display: "none" }}
+                                    >
+                                        <BottomSheetView >
                                             <View>
-                                                <Button mode="contained" className='w-40 h-14 flex justify-center !bg-[#0F74C1]'><Text className='text-base font-bold'>Approved</Text></Button>
+                                                <Text className='text-xl font-bold ml-4'>#PC1012</Text>
+                                                <View className='px-4 py-4'>
+                                                    <Accordion
+                                                        sections={SECTIONS}
+                                                        activeSections={activeSections}
+                                                        renderHeader={renderHeader}
+                                                        renderContent={renderContent}
+                                                        onChange={updateSections}
+                                                    />
+                                                </View>
                                             </View>
-                                        </View>
-                                    </BottomSheetView>
-                                </BottomSheetModal>
+                                            <View className='flex flex-row justify-between px-5'>
+                                                <View >
+                                                    <Text className='font-bold text-2xl text-[#0D74B1]'>Medical total</Text>
+                                                    <Text className='text-base ml-4'>200.000 VNĐ</Text>
+                                                </View>
+                                                <View>
+                                                    <Button mode="contained" className='w-40 h-14 flex justify-center !bg-[#0F74C1]'><Text className='text-base font-bold'>Approved</Text></Button>
+                                                </View>
+                                            </View>
+                                        </BottomSheetView>
+                                    </BottomSheetModal>
+                                </View >
                             </View >
-                        </View >
-                    </BottomSheetModalProvider>
-                </GestureHandlerRootView>
-            </TouchableWithoutFeedback>
-        </>
+                        </BottomSheetModalProvider>
+                    </GestureHandlerRootView>
+                </TouchableWithoutFeedback>
+            </ScrollView>       
     )
 }
 

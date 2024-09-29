@@ -2,7 +2,7 @@ import { StyleSheet, Text, Image, View, Keyboard, TouchableWithoutFeedback } fro
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form';
 import { Button, TextInput } from 'react-native-paper';
-import { Link } from 'expo-router';
+import { Link, useNavigation } from 'expo-router';
 
 const verify = () => {
     const {
@@ -11,11 +11,20 @@ const verify = () => {
         // formState: { errors },
         // reset
     } = useForm<any>();
+    const navigation = useNavigation();
+    function handleBack() {
+        navigation.goBack();
+    }
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View className='w-full h-full'>
                 <View className='flex'>
-                    <View className='mt-16 items-center '>
+                    <View className='absolute top-12'>
+                        <Button onPress={handleBack}>
+                            <Image className='w-7 h-7' source={require('@/assets/images/back.png')} />
+                        </Button>
+                    </View>
+                    <View className='mt-20 items-center '>
                         <Image className='absolute ml-[14px]  w-[269px] h-[136px]' source={require('@/assets/images/logo-removebg-preview.png')} />
                     </View>
                 </View>
@@ -48,12 +57,12 @@ const verify = () => {
                     />
                 </View>
                 <View className='mt-7 flex items-center'>
-                    <Button className='bg-[#0099CF] w-[380px] flex items-center justify-center h-14 ' onPress={() => console.log("")}>
+                    <Button className='bg-[#0099CF] w-[400px] flex items-center justify-center h-14 ' onPress={() => console.log("")}>
                         <Text className='text-lg text-white'><Link href={"./new-password"} className='text-lg'>Verify</Link></Text>
                     </Button>
                 </View>
                 <View className='mt-7 flex items-center'>
-                    <Button className=' w-[380px] flex items-center justify-center h-14' style={styles.resend} onPress={() => console.log("")}>
+                    <Button className=' w-[400px] flex items-center justify-center h-14' style={styles.resend} onPress={() => console.log("")}>
                         <Text className='text-lg text-black'>Resend</Text>
                     </Button>
                 </View>

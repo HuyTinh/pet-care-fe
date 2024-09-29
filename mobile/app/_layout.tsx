@@ -5,7 +5,9 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { useColorScheme } from '@/hooks/useColorScheme';
-
+import { PaperProvider } from 'react-native-paper';
+import { Provider } from 'react-redux';
+import { store } from '@/pharmacist/store';
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
@@ -28,15 +30,17 @@ export default function RootLayout() {
   return (
     <BottomSheetModalProvider>
       <ThemeProvider value={DefaultTheme}>
-        <Stack>
-          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="(scanner)" options={{ headerShown: false }} />
-          <Stack.Screen name="(profile)" options={{ headerShown: false }} />
-          <Stack.Screen name="(changepassword)" options={{ headerShown: false }} />
-          <Stack.Screen name="(forgotpassword)" options={{ headerShown: false }} />
-          <Stack.Screen name="+not-found" />
-        </Stack>
+        <Provider store={store}>
+            <Stack>
+              <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen name="(medicine)" options={{ headerShown: false }} />
+              <Stack.Screen name="(profile)" options={{ headerShown: false }} />
+              <Stack.Screen name="(changepassword)" options={{ headerShown: false }} />
+              <Stack.Screen name="(forgotpassword)" options={{ headerShown: false }} />
+              <Stack.Screen name="+not-found" />
+            </Stack>
+        </Provider>
       </ThemeProvider>
     </BottomSheetModalProvider>
   );

@@ -1,4 +1,4 @@
-export interface AppointmentResponse{
+export interface Appointment{
     appointmentId: string;
     fullName: string;
     phoneNumber: string;
