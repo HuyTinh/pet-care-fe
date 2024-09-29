@@ -97,7 +97,7 @@ const Auth = () => {
         </View>
       </TouchableWithoutFeedback>
       <View className='mt-7 ml-24'>
-        <Button mode="contained" className='w-56 h-14 flex justify-center !bg-[#0F74C1]'><Link href={"./(tabs)/(scanner)/scannerprescription"} className='text-lg'>Login</Link></Button>
+        <Button mode="contained" className='w-56 h-14 flex justify-center !bg-[#0F74C1]'><Link href={"./(tabs)/list"} className='text-lg'>Login</Link></Button>
       </View>
     </View >
   )
