@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useGetAppointmentsQuery } from "../../appointment.service";
 import { IAppointment } from "../../../../../types/appoiment.type";
 import { displayCustomDate } from "../../../../../utils/date";
-import { usePdfGenerator } from "../../../../../hooks/PdfGenerator";
+import { usePdfGenerator } from "../../../../../hooks/pdf-generator";
 import { FcCalendar } from "react-icons/fc";
 import { motion } from "framer-motion";
 import { EditAppointmentModal } from "./edit-appointment-modal";
