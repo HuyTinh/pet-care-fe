@@ -5,11 +5,9 @@ import { useLoginWithGoogleRequestMutation } from "../../../auth.service";
 import { toast } from "react-toastify";
 
 import { setAuthenticated } from "../../../auth.slice";
-import { useModalPetCare } from "../../../../components/pc-modal/hook";
 
 export const PetCareGoogleLoginButton = () => {
   const dispatch = useDispatch();
-  const { closeModalPetCare } = useModalPetCare();
   const [loginWithGoogleRequest] = useLoginWithGoogleRequestMutation();
   const handleLoginGoogle = useGoogleLogin({
     onSuccess: (tokenResponse) =>
@@ -26,7 +24,7 @@ export const PetCareGoogleLoginButton = () => {
             } = data.result;
             localStorage.setItem("token", loginResponse.token);
             dispatch(setAuthenticated(loginResponse.token));
-            closeModalPetCare();
+            (document.getElementById("authentication_modal") as any).close();
           }
         },
       ),
