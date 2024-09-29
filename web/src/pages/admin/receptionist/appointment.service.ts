@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { IAppointment } from "../../../types/appoiment.type";
 
 import { APIResponse } from "../../../types/api-response.type";
+import { getCookieValue } from "../../../utils/cookie";
 
 export const appointmentApi = createApi({
   reducerPath: "clientApi",
@@ -51,6 +52,11 @@ export const appointmentApi = createApi({
           url: "customer/create-appointment",
           method: "POST",
           body,
+          params: {
+            emailNotification: getCookieValue(
+              `email-notification-${body.account_id}`,
+            ),
+          },
         };
       },
       invalidatesTags: () => [

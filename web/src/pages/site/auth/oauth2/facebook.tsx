@@ -4,19 +4,12 @@ import { useLoginWithFacebookRequestMutation } from "../../../auth.service";
 import { toast } from "react-toastify";
 
 import { setAuthenticated } from "../../../auth.slice";
-import { useModalPetCare } from "../../../../components/pc-modal/hook";
-import { useLogin, LoginButton } from "react-facebook";
+import { useLogin } from "react-facebook";
 
 export const PetCareFacebookLoginButton = () => {
   const dispatch = useDispatch();
-  const { closeModalPetCare } = useModalPetCare();
   const { login } = useLogin();
   const [loginFacebookRequest] = useLoginWithFacebookRequestMutation();
-  //   const { login } = useLogin({
-  //     onResponse: ,
-  //     onError: handleError,
-  //     scope: "public_profile,email", // Specify scopes as needed
-  //   });
 
   function handleLoginFacebook() {
     login({
@@ -42,7 +35,7 @@ export const PetCareFacebookLoginButton = () => {
               } = data.result;
               localStorage.setItem("token", loginResponse.token);
               dispatch(setAuthenticated(loginResponse.token));
-              closeModalPetCare();
+              (document.getElementById("authentication_modal") as any).close();
             }
           },
         );
@@ -50,11 +43,6 @@ export const PetCareFacebookLoginButton = () => {
       .catch((err) => {});
   }
   return (
-    // <>
-    //   <LoginButton scope="public_profile,email" onSuccess={handleLoginFacebook}>
-    //     Login with Facebook
-    //   </LoginButton>
-    // </>
     <FacebookLoginButton
       onClick={() => {
         handleLoginFacebook();

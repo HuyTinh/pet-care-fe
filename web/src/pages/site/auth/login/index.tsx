@@ -54,7 +54,7 @@ export const ClientLoginForm = ({
 
         dispatch(setAuthenticated(loginResponse.token));
 
-        closeModalPetCare();
+        (document.getElementById("authentication_modal") as any).close();
       }
     });
   };
