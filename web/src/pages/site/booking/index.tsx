@@ -15,14 +15,25 @@ import { RootState } from "../../../store/store";
 import { useGetCustomerProfileQuery } from "../customer.service";
 import { AnimateSection } from "../../../components/animate-section";
 import { motion } from "framer-motion";
+import { toast } from "react-toastify";
+import { isEmpty } from "lodash";
 
 export const BookingPage = () => {
   const [step, setStep] = useState(1);
-  const { register, getValues, setValue, reset } = useForm<any>();
+  const {
+    register,
+    getValues,
+    setValue,
+    reset,
+    formState: { errors },
+  } = useForm<any>({
+    mode: "onSubmit",
+  });
   const { data: hospitalServicesData, isFetching: _ } =
     useGetHospitalServiceQuery();
 
-  const [createAppointment] = useCreateAppointmentMutation();
+  const [createAppointment, { isError, isSuccess }] =
+    useCreateAppointmentMutation();
   const isAuth = useSelector((state: RootState) => state.authentication.isAuth);
   const userId = useSelector((state: RootState) => state.authentication.userId);
   const { data: customerProfileData } = useGetCustomerProfileQuery(
@@ -37,6 +48,11 @@ export const BookingPage = () => {
     reset({ first_name: "", last_name: "", phone_number: "", email: "" });
   };
 
+  if (isError) {
+    toast.error("Check again your info!", {
+      position: "top-right",
+    });
+  }
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -183,7 +199,9 @@ export const BookingPage = () => {
                           type="text"
                           className="grow"
                           placeholder="First name"
-                          {...register("first_name")}
+                          {...register("first_name", {
+                            required: "First name is empty!",
+                          })}
                         />
                       </label>
                       <label className="input input-bordered flex w-72 items-center gap-2">
@@ -191,7 +209,9 @@ export const BookingPage = () => {
                           type="text"
                           className="grow"
                           placeholder="Last name"
-                          {...register("last_name")}
+                          {...register("last_name", {
+                            required: "Last name is empty!",
+                          })}
                         />
                       </label>
                     </div>
@@ -201,7 +221,9 @@ export const BookingPage = () => {
                           type="text"
                           className="grow"
                           placeholder="Email"
-                          {...register("email")}
+                          {...register("email", {
+                            required: "Email is empty!",
+                          })}
                         />
                       </label>
                       <label className="input input-bordered flex w-72 items-center gap-2">
@@ -209,7 +231,9 @@ export const BookingPage = () => {
                           type="text"
                           className="grow"
                           placeholder="Phone number"
-                          {...register("phone_number")}
+                          {...register("phone_number", {
+                            required: "Phone number is empty!",
+                          })}
                         />
                       </label>
                     </div>
@@ -224,7 +248,9 @@ export const BookingPage = () => {
                           type="text"
                           className="grow"
                           placeholder="Pet name"
-                          {...register("pets.name")}
+                          {...register("pets.name", {
+                            required: "Age is empty!",
+                          })}
                         />
                       </label>
                       <label className="input input-bordered flex w-72 items-center gap-2">
@@ -232,7 +258,9 @@ export const BookingPage = () => {
                           type="text"
                           className="grow"
                           placeholder="Age"
-                          {...register("pets.age")}
+                          {...register("pets.age", {
+                            required: "Age is empty!",
+                          })}
                         />
                       </label>
                     </div>
@@ -242,7 +270,9 @@ export const BookingPage = () => {
                           type="text"
                           className="grow"
                           placeholder="weight"
-                          {...register("pets.weight")}
+                          {...register("pets.weight", {
+                            required: "Weight is empty!",
+                          })}
                         />
                       </label>
                       <label className="input input-bordered flex w-72 items-center gap-2">
@@ -250,7 +280,9 @@ export const BookingPage = () => {
                           type="text"
                           className="grow"
                           placeholder="Species"
-                          {...register("pets.species")}
+                          {...register("pets.species", {
+                            required: "Spieces is empty!",
+                          })}
                         />
                       </label>
                     </div>
@@ -287,8 +319,41 @@ export const BookingPage = () => {
           <div className="flex justify-end pe-10">
             <button
               className="btn"
+              type={`${step === 2 ? "button" : "submit"}`}
               onClick={() => {
                 if (step < 3) {
+                  if (step == 1) {
+                    if (
+                      !(
+                        getValues("service") &&
+                        getValues("date") &&
+                        getValues("time")
+                      )
+                    ) {
+                      return toast.error("Check again your service!", {
+                        position: "top-right",
+                      });
+                    }
+                  }
+                  if (step === 2) {
+                    if (
+                      !(
+                        getValues("first_name") &&
+                        getValues("last_name") &&
+                        getValues("email") &&
+                        getValues("phone_number") &&
+                        getValues("email") &&
+                        getValues("pets.name") &&
+                        getValues("pets.age") &&
+                        getValues("pets.weight") &&
+                        getValues("pets.species")
+                      )
+                    ) {
+                      return toast.error("Check again your infor!", {
+                        position: "top-right",
+                      });
+                    }
+                  }
                   setStep(step + 1);
                 }
                 if (step === 2) {

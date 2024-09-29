@@ -60,13 +60,13 @@ export const ProfileTab = () => {
       }
     });
   };
+
   const emailNotification = (e: any) => {
     let expires = new Date();
-    expires.setTime(expires.getTime() * 1000);
 
     let cookieName = `email-notification-${userId}`;
     setCookie(cookieName, e.target.checked, {
-      path: "/account",
+      path: "/",
       expires,
     });
   };
@@ -116,7 +116,7 @@ export const ProfileTab = () => {
             </div>
           </div>
         </div>
-        <div className="min-h-64">
+        <div className="min-h-72 pt-5">
           {tab === 0 && (
             <motion.div
               initial={{

@@ -14,6 +14,8 @@ import { ProfileTab } from "./pages/site/profile/tabs/profile";
 import { ServicePage } from "./pages/site/service";
 import { AllService } from "./pages/site/service/all-service";
 import { DiagnosticsService } from "./pages/site/service/diagnostics";
+import { useCookies } from "react-cookie";
+import { useEffect } from "react";
 
 const Page = (isAuth: Boolean, role: string) => {
   return {
@@ -74,7 +76,18 @@ const Page = (isAuth: Boolean, role: string) => {
 
 export const RouterHooks = () => {
   const isAuth = useSelector((state: RootState) => state.authentication.isAuth);
+  const userId = useSelector((state: RootState) => state.authentication.userId);
+  const [cookies, setCookies] = useCookies<any>();
   const role = "customer";
+
+  useEffect(() => {
+    if (userId) {
+      !cookies[`email-notification-${userId}`] &&
+        setCookies(`email-notification-${userId}`, true);
+    }
+  }, [userId]);
+
+  // isAuth && cookies[];
 
   const router = createBrowserRouter([
     {
