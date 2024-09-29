@@ -24,8 +24,6 @@ export const ClientLoginForm = ({
   });
   const dispatch = useDispatch();
 
-  const { closeModalPetCare } = useModalPetCare();
-
   const [loginRequest] = useLoginRequestMutation();
 
   const GG_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
