@@ -5,10 +5,20 @@ import { displayCustomDate } from "../../../../../utils/date";
 import { AnimatePresence, motion } from "framer-motion";
 import { FcCalendar } from "react-icons/fc";
 import { useState } from "react";
+import { EditAppointmentModal } from "./edit-appointment-modal";
+import { IAppointment } from "../../../../../types/appoiment.type";
 
 export const AppointmentTab = () => {
   const userId = useSelector((state: RootState) => state.authentication.userId);
+  const [selectedAppointment, setSelectedAppointment] = useState<IAppointment>(
+    {} as IAppointment,
+  );
   const [appointmentStatus, setAppointmentStatus] = useState("SCHEDULED");
+
+  const editAppointmentHandle = (appointment: IAppointment) => {
+    (document.getElementById("edit_appointment_modal") as any).showModal();
+    setSelectedAppointment(appointment);
+  };
 
   const { data: appoimentsHistoryResponse, isFetching } =
     useGetAppointmentByCustomerIdQuery(
@@ -138,7 +148,12 @@ export const AppointmentTab = () => {
                         <td>
                           {val.status !== "APPROVED" ? (
                             <div className="flex flex-col gap-y-2">
-                              <button className="btn btn-sm">Edit</button>
+                              <button
+                                className="btn btn-sm"
+                                onClick={() => editAppointmentHandle(val)}
+                              >
+                                Edit
+                              </button>
                               <button className="btn btn-sm">Cancel</button>
                             </div>
                           ) : (
@@ -156,6 +171,7 @@ export const AppointmentTab = () => {
           </div>
         </div>
       </div>
+      <EditAppointmentModal selectedAppointment={selectedAppointment} />
     </AnimatePresence>
   );
 };

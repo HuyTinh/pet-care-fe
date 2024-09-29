@@ -7,7 +7,6 @@ import { MdOutlineErrorOutline } from "react-icons/md";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { FacebookProvider } from "react-facebook";
 
-import { useModalPetCare } from "../../../../components/pc-modal/hook";
 import { PetCareGoogleLoginButton } from "../oauth2/google";
 import { PetCareFacebookLoginButton } from "../oauth2/facebook";
 export const ClientLoginForm = ({

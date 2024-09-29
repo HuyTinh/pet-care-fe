@@ -64,6 +64,19 @@ export const appointmentApi = createApi({
         { type: "AppointmentsCustomer" as const, id: "LIST" },
       ],
     }),
+    updateAppointment: build.mutation<IAppointment, any>({
+      query(body) {
+        return {
+          url: "customer/update-appointment",
+          method: "PUT",
+          body,
+        };
+      },
+      invalidatesTags: () => [
+        { type: "Appointments", id: "LIST" },
+        { type: "AppointmentsCustomer" as const, id: "LIST" },
+      ],
+    }),
     getHospitalService: build.query<APIResponse, void>({
       query: () => `appointment/hospital-service`,
     }),
