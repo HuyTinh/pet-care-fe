@@ -5,7 +5,6 @@ import { useLoginWithGoogleRequestMutation } from "../../../auth.service";
 import { toast } from "react-toastify";
 
 import { setAuthenticated } from "../../../auth.slice";
-import { useModalPetCare } from "../../../../components/pc-modal/hook";
 
 export const PetCareGoogleLoginButton = () => {
   const dispatch = useDispatch();

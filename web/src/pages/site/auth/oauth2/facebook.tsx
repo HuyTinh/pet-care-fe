@@ -40,7 +40,7 @@ export const PetCareFacebookLoginButton = () => {
           },
         );
       })
-      .catch((err) => {});
+      .catch(() => {});
   }
   return (
     <FacebookLoginButton
