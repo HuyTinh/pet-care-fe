@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "mobile",
-    "slug": "petcaremobile",
+    "slug": "petcare",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -34,9 +34,12 @@
     },
     "extra": {
       "eas": {
-        "projectId": "9b301e98-685d-463b-bdfb-6f1b58b41696"
+        "projectId": "51939d77-bfed-403f-a676-a40ad445abdc"
+      },
+      "router": {
+        "origin": false
       }
     },
-    "owner": "hthieu"
+    "owner": "tinhnth"
   }
 }
