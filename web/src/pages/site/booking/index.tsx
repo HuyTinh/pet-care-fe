@@ -16,17 +16,10 @@ import { useGetCustomerProfileQuery } from "../customer.service";
 import { AnimateSection } from "../../../components/animate-section";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
-import { isEmpty } from "lodash";
 
 export const BookingPage = () => {
   const [step, setStep] = useState(1);
-  const {
-    register,
-    getValues,
-    setValue,
-    reset,
-    formState: { errors },
-  } = useForm<any>({
+  const { register, getValues, setValue, reset } = useForm<any>({
     mode: "onSubmit",
   });
   const { data: hospitalServicesData, isFetching: _ } =
@@ -133,6 +126,14 @@ export const BookingPage = () => {
                       {
                         value: "10:00:00",
                         label: "10h",
+                      },
+                      {
+                        value: "11:00:00",
+                        label: "11h",
+                      },
+                      {
+                        value: "12:00:00",
+                        label: "12h",
                       },
                     ]}
                     className="w-36 text-sm"
@@ -357,6 +358,7 @@ export const BookingPage = () => {
                   setStep(step + 1);
                 }
                 if (step === 2) {
+                  // console.log();
                   createAppointment({
                     first_name: getValues("first_name"),
                     last_name: getValues("last_name"),
@@ -365,11 +367,10 @@ export const BookingPage = () => {
                     account_id: userId,
                     appointment: {
                       status: "SCHEDULED",
-                      appointment_date: new Date(
-                        displayInputDate(new Date(getValues("date"))) +
-                          " " +
-                          getValues("time"),
-                      ).toISOString(),
+                      appointment_date: displayInputDate(
+                        new Date(getValues("date")),
+                      ),
+                      appointment_time: getValues("time"),
                       pets: [getValues("pets")],
                       services: [getValues("service")],
                     },

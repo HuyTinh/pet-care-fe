@@ -6,10 +6,12 @@ import { useDispatch } from 'react-redux';
 // import { startEditPost } from '../Pharmacist/pharmacist.slice';
 import { Href, router } from 'expo-router';
 import { Overlay } from './orverlay';
+import { startEditPost } from '@/pharmacist/prescription';
 
 const scannerprescription = () => {
     const qrLock = useRef(false)
     const appState = useRef(AppState.currentState)
+    const distpath = useDispatch()
     useEffect(() => {
         const subcription = AppState.addEventListener("change", (nextAppState) => {
             if (
@@ -29,10 +31,10 @@ const scannerprescription = () => {
             if (data && !qrLock.current) {
                 qrLock.current = true;
                 Vibration.vibrate();
-                console.log(data);
-                // distpath(startEditPost(data))
+                // console.log(data);
+                distpath(startEditPost(data))
                 Alert.alert('Success', "Quét thành công", [
-                    { text: 'Ok', onPress: () => router.replace('/(tabs)/list' as Href<string | object>) },
+                    { text: 'Ok', onPress: () => router.replace('/(medicine)/prescription' as Href<string | object>) },
                 ]);
             }
         }
