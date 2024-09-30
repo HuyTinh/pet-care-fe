@@ -62,12 +62,9 @@ export const ProfileTab = () => {
   };
 
   const emailNotification = (e: any) => {
-    let expires = new Date();
-
     let cookieName = `email-notification-${userId}`;
     setCookie(cookieName, e.target.checked, {
       path: "/",
-      expires,
     });
   };
 

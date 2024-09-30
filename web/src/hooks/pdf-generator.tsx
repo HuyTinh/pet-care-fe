@@ -24,8 +24,21 @@ export const usePdfGenerator = () => {
     const appointmentX = (pageWidth - appointmentWidth) / 2; // Tính toán vị trí x
     pdf.text(appointmentText, appointmentX, 10); // Vị trí y = 50
 
-    pdf.setFontSize(14);
-    pdf.text(`Room number: ${3}`, appointmentX - 50, 20);
+    // pdf.setFontSize(14);
+    // pdf.text(`Room number: ${3}`, appointmentX - 50, 20);
+
+    var image = new Image();
+    image.src =
+      "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" +
+      appointmentId;
+
+    pdf.addImage({
+      imageData: image,
+      x: appointmentX - 10,
+      y: 20,
+      width: 32,
+      height: 32,
+    });
 
     // Lưu PDF
     pdf.save("appointment.pdf");

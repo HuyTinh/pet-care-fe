@@ -82,7 +82,7 @@ export const RouterHooks = () => {
 
   useEffect(() => {
     if (userId) {
-      !cookies[`email-notification-${userId}`] &&
+      cookies[`email-notification-${userId}`] === undefined &&
         setCookies(`email-notification-${userId}`, true);
     }
   }, [userId]);

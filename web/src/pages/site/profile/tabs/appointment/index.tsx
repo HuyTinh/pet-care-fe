@@ -135,7 +135,7 @@ export const AppointmentTab = () => {
                         </td>
                         <td>
                           <span className="underline">
-                            {displayCustomDate(new Date(val.appointment_date))}
+                            {val.appointment_date}, {val.appointment_time}
                           </span>
                         </td>
                         <td>
