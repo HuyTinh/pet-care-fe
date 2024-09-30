@@ -46,11 +46,18 @@ const confirmEmail = () => {
             render={({ field: { onChange, onBlur, value } }) => (
 
               <TextInput
-                className='mt-3'
-                mode='outlined'
+                className='mt-3 rounded-xl'
                 onBlur={onBlur}
                 value={value}
                 onChangeText={onChange}
+                underlineColor="transparent"
+                activeUnderlineColor="transparent"
+                selectionColor="#0099CF"
+                style={{
+                  backgroundColor: "white",
+                  borderWidth: 1,
+                  borderColor: '#606060',
+                }}
               />
 
             )}

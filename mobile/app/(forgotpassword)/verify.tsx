@@ -45,11 +45,19 @@ const verify = () => {
                         render={({ field: { onChange, onBlur, value } }) => (
 
                             <TextInput
-                                className='mt-3'
+                                className='mt-3 rounded-xl'
                                 mode='outlined'
                                 onBlur={onBlur}
                                 value={value}
                                 onChangeText={onChange}
+                                underlineColor="transparent"
+                                activeUnderlineColor="transparent"
+                                selectionColor="#0099CF"
+                                style={{
+                                  backgroundColor: "white",
+                                  borderWidth: 1,
+                                  borderColor: '#606060',
+                                }}
                             />
 
                         )}

@@ -11,7 +11,7 @@ export const pharmacistApi = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: 'https://3jcptkt8-8080.asse.devtunnels.ms/api/v1' }),
     endpoints: build => ({
         getAppointment: build.query<Appointment[], void>({
-            query: () => '/appointment',
+            query: () => '/appointment/getListAppointment',
             providesTags(result) {
                 if (result) {
                     const final = [...((result as any)?.data as Appointment[]).map(({ appointmentId }) => ({ type: 'Post' as const, appointmentId })), { type: 'Post' as const, appointmentId: 'LIST' }]
@@ -21,7 +21,7 @@ export const pharmacistApi = createApi({
                 return final;
             }
         }),
-        getAppointmentById: build.query<Appointment[], string>({
+        getAppointmentById: build.query<AppointmentDetail[], any>({
             query: (id) => `/appointment_detail/${id}`
         }),
     })
