@@ -18,7 +18,7 @@ export const Header = () => {
   return (
     <div>
       <motion.div
-        className="navbar fixed z-50 border-b bg-transparent px-16"
+        className="navbar fixed z-[999] border-b bg-transparent px-16"
         initial={{
           backgroundColor: "rgba(0, 0, 0, 0.1)",
           paddingTop: "1.7rem",

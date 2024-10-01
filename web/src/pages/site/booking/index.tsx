@@ -7,6 +7,7 @@ import { FcApproval } from "react-icons/fc";
 import {
   useGetHospitalServiceQuery,
   useCreateAppointmentMutation,
+  useGetSpeciesQuery,
 } from "../../admin/receptionist/appointment.service";
 import { IHospitalService } from "../../../types/hospital-service.type";
 import { useState } from "react";
@@ -24,6 +25,7 @@ export const BookingPage = () => {
   });
   const { data: hospitalServicesData, isFetching: _ } =
     useGetHospitalServiceQuery();
+  const { data: specieData } = useGetSpeciesQuery();
 
   const [createAppointment, { isError, isSuccess }] =
     useCreateAppointmentMutation();
@@ -116,24 +118,47 @@ export const BookingPage = () => {
                     isDisabled={step !== 1}
                     options={[
                       {
-                        value: "08:00:00",
+                        value: "00:00:00",
                         label: "8h",
                       },
                       {
-                        value: "09:00:00",
+                        value: "01:00:00",
                         label: "9h",
                       },
                       {
-                        value: "10:00:00",
+                        value: "02:00:00",
                         label: "10h",
                       },
                       {
-                        value: "11:00:00",
+                        value: "03:00:00",
                         label: "11h",
                       },
                       {
-                        value: "12:00:00",
+                        value: "04:00:00",
                         label: "12h",
+                      },
+                      {
+                        value: "05:00:00",
+                        label: "13h",
+                      },
+                      {
+                        value: "06:00:00",
+                        label: "14h",
+                      },
+                      ,
+                      {
+                        value: "07:00:00",
+                        label: "15h",
+                      },
+                      ,
+                      {
+                        value: "08:00:00",
+                        label: "16h",
+                      },
+                      ,
+                      {
+                        value: "09:00:00",
+                        label: "17h",
                       },
                     ]}
                     className="w-36 text-sm"
@@ -276,16 +301,29 @@ export const BookingPage = () => {
                           })}
                         />
                       </label>
-                      <label className="input input-bordered flex w-72 items-center gap-2">
-                        <input
+                      <select
+                        className="select select-bordered w-72"
+                        {...register("pets.species", {
+                          required: "Spieces is empty!",
+                        })}
+                      >
+                        <option disabled selected>
+                          Species?
+                        </option>
+                        {(specieData?.result as any[]).map((val, index) => (
+                          <option key={index} value={val.name}>
+                            {val.name}
+                          </option>
+                        ))}
+                      </select>
+                      {/* <input
                           type="text"
                           className="grow"
                           placeholder="Species"
                           {...register("pets.species", {
                             required: "Spieces is empty!",
                           })}
-                        />
-                      </label>
+                        /> */}
                     </div>
                   </div>
                 </div>
@@ -358,7 +396,22 @@ export const BookingPage = () => {
                   setStep(step + 1);
                 }
                 if (step === 2) {
-                  // console.log();
+                  // console.log({
+                  //   first_name: getValues("first_name"),
+                  //   last_name: getValues("last_name"),
+                  //   email: getValues("email"),
+                  //   phone_number: getValues("phone_number"),
+                  //   account_id: userId,
+                  //   appointment: {
+                  //     status: "SCHEDULED",
+                  //     appointment_date: displayInputDate(
+                  //       new Date(getValues("date")),
+                  //     ),
+                  //     appointment_time: getValues("time"),
+                  //     pets: [getValues("pets")],
+                  //     services: [getValues("service")],
+                  //   },
+                  // });
                   createAppointment({
                     first_name: getValues("first_name"),
                     last_name: getValues("last_name"),
