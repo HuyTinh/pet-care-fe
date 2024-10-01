@@ -3,6 +3,7 @@ import React from 'react'
 import { Controller, useForm } from 'react-hook-form';
 import { Button, TextInput } from 'react-native-paper';
 import { Link, useNavigation } from 'expo-router';
+import { TouchableOpacity } from '@gorhom/bottom-sheet';
 
 const confirmEmail = () => {
   const {
@@ -11,20 +12,22 @@ const confirmEmail = () => {
     // formState: { errors },
     // reset
   } = useForm<any>();
+
   const navigation = useNavigation();
-  function handleBack() {
+  const handleBack = () => {
     navigation.goBack();
-  }
+  };
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View className='w-full h-full'>
+      <View>
+          <TouchableOpacity onPress={handleBack}>
+            <Image className='w-5 h-5 mt-16 ml-6' source={require('@/assets/images/back.png')} />
+          </TouchableOpacity>
+        </View>
         <View className='flex'>
-          <View className='absolute top-12'>
-            <Button onPress={handleBack}>
-              <Image className='w-7 h-7' source={require('@/assets/images/back.png')} />
-            </Button>
-          </View>
-          <View className='mt-20 items-center '>
+          <View className='mt-16 items-center '>
             <Image className='absolute ml-[14px]  w-[269px] h-[136px]' source={require('@/assets/images/logo-removebg-preview.png')} />
           </View>
         </View>

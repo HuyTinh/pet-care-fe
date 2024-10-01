@@ -12,6 +12,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { useGetAppointmentQuery } from '@/pharmacist/pharmacist.service';
 import { Appointment } from '@/pharmacist/appointment/Appointment.type'; 
 
+
 const Home = () => {
     const [searchQuery, setSearchQuery] = React.useState('');
     const bottomSheetModalRef = useRef<BottomSheetModal>(null);
@@ -48,23 +49,47 @@ const Home = () => {
                 option: "Hop"
             }
         },
+        {
+            name: 'Vua',
+            patient: 'Lun',
+            medicine: {
+                id_medicine: "SEMCTA",
+                name: "Thuốc này kia",
+                quantity: 2,
+                option: "Hop"
+            }
+        },
+        {
+            name: 'Vua',
+            patient: 'Lun',
+            medicine: {
+                id_medicine: "SEMCTA",
+                name: "Thuốc này kia",
+                quantity: 2,
+                option: "Hop"
+            }
+        },
     ];
+
     const renderHeader = (session: any) => {
         return (
-            <Card className='bg-[#E7E7E8] mt-5 p-1'>
-                <Card.Content>
-                    <View className='flex flex-row items-center'>
-                        <Image source={require('@/assets/images/pets 4.png')} />
-                        <View className='left-4'>
-                            <Text className='text-[#0D74B1] text-base font-medium '>Tên: <Text className='!text-black'> {session.name}</Text></Text>
-                            <Text className='text-[#0D74B1] text-base font-medium '>Bệnh: <Text className='!text-black'>{session.patient}</Text></Text>
+            <ScrollView>
+                <Card className='bg-[#E7E7E8] mt-5 p-1'>
+                    <Card.Content>
+                        <View className='flex flex-row items-center'>
+                            <Image source={require('@/assets/images/pets 4.png')} />
+                            <View className='left-4'>
+                                <Text className='text-[#0D74B1] text-base font-medium '>Tên: <Text className='!text-black'> {session.name}</Text></Text>
+                                <Text className='text-[#0D74B1] text-base font-medium '>Bệnh: <Text className='!text-black'>{session.patient}</Text></Text>
+                            </View>
+                            <View className='left-52'>
+                                <Image source={require('@/assets/images/arrow_drop_down.png')} />
+                            </View>
                         </View>
-                        <View className='left-52'>
-                            <Image source={require('@/assets/images/arrow_drop_down.png')} />
-                        </View>
-                    </View>
-                </Card.Content>
-            </Card>
+                    </Card.Content>
+                </Card>
+            </ScrollView>
+
         );
     };
     const renderContent = (session: any) => {
@@ -97,9 +122,7 @@ const Home = () => {
             </Card>
         );
     };
-    const { data, isLoading, isFetching, isError } = useGetAppointmentQuery()
     return (
-            // <ScrollView>
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                     <GestureHandlerRootView style={{}}>
                         <BottomSheetModalProvider>
@@ -137,16 +160,57 @@ const Home = () => {
                                     </View>
                                 </View>
                                 <View className=' p-5  '>
-                                    {!isFetching && ((data as any)?.data as Appointment[]).map((appointment) => (
-                                        <Card className='bg-[#E7E7E8] mb-5' onPress={handlePresentModalPress}>
-                                            <Card.Content>
-                                                <Text className='font-bold text-lg text-[#0D74B1]'>#PC{appointment.appointmentId}</Text>
-                                                <Text className='text-[#0D74B1] text-base font-medium'>Họ và tên: <Text className='!text-black'>{appointment.fullName}</Text></Text>
-                                                <Text className='text-[#0D74B1] text-base font-medium'>Số điện thoại: <Text className='!text-black'>{appointment.phoneNumber}</Text></Text>
-                                                <Image className='absolute top-6 right-4' source={require('@/assets/images/pets 4.png')} />
-                                            </Card.Content>
-                                        </Card>
-                                    ))}
+                                    <Card className='bg-[#E7E7E8] mb-5' onPress={handlePresentModalPress}>
+                                        <Card.Content>
+                                            <Text className='font-bold text-lg text-[#0D74B1]'>#PC1013</Text>
+                                            <Text className='text-[#0D74B1] text-base font-medium'>Họ và tên: <Text className='!text-black'>Ha Cogi Hieu</Text></Text>
+                                            <Text className='text-[#0D74B1] text-base font-medium'>Số điện thoại: <Text className='!text-black'>0101010101</Text></Text>
+                                            <Image className='absolute top-6 right-4' source={require('@/assets/images/pets 4.png')} />
+                                        </Card.Content>
+                                    </Card>
+                                    <Card className='bg-[#E7E7E8] mb-5'>
+                                        <Card.Content>
+                                            <Text className='font-bold text-lg text-[#0D74B1]'>#PC1012</Text>
+                                            <Text className='text-[#0D74B1] text-base font-medium'>Họ và tên: <Text className='!text-black'>Ha Cogi Hieu</Text></Text>
+                                            <Text className='text-[#0D74B1] text-base font-medium'>Số điện thoại: <Text className='!text-black'>0101010101</Text></Text>
+                                            <Image className='absolute top-6 right-4' source={require('@/assets/images/pets 4.png')} />
+                                        </Card.Content>
+                                    </Card>
+                                    <Card className='bg-[#E7E7E8] mb-5'>
+                                        <Card.Content>
+                                            <Text className='font-bold text-lg text-[#0D74B1]'>#PC1012</Text>
+                                            <Text className='text-[#0D74B1] text-base font-medium'>Họ và tên: <Text className='!text-black'>Ha Cogi Hieu</Text></Text>
+                                            <Text className='text-[#0D74B1] text-base font-medium'>Số điện thoại: <Text className='!text-black'>0101010101</Text></Text>
+                                            <Image className='absolute top-6 right-4' source={require('@/assets/images/pets 4.png')} />
+                                        </Card.Content>
+                                    </Card>
+                                    <Card className='bg-[#E7E7E8] mb-5'>
+                                        <Card.Content>
+                                            <Text className='font-bold text-lg text-[#0D74B1]'>#PC1012</Text>
+                                            <Text className='text-[#0D74B1] text-base font-medium'>Họ và tên: <Text className='!text-black'>Ha Cogi Hieu</Text></Text>
+                                            <Text className='text-[#0D74B1] text-base font-medium'>Số điện thoại: <Text className='!text-black'>0101010101</Text></Text>
+                                            <Image className='absolute top-6 right-4' source={require('@/assets/images/pets 4.png')} />
+                                        </Card.Content>
+                                    </Card>
+
+                                    <Card className='bg-[#E7E7E8] mb-5'>
+                                        <Card.Content>
+                                            <Text className='font-bold text-lg text-[#0D74B1]'>#PC1012</Text>
+                                            <Text className='text-[#0D74B1] text-base font-medium'>Họ và tên: <Text className='!text-black'>Ha Cogi Hieu</Text></Text>
+                                            <Text className='text-[#0D74B1] text-base font-medium'>Số điện thoại: <Text className='!text-black'>0101010101</Text></Text>
+                                            <Image className='absolute top-6 right-4' source={require('@/assets/images/pets 4.png')} />
+                                        </Card.Content>
+                                    </Card>
+
+                                    <Card className='bg-[#E7E7E8] mb-5'>
+                                        <Card.Content>
+                                            <Text className='font-bold text-lg text-[#0D74B1]'>#PC1012</Text>
+                                            <Text className='text-[#0D74B1] text-base font-medium'>Họ và tên: <Text className='!text-black'>Ha Cogi Hieu</Text></Text>
+                                            <Text className='text-[#0D74B1] text-base font-medium'>Số điện thoại: <Text className='!text-black'>0101010101</Text></Text>
+                                            <Image className='absolute top-6 right-4' source={require('@/assets/images/pets 4.png')} />
+                                        </Card.Content>
+                                    </Card>
+
                                     <BottomSheetModal
                                         ref={bottomSheetModalRef}
                                         index={1}
@@ -183,7 +247,6 @@ const Home = () => {
                         </BottomSheetModalProvider>
                     </GestureHandlerRootView>
                 </TouchableWithoutFeedback>
-             
     )
 }
 

@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, Image, Keyboard, TouchableWithoutFeedback } fro
 import React from 'react'
 import { Avatar, Button, TextInput } from 'react-native-paper'
 import { Controller, useForm } from 'react-hook-form';
+import { TouchableOpacity } from '@gorhom/bottom-sheet';
 import { useNavigation } from 'expo-router';
 
 const editprofile = () => {
@@ -11,10 +12,14 @@ const editprofile = () => {
     // formState: { errors },
     // reset
   } = useForm<any>();
+
+
   const navigation = useNavigation();
-  function handleBack() {
-    navigation.goBack();
-  }
+  
+  const handleBack = () => {
+    navigation.goBack(); 
+  };
+
   return (
     <>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
