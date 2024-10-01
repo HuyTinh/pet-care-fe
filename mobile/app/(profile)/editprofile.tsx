@@ -25,13 +25,13 @@ const editprofile = () => {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View className='w-full h-full'>
           <View style={styles.square}>
-            <View className='flex'>
-            <View>
-              <TouchableOpacity onPress={handleBack}> 
-                <Image className='w-5 h-5 mt-16 ml-6' source={require('@/assets/images/back.png')} />
-              </TouchableOpacity>
-            </View>
-              <View className='items-center mt-[40px] '>
+            <View className='flex static'>
+              <View className='absolute top-12'>
+                <Button onPress={handleBack}>
+                  <Image className='w-5 h-5 mt-7 ml-28' source={require('@/assets/images/back2.png')} />
+                </Button>
+              </View>
+              <View className='items-center !mt-[120px] '>
                 <Avatar.Image size={100} source={require('@/assets/images/26.png')} />
                 <View>
                   <Button className='absolute mt-[-35px]' onPress={() => console.log("")}>
@@ -52,10 +52,18 @@ const editprofile = () => {
                 }}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInput
-                    mode='outlined'
                     onBlur={onBlur}
                     value={value}
                     onChangeText={onChange}
+                    underlineColor="transparent"
+                    activeUnderlineColor="transparent"
+                    selectionColor="#0099CF"
+                    className='rounded-xl'
+                    style={{
+                      backgroundColor: "white",
+                      borderWidth: 1,
+                      borderColor: '#606060',
+                    }}
                   />
                 )}
                 name="username"
@@ -70,10 +78,18 @@ const editprofile = () => {
                 }}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInput
-                    mode='outlined'
                     onBlur={onBlur}
                     value={value}
                     onChangeText={onChange}
+                    underlineColor="transparent"
+                    activeUnderlineColor="transparent"
+                    selectionColor="#0099CF"
+                    className='rounded-xl'
+                    style={{
+                      backgroundColor: "white",
+                      borderWidth: 1,
+                      borderColor: '#606060',
+                    }}
                   />
                 )}
                 name="email"
@@ -88,10 +104,18 @@ const editprofile = () => {
                 }}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInput
-                    mode='outlined'
                     onBlur={onBlur}
                     value={value}
                     onChangeText={onChange}
+                    underlineColor="transparent"
+                    activeUnderlineColor="transparent"
+                    selectionColor="#0099CF"
+                    className='rounded-xl'
+                    style={{
+                      backgroundColor: "white",
+                      borderWidth: 1,
+                      borderColor: '#606060',
+                    }}
                   />
                 )}
                 name="username"
@@ -106,10 +130,18 @@ const editprofile = () => {
                 }}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInput
-                    mode='outlined'
                     onBlur={onBlur}
                     value={value}
                     onChangeText={onChange}
+                    underlineColor="transparent"
+                    activeUnderlineColor="transparent"
+                    selectionColor="#0099CF"
+                    className='rounded-xl'
+                    style={{
+                      backgroundColor: "white",
+                      borderWidth: 1,
+                      borderColor: '#606060',
+                    }}
                   />
                 )}
                 name="birthday"
