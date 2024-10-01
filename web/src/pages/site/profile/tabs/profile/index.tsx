@@ -35,6 +35,7 @@ export const ProfileTab = () => {
   const [updateProfileRequest, { isLoading }] =
     useUpdateCustomerProfileMutation();
 
+  console.log(customerProfileResponse);
   const { openModalPetCare } = useModalPetCare();
 
   useEffect(() => {
@@ -164,6 +165,21 @@ export const ProfileTab = () => {
                     className="input input-bordered w-full max-w-xs"
                     {...register("phone_number")}
                   />
+                </label>
+                <label className="form-control w-full max-w-xs">
+                  <div className="label">
+                    <span className="label-text">Gender:</span>
+                  </div>
+                  <select
+                    className="select select-bordered w-full"
+                    {...register("gender")}
+                  >
+                    <option disabled selected>
+                      Your gender?
+                    </option>
+                    <option value={"MALE"}>Male</option>
+                    <option value={"FEMALE"}>Female</option>
+                  </select>
                 </label>
               </div>
               <div className="flex gap-x-5 py-5">

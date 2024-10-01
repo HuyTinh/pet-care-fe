@@ -35,13 +35,12 @@ const fontConfig = {
 
 const theme = {
   ...DefaultTheme,
-  fonts: configureFonts(fontConfig),
 };
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
-    Kodchasan: require("../assets/fonts/Kodchasan-Regular.ttf"),
+    // Kodchasan: require("../assets/fonts/Kodchasan-Regular.ttf"),
   });
 
   useEffect(() => {
@@ -77,11 +76,4 @@ export default function RootLayout() {
       </ThemeProvider>
     </BottomSheetModalProvider>
   );
-}
-function configureFonts(fontConfig: {
-  web: { regular: { fontFamily: string; fontWeight: string } };
-  ios: { regular: { fontFamily: string; fontWeight: string } };
-  android: { regular: { fontFamily: string; fontWeight: string } };
-}) {
-  throw new Error("Function not implemented.");
 }

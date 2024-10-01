@@ -27,7 +27,7 @@ export const appointmentApi = createApi({
       },
     }),
     getAppointmentsByStatus: build.query<APIResponse, String>({
-      query: (body) => `appointment/status/${body}`,
+      query: (body) => `/appointment-service/appointment/status/${body}`,
       providesTags(result) {
         if (result) {
           const final = [
@@ -44,7 +44,7 @@ export const appointmentApi = createApi({
       },
     }),
     isCheckin: build.query<APIResponse, string>({
-      query: (body) => `appointment/isCheckin/${body}`,
+      query: (body) => `/appointment-service/appointment/isCheckin/${body}`,
     }),
     createAppointment: build.mutation<IAppointment, any>({
       query(body) {
@@ -78,7 +78,10 @@ export const appointmentApi = createApi({
       ],
     }),
     getHospitalService: build.query<APIResponse, void>({
-      query: () => `appointment/hospital-service`,
+      query: () => `/appointment-service/hospital-service`,
+    }),
+    getSpecies: build.query<APIResponse, void>({
+      query: () => `/appointment-service/specie`,
     }),
     getAppointmentByCustomerId: build.query<
       APIResponse,
@@ -86,7 +89,7 @@ export const appointmentApi = createApi({
     >({
       query: (body) => {
         return {
-          url: `appointment/account/${body.userId}`,
+          url: `/appointment-service/appointment/account/${body.userId}`,
           params: body.params,
         };
       },
@@ -115,4 +118,5 @@ export const {
   useGetHospitalServiceQuery,
   useCreateAppointmentMutation,
   useGetAppointmentByCustomerIdQuery,
+  useGetSpeciesQuery,
 } = appointmentApi;

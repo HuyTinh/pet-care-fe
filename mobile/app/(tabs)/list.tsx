@@ -9,6 +9,9 @@ import {
     BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { useGetAppointmentQuery } from '@/pharmacist/pharmacist.service';
+import { Appointment } from '@/pharmacist/appointment/Appointment.type'; 
+
 
 const Home = () => {
     const [searchQuery, setSearchQuery] = React.useState('');
@@ -120,8 +123,6 @@ const Home = () => {
         );
     };
     return (
-        <>
-            <ScrollView className="flex-1 mt-10">
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                     <GestureHandlerRootView style={{}}>
                         <BottomSheetModalProvider>
@@ -139,6 +140,7 @@ const Home = () => {
                                         <Avatar.Image size={55} source={require('@/assets/images/26.png')} />
                                     </View>
                                 </View>
+                                <ScrollView>
                                 <View className='px-3 py-1 static'>
                                     <View className='flex-row items-center'>
                                         <View>
@@ -240,13 +242,11 @@ const Home = () => {
                                         </BottomSheetView>
                                     </BottomSheetModal>
                                 </View >
+                                </ScrollView>
                             </View >
                         </BottomSheetModalProvider>
                     </GestureHandlerRootView>
                 </TouchableWithoutFeedback>
-            </ScrollView>
-
-        </>
     )
 }
 

@@ -5,6 +5,7 @@ import {
   displayPlusDate,
 } from "../../../../../../utils/date";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useEffect } from "react";
 
 export const EditAppointmentModal = ({
   selectedAppointment,
@@ -15,12 +16,21 @@ export const EditAppointmentModal = ({
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm<any>();
   const onSubmit: SubmitHandler<any> = (data) => console.log(data);
   const closeEditAppointmentModal = () => {
     (document.getElementById("edit_appointment_modal") as any).close();
   };
+
+  useEffect(() => {
+    reset({
+      appointment_date: displayInputDate(
+        new Date(selectedAppointment.appointment_date),
+      ),
+    });
+  }, []);
 
   return (
     <div>
@@ -39,13 +49,14 @@ export const EditAppointmentModal = ({
                     className="input input-bordered w-full"
                     min={displayInputDate(new Date())}
                     max={displayInputDate(displayPlusDate(new Date(), 60))}
+                    {...register("appointment_date")}
                   />
                 </label>
                 <label className="space-y-2">
                   <div>Time:</div>
                   <select
                     className="select select-bordered"
-                    {...register("apo")}
+                    {...register("appointment_time")}
                   >
                     {time.map((val, index) => (
                       <option key={index} value={val.value}>
