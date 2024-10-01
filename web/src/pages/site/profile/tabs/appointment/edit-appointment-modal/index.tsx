@@ -29,8 +29,11 @@ export const EditAppointmentModal = ({
       appointment_date: displayInputDate(
         new Date(selectedAppointment.appointment_date),
       ),
+      appointment_time: selectedAppointment.appointment_time,
     });
-  }, []);
+
+    console.log(selectedAppointment.appointment_time);
+  }, [selectedAppointment]);
 
   return (
     <div>
@@ -58,8 +61,8 @@ export const EditAppointmentModal = ({
                     className="select select-bordered"
                     {...register("appointment_time")}
                   >
-                    {time.map((val, index) => (
-                      <option key={index} value={val.value}>
+                    {(time as any[])?.map((val, index) => (
+                      <option key={index + 10} value={val.time}>
                         {val.label}
                       </option>
                     ))}
