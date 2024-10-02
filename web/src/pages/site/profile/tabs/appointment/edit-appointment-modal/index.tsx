@@ -12,13 +12,7 @@ export const EditAppointmentModal = ({
 }: {
   selectedAppointment: IAppointment;
 }) => {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    reset,
-    formState: { errors },
-  } = useForm<any>();
+  const { register, reset } = useForm<any>();
   const onSubmit: SubmitHandler<any> = (data) => console.log(data);
   const closeEditAppointmentModal = () => {
     (document.getElementById("edit_appointment_modal") as any).close();

@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { useGetAppointmentByCustomerIdQuery } from "../../../../admin/receptionist/appointment.service";
 import { RootState } from "../../../../../store/store";
-import { displayCustomDate, displayInputDate } from "../../../../../utils/date";
+import { displayInputDate } from "../../../../../utils/date";
 import { AnimatePresence, motion } from "framer-motion";
 import { FcCalendar } from "react-icons/fc";
 import { useState } from "react";

@@ -27,8 +27,7 @@ export const BookingPage = () => {
     useGetHospitalServiceQuery();
   const { data: specieData } = useGetSpeciesQuery();
 
-  const [createAppointment, { isError, isSuccess }] =
-    useCreateAppointmentMutation();
+  const [createAppointment, { isError }] = useCreateAppointmentMutation();
   const isAuth = useSelector((state: RootState) => state.authentication.isAuth);
   const userId = useSelector((state: RootState) => state.authentication.userId);
   const { data: customerProfileData } = useGetCustomerProfileQuery(
