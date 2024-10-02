@@ -35,7 +35,6 @@ export const ProfileTab = () => {
   const [updateProfileRequest, { isLoading }] =
     useUpdateCustomerProfileMutation();
 
-  console.log(customerProfileResponse);
   const { openModalPetCare } = useModalPetCare();
 
   useEffect(() => {
@@ -78,7 +77,12 @@ export const ProfileTab = () => {
             <div className="flex">
               <div className="avatar">
                 <div className="mask mask-squircle w-24">
-                  <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                  <img
+                    src={
+                      customerProfileResponse?.result.image_url ||
+                      "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                    }
+                  />
                 </div>
               </div>
               <div className="flex flex-1 flex-col justify-center gap-y-2 px-4">
