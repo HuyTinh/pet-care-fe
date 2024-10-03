@@ -33,7 +33,7 @@ export const PetPicker = ({ pets, setPets }: PetPickerProps) => {
           <div className="flex flex-1 flex-col">
             <span className="pb-2">Pets:</span>
             <div className="flex h-fit flex-1 items-center gap-x-2">
-              {!pets.length ? (
+              {!pets?.length ? (
                 <button className="btn btn-sm rounded-badge" type="button">
                   Inbox
                   <div

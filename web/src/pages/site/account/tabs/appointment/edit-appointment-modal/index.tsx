@@ -28,8 +28,7 @@ export const EditAppointmentModal = ({
       ),
       appointment_time: selectedAppointment.appointment_time,
     });
-
-    console.log(selectedAppointment.appointment_time);
+    setPets((selectedAppointment as any)?.pets);
   }, [selectedAppointment]);
 
   return (
