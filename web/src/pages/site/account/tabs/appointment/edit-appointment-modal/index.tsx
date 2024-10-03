@@ -10,6 +10,7 @@ import { PetPicker } from "../../../../../../components/pet-picker";
 import { IPet } from "../../../../../../types/pet.type";
 import { IHospitalService } from "../../../../../../types/hospital-service.type";
 import { ServicePicker } from "../../../../../../components/service-picker";
+import { useUpdateAppointmentMutation } from "../../../../../admin/receptionist/appointment.service";
 
 export const EditAppointmentModal = ({
   selectedAppointment,
@@ -22,6 +23,8 @@ export const EditAppointmentModal = ({
   const closeEditAppointmentModal = () => {
     (document.getElementById("edit_appointment_modal") as any).close();
   };
+
+  const [updateAppointment] = useUpdateAppointmentMutation();
 
   useEffect(() => {
     reset({
@@ -78,9 +81,11 @@ export const EditAppointmentModal = ({
                 <button
                   className="btn btn-outline"
                   onClick={() => {
-                    console.log({
+                    updateAppointment({
+                      id: selectedAppointment.id,
                       ...getValues(),
                       pets: pets,
+                      servies: services,
                     });
                   }}
                   type="button"

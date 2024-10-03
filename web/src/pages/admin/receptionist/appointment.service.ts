@@ -67,7 +67,7 @@ export const appointmentApi = createApi({
     updateAppointment: build.mutation<IAppointment, any>({
       query(body) {
         return {
-          url: "customer/update-appointment",
+          url: `/appointment-service/appointment/${body.id}`,
           method: "PUT",
           body,
         };
@@ -117,6 +117,7 @@ export const {
   useIsCheckinQuery,
   useGetHospitalServiceQuery,
   useCreateAppointmentMutation,
+  useUpdateAppointmentMutation,
   useGetAppointmentByCustomerIdQuery,
   useGetSpeciesQuery,
 } = appointmentApi;
