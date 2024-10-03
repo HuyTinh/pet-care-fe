@@ -4,10 +4,12 @@ import {
   displayInputDate,
   displayPlusDate,
 } from "../../../../../../utils/date";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { PetPicker } from "../../../../../../components/pet-picker";
 import { IPet } from "../../../../../../types/pet.type";
+import { IHospitalService } from "../../../../../../types/hospital-service.type";
+import { ServicePicker } from "../../../../../../components/service-picker";
 
 export const EditAppointmentModal = ({
   selectedAppointment,
@@ -15,8 +17,8 @@ export const EditAppointmentModal = ({
   selectedAppointment: IAppointment;
 }) => {
   const [pets, setPets] = useState<IPet[]>([]);
-  const { register, reset } = useForm<any>();
-  const onSubmit: SubmitHandler<any> = (data) => console.log(data);
+  const [services, setServices] = useState<IHospitalService[]>([]);
+  const { register, reset, getValues } = useForm<any>();
   const closeEditAppointmentModal = () => {
     (document.getElementById("edit_appointment_modal") as any).close();
   };
@@ -29,13 +31,14 @@ export const EditAppointmentModal = ({
       appointment_time: selectedAppointment.appointment_time,
     });
     setPets((selectedAppointment as any)?.pets);
+    setServices((selectedAppointment as any)?.services);
   }, [selectedAppointment]);
 
   return (
     <div>
       <dialog id="edit_appointment_modal" className="modal backdrop:!hidden">
-        <div className="modal-box flex max-w-md flex-col p-0">
-          <div className="relative p-5">
+        <div className="modal-box flex max-w-xl flex-col p-0">
+          <form className="relative p-5">
             <div className="text-center text-2xl font-bold">
               Update Appointment
             </div>
@@ -68,8 +71,25 @@ export const EditAppointmentModal = ({
               <div>
                 <PetPicker pets={pets} setPets={setPets} />
               </div>
+              <div>
+                <ServicePicker services={services} setServices={setServices} />
+              </div>
+              <div>
+                <button
+                  className="btn btn-outline"
+                  onClick={() => {
+                    console.log({
+                      ...getValues(),
+                      pets: pets,
+                    });
+                  }}
+                  type="button"
+                >
+                  Save
+                </button>
+              </div>
             </div>
-          </div>
+          </form>
         </div>
 
         <form method="dialog" className="modal-backdrop">
