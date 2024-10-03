@@ -5,13 +5,16 @@ import {
   displayPlusDate,
 } from "../../../../../../utils/date";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { PetPicker } from "../../../../../../components/pet-picker";
+import { IPet } from "../../../../../../types/pet.type";
 
 export const EditAppointmentModal = ({
   selectedAppointment,
 }: {
   selectedAppointment: IAppointment;
 }) => {
+  const [pets, setPets] = useState<IPet[]>([]);
   const { register, reset } = useForm<any>();
   const onSubmit: SubmitHandler<any> = (data) => console.log(data);
   const closeEditAppointmentModal = () => {
@@ -63,7 +66,9 @@ export const EditAppointmentModal = ({
                   </select>
                 </label>
               </div>
-              <div></div>
+              <div>
+                <PetPicker pets={pets} setPets={setPets} />
+              </div>
             </div>
           </div>
         </div>
