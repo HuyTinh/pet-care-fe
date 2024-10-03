@@ -15,7 +15,7 @@ export const ServicePicker = ({
   services,
   setServices,
 }: ServicePickerProps) => {
-  const { register, getValues, reset } = useForm<IHospitalService>();
+  const { reset } = useForm<IHospitalService>();
 
   const { data: hospitalServicesData } = useGetHospitalServiceQuery();
 
