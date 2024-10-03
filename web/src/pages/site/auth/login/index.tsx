@@ -78,7 +78,7 @@ export const ClientLoginForm = ({
               className="grow"
               placeholder="Email"
               {...register("email", {
-                required: "Email is empty",
+                required: "Email is empty!",
               })}
             />
           </label>
@@ -96,7 +96,7 @@ export const ClientLoginForm = ({
               className="grow"
               placeholder="Password"
               {...register("password", {
-                required: "Password",
+                required: "Password is empty!",
               })}
             />
           </label>

@@ -10,7 +10,7 @@ export const appointmentApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_BACKEND_URL }),
   endpoints: (build) => ({
     getAppointments: build.query<APIResponse, void>({
-      query: () => "appointment",
+      query: () => "/appointment-service/appointment",
       providesTags(result) {
         if (result) {
           const final = [
