@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
-import { useGetAppointmentsQuery } from "../../appointment.service";
+import {
+  // useGenerateApointmentPDFMutation,
+  useGetAppointmentsQuery,
+} from "../../appointment.service";
 import { IAppointment } from "../../../../../types/appoiment.type";
 import { displayCustomDate } from "../../../../../utils/date";
 import { usePdfGenerator } from "../../../../../hooks/pdf-generator";
@@ -17,6 +20,8 @@ export const AppointmentManagement = () => {
   const stompClient = WebSocketManager.getInstance().getClient();
   const { data: appointmentsData, isFetching: isFetchAppointmentsData } =
     useGetAppointmentsQuery();
+
+  // const [genPDF] = useGenerateApointmentPDFMutation();
 
   const { generatePDF } = usePdfGenerator();
   useEffect(() => {
@@ -52,6 +57,27 @@ export const AppointmentManagement = () => {
 
         stompClient.subscribe("/topic/exportPDF/" + sessionId, (message) => {
           if (Number(message.body)) {
+            // genPDF({
+            //   appointment_number: 124,
+            //   appointment_id: message.body,
+            // }).then((res: any) => {
+            //   // Create a new link
+            //   const anchor = document.createElement("a");
+
+            //   anchor.href = res.data.response;
+            //   anchor.download = "baba";
+            //   anchor.target = "_blank";
+            //   anchor.rel = "noreferrer";
+
+            //   // Append to the DOM
+            //   document.body.appendChild(anchor);
+
+            //   // Trigger `click` event
+            //   anchor.click();
+
+            //   // Remove element from DOM
+            //   document.body.removeChild(anchor);
+            // });
             generatePDF(Number(message.body));
           }
         });
@@ -158,6 +184,10 @@ export const AppointmentManagement = () => {
                         <span className="underline">
                           {displayCustomDate(new Date(ap.appointment_date))}
                         </span>
+                      </div>
+                      <div className="truncate">
+                        <span>Time: </span>
+                        <span className="underline">{ap.appointment_time}</span>
                       </div>
                     </td>
                     <td>
