@@ -22,19 +22,14 @@ export const PetPicker = ({ pets, setPets }: PetPickerProps) => {
   };
 
   return (
-    <motion.div
-      className="h-16 overflow-hidden py-2"
-      animate={{
-        height: expand ? "auto" : "6rem",
-      }}
-    >
-      <form action="" className="space-y-5">
+    <motion.div className="overflow-hidden">
+      <form action="" className="space-y-2">
         <div className="flex w-full items-center rounded-lg border p-2">
           <div className="flex flex-1 flex-col">
             <span className="pb-2">Pets:</span>
-            <div className="flex h-fit flex-1 items-center gap-x-2">
+            <div className="flex flex-1 flex-wrap items-center gap-2">
               {!pets?.length ? (
-                <button className="btn btn-sm rounded-badge" type="button">
+                <span className="flex cursor-default items-center justify-around gap-x-1 rounded-badge bg-base-200 px-2 text-sm font-semibold">
                   Inbox
                   <div
                     className="avatar"
@@ -44,13 +39,12 @@ export const PetPicker = ({ pets, setPets }: PetPickerProps) => {
                   >
                     <MdCancel />
                   </div>
-                </button>
+                </span>
               ) : (
                 pets.map((p, index) => (
-                  <button
-                    className="btn btn-sm rounded-badge"
+                  <span
+                    className="flex cursor-pointer items-center justify-around gap-x-1 rounded-badge bg-base-200 px-2 text-sm font-semibold"
                     key={index}
-                    type="button"
                     onClick={() => {
                       reset(p);
                     }}
@@ -65,7 +59,7 @@ export const PetPicker = ({ pets, setPets }: PetPickerProps) => {
                     >
                       <MdCancel />
                     </div>
-                  </button>
+                  </span>
                 ))
               )}
             </div>
@@ -86,8 +80,13 @@ export const PetPicker = ({ pets, setPets }: PetPickerProps) => {
             </button>
           </div>
         </div>
-        <div className="space-y-2">
-          <div className="flex justify-between gap-x-2 px-2">
+        <motion.div
+          className="space-y-2 overflow-hidden"
+          animate={{
+            height: expand ? "auto" : "0",
+          }}
+        >
+          <div className="flex justify-between gap-x-2 px-2 py-1">
             <label className="input input-bordered flex flex-1 items-center gap-2">
               <input
                 type="text"
@@ -115,12 +114,6 @@ export const PetPicker = ({ pets, setPets }: PetPickerProps) => {
           </div>
           <div className="flex justify-between gap-x-2 px-2">
             <label className="flex flex-1 items-center">
-              {/* <input
-                type="text"
-                className="w-full text-sm"
-                placeholder="Species"
-                {...register("species")}
-              /> */}
               <select
                 className="select select-bordered w-full"
                 {...register("species", {
@@ -148,7 +141,7 @@ export const PetPicker = ({ pets, setPets }: PetPickerProps) => {
               </button>
             </div>
           </div>
-        </div>
+        </motion.div>
       </form>
     </motion.div>
   );
