@@ -108,6 +108,29 @@ export const appointmentApi = createApi({
         return final;
       },
     }),
+    generateApointmentPDF: build.mutation<IAppointment, any>({
+      query(body) {
+        return {
+          url: `https://us1.pdfgeneratorapi.com/api/v4/documents/generate`,
+          method: "POST",
+          headers: {
+            Authorization:
+              " Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiI4YTllNWI3YzRhNmE1Yzk4NzA4MmY2NGI0YzliYjUzODM1NTcyOTRmYjNkZDQ1YWY0ZDVmMjUzNjg4YTM0YjVlIiwic3ViIjoidGluaG50aDE1MTEyMDAzQGdtYWlsLmNvbSIsImV4cCI6MjcyODA4MzM0OH0.Qmk4eGL9RIqS1BgpHeT6zVp7JfVo7HCkU_KoL2u6ZFI",
+          },
+          body: {
+            template: {
+              id: "1220484",
+              data: {
+                appointment_number: body.appointment_number,
+                appointment_id: body.appointment_id,
+              },
+            },
+            format: "pdf",
+            output: "url",
+          },
+        };
+      },
+    }),
   }),
 });
 
@@ -120,4 +143,5 @@ export const {
   useUpdateAppointmentMutation,
   useGetAppointmentByCustomerIdQuery,
   useGetSpeciesQuery,
+  useGenerateApointmentPDFMutation,
 } = appointmentApi;

@@ -18,7 +18,12 @@ export const PetPicker = ({ pets, setPets }: PetPickerProps) => {
   const [expand, setExpand] = useState(false);
   const addPets = (data: IPet) => {
     setPets((prevState) => [...prevState, data]);
-    reset();
+    reset({
+      name: "",
+      weight: "",
+      age: "",
+      species: "",
+    });
   };
 
   return (
@@ -53,8 +58,11 @@ export const PetPicker = ({ pets, setPets }: PetPickerProps) => {
                     <div
                       className="avatar"
                       onClick={(e) => {
-                        e.stopPropagation();
-                        alert(p.name);
+                        setPets((prevState) =>
+                          prevState.filter(
+                            (pet, petIndex) => petIndex !== index,
+                          ),
+                        );
                       }}
                     >
                       <MdCancel />
