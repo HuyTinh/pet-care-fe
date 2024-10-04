@@ -8,7 +8,7 @@ class WebSocketManager {
 
   private constructor() {
     const socket = new SockJS(
-      "http://localhost:8082/api/v1/appointment-service/ws",
+      "https://tsm885rc-8082.asse.devtunnels.ms/api/v1/appointment-service/ws",
     );
     this.stompClient = new Client({
       webSocketFactory: () => socket as any,

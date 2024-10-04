@@ -9,23 +9,24 @@ export const usePdfGenerator = () => {
     pdf.addFont("Amiri-Regular.ttf", "Amiri", "normal");
     pdf.setFont("Amiri");
 
-    // Thêm tiêu đề
-    pdf.setFontSize(12);
-    // Thêm số phòng
-
-    // Thêm tiêu đề
-    // pdf.text("Thông tin cuộc hiển", 10, 10);
     const pageWidth = pdf.internal.pageSize.getWidth();
-    // Thêm số cuộc hẹn
-    // Thêm số cuộc hẹn và căn giữa
-    pdf.setFontSize(18);
+
     const appointmentText = `#${appointmentId}`;
     const appointmentWidth = pdf.getTextWidth(appointmentText);
     const appointmentX = (pageWidth - appointmentWidth) / 2; // Tính toán vị trí x
-    pdf.text(appointmentText, appointmentX, 10); // Vị trí y = 50
 
-    // pdf.setFontSize(14);
-    // pdf.text(`Room number: ${3}`, appointmentX - 50, 20);
+    // Tiêu đề phiếu khám
+    pdf.setFontSize(18);
+    pdf.text("Pet Care Clinic - Appointment Form", 38, 20);
+
+    pdf.setFontSize(16);
+    pdf.text("-------------------- Information ----------------------", 10, 30);
+
+    // Mã số khám
+    pdf.setFontSize(12);
+    pdf.text(`- ID: ${appointmentText}`, 40, 50);
+    pdf.text(`- Date: ${appointmentDetails.date}`, 40, 60);
+    pdf.text(`- Time: ${appointmentDetails.time}`, 40, 70);
 
     var image = new Image();
     image.src =
@@ -34,14 +35,21 @@ export const usePdfGenerator = () => {
 
     pdf.addImage({
       imageData: image,
-      x: appointmentX - 10,
-      y: 20,
-      width: 32,
-      height: 32,
+      x: appointmentX + 26,
+      y: 40,
+      width: 36,
+      height: 36,
     });
 
     // Lưu PDF
     pdf.save("appointment.pdf");
+  };
+
+  // Ví dụ dữ liệu
+  const appointmentDetails = {
+    appointmentId: "A12345",
+    date: "04/10/2024",
+    time: "10:30 AM",
   };
 
   return { generatePDF };
