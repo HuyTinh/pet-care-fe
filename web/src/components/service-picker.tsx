@@ -21,23 +21,25 @@ export const ServicePicker = ({
 
   const [expand, setExpand] = useState(false);
   const addServices = (data: IHospitalService) => {
-    console.log(services);
     setServices((prevState) => [...prevState, data]);
   };
 
+  const removeServices = (indexService: number) => {
+    setServices((prevState) => {
+      return prevState.filter((val, index) => index !== indexService);
+    });
+  };
+
   return (
-    <motion.div className="overflow-hidden py-2">
-      <form action="" className="space-y-5">
+    <motion.div className="overflow-hidden">
+      <form action="">
         <div className="flex w-full items-center rounded-lg border p-2">
           <div className="flex flex-1 flex-col">
             <span className="pb-2">Services:</span>
             <div className="flex flex-1 flex-wrap items-center gap-2">
               {!services?.length ? (
-                <button
-                  className="btn btn-sm flex-1 rounded-badge"
-                  type="button"
-                >
-                  Inbox
+                <span className="flex cursor-default items-center justify-around gap-x-1 rounded-badge bg-base-200 px-2 text-sm font-semibold">
+                  Service
                   <div
                     className="avatar"
                     onClick={(e) => {
@@ -46,28 +48,27 @@ export const ServicePicker = ({
                   >
                     <MdCancel />
                   </div>
-                </button>
+                </span>
               ) : (
                 services.map((s, index) => (
-                  <button
-                    className="btn btn-sm rounded-badge"
+                  <span
+                    className="flex cursor-default items-center justify-around gap-x-1 rounded-badge bg-base-200 px-2 text-sm font-semibold"
                     key={index}
-                    type="button"
                     onClick={() => {
                       reset(s);
                     }}
                   >
-                    {s.name}
+                    <div>{s.name}</div>
                     <div
-                      className="avatar"
+                      className="avatar cursor-pointer"
                       onClick={(e) => {
                         e.stopPropagation();
-                        alert(s.name);
+                        removeServices(index);
                       }}
                     >
                       <MdCancel />
                     </div>
-                  </button>
+                  </span>
                 ))
               )}
             </div>
@@ -89,27 +90,39 @@ export const ServicePicker = ({
           </div>
         </div>
         <motion.div
-          className="0 space-y-2 overflow-hidden"
+          className="space-y-2 overflow-hidden"
           animate={{
             height: expand ? "auto" : "0",
           }}
         >
-          <div className="flex justify-between gap-x-2 px-2">
+          <div className="flex justify-between gap-x-2 px-2 py-1">
             <label className="flex flex-1 items-center">
               <select
                 className="select select-bordered w-full"
                 onChange={(e) => {
                   if (e.target.value !== "") {
-                    addServices(hospitalServicesData?.result[e.target.value]);
+                    addServices(
+                      hospitalServicesData?.result?.find(
+                        (val: any) => val.name === e.target.value,
+                      ),
+                    );
+                    e.target.value = "";
                   }
                 }}
               >
                 <option value={""}>Services ?</option>
-                {(hospitalServicesData?.result as any[])?.map((val, index) => (
-                  <option key={index} value={index}>
-                    {val?.name}
-                  </option>
-                ))}
+
+                {services?.length < 3 &&
+                  (hospitalServicesData?.result as any[])
+                    ?.filter(
+                      (val) =>
+                        !services.map((val) => val.name).includes(val.name),
+                    )
+                    .map((val, index) => (
+                      <option key={index} value={val?.name}>
+                        {val?.name}
+                      </option>
+                    ))}
               </select>
             </label>
           </div>

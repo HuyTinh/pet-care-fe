@@ -11,6 +11,7 @@ import { IPet } from "../../../../../../types/pet.type";
 import { IHospitalService } from "../../../../../../types/hospital-service.type";
 import { ServicePicker } from "../../../../../../components/service-picker";
 import { useUpdateAppointmentMutation } from "../../../../../admin/receptionist/appointment.service";
+import { toast } from "react-toastify";
 
 export const EditAppointmentModal = ({
   selectedAppointment,
@@ -24,9 +25,18 @@ export const EditAppointmentModal = ({
     (document.getElementById("edit_appointment_modal") as any).close();
   };
 
-  const [updateAppointment] = useUpdateAppointmentMutation();
+  const [updateAppointment, { isSuccess }] = useUpdateAppointmentMutation();
 
   useEffect(() => {
+    isSuccess &&
+      toast.success("Change detail appointment successful", {
+        position: "top-right",
+      });
+  }, [isSuccess]);
+
+  useEffect(() => {
+    console.log(13);
+
     reset({
       appointment_date: displayInputDate(
         new Date(selectedAppointment.appointment_date),
@@ -43,12 +53,18 @@ export const EditAppointmentModal = ({
         <div className="modal-box flex max-w-xl flex-col p-0">
           <form className="relative p-5">
             <div className="text-center text-2xl font-bold">
-              Update Appointment
+              Change Detail Appointment
             </div>
-            <div className="p-5">
+            <div className="space-y-2 p-5">
               <div className="flex gap-x-2">
                 <label className="flex-1 space-y-2">
-                  <div>Date:</div>
+                  <div>
+                    Date{" "}
+                    <span className="font-bold underline">
+                      (month/day/year)
+                    </span>
+                    :
+                  </div>
                   <input
                     type="date"
                     className="input input-bordered w-full"
@@ -71,21 +87,23 @@ export const EditAppointmentModal = ({
                   </select>
                 </label>
               </div>
-              <div>
-                <PetPicker pets={pets} setPets={setPets} />
-              </div>
-              <div>
-                <ServicePicker services={services} setServices={setServices} />
-              </div>
+              <PetPicker pets={pets} setPets={setPets} />
+              <ServicePicker services={services} setServices={setServices} />
               <div>
                 <button
                   className="btn btn-outline"
                   onClick={() => {
                     updateAppointment({
                       id: selectedAppointment.id,
-                      ...getValues(),
+                      appointment_date: displayInputDate(
+                        new Date(getValues("appointment_date")),
+                      ),
+                      appointment_time: time.find(
+                        (val: any) =>
+                          val.time === getValues("appointment_time"),
+                      )?.gmt_time,
                       pets: pets,
-                      servies: services,
+                      services: services,
                     });
                   }}
                   type="button"
