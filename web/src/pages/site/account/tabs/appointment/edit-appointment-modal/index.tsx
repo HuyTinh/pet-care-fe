@@ -35,8 +35,6 @@ export const EditAppointmentModal = ({
   }, [isSuccess]);
 
   useEffect(() => {
-    console.log(13);
-
     reset({
       appointment_date: displayInputDate(
         new Date(selectedAppointment.appointment_date),

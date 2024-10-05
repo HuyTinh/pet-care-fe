@@ -10,6 +10,7 @@ import { FcCalendar } from "react-icons/fc";
 import { motion } from "framer-motion";
 import { EditAppointmentModal } from "./edit-appointment-modal";
 import WebSocketManager from "../../../../../config/web-socket-manager";
+import { QRScanModal } from "./qr-scan";
 
 export const AppointmentManagement = () => {
   const [appointments, setAppointments] = useState<IAppointment[]>([]);
@@ -108,6 +109,16 @@ export const AppointmentManagement = () => {
   return (
     <>
       <div className="h-1/6">
+        <button
+          className="btn btn-outline"
+          onClick={() => {
+            (
+              document.getElementById("qr_scan_appointment_modal") as any
+            ).showModal();
+          }}
+        >
+          QR Scanner
+        </button>
         {/* <button
                 className="btn"
                 onClick={() =>
@@ -234,6 +245,11 @@ export const AppointmentManagement = () => {
           </table>
         </div>
         <EditAppointmentModal appointment={selectedAppointment} />
+        <QRScanModal
+          qrScanOpen={
+            (document.getElementById("qr_scan_appointment_modal") as any)?.open
+          }
+        />
       </div>
     </>
   );
