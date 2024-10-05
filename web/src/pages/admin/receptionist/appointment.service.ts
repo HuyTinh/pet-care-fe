@@ -108,6 +108,13 @@ export const appointmentApi = createApi({
         return final;
       },
     }),
+    getAppointmentById: build.query<APIResponse, { appointmentId: any }>({
+      query: (body) => {
+        return {
+          url: `/appointment-service/appointment/${body.appointmentId}`,
+        };
+      },
+    }),
     generateApointmentPDF: build.mutation<IAppointment, any>({
       query(body) {
         return {
@@ -144,4 +151,5 @@ export const {
   useGetAppointmentByCustomerIdQuery,
   useGetSpeciesQuery,
   useGenerateApointmentPDFMutation,
+  useGetAppointmentByIdQuery,
 } = appointmentApi;
