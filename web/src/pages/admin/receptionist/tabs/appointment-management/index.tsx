@@ -30,6 +30,10 @@ export const AppointmentManagement = () => {
     return () => {};
   }, [appointmentsData?.result]);
 
+  console.log(
+    (document.getElementById("qr_scan_appointment_modal") as any)?.open,
+  );
+
   useEffect(() => {
     if (stompClient) {
       stompClient.onConnect = () => {
@@ -119,6 +123,7 @@ export const AppointmentManagement = () => {
         >
           QR Scanner
         </button>
+
         {/* <button
                 className="btn"
                 onClick={() =>

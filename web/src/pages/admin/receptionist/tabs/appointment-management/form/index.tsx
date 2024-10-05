@@ -3,12 +3,12 @@ import {
   useGetHospitalServiceQuery,
   useCreateAppointmentMutation,
 } from "../../../appointment.service";
-import { PetPicker } from "./pet-picker";
 import { useForm, SubmitHandler } from "react-hook-form";
 import _ from "lodash";
 import { useState } from "react";
 import { IPet } from "../../../../../../types/pet.type";
 import { IHospitalService } from "../../../../../../types/hospital-service.type";
+import { PetPicker } from "../../../../../../components/pet-picker";
 
 export const AppoimentManageForm = () => {
   const {
