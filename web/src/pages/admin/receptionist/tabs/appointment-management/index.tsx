@@ -17,22 +17,16 @@ export const AppointmentManagement = () => {
   const [selectedAppointment, setSelectedAppointment] = useState<IAppointment>(
     {} as IAppointment,
   );
+  const [qrModalVisible, setQrModalVisible] = useState<boolean>(false);
   const [sessionId, _] = useState(new Date().getTime());
   const stompClient = WebSocketManager.getInstance().getClient();
   const { data: appointmentsData, isFetching: isFetchAppointmentsData } =
     useGetAppointmentsQuery();
-
-  // const [genPDF] = useGenerateApointmentPDFMutation();
-
   const { generatePDF } = usePdfGenerator();
   useEffect(() => {
     setAppointments(appointmentsData?.result);
     return () => {};
   }, [appointmentsData?.result]);
-
-  console.log(
-    (document.getElementById("qr_scan_appointment_modal") as any)?.open,
-  );
 
   useEffect(() => {
     if (stompClient) {
@@ -116,6 +110,7 @@ export const AppointmentManagement = () => {
         <button
           className="btn btn-outline"
           onClick={() => {
+            setQrModalVisible(true);
             (
               document.getElementById("qr_scan_appointment_modal") as any
             ).showModal();
@@ -251,9 +246,9 @@ export const AppointmentManagement = () => {
         </div>
         <EditAppointmentModal appointment={selectedAppointment} />
         <QRScanModal
-          qrScanOpen={
-            (document.getElementById("qr_scan_appointment_modal") as any)?.open
-          }
+          qrModalVisible={qrModalVisible}
+          setQrModalVisible={setQrModalVisible}
+          setSelectedAppointment={setSelectedAppointment}
         />
       </div>
     </>
