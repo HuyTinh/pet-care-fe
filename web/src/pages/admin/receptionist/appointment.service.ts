@@ -14,7 +14,7 @@ export const appointmentApi = createApi({
       providesTags(result) {
         if (result) {
           const final = [
-            ...(result.result as IAppointment[]).map(({ id }) => ({
+            ...(result.data as IAppointment[]).map(({ id }) => ({
               type: "Appointments" as const,
               id,
             })),
@@ -31,7 +31,7 @@ export const appointmentApi = createApi({
       providesTags(result) {
         if (result) {
           const final = [
-            ...(result.result as IAppointment[]).map(({ id }) => ({
+            ...(result.data as IAppointment[]).map(({ id }) => ({
               type: "Appointments" as const,
               id,
             })),
@@ -49,7 +49,7 @@ export const appointmentApi = createApi({
     createAppointment: build.mutation<IAppointment, any>({
       query(body) {
         return {
-          url: "customer/create-appointment",
+          url: "/appointment-service/appointment",
           method: "POST",
           body,
           params: {
@@ -96,7 +96,7 @@ export const appointmentApi = createApi({
       providesTags(result) {
         if (result) {
           const final = [
-            ...(result.result as IAppointment[]).map(({ id }) => ({
+            ...(result.data as IAppointment[]).map(({ id }) => ({
               type: "AppointmentsCustomer" as const,
               id,
             })),

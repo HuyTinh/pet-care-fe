@@ -15,8 +15,8 @@ export const PetCareFacebookLoginButton = () => {
     login({
       scope: "public_profile,email,user_gender",
     })
-      .then((response) => {
-        let { authResponse } = response;
+      .then((res) => {
+        let { authResponse } = res;
         loginFacebookRequest((authResponse as any).accessToken).then(
           (result) => {
             // if ("error" in result) {

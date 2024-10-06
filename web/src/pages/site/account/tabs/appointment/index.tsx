@@ -46,7 +46,7 @@ export const AppointmentTab = () => {
         <div>
           <div className="relative h-[32rem] overflow-auto rounded-lg border border-black">
             {!isFetching &&
-              !(appoimentsHistoryResponse?.result as any[])?.length && (
+              !(appoimentsHistoryResponse?.data as any[])?.length && (
                 <div className="absolute top-0 z-50 flex h-full w-full flex-col items-center justify-center">
                   <FcCalendar size={64} className="mb-10" />
                   <div>You don't have any appoiment</div>
@@ -86,7 +86,7 @@ export const AppointmentTab = () => {
               </thead>
               {!isFetching && (
                 <tbody>
-                  {(appoimentsHistoryResponse?.result as any[])?.map(
+                  {(appoimentsHistoryResponse?.data as any[])?.map(
                     (val, index) => (
                       <motion.tr
                         initial={{

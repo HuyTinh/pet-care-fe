@@ -129,7 +129,7 @@ export const PetPicker = ({ pets, setPets }: PetPickerProps) => {
                 })}
               >
                 <option value={""}>Species?</option>
-                {(specieData?.result as any[])?.map((val, index) => (
+                {(specieData?.data as any[])?.map((val, index) => (
                   <option key={index} value={val.name}>
                     {val.name}
                   </option>

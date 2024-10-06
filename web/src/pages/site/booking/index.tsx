@@ -101,7 +101,7 @@ export const BookingPage = () => {
                     isDisabled={step !== 1}
                     placeholder="Select service"
                     options={(
-                      hospitalServicesData?.result as IHospitalService[]
+                      hospitalServicesData?.data as IHospitalService[]
                     )?.map((hs) => {
                       return {
                         value: hs.name,
@@ -193,14 +193,12 @@ export const BookingPage = () => {
                             if (e.target.checked) {
                               reset({
                                 ...getValues(),
-                                first_name:
-                                  customerProfileData.result.first_name,
-                                last_name: customerProfileData.result.last_name,
+                                first_name: customerProfileData.data.first_name,
+                                last_name: customerProfileData.data.last_name,
                                 phone_number:
-                                  customerProfileData.result.phone_number,
-                                email: customerProfileData.result.email,
-                                account_id:
-                                  customerProfileData.result.account_id,
+                                  customerProfileData.data.phone_number,
+                                email: customerProfileData.data.email,
+                                account_id: customerProfileData.data.account_id,
                               });
                             } else {
                               reset({
@@ -309,7 +307,7 @@ export const BookingPage = () => {
                         <option disabled selected>
                           Species?
                         </option>
-                        {(specieData?.result as any[]).map((val, index) => (
+                        {(specieData?.data as any[]).map((val, index) => (
                           <option key={index} value={val.name}>
                             {val.name}
                           </option>

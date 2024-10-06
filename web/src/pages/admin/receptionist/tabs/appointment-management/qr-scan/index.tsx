@@ -14,7 +14,7 @@ export const QRScanModal = ({
 }) => {
   const [appointmentId, setAppointmentId] = useState<any>();
 
-  const { data } = useGetAppointmentByIdQuery(
+  const { data: appointmentResponse } = useGetAppointmentByIdQuery(
     { appointmentId: appointmentId },
     {
       skip: !appointmentId,
@@ -22,12 +22,12 @@ export const QRScanModal = ({
   );
 
   useEffect(() => {
-    if (data) {
-      setSelectedAppointment(data.result);
+    if (appointmentResponse) {
+      setSelectedAppointment(appointmentResponse.data);
       (document.getElementById("edit_appointment_modal") as any).showModal();
     }
     // setAppointmentId("");
-  }, [data]);
+  }, [appointmentResponse]);
 
   return (
     <dialog

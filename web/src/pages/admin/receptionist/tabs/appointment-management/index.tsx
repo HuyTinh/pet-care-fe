@@ -24,9 +24,9 @@ export const AppointmentManagement = () => {
     useGetAppointmentsQuery();
   const { generatePDF } = usePdfGenerator();
   useEffect(() => {
-    setAppointments(appointmentsData?.result);
+    setAppointments(appointmentsData?.data);
     return () => {};
-  }, [appointmentsData?.result]);
+  }, [appointmentsData?.data]);
 
   useEffect(() => {
     if (stompClient) {
