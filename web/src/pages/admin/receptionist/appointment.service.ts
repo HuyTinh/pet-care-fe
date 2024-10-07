@@ -14,7 +14,36 @@ export const appointmentApi = createApi({
       providesTags(result) {
         if (result) {
           const final = [
-            ...(result.result as IAppointment[]).map(({ id }) => ({
+            ...(result.data as IAppointment[]).map(({ id }) => ({
+              type: "Appointments" as const,
+              id,
+            })),
+            { type: "Appointments" as const, id: "LIST" },
+          ];
+          return final;
+        }
+        const final = [{ type: "Appointments" as const, id: "LIST" }];
+        return final;
+      },
+    }),
+    filterAppointments: build.query<
+      APIResponse,
+      { startDate: string; endDate: string }
+    >({
+      query: ({ startDate, endDate }) => {
+        return {
+          url: "/appointment-service/appointment/filter",
+          params: {
+            startDate,
+            endDate,
+          },
+        };
+      },
+
+      providesTags(result) {
+        if (result) {
+          const final = [
+            ...(result.data as IAppointment[]).map(({ id }) => ({
               type: "Appointments" as const,
               id,
             })),
@@ -31,7 +60,7 @@ export const appointmentApi = createApi({
       providesTags(result) {
         if (result) {
           const final = [
-            ...(result.result as IAppointment[]).map(({ id }) => ({
+            ...(result.data as IAppointment[]).map(({ id }) => ({
               type: "Appointments" as const,
               id,
             })),
@@ -49,7 +78,7 @@ export const appointmentApi = createApi({
     createAppointment: build.mutation<IAppointment, any>({
       query(body) {
         return {
-          url: "customer/create-appointment",
+          url: "/appointment-service/appointment",
           method: "POST",
           body,
           params: {
@@ -64,12 +93,15 @@ export const appointmentApi = createApi({
         { type: "AppointmentsCustomer" as const, id: "LIST" },
       ],
     }),
-    updateAppointment: build.mutation<IAppointment, any>({
+    updateAppointment: build.mutation<
+      IAppointment,
+      { appointmentId: string; updateAppointment: any }
+    >({
       query(body) {
         return {
-          url: `/appointment-service/appointment/${body.id}`,
+          url: `/appointment-service/appointment/${body.appointmentId}`,
           method: "PUT",
-          body,
+          body: body.updateAppointment,
         };
       },
       invalidatesTags: () => [
@@ -96,7 +128,7 @@ export const appointmentApi = createApi({
       providesTags(result) {
         if (result) {
           const final = [
-            ...(result.result as IAppointment[]).map(({ id }) => ({
+            ...(result.data as IAppointment[]).map(({ id }) => ({
               type: "AppointmentsCustomer" as const,
               id,
             })),
@@ -150,6 +182,7 @@ export const {
   useUpdateAppointmentMutation,
   useGetAppointmentByCustomerIdQuery,
   useGetSpeciesQuery,
+  useFilterAppointmentsQuery,
   useGenerateApointmentPDFMutation,
   useGetAppointmentByIdQuery,
 } = appointmentApi;

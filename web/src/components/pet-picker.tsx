@@ -57,11 +57,9 @@ export const PetPicker = ({ pets, setPets }: PetPickerProps) => {
                     {p.name}
                     <div
                       className="avatar"
-                      onClick={(e) => {
+                      onClick={() => {
                         setPets((prevState) =>
-                          prevState.filter(
-                            (pet, petIndex) => petIndex !== index,
-                          ),
+                          prevState.filter((_, petIndex) => petIndex !== index),
                         );
                       }}
                     >
@@ -129,7 +127,7 @@ export const PetPicker = ({ pets, setPets }: PetPickerProps) => {
                 })}
               >
                 <option value={""}>Species?</option>
-                {(specieData?.result as any[])?.map((val, index) => (
+                {(specieData?.data as any[])?.map((val, index) => (
                   <option key={index} value={val.name}>
                     {val.name}
                   </option>

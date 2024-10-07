@@ -19,6 +19,7 @@ export const AppoimentManageForm = () => {
   const [createAppointment] = useCreateAppointmentMutation();
 
   const { register, handleSubmit } = useForm<any>();
+
   const onSubmit: SubmitHandler<any> = (data) =>
     createAppointment({
       ...data,
@@ -124,7 +125,7 @@ export const AppoimentManageForm = () => {
           <div className="h-60 overflow-auto rounded-lg border">
             <div className="flex flex-col">
               {!isFetchHospitalServicesData &&
-                (hospitalServicesData?.result as IHospitalService[]).map(
+                (hospitalServicesData?.data as IHospitalService[]).map(
                   (hs, index) => (
                     <div className="form-control" key={index}>
                       <label className="label cursor-pointer">

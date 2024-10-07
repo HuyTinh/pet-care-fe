@@ -12,6 +12,7 @@ import { IHospitalService } from "../../../../../../types/hospital-service.type"
 import { ServicePicker } from "../../../../../../components/service-picker";
 import { useUpdateAppointmentMutation } from "../../../../../admin/receptionist/appointment.service";
 import { toast } from "react-toastify";
+import _ from "lodash";
 
 export const EditAppointmentModal = ({
   selectedAppointment,
@@ -92,16 +93,22 @@ export const EditAppointmentModal = ({
                   className="btn btn-outline"
                   onClick={() => {
                     updateAppointment({
-                      id: selectedAppointment.id,
-                      appointment_date: displayInputDate(
-                        new Date(getValues("appointment_date")),
+                      appointmentId: selectedAppointment.id,
+                      updateAppointment: _.omit(
+                        {
+                          ...selectedAppointment,
+                          appointment_date: displayInputDate(
+                            new Date(getValues("appointment_date")),
+                          ),
+                          appointment_time: time.find(
+                            (val: any) =>
+                              val.time === getValues("appointment_time"),
+                          )?.gmt_time,
+                          pets: pets,
+                          services: services,
+                        },
+                        ["id"],
                       ),
-                      appointment_time: time.find(
-                        (val: any) =>
-                          val.time === getValues("appointment_time"),
-                      )?.gmt_time,
-                      pets: pets,
-                      services: services,
                     });
                   }}
                   type="button"
