@@ -13,7 +13,7 @@ export const customerApi = createApi({
         };
       },
       providesTags(result) {
-        return [{ type: "Customer" as const, id: result?.result.id }];
+        return [{ type: "Customer" as const, id: result?.data.id }];
       },
     }),
     updateCustomerProfile: build.mutation<
@@ -28,7 +28,7 @@ export const customerApi = createApi({
         };
       },
       invalidatesTags: (result) => [
-        { type: "Customer" as const, id: result?.result.id },
+        { type: "Customer" as const, id: result?.data.id },
       ],
     }),
   }),

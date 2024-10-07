@@ -102,7 +102,7 @@ export const ServicePicker = ({
                 onChange={(e) => {
                   if (e.target.value !== "") {
                     addServices(
-                      hospitalServicesData?.result?.find(
+                      hospitalServicesData?.data?.find(
                         (val: any) => val.name === e.target.value,
                       ),
                     );
@@ -113,7 +113,7 @@ export const ServicePicker = ({
                 <option value={""}>Services ?</option>
 
                 {services?.length < 3 &&
-                  (hospitalServicesData?.result as any[])
+                  (hospitalServicesData?.data as any[])
                     ?.filter(
                       (val) =>
                         !services.map((val) => val.name).includes(val.name),
