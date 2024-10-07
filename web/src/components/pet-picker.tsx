@@ -57,11 +57,9 @@ export const PetPicker = ({ pets, setPets }: PetPickerProps) => {
                     {p.name}
                     <div
                       className="avatar"
-                      onClick={(e) => {
+                      onClick={() => {
                         setPets((prevState) =>
-                          prevState.filter(
-                            (pet, petIndex) => petIndex !== index,
-                          ),
+                          prevState.filter((_, petIndex) => petIndex !== index),
                         );
                       }}
                     >

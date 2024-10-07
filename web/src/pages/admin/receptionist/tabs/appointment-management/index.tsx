@@ -33,8 +33,6 @@ export const AppointmentManagement = () => {
   const [qrModalVisible, setQrModalVisible] = useState<boolean>(false);
   const [sessionId, _] = useState(new Date().getTime());
   const stompClient = WebSocketManager.getInstance().getClient();
-  const { data: appointmentsData, isFetching: isFetchAppointmentsData } =
-    useGetAppointmentsQuery();
   const { generatePDF } = usePdfGenerator();
   useEffect(() => {
     setAppointments(filterAppointmentData?.data);
@@ -207,7 +205,7 @@ export const AppointmentManagement = () => {
               </tr>
             </thead>
             <tbody>
-              {!isFetchAppointmentsData &&
+              {!isFetchingFilterAppointmentData &&
                 (appointments as IAppointment[])?.map((ap, index) => (
                   <motion.tr
                     key={index}
