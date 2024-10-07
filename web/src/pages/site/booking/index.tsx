@@ -108,10 +108,9 @@ export const BookingPage = () => {
                         label: hs.name,
                       };
                     })}
-                    onChange={(singleValue) =>
-                      setValue("service", singleValue?.value)
-                    }
+                    onChange={(multiValue) => setValue("service", multiValue)}
                     className="flex-1 text-sm"
+                    isMulti
                   />
                   <Select
                     isDisabled={step !== 1}
@@ -160,7 +159,7 @@ export const BookingPage = () => {
                         label: "17h",
                       },
                     ]}
-                    className="w-36 text-sm"
+                    className="flex *:flex-1"
                     placeholder="Select time"
                     onChange={(singleValue) =>
                       setValue("time", singleValue?.value)
@@ -303,10 +302,9 @@ export const BookingPage = () => {
                         {...register("pets.species", {
                           required: "Spieces is empty!",
                         })}
+                        defaultValue={""}
                       >
-                        <option disabled selected>
-                          Species?
-                        </option>
+                        <option value={""}>Species?</option>
                         {(specieData?.data as any[]).map((val, index) => (
                           <option key={index} value={val.name}>
                             {val.name}
@@ -359,13 +357,7 @@ export const BookingPage = () => {
               onClick={() => {
                 if (step < 3) {
                   if (step == 1) {
-                    if (
-                      !(
-                        getValues("service") &&
-                        getValues("date") &&
-                        getValues("time")
-                      )
-                    ) {
+                    if (!(getValues("date") && getValues("time"))) {
                       return toast.error("Check again your service!", {
                         position: "top-right",
                       });
@@ -421,7 +413,7 @@ export const BookingPage = () => {
                     ),
                     appointment_time: getValues("time"),
                     pets: [getValues("pets")],
-                    services: [getValues("service")],
+                    services: getValues("service").map((val: any) => val.value),
                   });
                 }
               }}

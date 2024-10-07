@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
-import {
-  useFilterAppointmentsQuery,
-  // useGenerateApointmentPDFMutation,
-  useGetAppointmentsQuery,
-} from "../../appointment.service";
+import { useFilterAppointmentsQuery } from "../../appointment.service";
 import { IAppointment } from "../../../../../types/appoiment.type";
-import { displayCustomDate, displayInputDate } from "../../../../../utils/date";
+import Select from "react-select";
+import {
+  displayCustomDate,
+  displayInputDate,
+  getDaysArray,
+} from "../../../../../utils/date";
 import { usePdfGenerator } from "../../../../../hooks/pdf-generator";
 import { FcCalendar } from "react-icons/fc";
 import { motion } from "framer-motion";
@@ -16,15 +17,21 @@ import { IoQrCodeOutline } from "react-icons/io5";
 
 export const AppointmentManagement = () => {
   const [appointments, setAppointments] = useState<IAppointment[]>([]);
-  const [startDate, setStartDate] = useState<any>(displayInputDate(new Date()));
-  const [endDate, setEndDate] = useState<any>(displayInputDate(new Date()));
+  const [startDate, setStartDate] = useState<any>({
+    value: `${new Date().getFullYear()}-01-01`,
+    label: `${new Date().getFullYear()}-01-01`,
+  });
+  const [endDate, setEndDate] = useState<any>({
+    value: `${new Date().getFullYear()}-01-01`,
+    label: `${new Date().getFullYear()}-01-01`,
+  });
 
   const {
     data: filterAppointmentData,
     isFetching: isFetchingFilterAppointmentData,
   } = useFilterAppointmentsQuery({
-    startDate,
-    endDate,
+    startDate: startDate?.value,
+    endDate: endDate?.value,
   });
 
   const [selectedAppointment, setSelectedAppointment] = useState<IAppointment>(
@@ -136,20 +143,28 @@ export const AppointmentManagement = () => {
           </label>
         </div>
         <div className="flex space-x-2">
-          <select className="select select-bordered" onChange={() => alert(12)}>
-            <option value={displayInputDate(new Date())}>
-              {displayInputDate(new Date())}
-            </option>
-          </select>
-          <select
-            className="select select-bordered"
-            onChange={(e: any) => setEndDate(e.target.value)}
-          >
-            <option value={"2024-10-10"}>2024-10-10</option>
-            <option value={"2024-10-11"}>2024-10-11</option>
-            <option value={"2024-10-12"}>2024-10-12</option>
-            <option value={"2024-10-13"}>2024-10-13</option>
-          </select>
+          <Select
+            defaultValue={startDate}
+            options={getDaysArray(
+              `${new Date().getFullYear()}-01-01`,
+              `${new Date().getFullYear() + 1}-01-01`,
+            ).map((val) => {
+              return { value: val, label: val };
+            })}
+            className="flex w-40 *:!z-[999] *:flex-1"
+            onChange={(singleValue) => setStartDate(singleValue)}
+          />
+          <Select
+            defaultValue={endDate}
+            options={getDaysArray(
+              `${new Date().getFullYear()}-01-01`,
+              `${new Date().getFullYear() + 1}-01-01`,
+            ).map((val) => {
+              return { value: val, label: val };
+            })}
+            className="flex w-40 *:!z-[999] *:flex-1"
+            onChange={(singleValue) => setEndDate(singleValue)}
+          />
           <button
             className="btn btn-outline"
             onClick={() => {
