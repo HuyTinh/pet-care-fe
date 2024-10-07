@@ -2,22 +2,19 @@ import { StyleSheet, View, Image, Text } from 'react-native'
 import React from 'react'
 import { Avatar, Button, Card } from 'react-native-paper';
 import { Link } from 'expo-router';
+import { useGetAccountQuery } from '@/pharmacist/pharmacist.service';
 
 const explore = () => {
+  const { data, isLoading, isFetching, isError } = useGetAccountQuery()
   return (
-    <View className='w-full h-full'>
+    <View className='h-full w-full'>
       <View style={styles.square}>
         <View >
           <View className='mt-14 items-end px-5'>
             <Button mode="contained" className='w-36 h-14 flex justify-center !bg-[#0F74C1]'><Link href={"../(profile)/editprofile"} className='text-lg'>Edit profile</Link></Button>
           </View>
           <View className='items-center mt-5 static'>
-            <Avatar.Image size={100} source={require('@/assets/images/26.png')} />
-            <View>
-              <Button className='absolute mt-[-35px] ' onPress={() => console.log("")}>
-                <Image source={require('@/assets/images/plus.png')} />
-              </Button>
-            </View>
+            <Avatar.Image size={100} source={{ uri: (data as any)?.data.image}} />
             <View>
               <Text className='text-xl font-bold mt-2 text-white'>Phuc Bao</Text>
               <Text className='text-xs font-medium opacity-50 text-white ml-[15px]'>ID: 012012</Text>

@@ -3,6 +3,7 @@ import React from 'react'
 import { Controller, useForm } from 'react-hook-form';
 import { Button, TextInput } from 'react-native-paper';
 import { Link, useNavigation } from 'expo-router';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 const newpassword = () => {
     const {
@@ -17,7 +18,7 @@ const newpassword = () => {
     }
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View className='w-full h-full'>
+            <View style={{height: hp(100), width: wp(100)}}>
                 <View className='flex'>
                     <View className='absolute top-12'>
                         <Button onPress={handleBack}>
@@ -46,7 +47,6 @@ const newpassword = () => {
 
                             <TextInput
                                 className='mt-3 rounded-xl'
-                                mode='outlined'
                                 onBlur={onBlur}
                                 value={value}
                                 onChangeText={onChange}
@@ -74,12 +74,20 @@ const newpassword = () => {
                         render={({ field: { onChange, onBlur, value } }) => (
 
                             <TextInput
-                                className='mt-3'
-                                mode='outlined'
+                                className='mt-3 rounded-xl'
                                 onBlur={onBlur}
                                 value={value}
                                 onChangeText={onChange}
+                                underlineColor="transparent"
+                                activeUnderlineColor="transparent"
+                                selectionColor="#0099CF"
+                                style={{
+                                  backgroundColor: "white",
+                                  borderWidth: 1,
+                                  borderColor: '#606060',
+                                }}
                             />
+
 
                         )}
                         name="password"

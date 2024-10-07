@@ -1,24 +1,31 @@
 import { StyleSheet, Text, View, Image, Keyboard, TouchableWithoutFeedback } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Avatar, Button, TextInput } from 'react-native-paper'
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigation } from 'expo-router';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { useGetAccountQuery } from '@/pharmacist/pharmacist.service';
 
 const editprofile = () => {
+  const { data, isLoading, isFetching, isError } = useGetAccountQuery()
+  const [imageUrl, setImage] = useState([]);
   const {
     control,
     // handleSubmit,
     // formState: { errors },
-    // reset
+    reset
   } = useForm<any>();
   const navigation = useNavigation();
   function handleBack() {
     navigation.goBack();
   }
+  useEffect(() => {
+    reset((data as any)?.data)
+  }, [data])
   return (
     <>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View className='w-full h-full'>
+        <View style={{ height: hp(100), width: wp(100) }}>
           <View style={styles.square}>
             <View className='flex static'>
               <View className='absolute top-12'>
@@ -27,7 +34,7 @@ const editprofile = () => {
                 </Button>
               </View>
               <View className='items-center !mt-[120px] '>
-                <Avatar.Image size={100} source={require('@/assets/images/26.png')} />
+                <Avatar.Image size={100} source={{ uri: (data as any)?.data.image}} style={{ backgroundColor: 'transparent' }} />
                 <View>
                   <Button className='absolute mt-[-35px]' onPress={() => console.log("")}>
                     <Image source={require('@/assets/images/plus.png')} />
@@ -36,33 +43,60 @@ const editprofile = () => {
               </View>
             </View>
           </View>
-
           <View className='p-5'>
-            <View>
-              <Text style={styles.text} className='font-semibold'>User Name</Text>
-              <Controller
-                control={control}
-                rules={{
-                  required: true,
-                }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <TextInput
-                    onBlur={onBlur}
-                    value={value}
-                    onChangeText={onChange}
-                    underlineColor="transparent"
-                    activeUnderlineColor="transparent"
-                    selectionColor="#0099CF"
-                    className='rounded-xl'
-                    style={{
-                      backgroundColor: "white",
-                      borderWidth: 1,
-                      borderColor: '#606060',
-                    }}
-                  />
-                )}
-                name="username"
-              />
+            <View className='flex flex-row justify-between'>
+              <View>
+                <Text style={styles.text} className='font-semibold'>Last name</Text>
+                <Controller
+                  control={control}
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <TextInput
+                      onBlur={onBlur}
+                      value={value}
+                      onChangeText={onChange}
+                      underlineColor="transparent"
+                      activeUnderlineColor="transparent"
+                      selectionColor="#0099CF"
+                      className='rounded-xl w-56'
+                      style={{
+                        backgroundColor: "white",
+                        borderWidth: 1,
+                        borderColor: '#606060',
+                      }}
+                    />
+                  )}
+                  name="last_name"
+                />
+              </View>
+              <View>
+                <Text style={styles.text} className='font-semibold'>First name</Text>
+                <Controller
+                  control={control}
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <TextInput
+                      onBlur={onBlur}
+                      value={value}
+                      onChangeText={onChange}
+                      underlineColor="transparent"
+                      activeUnderlineColor="transparent"
+                      selectionColor="#0099CF"
+                      className='rounded-xl w-36'
+                      style={{
+                        backgroundColor: "white",
+                        borderWidth: 1,
+                        borderColor: '#606060',
+                      }}
+                    />
+                  )}
+                  name="first_name"
+                />
+              </View>
             </View>
             <View className='mt-3'>
               <Text style={styles.text} className='font-semibold'>Email</Text>
@@ -113,7 +147,7 @@ const editprofile = () => {
                     }}
                   />
                 )}
-                name="username"
+                name="contact"
               />
             </View>
             <View className='mt-3'>

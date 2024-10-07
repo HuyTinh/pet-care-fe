@@ -4,7 +4,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { Button, TextInput } from 'react-native-paper';
 import { Link } from 'expo-router';
 import { useNavigation } from 'expo-router';
-
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 const confirmEmail = () => {
   const {
     control,
@@ -18,7 +18,7 @@ const confirmEmail = () => {
   }
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View className='w-full h-full'>
+      <View style={{height: hp(100), width: wp(100)}}>
         <View className='flex'>
           <View className='absolute top-12'>
             <Button onPress={handleBack}>

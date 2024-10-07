@@ -3,6 +3,7 @@ import React from 'react'
 import { Controller, useForm } from 'react-hook-form';
 import { Button, TextInput } from 'react-native-paper';
 import { Link, useNavigation } from 'expo-router';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 const verify = () => {
     const {
@@ -17,7 +18,7 @@ const verify = () => {
     }
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View className='w-full h-full'>
+            <View style={{height: hp(100), width: wp(100)}}>
                 <View className='flex'>
                     <View className='absolute top-12'>
                         <Button onPress={handleBack}>
@@ -46,7 +47,6 @@ const verify = () => {
 
                             <TextInput
                                 className='mt-3 rounded-xl'
-                                mode='outlined'
                                 onBlur={onBlur}
                                 value={value}
                                 onChangeText={onChange}
