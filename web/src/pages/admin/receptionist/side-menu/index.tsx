@@ -13,7 +13,7 @@ const menuItems: MenuItem[] = [
   {
     title: "Appointment",
     icon: <CiCalendar size={32} />,
-    path: "/admin",
+    path: "/receptionist",
   },
   {
     title: "Guide",

@@ -26,6 +26,35 @@ export const appointmentApi = createApi({
         return final;
       },
     }),
+    filterAppointments: build.query<
+      APIResponse,
+      { startDate: string; endDate: string }
+    >({
+      query: ({ startDate, endDate }) => {
+        return {
+          url: "/appointment-service/appointment/filter",
+          params: {
+            startDate,
+            endDate,
+          },
+        };
+      },
+
+      providesTags(result) {
+        if (result) {
+          const final = [
+            ...(result.data as IAppointment[]).map(({ id }) => ({
+              type: "Appointments" as const,
+              id,
+            })),
+            { type: "Appointments" as const, id: "LIST" },
+          ];
+          return final;
+        }
+        const final = [{ type: "Appointments" as const, id: "LIST" }];
+        return final;
+      },
+    }),
     getAppointmentsByStatus: build.query<APIResponse, String>({
       query: (body) => `/appointment-service/appointment/status/${body}`,
       providesTags(result) {
@@ -153,6 +182,7 @@ export const {
   useUpdateAppointmentMutation,
   useGetAppointmentByCustomerIdQuery,
   useGetSpeciesQuery,
+  useFilterAppointmentsQuery,
   useGenerateApointmentPDFMutation,
   useGetAppointmentByIdQuery,
 } = appointmentApi;

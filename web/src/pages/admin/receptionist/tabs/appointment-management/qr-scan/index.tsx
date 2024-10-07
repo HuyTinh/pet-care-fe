@@ -26,7 +26,6 @@ export const QRScanModal = ({
       setSelectedAppointment(appointmentResponse.data);
       (document.getElementById("edit_appointment_modal") as any).showModal();
     }
-    // setAppointmentId("");
   }, [appointmentResponse]);
 
   return (

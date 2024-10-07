@@ -19,6 +19,7 @@ export const AppoimentManageForm = () => {
   const [createAppointment] = useCreateAppointmentMutation();
 
   const { register, handleSubmit } = useForm<any>();
+
   const onSubmit: SubmitHandler<any> = (data) =>
     createAppointment({
       ...data,

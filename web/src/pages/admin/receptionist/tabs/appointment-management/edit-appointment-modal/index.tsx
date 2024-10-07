@@ -70,14 +70,14 @@ export const EditAppointmentModal = ({
                 type="text"
                 placeholder="Type here"
                 className="input input-bordered w-full max-w-xs"
-                {...register("customer.first_name", {
+                {...register("first_name", {
                   required: "First name is empty!",
                 })}
               />
-              {(errors?.customer as any)?.first_name && (
+              {errors?.first_name && (
                 <span className="badge badge-error mt-2 gap-2 text-white">
                   <MdOutlineErrorOutline />
-                  {(errors?.customer as any)?.first_name.message}
+                  {(errors?.first_name as any).message}
                 </span>
               )}
             </label>
@@ -89,14 +89,14 @@ export const EditAppointmentModal = ({
                 type="text"
                 placeholder="Type here"
                 className="input input-bordered w-full max-w-xs"
-                {...register("customer.last_name", {
+                {...register("last_name", {
                   required: "Last name is empty!",
                 })}
               />
-              {(errors?.customer as any)?.last_name && (
+              {errors.last_name && (
                 <span className="badge badge-error mt-2 gap-2 text-white">
                   <MdOutlineErrorOutline />
-                  {(errors?.customer as any)?.last_name.message}
+                  {(errors.last_name as any)?.message}
                 </span>
               )}
             </label>
@@ -111,7 +111,7 @@ export const EditAppointmentModal = ({
                 placeholder="Type here"
                 className="input input-bordered w-full max-w-xs"
                 readOnly
-                {...register("customer.email")}
+                {...register("email")}
               />
             </label>
             <label className="form-control w-full max-w-xs">
@@ -122,14 +122,14 @@ export const EditAppointmentModal = ({
                 type="text"
                 placeholder="Type here"
                 className="input input-bordered w-full max-w-xs"
-                {...register("customer.phone_number", {
+                {...register("phone_number", {
                   required: "Phone number is empty!",
                 })}
               />
-              {(errors?.customer as any)?.phone_number && (
+              {errors?.phone_number && (
                 <span className="badge badge-error mt-2 gap-2 text-white">
                   <MdOutlineErrorOutline />
-                  {(errors?.customer as any)?.phone_number.message}
+                  {(errors.phone_number as any)?.message}
                 </span>
               )}
             </label>
