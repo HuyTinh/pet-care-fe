@@ -415,15 +415,13 @@ export const BookingPage = () => {
                     email: getValues("email"),
                     phone_number: getValues("phone_number"),
                     account_id: userId,
-                    appointment: {
-                      status: "SCHEDULED",
-                      appointment_date: displayInputDate(
-                        new Date(getValues("date")),
-                      ),
-                      appointment_time: getValues("time"),
-                      pets: [getValues("pets")],
-                      services: [getValues("service")],
-                    },
+                    status: "SCHEDULED",
+                    appointment_date: displayInputDate(
+                      new Date(getValues("date")),
+                    ),
+                    appointment_time: getValues("time"),
+                    pets: [getValues("pets")],
+                    services: [getValues("service")],
                   });
                 }
               }}

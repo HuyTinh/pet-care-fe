@@ -33,14 +33,13 @@ export const AppointmentTab = () => {
 
   return (
     <AnimatePresence initial={false}>
-      <div className="w-full space-y-2">
+      <div className="w-full space-y-2" key={"1"}>
         <select
           className="select select-bordered select-md"
           onChange={(e) => setAppointmentStatus(e.target.value)}
+          defaultValue={"SCHEDULED"}
         >
-          <option selected value={"SCHEDULED"}>
-            Up comming
-          </option>
+          <option value={"SCHEDULED"}>Up comming</option>
           <option value={"APPROVED"}>Old appointment</option>
         </select>
         <div>

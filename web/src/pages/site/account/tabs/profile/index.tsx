@@ -177,8 +177,9 @@ export const ProfileTab = () => {
                   <select
                     className="select select-bordered w-full"
                     {...register("gender")}
+                    defaultValue={""}
                   >
-                    <option disabled selected>
+                    <option disabled value={""}>
                       Your gender?
                     </option>
                     <option value={"MALE"}>Male</option>

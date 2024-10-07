@@ -46,6 +46,7 @@ export const ClientRegisterForm = ({
         } = data.data;
         localStorage.setItem("token", loginResponse.token);
         dispatch(setAuthenticated(loginResponse.token));
+        (document.getElementById("authentication_modal") as any).close();
       }
     });
   };

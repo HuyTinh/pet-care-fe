@@ -64,12 +64,15 @@ export const appointmentApi = createApi({
         { type: "AppointmentsCustomer" as const, id: "LIST" },
       ],
     }),
-    updateAppointment: build.mutation<IAppointment, any>({
+    updateAppointment: build.mutation<
+      IAppointment,
+      { appointmentId: string; updateAppointment: any }
+    >({
       query(body) {
         return {
-          url: `/appointment-service/appointment/${body.id}`,
+          url: `/appointment-service/appointment/${body.appointmentId}`,
           method: "PUT",
-          body,
+          body: body.updateAppointment,
         };
       },
       invalidatesTags: () => [
