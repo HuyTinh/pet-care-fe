@@ -67,6 +67,10 @@ const Page = (isAuth: Boolean, role: string) => {
           path: "receptionist",
           element: <ReceptionistPage />,
         },
+        {
+          path: "doctor",
+          element: <DoctorPage />,
+        },
       ],
     },
     receptionist: <ReceptionistPage />,

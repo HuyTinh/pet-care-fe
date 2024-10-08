@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useFilterAppointmentsQuery } from "../../prescription.service";
 import { IAppointment } from "../../../../../types/appoiment.type";
 import Select from "react-select";
 import { displayCustomDate, getDaysArray } from "../../../../../utils/date";
@@ -23,13 +22,13 @@ export const PrescriptionManagement = () => {
     label: initialDate,
   });
 
-  const {
-    data: filterAppointmentData,
-    isFetching: isFetchingFilterAppointmentData,
-  } = useFilterAppointmentsQuery({
-    startDate: startDate?.value,
-    endDate: endDate?.value,
-  });
+  // const {
+  //   data: filterAppointmentData,
+  //   isFetching: isFetchingFilterAppointmentData,
+  // } = useFilterAppointmentsQuery({
+  //   startDate: startDate?.value,
+  //   endDate: endDate?.value,
+  // });
 
   const [selectedAppointment, setSelectedAppointment] = useState<IAppointment>(
     {} as IAppointment,
@@ -38,10 +37,10 @@ export const PrescriptionManagement = () => {
   const [sessionId, _] = useState(new Date().getTime());
   const stompClient = WebSocketManager.getInstance().getClient();
   const { generatePDF } = usePdfGenerator();
-  useEffect(() => {
-    setAppointments(filterAppointmentData?.data);
-    return () => {};
-  }, [filterAppointmentData?.data]);
+  // useEffect(() => {
+  //   setAppointments(filterAppointmentData?.data);
+  //   return () => {};
+  // }, [filterAppointmentData?.data]);
 
   useEffect(() => {
     if (stompClient) {
@@ -119,6 +118,7 @@ export const PrescriptionManagement = () => {
       });
     }
   };
+
   return (
     <>
       <div className="flex gap-x-2 p-2">
@@ -177,7 +177,7 @@ export const PrescriptionManagement = () => {
       </div>
       <div className="flex-1 p-2">
         <div className="relative h-[36rem] overflow-auto rounded-xl border">
-          {!isFetchingFilterAppointmentData &&
+          {/* {!isFetchingFilterAppointmentData &&
             !(appointments as any[])?.length && (
               <div className="absolute top-0 z-50 flex h-full w-full flex-col items-center justify-center">
                 <FcCalendar size={64} className="mb-10" />
@@ -205,7 +205,7 @@ export const PrescriptionManagement = () => {
               </div>
               <div>Watting for few minute...</div>
             </motion.div>
-          )}
+          )} */}
           <table className="table">
             {/* head */}
             <thead className="sticky top-0 bg-white">
@@ -217,7 +217,7 @@ export const PrescriptionManagement = () => {
               </tr>
             </thead>
             <tbody>
-              {!isFetchingFilterAppointmentData &&
+              {/* {!isFetchingFilterAppointmentData &&
                 (appointments as IAppointment[])?.map((ap, index) => (
                   <motion.tr
                     key={index}
@@ -287,7 +287,7 @@ export const PrescriptionManagement = () => {
                       </button>
                     </td>
                   </motion.tr>
-                ))}
+                ))} */}
             </tbody>
           </table>
         </div>

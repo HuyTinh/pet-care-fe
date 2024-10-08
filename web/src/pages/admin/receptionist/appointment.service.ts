@@ -5,7 +5,7 @@ import { APIResponse } from "../../../types/api-response.type";
 import { getCookieValue } from "../../../utils/cookie";
 
 export const appointmentApi = createApi({
-  reducerPath: "clientApi",
+  reducerPath: "appointmentApi",
   tagTypes: ["Appointments", "AppointmentsCustomer"],
   baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_BACKEND_URL }),
   endpoints: (build) => ({
