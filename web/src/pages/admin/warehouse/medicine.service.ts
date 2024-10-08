@@ -8,7 +8,7 @@ export const medicineApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_BACKEND_URL }),
   endpoints: (build) => ({
     getAllMedicines: build.query<APIResponse, void>({
-      query: () => "/medicine-service/medicine",
+      query: () => `${import.meta.env.VITE_MEDICINE_PATH}/medicine`,
       providesTags(result) {
         if (result) {
           const final = [
@@ -27,7 +27,7 @@ export const medicineApi = createApi({
     createMedicine: build.mutation<APIResponse, any>({
       query(body) {
         return {
-          url: "/medicine-service/medicine",
+          url: `${import.meta.env.VITE_MEDICINE_PATH}/medicine`,
           method: "POST",
           body,
         };
@@ -40,7 +40,7 @@ export const medicineApi = createApi({
     >({
       query(body) {
         return {
-          url: `/medicine-service/medicine/${body.medicineId}`,
+          url: `${import.meta.env.VITE_MEDICINE_PATH}/medicine/${body.medicineId}`,
           method: "PUT",
           body: body.updateMedicine,
         };

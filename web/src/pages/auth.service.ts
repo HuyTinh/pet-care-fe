@@ -8,7 +8,7 @@ export const authenticationApi = createApi({
     loginRequest: build.mutation<any, { email: string; password: string }>({
       query(body) {
         return {
-          url: "identity/auth/token",
+          url: `${import.meta.env.VITE_IDENTITY_PATH}/auth/token`,
           method: "POST",
           body,
         };
@@ -17,7 +17,7 @@ export const authenticationApi = createApi({
     loginWithGoogleRequest: build.mutation<any, { token: string }>({
       query(body) {
         return {
-          url: "identity/auth/google",
+          url: `${import.meta.env.VITE_IDENTITY_PATH}/auth/google`,
           method: "POST",
           body,
         };
@@ -26,7 +26,7 @@ export const authenticationApi = createApi({
     loginWithFacebookRequest: build.mutation<any, { token: string }>({
       query(body) {
         return {
-          url: "identity/auth/facebook",
+          url: `${import.meta.env.VITE_IDENTITY_PATH}/auth/facebook`,
           method: "POST",
           body,
         };
@@ -35,7 +35,7 @@ export const authenticationApi = createApi({
     registerRequest: build.mutation<any, any>({
       query(body) {
         return {
-          url: "identity/account/generate-token",
+          url: `${import.meta.env.VITE_IDENTITY_PATH}/account/generate-token`,
           method: "POST",
           body,
         };
