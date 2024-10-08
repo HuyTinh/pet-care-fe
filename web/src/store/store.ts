@@ -4,13 +4,15 @@ import { authenticationApi } from "../pages/auth.service";
 import authenticationReducer from "../pages/auth.slice";
 import { customerApi } from "../pages/site/customer.service";
 import modalReducer from "../components/pc-modal/modal.slice";
+import { prescriptionApi } from "../pages/admin/doctor/prescription.service";
 
 export const store = configureStore({
   reducer: {
-    [appointmentApi.reducerPath]: appointmentApi.reducer,
     authentication: authenticationReducer,
     [authenticationApi.reducerPath]: authenticationApi.reducer,
     [customerApi.reducerPath]: customerApi.reducer,
+    [prescriptionApi.reducerPath]: prescriptionApi.reducer,
+    [appointmentApi.reducerPath]: appointmentApi.reducer,
     modal: modalReducer,
   },
 
@@ -18,6 +20,7 @@ export const store = configureStore({
     getDefaultMiddleware({
       serializableCheck: false, // Disable serializable checks
     }).concat(
+      authenticationApi.middleware,
       appointmentApi.middleware,
       authenticationApi.middleware,
       customerApi.middleware,
