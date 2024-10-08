@@ -8,7 +8,8 @@ export const prescriptionApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_BACKEND_URL }),
   endpoints: (build) => ({
     getAllMedicines: build.query<APIResponse, void>({
-      query: () => "/prescription-service/prescription",
+      query: () =>
+        `${import.meta.env.VITE_MEDICAL_PRESCRIPTION_PATH}/prescription`,
       providesTags(result) {
         if (result) {
           const final = [
@@ -24,31 +25,7 @@ export const prescriptionApi = createApi({
         return final;
       },
     }),
-    createMedicine: build.mutation<APIResponse, any>({
-      query(body) {
-        return {
-          url: "/medicine-service/medicine",
-          method: "POST",
-          body,
-        };
-      },
-      invalidatesTags: () => [{ type: "Prescriptions", id: "LIST" }],
-    }),
-    updateMedicine: build.mutation<
-      APIResponse,
-      { prescriptionId: string; updatePrescription: any }
-    >({
-      query(body) {
-        return {
-          url: `/medicine-service/medicine/${body.prescriptionId}`,
-          method: "PUT",
-          body: body.updatePrescription,
-        };
-      },
-      invalidatesTags: () => [{ type: "Prescriptions", id: "LIST" }],
-    }),
   }),
 });
 
-export const { useGetAllMedicinesQuery, useCreateMedicineMutation } =
-  prescriptionApi;
+export const { useGetAllMedicinesQuery } = prescriptionApi;

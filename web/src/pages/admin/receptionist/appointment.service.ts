@@ -10,7 +10,7 @@ export const appointmentApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_BACKEND_URL }),
   endpoints: (build) => ({
     getAppointments: build.query<APIResponse, void>({
-      query: () => "/appointment-service/appointment",
+      query: () => `${import.meta.env.VITE_APPOINTMENT_PATH}/appointment`,
       providesTags(result) {
         if (result) {
           const final = [
@@ -32,7 +32,7 @@ export const appointmentApi = createApi({
     >({
       query: ({ startDate, endDate }) => {
         return {
-          url: "/appointment-service/appointment/filter",
+          url: `${import.meta.env.VITE_APPOINTMENT_PATH}/appointment/filter`,
           params: {
             startDate,
             endDate,
@@ -73,12 +73,13 @@ export const appointmentApi = createApi({
       },
     }),
     isCheckin: build.query<APIResponse, string>({
-      query: (body) => `/appointment-service/appointment/isCheckin/${body}`,
+      query: (body) =>
+        `${import.meta.env.VITE_APPOINTMENT_PATH}/appointment/isCheckin/${body}`,
     }),
     createAppointment: build.mutation<IAppointment, any>({
       query(body) {
         return {
-          url: "/appointment-service/appointment",
+          url: `${import.meta.env.VITE_APPOINTMENT_PATH}/appointment`,
           method: "POST",
           body,
           params: {
@@ -99,7 +100,7 @@ export const appointmentApi = createApi({
     >({
       query(body) {
         return {
-          url: `/appointment-service/appointment/${body.appointmentId}`,
+          url: `${import.meta.env.VITE_APPOINTMENT_PATH}/appointment/${body.appointmentId}`,
           method: "PUT",
           body: body.updateAppointment,
         };
@@ -110,10 +111,10 @@ export const appointmentApi = createApi({
       ],
     }),
     getHospitalService: build.query<APIResponse, void>({
-      query: () => `/appointment-service/hospital-service`,
+      query: () => `${import.meta.env.VITE_APPOINTMENT_PATH}/hospital-service`,
     }),
     getSpecies: build.query<APIResponse, void>({
-      query: () => `/appointment-service/specie`,
+      query: () => `${import.meta.env.VITE_APPOINTMENT_PATH}/specie`,
     }),
     getAppointmentByCustomerId: build.query<
       APIResponse,
@@ -121,7 +122,7 @@ export const appointmentApi = createApi({
     >({
       query: (body) => {
         return {
-          url: `/appointment-service/appointment/account/${body.userId}`,
+          url: `${import.meta.env.VITE_APPOINTMENT_PATH}/appointment/account/${body.userId}`,
           params: body.params,
         };
       },
@@ -143,18 +144,17 @@ export const appointmentApi = createApi({
     getAppointmentById: build.query<APIResponse, { appointmentId: any }>({
       query: (body) => {
         return {
-          url: `/appointment-service/appointment/${body.appointmentId}`,
+          url: `${import.meta.env.VITE_APPOINTMENT_PATH}/appointment/${body.appointmentId}`,
         };
       },
     }),
     generateApointmentPDF: build.mutation<IAppointment, any>({
       query(body) {
         return {
-          url: `https://us1.pdfgeneratorapi.com/api/v4/documents/generate`,
+          url: `${import.meta.env.VITE_PDF_GENERATE_PATH}`,
           method: "POST",
           headers: {
-            Authorization:
-              " Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiI4YTllNWI3YzRhNmE1Yzk4NzA4MmY2NGI0YzliYjUzODM1NTcyOTRmYjNkZDQ1YWY0ZDVmMjUzNjg4YTM0YjVlIiwic3ViIjoidGluaG50aDE1MTEyMDAzQGdtYWlsLmNvbSIsImV4cCI6MjcyODA4MzM0OH0.Qmk4eGL9RIqS1BgpHeT6zVp7JfVo7HCkU_KoL2u6ZFI",
+            Authorization: `Bearer ${import.meta.env.VITE_PDF_GENERATE_JWT}`,
           },
           body: {
             template: {
