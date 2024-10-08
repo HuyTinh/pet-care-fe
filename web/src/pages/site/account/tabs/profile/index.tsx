@@ -12,6 +12,7 @@ import {
 } from "../../../customer.service";
 import { useCookies } from "react-cookie";
 import { useModalPetCare } from "../../../../../components/pc-modal/hook";
+import { toFormData } from "../../../../../utils/formdata";
 
 export const ProfileTab = () => {
   const { register, handleSubmit, reset } = useForm<any>({
@@ -39,14 +40,17 @@ export const ProfileTab = () => {
 
   useEffect(() => {
     if (customerProfileResponse) {
-      reset(customerProfileResponse.data);
+      reset({
+        ...customerProfileResponse.data,
+        phoneNumber: customerProfileResponse.data.phone_number,
+      });
     }
   }, [customerProfileResponse]);
 
   const onSubmit: SubmitHandler<any> = (data) => {
     updateProfileRequest({
       userId: userId,
-      data: _.omit(data, ["account_id", "id"]),
+      data: toFormData(_.omit(data, ["id"])),
     }).then((res) => {
       if ("error" in res) {
         toast.error((res.error as any).data.message, {
@@ -167,7 +171,7 @@ export const ProfileTab = () => {
                     type="text"
                     placeholder="Type here"
                     className="input input-bordered w-full max-w-xs"
-                    {...register("phone_number")}
+                    {...register("phoneNumber")}
                   />
                 </label>
                 <label className="form-control w-full max-w-xs">
