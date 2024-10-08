@@ -1,17 +1,17 @@
 import { useState, useEffect } from "react";
-import { useFilterAppointmentsQuery } from "../../appointment.service";
+import { useFilterAppointmentsQuery } from "../../prescription.service";
 import { IAppointment } from "../../../../../types/appoiment.type";
 import Select from "react-select";
 import { displayCustomDate, getDaysArray } from "../../../../../utils/date";
 import { usePdfGenerator } from "../../../../../hooks/pdf-generator";
 import { FcCalendar } from "react-icons/fc";
 import { motion } from "framer-motion";
-import { EditAppointmentModal } from "./edit-appointment-modal";
+import { EditPrescriptionModal } from "./edit-prescription-modal";
 import WebSocketManager from "../../../../../config/web-socket-manager";
 import { QRScanModal } from "./qr-scan";
 import { IoQrCodeOutline } from "react-icons/io5";
 
-export const AppointmentManagement = () => {
+export const PrescriptionManagement = () => {
   const initialDate = `${new Date().getFullYear()}-01-01`;
   const [appointments, setAppointments] = useState<IAppointment[]>([]);
   const [startDate, setStartDate] = useState<any>({
@@ -291,7 +291,7 @@ export const AppointmentManagement = () => {
             </tbody>
           </table>
         </div>
-        <EditAppointmentModal appointment={selectedAppointment} />
+        <EditPrescriptionModal appointment={selectedAppointment} />
         <QRScanModal
           qrModalVisible={qrModalVisible}
           setQrModalVisible={setQrModalVisible}
