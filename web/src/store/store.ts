@@ -5,6 +5,7 @@ import authenticationReducer from "../pages/auth.slice";
 import { customerApi } from "../pages/site/customer.service";
 import modalReducer from "../components/pc-modal/modal.slice";
 import { prescriptionApi } from "../pages/admin/doctor/prescription.service";
+import { medicineApi } from "../pages/admin/warehouse/medicine.service";
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
     [customerApi.reducerPath]: customerApi.reducer,
     [prescriptionApi.reducerPath]: prescriptionApi.reducer,
     [appointmentApi.reducerPath]: appointmentApi.reducer,
+    [medicineApi.reducerPath]: medicineApi.reducer,
     modal: modalReducer,
   },
 
