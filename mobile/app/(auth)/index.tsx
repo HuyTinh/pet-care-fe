@@ -1,161 +1,232 @@
-import { Image, Text, View, StyleSheet, Keyboard, TouchableWithoutFeedback } from 'react-native'
+import React, { useEffect, useState } from "react";
+import {
+  Image,
+  Text,
+  View,
+  StyleSheet,
+  Keyboard,
+  TouchableWithoutFeedback,
+  Dimensions,
+  ScrollView,
+} from "react-native";
 import { Controller, useForm } from "react-hook-form";
-import { Button, TextInput } from 'react-native-paper';
-import { CheckBox } from 'react-native-elements'
-import React, { useEffect, useState } from 'react';
-import { Link } from 'expo-router';
-import { useCameraPermissions } from 'expo-camera';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { useGetAccountQuery } from '@/pharmacist/pharmacist.service';
-import { Account } from '@/pharmacist/user/User';
-// import { Dimensions } from 'react-native';
+import { Button, TextInput } from "react-native-paper";
+import { CheckBox } from "react-native-elements";
+import { Link } from "expo-router";
+import { useCameraPermissions } from "expo-camera";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
+import { useGetAccountQuery } from "@/pharmacist/pharmacist.service";
+import { Account } from "@/pharmacist/user/User";
 
-// const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get("window");
+
 const Auth = () => {
-  const { data, isLoading, isFetching, isError } = useGetAccountQuery()
+  const { data, isLoading, isFetching, isError } = useGetAccountQuery();
   const [isSelected, setSelection] = useState(false);
-  const [permisson, requestPermissions] = useCameraPermissions()
-  const {
-    control,
-    // handleSubmit,
-    // formState: { errors },
-    reset
-  } = useForm<Account>()
+  const [permission, requestPermissions] = useCameraPermissions();
+  const { control, reset } = useForm<Account>();
 
   useEffect(() => {
-    reset((data as any )?.data)
-  },[data])
+    reset((data as any)?.data);
+  }, [data]);
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View className='bg-[#0099CF]' style={{ height: hp(100), width: wp(100) }}>
-        <View className='flex'>
-          <View className='mt-20 static'>
-            <View style={styles.circle_1} />
-            <Image className='ml-36' source={require('@/assets/images/Logo2.png')} />
+      <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.topSection}>
+          <View style={styles.logoContainer}>
+            <View style={styles.circle1} />
+            <Image
+              style={styles.logo}
+              source={require("@/assets/images/Logo2.png")}
+              resizeMode="contain"
+            />
           </View>
-          <View>
-            <Text className='ml-[100px] mt-4 text-[58px] font-bold text-white'>Pet care</Text>
-          </View>
+          <Text style={styles.title}>Pet care</Text>
         </View>
 
-        <View className='px-12 mt-32'>
-          <View style={styles.circle_2} />
-          <View className=' static w-full h-10'>
+        <View style={styles.formContainer}>
+          <View style={styles.circle2} />
+          <View style={styles.inputContainer}>
             <Controller
               control={control}
-              rules={{
-                required: true,
-              }}
+              rules={{ required: true }}
               render={({ field: { onChange, onBlur, value } }) => (
-
                 <TextInput
-                  style={styles.icon_1}
-                  className='rounded-full p-[1.75px] font-bold text-[#726E6E]'
+                  style={styles.input}
+                  className="rounded-3xl"
                   label="Email"
                   onBlur={onBlur}
                   value={value}
                   onChangeText={onChange}
                   left={<TextInput.Icon icon="email" />}
-                  underlineColor='transparent'
+                  underlineColor="transparent"
                   activeUnderlineColor="#0099CF"
                 />
               )}
               name="email"
             />
           </View>
-          <View className=' mt-14 static w-full h-10'>
+          <View style={styles.inputContainer}>
             <Controller
               control={control}
-              rules={{
-                required: true,
-              }}
+              rules={{ required: true }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <TextInput
-                  style={styles.icon_1}
-                  className='rounded-full p-[2px] font-bold text-[#726E6E]'
+                  style={styles.input}
+                  className="rounded-3xl"
                   label="Password"
                   onBlur={onBlur}
                   value={value}
                   onChangeText={onChange}
                   left={<TextInput.Icon icon="key" />}
                   secureTextEntry
-                  underlineColor='transparent'
+                  underlineColor="transparent"
                   activeUnderlineColor="#0099CF"
                 />
               )}
               name="password"
             />
           </View>
-          <View className='mt-10 '>
-            <View >
-              <CheckBox
-                title='Remember Me?'
-                checked={true}
-                containerStyle={{
-                  backgroundColor: "transparent",
-                  borderWidth: 0,
-                }}
-                textStyle={{
-                  color: "white",
-                  fontSize: 16
-                }}
-                checkedColor='white'
-              />
-            </View>
-            <View className='absolute top-[14px] right-5'><Link href={"../(forgotpassword)/forgot-confirm-email"} className='text-white text-base font-medium '>Fogot Password!</Link></View>
+          <View style={styles.checkboxContainer}>
+            <CheckBox
+              title="Remember Me?"
+              checked={isSelected}
+              onPress={() => setSelection(!isSelected)}
+              containerStyle={styles.checkbox}
+              textStyle={styles.checkboxText}
+              checkedColor="white"
+            />
+            <Link
+              href="../(forgotpassword)/forgot-confirm-email"
+              style={styles.forgotPassword}
+            >
+              Forgot Password!
+            </Link>
           </View>
         </View>
-        <View className='mt-7 ml-24'>
-          <Link href={"./(tabs)/list"}>
-            <Button mode="contained" className='w-56 h-14 flex justify-center !bg-[#0F74C1] '><Text className='text-lg font-semibold'>Login</Text></Button>
+        <View style={styles.buttonContainer}>
+          <Link href="./(tabs)/list">
+            <Button
+              mode="contained"
+              style={styles.button}
+              labelStyle={styles.buttonText}
+            >
+              Login
+            </Button>
           </Link>
         </View>
-      </View>
+      </ScrollView>
     </TouchableWithoutFeedback>
-  )
-}
+  );
+};
+
 const styles = StyleSheet.create({
-  circle_1: {
-    width: 600,              // Chiều rộng hình tròn
-    height: 600,             // Chiều cao hình tròn (bằng với chiều rộng)
-    borderRadius: 300,        // Độ cong viền = 1/2 chiều rộng để tạo hình tròn
-    backgroundColor: 'rgba(0, 0, 0, 0.01)', // Màu nền đen với độ trong suốt 0.2
-    position: 'absolute',
-    top: -320,
-    left: -70,
-
-    // Viền 
-    borderWidth: 5,
-    borderColor: '#0D74B1',
-
-    // Bóng cho 
-    shadowColor: '#0D74B1',     // Màu của bóng
-    shadowOffset: { width: 1, height: 5 },  // Độ dịch chuyển của bóng
-    shadowOpacity: 0.5,     // Độ trong suốt của bóng
-    shadowRadius: 0.25,      // Độ mờ của bóng
+  container: {
+    flexGrow: 1,
+    backgroundColor: "#0099CF",
+    paddingHorizontal: wp("5%"),
   },
-  icon_1: {
-    zIndex: -1,
+  topSection: {
+    alignItems: "center",
+    marginTop: hp("10%"),
   },
-  circle_2: {
-    width: 800,              // Chiều rộng hình tròn
-    height: 600,             // Chiều cao hình tròn (bằng với chiều rộng)
-    borderRadius: 400,        // Độ cong viền = 1/2 chiều rộng để tạo hình tròn
-    backgroundColor: 'rgba(0, 0, 0, 0.01)', // Màu nền đen với độ trong suốt 0.2
-    position: 'absolute',
-    top: -50,
-    right: -500,
-
-    // Viền 
+  logoContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: wp("100%"),
+    height: hp("20%"),
+  },
+  logo: {
+    width: wp("50%"),
+    height: hp("40%"),
+  },
+  title: {
+    fontSize: wp("12%"),
+    fontWeight: "bold",
+    color: "white",
+    marginTop: hp("2%"),
+    zIndex: 1,
+  },
+  formContainer: {
+    marginTop: hp("10%"),
+    width: "100%",
+  },
+  inputContainer: {
+    marginBottom: hp("3%"),
+  },
+  input: {
+    backgroundColor: "white",
+    height: hp("7%"),
+    // borderRadius: 25,
+  },
+  checkboxContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: hp("2%"),
+  },
+  checkbox: {
+    backgroundColor: "transparent",
+    borderWidth: 0,
+    padding: 0,
+  },
+  checkboxText: {
+    color: "white",
+    fontSize: wp("3.5%"),
+  },
+  forgotPassword: {
+    color: "white",
+    fontSize: wp("3.5%"),
+    fontWeight: "500",
+  },
+  buttonContainer: {
+    alignItems: "center",
+    marginTop: hp("5%"),
+  },
+  button: {
+    width: wp("60%"),
+    height: hp("7%"),
+    justifyContent: "center",
+    backgroundColor: "#0F74C1",
+  },
+  buttonText: {
+    fontSize: wp("4%"),
+    fontWeight: "600",
+  },
+  circle1: {
+    width: wp("150%"),
+    height: wp("150%"),
+    borderRadius: wp("75%"),
+    backgroundColor: "rgba(0, 0, 0, 0.01)",
+    position: "absolute",
+    top: -wp("100%"),
+    left: -wp("25%"),
     borderWidth: 5,
-    borderColor: '#0D74B1',
-
-    // Bóng cho 
-    shadowColor: '#0D74B1',     // Màu của bóng
-    shadowOffset: { width: 1, height: 5 },  // Độ dịch chuyển của bóng
-    shadowOpacity: 0.5,     // Độ trong suốt của bóng
-    shadowRadius: 0.25,      // Độ mờ của bóng
-  }
+    borderColor: "#0D74B1",
+    shadowColor: "#0D74B1",
+    shadowOffset: { width: 1, height: 5 },
+    shadowOpacity: 0.5,
+    shadowRadius: 0.25,
+  },
+  circle2: {
+    width: wp("200%"),
+    height: wp("150%"),
+    borderRadius: wp("100%"),
+    backgroundColor: "rgba(0, 0, 0, 0.01)",
+    position: "absolute",
+    top: -wp("50%"),
+    right: -wp("125%"),
+    borderWidth: 5,
+    borderColor: "#0D74B1",
+    shadowColor: "#0D74B1",
+    shadowOffset: { width: 1, height: 5 },
+    shadowOpacity: 0.5,
+    shadowRadius: 0.25,
+  },
 });
 
-export default Auth
+export default Auth;
