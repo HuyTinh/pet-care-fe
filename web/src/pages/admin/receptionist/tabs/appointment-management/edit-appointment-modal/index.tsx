@@ -161,6 +161,19 @@ export const EditAppointmentModal = ({
                 ))}
               </select>
             </label>
+            <label className="space-y-2">
+              <div>Status:</div>
+              <select
+                className="select select-bordered"
+                {...register("status")}
+              >
+                {["CHECKED_IN", "CANCELLED", "SCHEDULED"]?.map((val, index) => (
+                  <option key={index} value={val}>
+                    {val}
+                  </option>
+                ))}
+              </select>
+            </label>
           </div>
           <div className="space-y-2 py-2">
             <PetPicker pets={pets} setPets={setPets} />
