@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
   },
   topSection: {
     alignItems: "center",
-    marginTop: hp("10%"),
+    marginTop: hp("5%"),
   },
   logoContainer: {
     alignItems: "center",
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   inputContainer: {
-    marginBottom: hp("3%"),
+    marginBottom: hp("5%"),
   },
   input: {
     backgroundColor: "white",
@@ -167,7 +167,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginTop: hp("2%"),
   },
   checkbox: {
     backgroundColor: "transparent",
@@ -194,16 +193,17 @@ const styles = StyleSheet.create({
     backgroundColor: "#0F74C1",
   },
   buttonText: {
-    fontSize: wp("4%"),
+    fontSize: wp("5%"),
     fontWeight: "600",
+    alignItems: "center",
   },
   circle1: {
     width: wp("150%"),
-    height: wp("150%"),
+    height: wp("170%"),
     borderRadius: wp("75%"),
     backgroundColor: "rgba(0, 0, 0, 0.01)",
     position: "absolute",
-    top: -wp("100%"),
+    top: -wp("95%"),
     left: -wp("25%"),
     borderWidth: 5,
     borderColor: "#0D74B1",
@@ -218,8 +218,8 @@ const styles = StyleSheet.create({
     borderRadius: wp("100%"),
     backgroundColor: "rgba(0, 0, 0, 0.01)",
     position: "absolute",
-    top: -wp("50%"),
-    right: -wp("125%"),
+    top: -wp("20%"),
+    right: -wp("155%"),
     borderWidth: 5,
     borderColor: "#0D74B1",
     shadowColor: "#0D74B1",

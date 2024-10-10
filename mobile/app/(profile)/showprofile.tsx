@@ -3,7 +3,7 @@ import React from 'react'
 import { Avatar, Button, Card, IconButton } from 'react-native-paper'
 import { Link, useNavigation } from 'expo-router';
 import { useGetAccountQuery } from '@/pharmacist/pharmacist.service';
-import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
+import { AntDesign, FontAwesome, MaterialIcons } from '@expo/vector-icons';
 const neweditprofile = () => {
     const { data, isLoading, isFetching, isError } = useGetAccountQuery()
     const navigation = useNavigation();
@@ -68,7 +68,8 @@ const neweditprofile = () => {
                     <View className='mt-[460px] flex items-center'>
                         <Link href={"../(profile)/editprofile"} className='text-lg'>
                             <Button className='bg-[#0099CF] w-[350px] flex items-center justify-center h-14 ' onPress={() => console.log("hihi")}>
-                                <Text className='text-lg text-white'>Edit</Text>
+                                <AntDesign name="edit" size={20} color="white" /> 
+                                <Text className='text-lg text-white'> Edit</Text>
                             </Button>
                         </Link>
                     </View>
