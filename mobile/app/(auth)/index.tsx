@@ -118,6 +118,7 @@ const Auth = () => {
               Login
             </Button>
           </Link>
+          {/* <Button onPress={requestPermissions}>Alow camera</Button> */}
         </View>
       </ScrollView>
     </TouchableWithoutFeedback>
