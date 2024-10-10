@@ -2,7 +2,11 @@ import { useState, useEffect } from "react";
 import { useFilterAppointmentsQuery } from "../../appointment.service";
 import { IAppointment } from "../../../../../types/appoiment.type";
 import Select from "react-select";
-import { displayCustomDate, getDaysArray } from "../../../../../utils/date";
+import {
+  displayCustomDate,
+  displayInputDate,
+  getDaysArray,
+} from "../../../../../utils/date";
 import { usePdfGenerator } from "../../../../../hooks/pdf-generator";
 import { FcCalendar } from "react-icons/fc";
 import { motion } from "framer-motion";
@@ -12,7 +16,7 @@ import { QRScanModal } from "./qr-scan";
 import { IoQrCodeOutline } from "react-icons/io5";
 
 export const AppointmentManagement = () => {
-  const initialDate = `${new Date().getFullYear()}-01-01`;
+  const initialDate = `${displayInputDate(new Date())}`;
   const [appointments, setAppointments] = useState<IAppointment[]>([]);
   const [startDate, setStartDate] = useState<any>({
     value: initialDate,
@@ -50,14 +54,16 @@ export const AppointmentManagement = () => {
         // Gửi yêu cầu kết nối
         stompClient.publish({ destination: "/app/connect" });
         stompClient.subscribe("/topic/updateAppointment", (message) => {
+          let receiveData = JSON.parse(message.body);
+
           setAppointments((prev) => {
             let arr = [...prev];
 
             return arr.map((ap) => {
-              if (ap.id == message.body) {
+              if (ap.id == receiveData.appointmentId) {
                 return {
                   ...ap,
-                  status: "CHECKED_IN",
+                  status: receiveData.status,
                 };
               }
               return ap;
@@ -108,13 +114,14 @@ export const AppointmentManagement = () => {
     };
   }, [stompClient]);
 
-  const sendMessage = (appointmentId: string) => {
+  const sendMessage = (appointmentId: string, status: string) => {
     if (stompClient) {
       stompClient.publish({
         destination: "/app/sendMessage",
         body: JSON.stringify({
-          sessionId: sessionId,
-          appointmentId: appointmentId,
+          sessionId,
+          appointmentId,
+          status,
         }),
       });
     }
@@ -143,7 +150,7 @@ export const AppointmentManagement = () => {
           <Select
             defaultValue={startDate}
             options={getDaysArray(
-              `${new Date().getFullYear()}-01-01`,
+              `${displayInputDate(new Date())}`,
               `${new Date().getFullYear() + 1}-01-01`,
             ).map((val) => {
               return { value: val, label: val };
@@ -154,7 +161,7 @@ export const AppointmentManagement = () => {
           <Select
             defaultValue={endDate}
             options={getDaysArray(
-              `${new Date().getFullYear()}-01-01`,
+              `${displayInputDate(new Date())}`,
               `${new Date().getFullYear() + 1}-01-01`,
             ).map((val) => {
               return { value: val, label: val };
@@ -221,7 +228,7 @@ export const AppointmentManagement = () => {
                 (appointments as IAppointment[])?.map((ap, index) => (
                   <motion.tr
                     key={index}
-                    className={`${ap.status === "CHECKED_IN" && "rounded-lg bg-zinc-400 p-1"}`}
+                    className={`${["CHECKED_IN", "CANCELLED"].includes(ap.status) && "rounded-lg bg-zinc-400 p-1"}`}
                   >
                     <th>#{ap.id}</th>
                     <td>
@@ -250,7 +257,7 @@ export const AppointmentManagement = () => {
                     </td>
                     <td>
                       <span
-                        className={`${ap.status === "SCHEDULED" && "rounded-lg bg-yellow-300 p-1"}`}
+                        className={`rounded-lg p-1 ${ap.status === "SCHEDULED" ? "bg-yellow-300" : ap.status === "CANCELLED" ? "bg-red-300" : "bg-green-300"}`}
                       >
                         {ap.status}
                       </span>
@@ -259,7 +266,7 @@ export const AppointmentManagement = () => {
                       {ap.status === "SCHEDULED" && (
                         <button
                           className="btn btn-success btn-sm"
-                          onClick={() => sendMessage(ap.id)}
+                          onClick={() => sendMessage(ap.id, "CHECKED_IN")}
                         >
                           Check in
                         </button>
@@ -267,7 +274,7 @@ export const AppointmentManagement = () => {
                       {ap.status === "CHECKED_IN" && (
                         <button
                           className="btn btn-error btn-sm"
-                          onClick={() => sendMessage(ap.id)}
+                          onClick={() => sendMessage(ap.id, "CANCELLED")}
                         >
                           Cancel
                         </button>

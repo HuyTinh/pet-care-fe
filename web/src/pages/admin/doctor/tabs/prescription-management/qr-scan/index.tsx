@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { Scanner } from "@yudiel/react-qr-scanner";
 
-import { useGetAppointmentByIdQuery } from "../../../prescription.service";
-
 export const QRScanModal = ({
   qrModalVisible,
   setQrModalVisible,
@@ -14,19 +12,19 @@ export const QRScanModal = ({
 }) => {
   const [appointmentId, setAppointmentId] = useState<any>();
 
-  const { data: appointmentResponse } = useGetAppointmentByIdQuery(
-    { appointmentId: appointmentId },
-    {
-      skip: !appointmentId,
-    },
-  );
+  // const { data: appointmentResponse } = useGetAppointmentByIdQuery(
+  //   { appointmentId: appointmentId },
+  //   {
+  //     skip: !appointmentId,
+  //   },
+  // );
 
-  useEffect(() => {
-    if (appointmentResponse) {
-      setSelectedAppointment(appointmentResponse.data);
-      (document.getElementById("edit_appointment_modal") as any).showModal();
-    }
-  }, [appointmentResponse]);
+  // useEffect(() => {
+  //   if (appointmentResponse) {
+  //     setSelectedAppointment(appointmentResponse.data);
+  //     (document.getElementById("edit_appointment_modal") as any).showModal();
+  //   }
+  // }, [appointmentResponse]);
 
   return (
     <dialog
