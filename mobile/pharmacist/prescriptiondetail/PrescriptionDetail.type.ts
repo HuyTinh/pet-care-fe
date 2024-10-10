@@ -1,7 +1,10 @@
+import { Medicine } from "../medicine/Medicine"
+import { Pet } from "../pet/Pet.type"
+
 export interface PrescriptionDetail{
-    medicineId: string;
-    medicineName: string;
-    medicineUnit: string;
-    medicineQuantity: number
-    totalPriceInPrescriptionDetail: number;
+        id: number
+        pet: Pet
+        medicine: Medicine[]
+        note: string
+      
 }
