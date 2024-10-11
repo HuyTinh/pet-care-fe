@@ -15,7 +15,9 @@ import { ServicePage } from "./pages/site/service";
 import { AllService } from "./pages/site/service/all-service";
 import { DiagnosticsService } from "./pages/site/service/diagnostics";
 import { useCookies } from "react-cookie";
+import {Blog} from "./pages/site/blog/blog"
 import { useEffect } from "react";
+import useFetch from "./hooks/useFecth";
 
 const Page = (isAuth: Boolean, role: string) => {
   return {
@@ -44,6 +46,10 @@ const Page = (isAuth: Boolean, role: string) => {
         {
           path: "booking",
           element: <BookingPage />,
+        },
+        {
+          path: "blog",
+          element: <Blog />,
         },
         {
           path: "service",
@@ -79,13 +85,15 @@ export const RouterHooks = () => {
   const userId = useSelector((state: RootState) => state.authentication.userId);
   const [cookies, setCookies] = useCookies<any>();
   const role = "customer";
-
+  
   useEffect(() => {
     if (userId) {
       cookies[`email-notification-${userId}`] === undefined &&
         setCookies(`email-notification-${userId}`, true);
     }
   }, [userId]);
+
+  
 
   // isAuth && cookies[];
 

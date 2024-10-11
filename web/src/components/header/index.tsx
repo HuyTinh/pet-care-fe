@@ -88,6 +88,9 @@ export const Header = () => {
               <NavLink to={"/booking"}>Booking</NavLink>
             </li>
             <li>
+              <NavLink to={"/blog"}>Blog</NavLink>
+            </li>
+            <li>
               <span
                 onClick={() =>
                   isAuth ? navigate("/account") : openAuthModal()
