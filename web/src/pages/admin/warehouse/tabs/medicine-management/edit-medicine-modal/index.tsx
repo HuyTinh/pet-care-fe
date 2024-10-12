@@ -1,26 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { IHospitalService } from "../../../../../../types/hospital-service.type";
-import { IPet } from "../../../../../../types/pet.type";
-import { IAppointment } from "../../../../../../types/appoiment.type";
-import { ServicePicker } from "../../../../../../components/service-picker";
-import { PetPicker } from "../../../../../../components/pet-picker";
-import { time } from "../../../../../../constant/time";
-import {
-  displayInputDate,
-  displayPlusDate,
-} from "../../../../../../utils/date";
-import { toast } from "react-toastify";
 import { MdOutlineErrorOutline } from "react-icons/md";
-import { useUpdateAppointmentMutation } from "../../../../receptionist/appointment.service";
+import { IMedicine } from "../../../../../../types/medicine.type";
+import { toast } from "react-toastify";
 
-type EditAppointmentModalProps = {
-  appointment: IAppointment;
+type EditMedicineModalProps = {
+  medicine: IMedicine;
 };
 
-export const EditAppointmentModal = ({
-  appointment,
-}: EditAppointmentModalProps) => {
+export const EditMedicineModal = ({ medicine }: EditMedicineModalProps) => {
   const {
     register,
     handleSubmit,
@@ -30,148 +18,97 @@ export const EditAppointmentModal = ({
     mode: "all",
   });
 
-  const [pets, setPets] = useState<IPet[]>([]);
-
-  const [services, setServices] = useState<IHospitalService[]>([]);
-
-  const [updateAppointment] = useUpdateAppointmentMutation();
-
-  const onSubmit: SubmitHandler<any> = (data) =>
-    updateAppointment({
-      appointmentId: appointment.id,
-      updateAppointment: {
-        ...data,
-        pets: pets,
-        services: services,
-      },
-    }).then(() => {
-      toast.success("Change appointment info successful", {
-        position: "top-right",
-      });
-    });
+  const onSubmit: SubmitHandler<any> = (data) => {};
+  // updateAppointment({
+  //   appointmentId: appointment.id,
+  //   updateAppointment: {
+  //     ...data,
+  //     pets: pets,
+  //     services: services,
+  //   },
+  // }).then(() => {
+  //   toast.success("Change appointment info successful", {
+  //     position: "top-right",
+  //   });
+  // });
 
   useEffect(() => {
-    if (appointment) {
-      setServices(appointment?.services || []);
-      setPets(appointment?.pets || []);
-      reset(appointment);
+    if (medicine) {
+      // setServices(medicine?.services || []);
+      // setPets(medicine?.pets || []);
+      reset(medicine);
     }
-  }, [appointment]);
+  }, [medicine]);
 
   return (
-    <dialog id="edit_appointment_modal" className="modal backdrop:!hidden">
+    <dialog id="edit_medicine_modal" className="modal backdrop:!hidden">
       <div className="modal-box w-full max-w-xl border-2 border-black">
         <div className="text-center text-3xl font-bold">
-          Change Appointment Info
+          Change Medicine Info
         </div>
         <form action="" onSubmit={handleSubmit(onSubmit)}>
           <div className="flex justify-center gap-x-5">
             <label className="form-control w-full max-w-xs">
               <div className="label">
-                <span className="label-text">First name:</span>
+                <span className="label-text">Name:</span>
               </div>
               <input
                 type="text"
                 placeholder="Type here"
                 className="input input-bordered w-full max-w-xs"
-                {...register("first_name", {
-                  required: "First name is empty!",
+                {...register("name", {
+                  required: "Name is empty!",
                 })}
               />
-              {errors?.first_name && (
+              {errors?.name && (
                 <span className="badge badge-error mt-2 gap-2 text-white">
                   <MdOutlineErrorOutline />
-                  {(errors?.first_name as any).message}
+                  {(errors?.name as any).message}
                 </span>
               )}
             </label>
             <label className="form-control w-full max-w-xs">
               <div className="label">
-                <span className="label-text">Last name:</span>
+                <span className="label-text">Quantity:</span>
               </div>
               <input
-                type="text"
-                placeholder="Type here"
+                type="number"
+                defaultValue={0}
+                step={1}
                 className="input input-bordered w-full max-w-xs"
-                {...register("last_name", {
-                  required: "Last name is empty!",
-                })}
+                {...register("quantity")}
               />
-              {errors.last_name && (
-                <span className="badge badge-error mt-2 gap-2 text-white">
-                  <MdOutlineErrorOutline />
-                  {(errors.last_name as any)?.message}
-                </span>
-              )}
             </label>
           </div>
-          <div className="flex justify-center gap-x-5">
-            <label className="form-control w-full max-w-xs">
+          <div className="flex gap-x-5">
+            <label className="form-control w-full max-w-xs justify-between">
               <div className="label">
-                <span className="label-text">Email:</span>
+                <span className="label-text">Price:</span>
               </div>
               <input
                 type="text"
                 placeholder="Type here"
                 className="input input-bordered w-full max-w-xs"
-                readOnly
-                {...register("email")}
-              />
-            </label>
-            <label className="form-control w-full max-w-xs">
-              <div className="label">
-                <span className="label-text">Phone number:</span>
-              </div>
-              <input
-                type="text"
-                placeholder="Type here"
-                className="input input-bordered w-full max-w-xs"
-                {...register("phone_number", {
-                  required: "Phone number is empty!",
+                {...register("price", {
+                  required: "Price is empty!",
                 })}
               />
-              {errors?.phone_number && (
+              {errors?.price && (
                 <span className="badge badge-error mt-2 gap-2 text-white">
                   <MdOutlineErrorOutline />
-                  {(errors.phone_number as any)?.message}
+                  {(errors.price as any)?.message}
                 </span>
               )}
             </label>
-          </div>
-          <div className="flex gap-x-2 py-2">
-            <label className="flex-1 space-y-2">
-              <div>
-                Date{" "}
-                <span className="font-bold underline">(month/day/year)</span>:
+            <label className="form-control w-full max-w-xs justify-between">
+              <div className="label">
+                <span className="label-text">Status:</span>
               </div>
-              <input
-                type="date"
-                className="input input-bordered w-full"
-                min={displayInputDate(new Date())}
-                max={displayInputDate(displayPlusDate(new Date(), 60))}
-                {...register("appointment_date")}
-              />
-            </label>
-            <label className="space-y-2">
-              <div>Time:</div>
-              <select
-                className="select select-bordered"
-                {...register("appointment_time")}
-              >
-                {(time as any[])?.map((val, index) => (
-                  <option key={index + 10} value={val.time}>
-                    {val.label}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label className="space-y-2">
-              <div>Status:</div>
               <select
                 className="select select-bordered"
                 {...register("status")}
               >
-                {["CHECKED_IN", "CANCELLED", "SCHEDULED"]?.map((val, index) => (
+                {["ACTIVE", "INACTIVE"]?.map((val, index) => (
                   <option key={index} value={val}>
                     {val}
                   </option>
@@ -179,9 +116,29 @@ export const EditAppointmentModal = ({
               </select>
             </label>
           </div>
-          <div className="space-y-2 py-2">
-            <PetPicker pets={pets} setPets={setPets} />
-            <ServicePicker services={services} setServices={setServices} />
+          <div className="flex gap-x-2 py-2">
+            <label className="form-control w-full max-w-xs justify-between">
+              <div>
+                Manufacturing Date{" "}
+                <span className="font-bold underline">(month/day/year)</span>:
+              </div>
+              <input
+                type="date"
+                className="input input-bordered w-full"
+                {...register("manufacturing_date")}
+              />
+            </label>
+            <label className="form-control w-full max-w-xs justify-between">
+              <div>
+                Expiry Date{" "}
+                <span className="font-bold underline">(month/day/year)</span>:
+              </div>
+              <input
+                type="date"
+                className="input input-bordered w-full"
+                {...register("expiry_date")}
+              />
+            </label>
           </div>
           <div>
             <button className="btn btn-outline">Save</button>

@@ -4,9 +4,11 @@ import { motion } from "framer-motion";
 import { useGetAllMedicinesQuery } from "../../medicine.service";
 import { useEffect, useState } from "react";
 import { IMedicine } from "../../../../../types/medicine.type";
+import { EditMedicineModal } from "./edit-medicine-modal";
 
 export const MedicinesManagement = () => {
   const [medicines, setMedicines] = useState<IMedicine[]>();
+  const [selectedMedicine, setSelectedMedicine] = useState<any>();
   const { data: medicineData, isFetching: isFetchingMedicineData } =
     useGetAllMedicinesQuery();
 
@@ -108,14 +110,26 @@ export const MedicinesManagement = () => {
                       </span>
                     </td>
                     <td className="space-x-2">
-                      <button className="btn btn-info btn-sm">Edit</button>
+                      <button
+                        className="btn btn-info btn-sm"
+                        onClick={() => {
+                          (
+                            document.getElementById(
+                              "edit_medicine_modal",
+                            ) as any
+                          ).showModal();
+                          setSelectedMedicine(me as IMedicine);
+                        }}
+                      >
+                        Edit
+                      </button>
                     </td>
                   </motion.tr>
                 ))}
             </tbody>
           </table>
         </div>
-        {/* <EditAppointmentModal appointment={selectedAppointment} /> */}
+        <EditMedicineModal medicine={selectedMedicine} />
       </div>
     </>
   );

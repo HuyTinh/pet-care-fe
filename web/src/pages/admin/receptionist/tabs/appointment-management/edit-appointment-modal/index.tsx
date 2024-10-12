@@ -44,17 +44,11 @@ export const EditAppointmentModal = ({
         pets: pets,
         services: services,
       },
-    }).then((res) => {
+    }).then(() => {
       toast.success("Change appointment info successful", {
         position: "top-right",
       });
     });
-
-  // const updateAppointment = () => {
-  //   toast.success("Change appointment info successful", {
-  //     position: "top-right",
-  //   });
-  // };
 
   useEffect(() => {
     if (appointment) {
