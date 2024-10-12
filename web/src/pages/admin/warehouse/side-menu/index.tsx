@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { NavLink } from "react-router-dom";
-import { CiCalendar, CiCircleInfo } from "react-icons/ci";
+import { CiCircleInfo, CiPill } from "react-icons/ci";
 import { ReactElement } from "react";
 
 interface MenuItem {
@@ -12,7 +12,7 @@ interface MenuItem {
 const menuItems: MenuItem[] = [
   {
     title: "Medicine",
-    icon: <CiCalendar size={32} />,
+    icon: <CiPill size={32} />,
     path: "/warehouse",
   },
   {

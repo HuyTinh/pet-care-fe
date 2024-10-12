@@ -5,7 +5,7 @@ import { useGetAllMedicinesQuery } from "../../medicine.service";
 import { useEffect, useState } from "react";
 import { IMedicine } from "../../../../../types/medicine.type";
 
-export const AppointmentManagement = () => {
+export const MedicinesManagement = () => {
   const [medicines, setMedicines] = useState<IMedicine[]>();
   const { data: medicineData, isFetching: isFetchingMedicineData } =
     useGetAllMedicinesQuery();
@@ -84,24 +84,25 @@ export const AppointmentManagement = () => {
                     <th>#{me.id}</th>
                     <td>
                       <div>
-                        <span className="font-bold">{me.name}</span>
+                        <span>Name: </span>
+                        <span className="text-lg font-bold">{me.name}</span>
                       </div>
                       <div className="truncate">
                         <span>Manufacturing Date: </span>
-                        <span className="underline">
+                        <span className="font-bold underline">
                           {displayCustomDate(new Date(me.manufacturing_date))}
                         </span>
                       </div>
                       <div className="truncate">
                         <span>Expiry Date: </span>
-                        <span>
+                        <span className="font-bold underline">
                           {displayCustomDate(new Date(me.expiry_date))}
                         </span>
                       </div>
                     </td>
                     <td>
                       <span
-                        className={`rounded-lg p-1 ${me.status ? "bg-yellow-300" : "bg-red-300"}`}
+                        className={`rounded-lg p-1 ${me.status === "ACTIVE" ? "bg-green-300" : "bg-red-300"}`}
                       >
                         {me.status}
                       </span>

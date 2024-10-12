@@ -15,14 +15,16 @@ export const ClientLayout = () => {
               location.key;
         }}
       />
-      {!location.pathname.includes("receptionist") && <Header />}
+      {!location.pathname.includes("receptionist") &&
+        !location.pathname.includes("warehouse") && <Header />}
 
       <div className="flex-1">
         <AnimatePresence>
           <Outlet />
         </AnimatePresence>
       </div>
-      {!location.pathname.includes("receptionist") && <Footer />}
+      {!location.pathname.includes("receptionist") &&
+        !location.pathname.includes("warehouse") && <Footer />}
     </div>
   );
 };

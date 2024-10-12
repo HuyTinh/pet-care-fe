@@ -6,7 +6,7 @@ export interface IMedicine {
   note: string;
   manufactures: IManufacture[];
   locations: ILocation[];
-  status: boolean;
+  status: string;
   manufacturing_date: number;
   expiry_date: number;
   calculation_units: ICalculationUnit[];
