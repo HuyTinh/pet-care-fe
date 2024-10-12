@@ -100,10 +100,7 @@ export const EditAppointmentModal = ({
                           appointment_date: displayInputDate(
                             new Date(getValues("appointment_date")),
                           ),
-                          appointment_time: time.find(
-                            (val: any) =>
-                              val.time === getValues("appointment_time"),
-                          )?.gmt_time,
+                          appointment_time: getValues("appointment_time"),
                           pets: pets,
                           services: services,
                         },

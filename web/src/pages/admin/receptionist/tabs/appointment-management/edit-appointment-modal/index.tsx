@@ -12,6 +12,7 @@ import {
 } from "../../../../../../utils/date";
 import { toast } from "react-toastify";
 import { MdOutlineErrorOutline } from "react-icons/md";
+import { useUpdateAppointmentMutation } from "../../../appointment.service";
 
 type EditAppointmentModalProps = {
   appointment: IAppointment;
@@ -33,18 +34,27 @@ export const EditAppointmentModal = ({
 
   const [services, setServices] = useState<IHospitalService[]>([]);
 
+  const [updateAppointment] = useUpdateAppointmentMutation();
+
   const onSubmit: SubmitHandler<any> = (data) =>
-    console.log({
-      ...data,
-      pets: pets,
-      services: services,
+    updateAppointment({
+      appointmentId: appointment.id,
+      updateAppointment: {
+        ...data,
+        pets: pets,
+        services: services,
+      },
+    }).then((res) => {
+      toast.success("Change appointment info successful", {
+        position: "top-right",
+      });
     });
 
-  const updateAppointment = () => {
-    toast.success("Change appointment info successful", {
-      position: "top-right",
-    });
-  };
+  // const updateAppointment = () => {
+  //   toast.success("Change appointment info successful", {
+  //     position: "top-right",
+  //   });
+  // };
 
   useEffect(() => {
     if (appointment) {
@@ -56,7 +66,7 @@ export const EditAppointmentModal = ({
 
   return (
     <dialog id="edit_appointment_modal" className="modal backdrop:!hidden">
-      <div className="modal-box w-full max-w-xl">
+      <div className="modal-box w-full max-w-xl border-2 border-black">
         <div className="text-center text-3xl font-bold">
           Change Appointment Info
         </div>
