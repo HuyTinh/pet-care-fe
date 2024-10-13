@@ -1,31 +1,43 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { APIResponse } from "../../../types/api-response.type";
-import { IPresription } from "../../../types/prescription.type";
+import { IAppointment } from "../../../types/appoiment.type";
 
 export const prescriptionApi = createApi({
   reducerPath: "prescriptionApi",
-  tagTypes: ["Prescriptions"],
+  tagTypes: ["Prescriptions", "Appointments"],
   baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_BACKEND_URL }),
   endpoints: (build) => ({
-    getAllMedicines: build.query<APIResponse, void>({
-      query: () =>
-        `${import.meta.env.VITE_MEDICAL_PRESCRIPTION_PATH}/prescription`,
+    filterAppointments: build.query<
+      APIResponse,
+      { startDate: string; endDate: string; status: string }
+    >({
+      query: ({ startDate, endDate, status }) => {
+        return {
+          url: `${import.meta.env.VITE_APPOINTMENT_PATH}/appointment/filter`,
+          params: {
+            startDate,
+            endDate,
+            status,
+          },
+        };
+      },
+
       providesTags(result) {
         if (result) {
           const final = [
-            ...(result.data as IPresription[]).map(({ id }) => ({
-              type: "Prescriptions" as const,
+            ...(result.data as IAppointment[]).map(({ id }) => ({
+              type: "Appointments" as const,
               id,
             })),
-            { type: "Prescriptions" as const, id: "LIST" },
+            { type: "Appointments" as const, id: "LIST" },
           ];
           return final;
         }
-        const final = [{ type: "Prescriptions" as const, id: "LIST" }];
+        const final = [{ type: "Appointments" as const, id: "LIST" }];
         return final;
       },
     }),
   }),
 });
 
-export const { useGetAllMedicinesQuery } = prescriptionApi;
+export const { useFilterAppointmentsQuery } = prescriptionApi;

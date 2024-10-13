@@ -27,6 +27,7 @@ export const store = configureStore({
       authenticationApi.middleware,
       customerApi.middleware,
       medicineApi.middleware,
+      prescriptionApi.middleware,
     ),
 });
 

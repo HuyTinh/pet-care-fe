@@ -16,7 +16,8 @@ export const ClientLayout = () => {
         }}
       />
       {!location.pathname.includes("receptionist") &&
-        !location.pathname.includes("warehouse") && <Header />}
+        !location.pathname.includes("warehouse") &&
+        !location.pathname.includes("doctor") && <Header />}
 
       <div className="flex-1">
         <AnimatePresence>
@@ -24,7 +25,8 @@ export const ClientLayout = () => {
         </AnimatePresence>
       </div>
       {!location.pathname.includes("receptionist") &&
-        !location.pathname.includes("warehouse") && <Footer />}
+        !location.pathname.includes("warehouse") &&
+        !location.pathname.includes("doctor") && <Footer />}
     </div>
   );
 };
