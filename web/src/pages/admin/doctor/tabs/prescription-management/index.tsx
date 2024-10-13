@@ -6,11 +6,9 @@ import {
   displayInputDate,
   getDaysArray,
 } from "../../../../../utils/date";
-import { usePdfGenerator } from "../../../../../hooks/pdf-generator";
 import { FcCalendar } from "react-icons/fc";
 import { motion } from "framer-motion";
 import { EditPrescriptionModal } from "./edit-prescription-modal";
-import WebSocketManager from "../../../../../config/web-socket-manager";
 import { QRScanModal } from "./qr-scan";
 import { IoQrCodeOutline } from "react-icons/io5";
 import { useFilterAppointmentsQuery } from "../../prescription.service";
@@ -33,7 +31,7 @@ export const PrescriptionManagement = () => {
   } = useFilterAppointmentsQuery({
     startDate: startDate?.value,
     endDate: endDate?.value,
-    status: "CHECKED_IN",
+    statues: ["CHECKED_IN"],
   });
 
   const [selectedAppointment, setSelectedAppointment] = useState<IAppointment>(
@@ -145,10 +143,7 @@ export const PrescriptionManagement = () => {
             <tbody>
               {!isFetchingFilterAppointmentData &&
                 (appointments as IAppointment[])?.map((ap, index) => (
-                  <motion.tr
-                    key={index}
-                    className={`${ap.status === "CHECKED_IN" && "rounded-lg bg-zinc-400 p-1"}`}
-                  >
+                  <motion.tr key={index}>
                     <th>#{ap.id}</th>
                     <td>
                       <div>
@@ -163,41 +158,26 @@ export const PrescriptionManagement = () => {
                       </div>
                       <div className="truncate">
                         <span>Date: </span>
-                        <span className="underline">
-                          {displayCustomDate(new Date(ap.appointment_date))}
+                        <span className="font-bold underline">
+                          {displayCustomDate(new Date(ap.appointment_date))},{" "}
+                          {ap.appointment_time.substring(0, 5) + "h"}
                         </span>
                       </div>
-                      <div className="truncate">
+                      {/* <div className="truncate">
                         <span>Time: </span>
                         <span className="underline">
-                          {ap.appointment_time.substring(0, 5)}
+                          {ap.appointment_time.substring(0, 5) + "h"}
                         </span>
-                      </div>
+                      </div> */}
                     </td>
                     <td>
                       <span
-                        className={`${ap.status === "SCHEDULED" && "rounded-lg bg-yellow-300 p-1"}`}
+                        className={`${ap.status === "CHECKED_IN" && "rounded-lg bg-blue-300 p-1"}`}
                       >
                         {ap.status}
                       </span>
                     </td>
                     <td className="space-x-2">
-                      {ap.status === "SCHEDULED" && (
-                        <button
-                          className="btn btn-success btn-sm"
-                          // onClick={() => sendMessage(ap.id)}
-                        >
-                          Check in
-                        </button>
-                      )}
-                      {ap.status === "CHECKED_IN" && (
-                        <button
-                          className="btn btn-error btn-sm"
-                          // onClick={() => sendMessage(ap.id)}
-                        >
-                          Cancel
-                        </button>
-                      )}
                       <button
                         className="btn btn-info btn-sm"
                         onClick={() => {
@@ -209,8 +189,16 @@ export const PrescriptionManagement = () => {
                           setSelectedAppointment(ap as any);
                         }}
                       >
-                        Edit
+                        Make prescription
                       </button>
+                      {ap.status === "CHECKED_IN" && (
+                        <button
+                          className="btn btn-error btn-sm"
+                          // onClick={() => sendMessage(ap.id)}
+                        >
+                          Cancel
+                        </button>
+                      )}
                     </td>
                   </motion.tr>
                 ))}

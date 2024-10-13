@@ -127,7 +127,7 @@ export const AppointmentTab = () => {
                             </div>
                             <div className="collapse-content">
                               {(val.services as any[])?.map((se, subIndex) => (
-                                <div key={subIndex}>- {se.name}</div>
+                                <div key={subIndex}>- {se}</div>
                               ))}
                             </div>
                           </div>
@@ -135,7 +135,7 @@ export const AppointmentTab = () => {
                         <td>
                           <span className="underline">
                             {displayInputDate(new Date(val.appointment_date))},{" "}
-                            {val.appointment_time}
+                            {val.appointment_time.substring(0, 5) + "h"}
                           </span>
                         </td>
                         <td>

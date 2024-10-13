@@ -9,15 +9,15 @@ export const prescriptionApi = createApi({
   endpoints: (build) => ({
     filterAppointments: build.query<
       APIResponse,
-      { startDate: string; endDate: string; status: string }
+      { startDate: string; endDate: string; statues: string[] }
     >({
-      query: ({ startDate, endDate, status }) => {
+      query: ({ startDate, endDate, statues }) => {
         return {
           url: `${import.meta.env.VITE_APPOINTMENT_PATH}/appointment/filter`,
           params: {
             startDate,
             endDate,
-            status,
+            statues,
           },
         };
       },

@@ -7,26 +7,24 @@ import { IHospitalService } from "../types/hospital-service.type";
 import { useGetHospitalServiceQuery } from "../pages/admin/receptionist/appointment.service";
 
 type ServicePickerProps = {
-  services: IHospitalService[];
-  setServices: React.Dispatch<React.SetStateAction<IHospitalService[]>>;
+  services: string[];
+  setServices: React.Dispatch<React.SetStateAction<string[]>>;
 };
 
 export const ServicePicker = ({
   services,
   setServices,
 }: ServicePickerProps) => {
-  const { reset } = useForm<IHospitalService>();
-
   const { data: hospitalServicesData } = useGetHospitalServiceQuery();
 
   const [expand, setExpand] = useState(false);
-  const addServices = (data: IHospitalService) => {
+  const addServices = (data: string) => {
     setServices((prevState) => [...prevState, data]);
   };
 
   const removeServices = (indexService: number) => {
     setServices((prevState) => {
-      return prevState.filter((val, index) => index !== indexService);
+      return prevState.filter((_, index) => index !== indexService);
     });
   };
 
@@ -54,11 +52,8 @@ export const ServicePicker = ({
                   <span
                     className="flex cursor-default items-center justify-around gap-x-1 rounded-badge bg-base-200 px-2 text-sm font-semibold"
                     key={index}
-                    onClick={() => {
-                      reset(s);
-                    }}
                   >
-                    <div>{s.name}</div>
+                    <div>{s as string}</div>
                     <div
                       className="avatar cursor-pointer"
                       onClick={(e) => {
@@ -104,7 +99,7 @@ export const ServicePicker = ({
                     addServices(
                       hospitalServicesData?.data?.find(
                         (val: any) => val.name === e.target.value,
-                      ),
+                      ).name,
                     );
                     e.target.value = "";
                   }
@@ -114,10 +109,7 @@ export const ServicePicker = ({
 
                 {services?.length < 3 &&
                   (hospitalServicesData?.data as any[])
-                    ?.filter(
-                      (val) =>
-                        !services.map((val) => val.name).includes(val.name),
-                    )
+                    ?.filter((val) => !services.includes(val.name))
                     .map((val, index) => (
                       <option key={index} value={val?.name}>
                         {val?.name}
