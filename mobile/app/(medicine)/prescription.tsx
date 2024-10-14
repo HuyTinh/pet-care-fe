@@ -18,7 +18,7 @@ const prescription = () => {
         setActiveSections(activeSections)
     }
     const presrptionId = useSelector((state: RootState) => state.prescription.id);
-    const { data } = useGetPrescriptionByIdQuery(presrptionId, {
+    const { data, isFetching, isLoading } = useGetPrescriptionByIdQuery(presrptionId, {
         skip: !presrptionId
     })
     const renderHeader = (session: any) => {
@@ -84,14 +84,24 @@ const prescription = () => {
                         <Text style={styles.text_code}>#PC012</Text>
                     </View>
                     <View className='px-4 py-4'>
-                        <Accordion
-                            sections={(data as any)?.data.details || []}
-                            underlayColor='transparent'
-                            activeSections={activeSections}
-                            renderHeader={renderHeader}
-                            renderContent={renderContent}
-                            onChange={updateSections}
-                        />
+
+                        {
+                            isLoading ?
+                                <View className="flex flex-1 justify-center items-center h-[400px]">
+                                    <Image className="w-56 h-24" source={require("@/assets/images/loading.gif")} />
+                                    <Text className="text-[#ACACAD] font-bold">Prescription loading...</Text>
+                                </View>
+                                :
+                                !isFetching &&
+                                <Accordion
+                                    sections={(data as any)?.data.details || []}
+                                    underlayColor='transparent'
+                                    activeSections={activeSections}
+                                    renderHeader={renderHeader}
+                                    renderContent={renderContent}
+                                    onChange={updateSections}
+                                />
+                        }
                     </View>
                 </View>
                 <View className='flex flex-row justify-between px-5 pb-10 '>

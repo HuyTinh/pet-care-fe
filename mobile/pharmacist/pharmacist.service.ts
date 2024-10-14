@@ -12,6 +12,7 @@ export const pharmacistApi = createApi({
     endpoints: build => ({
         getAppointment: build.query<Prescription[], void>({
             query: () => '/prescription',
+           
             providesTags(result) {
                 if (result) {
                     const final = [...((result as any)?.data as Prescription[]).map(({ id }) => ({ type: 'Post' as const, id })), { type: 'Post' as const, appointmentId: 'LIST' }]

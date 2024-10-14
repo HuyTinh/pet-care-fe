@@ -6,8 +6,10 @@ import {
     Keyboard,
     TouchableWithoutFeedback,
     ScrollView,
+    TextInput,
 } from "react-native";
-import React, { useCallback, useMemo, useRef, useState } from "react";
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Button, Card, Searchbar } from "react-native-paper";
 import { Avatar } from "react-native-paper";
 import Accordion from "react-native-collapsible/Accordion";
@@ -25,78 +27,109 @@ import { Prescription } from "@/pharmacist/prescription/Prescription.type";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/pharmacist/store";
 import { startEditPost } from "@/pharmacist/prescription";
+import { router } from "expo-router";
 const Home = () => {
     const { data, isLoading, isFetching, isError } = useGetAppointmentQuery();
     const [searchQuery, setSearchQuery] = React.useState("");
+    const [searchResult, setSearchResult] = React.useState();
     const bottomSheetModalRef = useRef<BottomSheetModal>(null);
     // variables
     const snapPoints = useMemo(() => ["25%", "50%", "75%", "90%"], []);
     // callbacks
     const handlePresentModalPress = useCallback((id: any) => {
         bottomSheetModalRef.current?.present();
-         distpath(startEditPost(id))
+        distpath(startEditPost(id))
     }, []);
     const [activeSections, setActiveSections] = useState([]);
 
     const updateSections = (activeSections: any) => {
-       
+
         setActiveSections(activeSections);
-        
+
     };
+    const [listCustomer, setListCustomer] = useState([]);
     const presrptionId = useSelector((state: RootState) => state.prescription.id);
-    const { data: prescriptionData, isFetching : fetchingPrescriptionData } = useGetPrescriptionByIdQuery(presrptionId, {
+    const { data: prescriptionData, isFetching: fetchingPrescriptionData } = useGetPrescriptionByIdQuery(presrptionId, {
         skip: !presrptionId,
     });
     const distpath = useDispatch()
+    const filterCustomer = (value: any) => {
+        return (data as any)?.data.filter((account: any) => {
+            return (
+                value &&
+                account.customer.phone_number.includes(value)
+            )
+        })
+    }
+    const getDateInfo = (): { day: number; month: string; year: number; dayName: string } => {
+        const today = new Date(); // Lấy ngày hiện tại
 
-    const SECTIONS = [
-        {
-            name: "Hieu",
-            patient: "Lun",
-            medicine: {
-                id_medicine: "SEMCTA",
-                name: "Thuốc này kia",
-                quantity: 2,
-                option: "Vien",
-            },
-        },
-        {
-            name: "Vua",
-            patient: "Lun",
-            medicine: {
-                id_medicine: "SEMCTA",
-                name: "Thuốc này kia",
-                quantity: 2,
-                option: "Hop",
-            },
-        },
-    ];
+        // Lấy ngày (1-31)
+        const day: number = today.getDate();
+        // Lấy chỉ số tháng (0-11)
+        const monthIndex: number = today.getMonth();
+        // Lấy tháng (0-11). Cần cộng thêm 1 nếu muốn từ 1-12.
+        const months: string[] = [
+            'January', 'February', 'March', 'April',
+            'May', 'June', 'July', 'August',
+            'September', 'October', 'November', 'December'
+        ];
+        const month: string = months[monthIndex];
+        // Lấy năm (ví dụ: 2024)
+        const year: number = today.getFullYear();
+
+        // Lấy ngày trong tuần (0-6)
+        const dayOfWeek: number = today.getDay();
+
+        // Map các số 0-6 thành tên các thứ
+        const days: string[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const dayName: string = days[dayOfWeek];
+
+        return { day, month, year, dayName };
+    };
+
+    // Sử dụng hàm
+    const { day, month, year, dayName } = getDateInfo();
+    useEffect(() => {
+        setSearchResult(filterCustomer(searchQuery))
+    }, [searchQuery])
+
+    const hanldListSearch = () => {
+        router.replace('./(tabs)/list');
+    }
+    const inputRef = useRef<TextInput>(null);
+    const handleButtonPress = () => {
+        // Khi button được nhấn, gọi phương thức blur() trên input để out focus
+        inputRef.current?.blur();
+        setIsFocus(false)
+    };
+    const [isFocus, setIsFocus] = useState(false)
     const renderHeader = (session: any) => {
         return (
             <Card className="bg-[#E7E7E8] mt-5 p-1">
                 <Card.Content>
-                        <View className="flex flex-row items-center justify-between">
-                            <View className="flex flex-row items-center">
-                                <View>
-                                    <Image source={require("@/assets/images/pets 4.png")} />
-                                </View>
-                                <View className="ml-3">
-                                    <Text className="text-[#0D74B1] text-base font-medium ">
-                                        Tên:{" "}
-                                        <Text className="!text-black"> {session.pet.name}</Text>
-                                    </Text>
-                                    <Text className="text-[#0D74B1] text-base font-medium ">
-                                        Bệnh: <Text className="!text-black">{session.note}</Text>
-                                    </Text>
-                                </View>
-                            </View>
+                    <View className="flex flex-row items-center justify-between">
+                        <View className="flex flex-row items-center">
                             <View>
-                                <Image
-                                    className="justify-end"
-                                    source={require("@/assets/images/arrow_drop_down.png")}
-                                />
+                                <Image source={require("@/assets/images/pets 4.png")} />
+                            </View>
+                            <View className="ml-3">
+                                <Text className="text-[#0D74B1] text-base font-medium ">
+                                    Tên:{" "}
+                                    <Text className="!text-black"> {session.pet.name}</Text>
+                                </Text>
+                                <Text className="text-[#0D74B1] text-base font-medium ">
+                                    Bệnh: <Text className="!text-black">{session.note}</Text>
+                                </Text>
                             </View>
                         </View>
+                        <View>
+                            <Image
+                                className="justify-end"
+                                source={require("@/assets/images/arrow_drop_down.png")}
+                            />
+                        </View>
+                    </View>
                 </Card.Content>
             </Card>
         );
@@ -132,92 +165,154 @@ const Home = () => {
             </View>
         );
     };
-   
     return (
         // <ScrollView>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <GestureHandlerRootView>
                 <BottomSheetModalProvider>
-                    <View className=" mt-16">
-                        <View className="flex-row gap-4 gap-y-5 static px-5 py-5 justify-between items-center">
-                            <View className="w-3/4">
-                                <Searchbar
-                                    style={styles.searchbar}
-                                    placeholder="Search list customer"
-                                    onChangeText={setSearchQuery}
-                                    value={searchQuery}
-                                />
-                            </View>
-                            <View className="w-1/4">
-                                <Avatar.Image
-                                    size={55}
-                                    source={require("@/assets/images/26.png")}
-                                />
-                            </View>
-                        </View>
-                        <ScrollView>
-                            <View className="px-3 py-1 static">
-                                <View className="flex-row items-center">
-                                    <View>
-                                        <View style={styles.square} />
-                                        <Image
-                                            className="absolute ml-[14px] mt-[8px] "
-                                            source={require("@/assets/images/calendar.png")}
+                    <View className="mt-16">
+                        <View className="flex-row gap-4 gap-y-5 static py-5 items-center">
+                            {
+                                !isFocus
+                                    ?
+                                    <View className="w-[95%] px-5">
+                                        <Searchbar
+                                            ref={inputRef}
+                                            style={styles.searchbar}
+                                            placeholder="Search list customer"
+                                            // onChangeText={(query) => setSearchQuery(query)}
+                                            value={searchQuery}
+                                            onFocus={() => setIsFocus(true)}
                                         />
                                     </View>
-                                    <View className="ml-[5.5px]">
-                                        <Text className="text-[50px] font-bold text-[#0099CF]">
-                                            11
-                                        </Text>
+                                    :
+                                    <View className="w-[95%] px-5">
+                                        <Searchbar
+                                            ref={inputRef}
+                                            style={styles.searchbar}
+                                            placeholder="Search list customer"
+                                            onChangeText={(query) => setSearchQuery(query)}
+                                            value={searchQuery}
+                                            onFocus={() => setIsFocus(true)}
+                                            icon={() =>
+                                                <View>
+                                                    <Button onPress={handleButtonPress} >
+                                                        <Image source={require('@/assets/images/back.png')} style={styles.backIcon} />
+                                                    </Button>
+                                                </View>
+                                            }
+                                        />
                                     </View>
-                                    <View className="ml-[5.5px]">
-                                        <Text className="text-sm text-[#0099CF] opacity-50 font-bold">
-                                            Wednesday
-                                        </Text>
-                                        <Text className="text-sm text-[#0099CF]">
-                                            September 2024
-                                        </Text>
-                                    </View>
-                                    <View className="ml-20">
-                                        <Text className="text-4xl text-[#0099CF] font-bold">
-                                            Today
-                                        </Text>
+                            }
+                        </View>
+                        <ScrollView>
+                            {
+                                !isFocus &&
+                                <View className="px-3 py-1 static">
+                                    <View className="flex-row items-center">
+                                        <View>
+                                            <View style={styles.square} />
+                                            <Image
+                                                className="absolute ml-[14px] mt-[8px] "
+                                                source={require("@/assets/images/calendar.png")}
+                                            />
+                                        </View>
+                                        <View className="ml-[5.5px]">
+                                            <Text className="text-[50px] font-bold text-[#0099CF]">
+                                                {day}
+                                            </Text>
+                                        </View>
+                                        <View className="ml-[5.5px]">
+                                            <Text className="text-sm text-[#0099CF] opacity-50 font-bold">
+                                                {dayName}
+                                            </Text>
+                                            <Text className="text-sm text-[#0099CF]">
+                                                {month} {year}
+                                            </Text>
+                                        </View>
+                                        <View className="ml-20">
+                                            <Text className="text-4xl text-[#0099CF] font-bold">
+                                                Today
+                                            </Text>
+                                        </View>
                                     </View>
                                 </View>
-                            </View>
+                            }
                             <View className=" p-5 pb-64 ">
-                                {!isFetching &&
-                                    ((data as any)?.data as Prescription[]).map(
-                                        (prescription) => (
-                                            <Card
-                                                className="bg-[#E7E7E8] mb-5"
-                                                onPress={() => handlePresentModalPress(prescription.id)}
-                                            >
-                                                <Card.Content>
-                                                    <Text className="font-bold text-lg text-[#0D74B1]">
-                                                        #PC{prescription.id}
+                                {
+                                    isFocus 
+                                    && 
+                                    (searchResult as any)?.map((search: any) => (
+                                        <Card
+                                            className="bg-[#E7E7E8] mb-5"
+                                            onPress={() => handlePresentModalPress(search.id)}
+                                        >
+                                            <Card.Content>
+                                                <Text className="font-bold text-lg text-[#0D74B1]">
+                                                    #PC{search.id}
+                                                </Text>
+                                                <Text className="text-[#0D74B1] text-base font-medium">
+                                                    Họ và tên:{" "}
+                                                    <Text className="!text-black">
+                                                        {search.customer.last_name}{" "}
+                                                        {search.customer.first_name}
                                                     </Text>
-                                                    <Text className="text-[#0D74B1] text-base font-medium">
-                                                        Họ và tên:{" "}
-                                                        <Text className="!text-black">
-                                                            {prescription.customer.last_name}{" "}
-                                                            {prescription.customer.first_name}
+                                                </Text>
+                                                <Text className="text-[#0D74B1] text-base font-medium">
+                                                    Số điện thoại:{" "}
+                                                    <Text className="!text-black">
+                                                        {search.customer.phone_number}
+                                                    </Text>
+                                                </Text>
+                                                <Image
+                                                    className="absolute top-6 right-4"
+                                                    source={require("@/assets/images/pets 4.png")}
+                                                />
+                                            </Card.Content>
+                                        </Card>
+                                    ))
+                                    // <View className="flex flex-1 justify-center items-center">
+                                    //     <Text>{(searchResult as any)?.length}</Text>
+                                    // </View>
+                                }
+                                {
+                                    isLoading ? <View className="flex flex-1 justify-center items-center h-[400px]">
+                                        <Image className="w-56 h-24" source={require("@/assets/images/loading.gif")} />
+                                        <Text className="text-[#ACACAD] font-bold">Customer loading...</Text>
+                                    </View>
+                                        :
+                                        !isFocus && !isFetching && ((data as any)?.data as Prescription[]).map(
+                                            (prescription) => (
+                                                <Card
+                                                    className="bg-[#E7E7E8] mb-5"
+                                                    onPress={() => handlePresentModalPress(prescription.id)}
+                                                >
+                                                    <Card.Content>
+                                                        <Text className="font-bold text-lg text-[#0D74B1]">
+                                                            #PC{prescription.id}
                                                         </Text>
-                                                    </Text>
-                                                    <Text className="text-[#0D74B1] text-base font-medium">
-                                                        Số điện thoại:{" "}
-                                                        <Text className="!text-black">
-                                                            {prescription.customer.phone_number}
+                                                        <Text className="text-[#0D74B1] text-base font-medium">
+                                                            Họ và tên:{" "}
+                                                            <Text className="!text-black">
+                                                                {prescription.customer.last_name}{" "}
+                                                                {prescription.customer.first_name}
+                                                            </Text>
                                                         </Text>
-                                                    </Text>
-                                                    <Image
-                                                        className="absolute top-6 right-4"
-                                                        source={require("@/assets/images/pets 4.png")}
-                                                    />
-                                                </Card.Content>
-                                            </Card>
-                                        )
-                                    )}
+                                                        <Text className="text-[#0D74B1] text-base font-medium">
+                                                            Số điện thoại:{" "}
+                                                            <Text className="!text-black">
+                                                                {prescription.customer.phone_number}
+                                                            </Text>
+                                                        </Text>
+                                                        <Image
+                                                            className="absolute top-6 right-4"
+                                                            source={require("@/assets/images/pets 4.png")}
+                                                        />
+                                                    </Card.Content>
+                                                </Card>
+                                            ))
+
+                                }
                                 <BottomSheetModal
                                     ref={bottomSheetModalRef}
                                     index={1}
@@ -226,7 +321,7 @@ const Home = () => {
                                 >
                                     <BottomSheetView>
                                         <View>
-                                            <Text className="text-xl font-bold ml-4">#PC1012</Text>
+                                            <Text className="text-xl font-bold ml-4">#PC{(prescriptionData as any)?.data.id}</Text>
                                             <View className="px-4 py-4">
                                                 <Accordion
                                                     sections={(prescriptionData as any)?.data.details || []}
@@ -290,4 +385,14 @@ const styles = StyleSheet.create({
     contentContainer: {
         padding: 15,
     },
+    backButton: {
+        position: "absolute",
+        left: -20,
+        top: 10,
+        zIndex: 1,
+    },
+    backIcon: {
+        width: wp('5.5%'),
+        height: wp('5.5%'),
+    }
 });

@@ -8,11 +8,12 @@ import {
   TouchableWithoutFeedback,
   Dimensions,
   ScrollView,
+  Modal
 } from "react-native";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, set, SubmitHandler, useForm } from "react-hook-form";
 import { Button, TextInput } from "react-native-paper";
 import { CheckBox } from "react-native-elements";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { useCameraPermissions } from "expo-camera";
 import {
   widthPercentageToDP as wp,
@@ -20,108 +21,143 @@ import {
 } from "react-native-responsive-screen";
 import { useGetAccountQuery } from "@/pharmacist/pharmacist.service";
 import { Account } from "@/pharmacist/user/User";
-
 const { width, height } = Dimensions.get("window");
 
 const Auth = () => {
   const { data, isLoading, isFetching, isError } = useGetAccountQuery();
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState()
   const [isSelected, setSelection] = useState(false);
   const [permission, requestPermissions] = useCameraPermissions();
-  const { control, reset } = useForm<Account>();
-
+  const { control, reset, handleSubmit } = useForm<Account>();
+  const [modalVisible, setModalVisible] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   useEffect(() => {
-    reset((data as any)?.data);
+    setEmail((data as any)?.data.email);
+    setPassword((data as any)?.data.password)
   }, [data]);
-
+  const onSubmit: SubmitHandler<Account> = async (data: Account) => {
+    if (!(data.email === email && data.password === password)) {
+      setErrorMessage("Please check your account");
+      setModalVisible(true);
+    }
+    else {
+      router.replace('./(tabs)/list');
+    }
+  }
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <ScrollView contentContainerStyle={styles.container}>
-        <View style={styles.topSection}>
-          <View style={styles.logoContainer}>
-            <View style={styles.circle1} />
-            <Image
-              style={styles.logo}
-              source={require("@/assets/images/Logo2.png")}
-              resizeMode="contain"
-            />
+    <>
+      {/* Model popup */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }} className="flex-1 justify-center items-center">
+          <View style={{ width: 380, height: 320, padding: 50, backgroundColor: 'white', borderRadius: 10 }} className="flex justify-center items-center">
+            <View className="justify-center items-center">
+              <Image className="w-36 h-32" source={require("@/assets/images/error.gif")} />
+              <Text className="mt-3 mb-3 font-bold text-3xl text-center">{errorMessage}</Text>
+              <Button className="bg-[#0099CF] mt-5 w-56" onPress={() => setModalVisible(false)} >
+                <Text className="font-bold text-base text-white text-center">OK</Text>
+              </Button>
+            </View>
           </View>
-          <Text style={styles.title}>Pet care</Text>
         </View>
+      </Modal>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ScrollView contentContainerStyle={styles.container}>
+          <View style={styles.topSection}>
+            <View style={styles.logoContainer}>
+              <View style={styles.circle1} />
+              <Image
+                style={styles.logo}
+                source={require("@/assets/images/Logo2.png")}
+                resizeMode="contain"
+              />
+            </View>
+            <Text style={styles.title}>Pet care</Text>
+          </View>
 
-        <View style={styles.formContainer}>
-          <View style={styles.circle2} />
-          <View style={styles.inputContainer}>
-            <Controller
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <TextInput
-                  style={styles.input}
-                  className="rounded-3xl"
-                  label="Email"
-                  onBlur={onBlur}
-                  value={value}
-                  onChangeText={onChange}
-                  left={<TextInput.Icon icon="email" />}
-                  underlineColor="transparent"
-                  activeUnderlineColor="#0099CF"
-                />
-              )}
-              name="email"
-            />
+          <View style={styles.formContainer}>
+            <View style={styles.circle2} />
+            <View style={styles.inputContainer}>
+              <Controller
+                control={control}
+                rules={{ required: true }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    style={styles.input}
+                    className="rounded-3xl"
+                    label="Email"
+                    onBlur={onBlur}
+                    value={value}
+                    onChangeText={onChange}
+                    left={<TextInput.Icon icon="email" />}
+                    underlineColor="transparent"
+                    activeUnderlineColor="#0099CF"
+                  />
+                )}
+                name="email"
+              />
+            </View>
+            <View style={styles.inputContainer}>
+              <Controller
+                control={control}
+                rules={{ required: true }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    style={styles.input}
+                    className="rounded-3xl"
+                    label="Password"
+                    onBlur={onBlur}
+                    value={value}
+                    onChangeText={onChange}
+                    left={<TextInput.Icon icon="key" />}
+                    secureTextEntry
+                    underlineColor="transparent"
+                    activeUnderlineColor="#0099CF"
+                  />
+                )}
+                name="password"
+              />
+            </View>
+            <View style={styles.checkboxContainer}>
+              <CheckBox
+                title="Remember Me?"
+                checked={isSelected}
+                onPress={() => setSelection(!isSelected)}
+                containerStyle={styles.checkbox}
+                textStyle={styles.checkboxText}
+                checkedColor="white"
+              />
+              <Link
+                href="../(forgotpassword)/forgot-confirm-email"
+                style={styles.forgotPassword}
+              >
+                Forgot Password!
+              </Link>
+            </View>
           </View>
-          <View style={styles.inputContainer}>
-            <Controller
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <TextInput
-                  style={styles.input}
-                  className="rounded-3xl"
-                  label="Password"
-                  onBlur={onBlur}
-                  value={value}
-                  onChangeText={onChange}
-                  left={<TextInput.Icon icon="key" />}
-                  secureTextEntry
-                  underlineColor="transparent"
-                  activeUnderlineColor="#0099CF"
-                />
-              )}
-              name="password"
-            />
-          </View>
-          <View style={styles.checkboxContainer}>
-            <CheckBox
-              title="Remember Me?"
-              checked={isSelected}
-              onPress={() => setSelection(!isSelected)}
-              containerStyle={styles.checkbox}
-              textStyle={styles.checkboxText}
-              checkedColor="white"
-            />
-            <Link
-              href="../(forgotpassword)/forgot-confirm-email"
-              style={styles.forgotPassword}
-            >
-              Forgot Password!
-            </Link>
-          </View>
-        </View>
-        <View style={styles.buttonContainer}>
-          <Link href="./(tabs)/list">
+          <View style={styles.buttonContainer}>
+            <Link href="./(tabs)/list">
             <Button
               mode="contained"
               style={styles.button}
               labelStyle={styles.buttonText}
+              // onPress={handleSubmit(onSubmit)}
             >
               Login
             </Button>
-          </Link>
-          {/* <Button onPress={requestPermissions}>Alow camera</Button> */}
-        </View>
-      </ScrollView>
-    </TouchableWithoutFeedback>
+            </Link>
+            {/* <Button onPress={requestPermissions}>Alow camera</Button> */}
+          </View>
+        </ScrollView>
+      </TouchableWithoutFeedback>
+    </>
   );
 };
 
