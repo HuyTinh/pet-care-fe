@@ -6,5 +6,4 @@ export interface PrescriptionDetail{
         pet: Pet
         medicine: Medicine[]
         note: string
-      
 }
