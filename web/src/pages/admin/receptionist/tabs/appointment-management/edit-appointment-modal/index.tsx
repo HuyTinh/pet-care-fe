@@ -3,7 +3,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { IHospitalService } from "../../../../../../types/hospital-service.type";
 import { IPet } from "../../../../../../types/pet.type";
 import { IAppointment } from "../../../../../../types/appoiment.type";
-import { ServicePicker } from "../../../../../../components/service-picker";
 import { PetPicker } from "../../../../../../components/pet-picker";
 import { time } from "../../../../../../constant/time";
 import {
@@ -181,7 +180,7 @@ export const EditAppointmentModal = ({
           </div>
           <div className="space-y-2 py-2">
             <PetPicker pets={pets} setPets={setPets} />
-            <ServicePicker services={services} setServices={setServices} />
+            {/* <ServicePicker services={services} setServices={setServices} /> */}
           </div>
           <div>
             <button className="btn btn-outline">Save</button>

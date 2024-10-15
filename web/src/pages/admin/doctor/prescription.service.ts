@@ -37,7 +37,17 @@ export const prescriptionApi = createApi({
         return final;
       },
     }),
+    getAllCalculationUnit: build.query<APIResponse, void>({
+      query: () => `${import.meta.env.VITE_MEDICINE_PATH}/calculation-unit`,
+    }),
+    getAllMedicine: build.query<APIResponse, void>({
+      query: () => `${import.meta.env.VITE_MEDICINE_PATH}/medicine`,
+    }),
   }),
 });
 
-export const { useFilterAppointmentsQuery } = prescriptionApi;
+export const {
+  useFilterAppointmentsQuery,
+  useGetAllCalculationUnitQuery,
+  useGetAllMedicineQuery,
+} = prescriptionApi;

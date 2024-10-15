@@ -183,7 +183,7 @@ export const PrescriptionManagement = () => {
                         onClick={() => {
                           (
                             document.getElementById(
-                              "edit_appointment_modal",
+                              "make_prescription_modal",
                             ) as any
                           ).showModal();
                           setSelectedAppointment(ap as any);

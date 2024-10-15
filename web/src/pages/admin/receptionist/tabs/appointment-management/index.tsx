@@ -42,10 +42,6 @@ export const AppointmentManagement = () => {
   const [sessionId, _] = useState(new Date().getTime());
   const stompClient = WebSocketManager.getInstance().getClient();
   const { generatePDF } = usePdfGenerator();
-  useEffect(() => {
-    setAppointments(filterAppointmentData?.data);
-    return () => {};
-  }, [filterAppointmentData?.data]);
 
   useEffect(() => {
     if (stompClient) {
@@ -113,6 +109,10 @@ export const AppointmentManagement = () => {
       // stompClient?.deactivate;
     };
   }, [stompClient]);
+
+  useEffect(() => {
+    setAppointments(filterAppointmentData?.data);
+  }, [filterAppointmentData?.data]);
 
   const sendMessage = (appointmentId: string, status: string) => {
     if (stompClient) {
