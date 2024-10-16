@@ -15,10 +15,10 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { useGetAccountQuery } from "@/pharmacist/pharmacist.service";
+import { useGetAllAccountQuery } from "@/pharmacist/pharmacist.service";
 
 const EditProfile = () => {
-  const { data, isLoading, isFetching, isError } = useGetAccountQuery();
+  const { data, isLoading, isFetching, isError } = useGetAllAccountQuery();
   const [imageUrl, setImage] = useState([]);
   const { control, reset } = useForm<any>();
   const navigation = useNavigation();
