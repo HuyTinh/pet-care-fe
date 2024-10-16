@@ -17,7 +17,6 @@ import { DiagnosticsService } from "./pages/site/service/diagnostics";
 import { useCookies } from "react-cookie";
 import {Blog} from "./pages/site/blog/blog"
 import { useEffect } from "react";
-import useFetch from "./hooks/useFecth";
 
 const Page = (isAuth: Boolean, role: string) => {
   return {
