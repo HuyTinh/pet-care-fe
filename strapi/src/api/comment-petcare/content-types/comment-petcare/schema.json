@@ -1,0 +1,39 @@
+{
+  "kind": "collectionType",
+  "collectionName": "comments",
+  "info": {
+    "singularName": "comment-petcare",
+    "pluralName": "comments",
+    "displayName": "Comment_Petcare",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "contentCmt": {
+      "type": "text"
+    },
+    "user": {
+      "type": "string"
+    },
+    "avatar": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "time": {
+      "type": "datetime"
+    },
+    "blogs": {
+      "type": "json"
+    }
+  }
+}
