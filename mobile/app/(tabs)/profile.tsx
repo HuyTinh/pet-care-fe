@@ -20,8 +20,8 @@ const explore = () => {
           <View className='items-center mt-28 static'>
             <Avatar.Image size={100} source={{ uri: (data as any)?.data.image }} />
             <View>
-              <Text className='text-xl font-bold mt-2 text-white'>Phuc Bao</Text>
-              <Text className='text-xs font-medium opacity-50 text-white ml-[15px]'>ID: 012012</Text>
+              <Text className='text-xl font-bold mt-2 text-white' style={{fontFamily: "blod"}}>Phuc Bao</Text>
+              <Text className='text-xs font-medium opacity-50 text-white ml-[15px]' style={{fontFamily: "blod"}}>ID:<Text style={{fontFamily: "medium"}}>012012</Text> </Text>
             </View>
           </View>
         </View>
@@ -31,7 +31,7 @@ const explore = () => {
           <Link href={"../(profile)/showprofile"}>
             <Card.Content className=' h-20'>
               <Image className='absolute top-[23] left-[25px]' source={require('@/assets/images/Edit.png')} />
-              <Text className='absolute top-8 left-[85px] text-[17px] text-white font-medium'>My profile</Text>
+              <Text className='absolute top-8 left-[85px] text-[17px] text-white font-medium'  style={{fontFamily: "blod"}}>My profile</Text>
               <Image className='absolute top-7 left-[330px]' source={require('@/assets/images/navigate_next.png')} />
             </Card.Content>
           </Link>
@@ -40,7 +40,7 @@ const explore = () => {
           <Link href={"../(changepassword)/confirm-email"}>
             <Card.Content className=' h-20'>
               <Image className='absolute top-[23] left-[25px]' source={require('@/assets/images/Lock.png')} />
-              <Text className='absolute top-8 left-[85px] text-[17px] text-white font-medium'>Change Password</Text>
+              <Text className='absolute top-8 left-[85px] text-[17px] text-white font-medium' style={{fontFamily: "blod"}}>Change Password</Text>
               <Image className='absolute top-7 left-[330px]' source={require('@/assets/images/navigate_next.png')} />
             </Card.Content>
           </Link>
@@ -48,7 +48,7 @@ const explore = () => {
         <Card style={styles.card} className='mt-7' onPress={handlDeleteTonken}>
           <Card.Content className=' h-20'>
             <Image className='absolute top-[23] left-[25px]' source={require('@/assets/images/Log out.png')} />
-            <Text className='absolute top-8 left-[85px] font-semibold text-[15px] text-white'>Sign out</Text>
+            <Text className='absolute top-8 left-[85px] font-semibold text-[15px] text-white' style={{fontFamily: "blod"}}>Sign out</Text>
             <Image className='absolute top-7 right-4' source={require('@/assets/images/navigate_next.png')} />
           </Card.Content>
         </Card>
