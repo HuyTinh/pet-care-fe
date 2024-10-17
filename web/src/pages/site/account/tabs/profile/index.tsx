@@ -12,7 +12,7 @@ import {
 } from "../../../customer.service";
 import { useCookies } from "react-cookie";
 import { useModalPetCare } from "../../../../../components/pc-modal/hook";
-import { toFormData } from "../../../../../utils/formdata";
+import { toFormData } from "../../../../../utils/form-data";
 
 export const ProfileTab = () => {
   const { register, handleSubmit, reset } = useForm<any>({
