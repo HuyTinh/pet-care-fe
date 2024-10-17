@@ -58,7 +58,6 @@ const Auth = () => {
   if (!loaded) {
     return null;
   }
-
   const { width, height } = Dimensions.get("window");
   return (
     <>
@@ -147,6 +146,7 @@ const Auth = () => {
                 containerStyle={styles.checkbox}
                 textStyle={styles.checkboxText}
                 checkedColor="white"
+                fontFamily="Kodchasan-ExtraLightItalic"
               />
               <Link
                 href="../(forgotpassword)/forgot-confirm-email"
@@ -235,6 +235,7 @@ const styles = StyleSheet.create({
     fontSize: wp("3.5%"),
     fontWeight: "500",
     fontFamily: "medium",
+
   },
   buttonContainer: {
     alignItems: "center",
