@@ -15,10 +15,10 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { useGetAccountQuery } from "@/pharmacist/pharmacist.service";
+import { useGetAllAccountQuery } from "@/pharmacist/pharmacist.service";
 
 const EditProfile = () => {
-  const { data, isLoading, isFetching, isError } = useGetAccountQuery();
+  const { data, isLoading, isFetching, isError } = useGetAllAccountQuery();
   const [imageUrl, setImage] = useState([]);
   const { control, reset } = useForm<any>();
   const navigation = useNavigation();
@@ -202,6 +202,7 @@ const styles = StyleSheet.create({
     color: "#4F4F4F",
     opacity: 0.5,
     marginBottom: hp("1%"),
+    fontFamily: "blod"
   },
   input: {
     backgroundColor: "white",
@@ -209,6 +210,7 @@ const styles = StyleSheet.create({
     borderColor: "#606060",
     height: hp("6%"),
     fontSize: wp("4%"),
+    fontFamily: "medium"
   },
   buttonContainer: {
     alignItems: "center",
@@ -225,6 +227,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: wp("4.5%"),
     fontWeight: "600",
+    fontFamily: "blod"
   },
 });
 

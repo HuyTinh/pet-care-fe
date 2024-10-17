@@ -28,13 +28,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/pharmacist/store";
 import { startEditPost } from "@/pharmacist/prescription";
 import { router } from "expo-router";
+// import { useFonts } from "expo-font";
 const Home = () => {
     const { data, isLoading, isFetching, isError } = useGetAppointmentQuery();
     const [searchQuery, setSearchQuery] = React.useState("");
     const [searchResult, setSearchResult] = React.useState();
     const bottomSheetModalRef = useRef<BottomSheetModal>(null);
     // variables
-    const snapPoints = useMemo(() => ["25%", "50%", "75%", "90%"], []);
+    const snapPoints = useMemo(() => ["75%", "75%", "75%", "75%"], []);
     // callbacks
     const handlePresentModalPress = useCallback((id: any) => {
         bottomSheetModalRef.current?.present();
@@ -49,7 +50,7 @@ const Home = () => {
     };
     const [listCustomer, setListCustomer] = useState([]);
     const presrptionId = useSelector((state: RootState) => state.prescription.id);
-    const { data: prescriptionData, isFetching: fetchingPrescriptionData } = useGetPrescriptionByIdQuery(presrptionId, {
+    const { data: prescriptionData, isFetching: fetchingPrescriptionData, isLoading: loadingPrescription } = useGetPrescriptionByIdQuery(presrptionId, {
         skip: !presrptionId,
     });
     const distpath = useDispatch()
@@ -109,17 +110,18 @@ const Home = () => {
             <Card className="bg-[#E7E7E8] mt-5 p-1">
                 <Card.Content>
                     <View className="flex flex-row items-center justify-between">
+
                         <View className="flex flex-row items-center">
                             <View>
                                 <Image source={require("@/assets/images/pets 4.png")} />
                             </View>
                             <View className="ml-3">
-                                <Text className="text-[#0D74B1] text-base font-medium ">
+                                <Text className="text-[#0D74B1] text-base font-medium " style={{fontFamily: "blod"}}>
                                     Tên:{" "}
-                                    <Text className="!text-black"> {session.pet.name}</Text>
+                                    <Text className="!text-black" style={{fontFamily: "medium"}}> {session.pet.name}</Text>
                                 </Text>
-                                <Text className="text-[#0D74B1] text-base font-medium ">
-                                    Bệnh: <Text className="!text-black">{session.note}</Text>
+                                <Text className="text-[#0D74B1] text-base font-medium " style={{fontFamily: "blod"}}>
+                                    Bệnh: <Text className="!text-black" style={{fontFamily: "medium"}}>{session.note}</Text>
                                 </Text>
                             </View>
                         </View>
@@ -136,7 +138,7 @@ const Home = () => {
     };
     const renderContent = (session: any) => {
         return (
-            <View className="bg-[#E7E7E8] rounded-2xl px-5 py-3">
+            <View className="bg-[#E7E7E8] rounded-2xl px-5 pt-3">
                 <View className="w-auto h-auto">
                     {session?.medicine.map((medicine: any) => (
                         <View className="flex flex-row items-center justify-between mb-3">
@@ -145,17 +147,17 @@ const Home = () => {
                                     <Image source={require("@/assets/images/image.png")} />
                                 </View>
                                 <View className="ml-3">
-                                    <Text className="text-[#0D74B1] text-sm font-medium ">
+                                    <Text className="text-[#0D74B1] text-sm font-medium " style={{fontFamily: "blod"}}>
                                         {medicine.name}
                                     </Text>
-                                    <Text className="text-[#0D74B1] text-base font-medium ">
+                                    <Text className="text-[#0D74B1] text-base font-medium " style={{fontFamily: "blod"}}> 
                                         Mã sản phẩm:{" "}
-                                        <Text className="!text-black font-bold">{medicine.id}</Text>
+                                        <Text className="!text-black font-bold" style={{fontFamily: "medium"}}>{medicine.id}</Text>
                                     </Text>
                                 </View>
                             </View>
                             <View>
-                                <Text>
+                                <Text style={{fontFamily: "medium"}}>
                                     x{medicine.quantity} / <Text>{medicine.calculate_unit}</Text>
                                 </Text>
                             </View>
@@ -201,6 +203,7 @@ const Home = () => {
                                                     </Button>
                                                 </View>
                                             }
+
                                         />
                                     </View>
                             }
@@ -218,20 +221,20 @@ const Home = () => {
                                             />
                                         </View>
                                         <View className="ml-[5.5px]">
-                                            <Text className="text-[50px] font-bold text-[#0099CF]">
+                                            <Text className="text-[50px] font-bold text-[#0099CF]" style={{fontFamily: "blod"}}>
                                                 {day}
                                             </Text>
                                         </View>
                                         <View className="ml-[5.5px]">
-                                            <Text className="text-sm text-[#0099CF] opacity-50 font-bold">
+                                            <Text className="text-sm text-[#0099CF] opacity-70 font-bold" style={{fontFamily: "blod"}}>
                                                 {dayName}
                                             </Text>
-                                            <Text className="text-sm text-[#0099CF]">
+                                            <Text className="text-sm text-[#0099CF]" style={{fontFamily: "medium"}}>
                                                 {month} {year}
                                             </Text>
                                         </View>
-                                        <View className="ml-20">
-                                            <Text className="text-4xl text-[#0099CF] font-bold">
+                                        <View className="ml-16">
+                                            <Text className="text-4xl text-[#0099CF] font-bold" style={{fontFamily: "blod"}}>
                                                 Today
                                             </Text>
                                         </View>
@@ -240,46 +243,52 @@ const Home = () => {
                             }
                             <View className=" p-5 pb-64 ">
                                 {
-                                    isFocus 
-                                    && 
-                                    (searchResult as any)?.map((search: any) => (
-                                        <Card
-                                            className="bg-[#E7E7E8] mb-5"
-                                            onPress={() => handlePresentModalPress(search.id)}
-                                        >
-                                            <Card.Content>
-                                                <Text className="font-bold text-lg text-[#0D74B1]">
-                                                    #PC{search.id}
-                                                </Text>
-                                                <Text className="text-[#0D74B1] text-base font-medium">
-                                                    Họ và tên:{" "}
-                                                    <Text className="!text-black">
-                                                        {search.customer.last_name}{" "}
-                                                        {search.customer.first_name}
+                                    isFocus
+                                        &&
+                                        !searchQuery.length
+                                        ?
+                                        <View className="flex flex-1 justify-center items-center h-[550px]">
+                                            <Image className="w-56 h-24" source={require("@/assets/images/loading.gif")} />
+                                            <Text className="text-[#ACACAD]" style={{fontFamily: "blod"}}>Waiting for few minus...</Text>
+                                        </View>
+                                        :
+                                        (searchResult as any)?.map((search: any) => (
+                                            <Card
+                                                className="bg-[#E7E7E8] mb-5"
+                                                onPress={() => handlePresentModalPress(search.id)}
+                                            >
+                                                <Card.Content>
+                                                    <Text className="font-bold text-lg text-[#0D74B1]" style={{fontFamily: "blod"}}>
+                                                        #PC{search.id}
                                                     </Text>
-                                                </Text>
-                                                <Text className="text-[#0D74B1] text-base font-medium">
-                                                    Số điện thoại:{" "}
-                                                    <Text className="!text-black">
-                                                        {search.customer.phone_number}
+                                                    <Text className="text-[#0D74B1] text-base font-medium" style={{fontFamily: "blod"}}>
+                                                        Họ và tên:{" "}
+                                                        <Text className="!text-black" style={{fontFamily: "medium"}}>
+                                                            {search.customer.last_name}{" "}
+                                                            {search.customer.first_name}
+                                                        </Text>
                                                     </Text>
-                                                </Text>
-                                                <Image
-                                                    className="absolute top-6 right-4"
-                                                    source={require("@/assets/images/pets 4.png")}
-                                                />
-                                            </Card.Content>
-                                        </Card>
-                                    ))
-                                    // <View className="flex flex-1 justify-center items-center">
-                                    //     <Text>{(searchResult as any)?.length}</Text>
-                                    // </View>
+                                                    <Text className="text-[#0D74B1] text-base font-medium" style={{fontFamily: "blod"}}>
+                                                        Số điện thoại:{" "}
+                                                        <Text className="!text-black" style={{fontFamily: "medium"}}>
+                                                            {search.customer.phone_number}
+                                                        </Text>
+                                                    </Text>
+                                                    <Image
+                                                        className="absolute top-6 right-4"
+                                                        source={require("@/assets/images/pets 4.png")}
+                                                    />
+                                                </Card.Content>
+                                            </Card>
+                                        ))
                                 }
                                 {
-                                    isLoading ? <View className="flex flex-1 justify-center items-center h-[400px]">
-                                        <Image className="w-56 h-24" source={require("@/assets/images/loading.gif")} />
-                                        <Text className="text-[#ACACAD] font-bold">Customer loading...</Text>
-                                    </View>
+                                    isLoading
+                                        ?
+                                        <View className="flex flex-1 justify-center items-center h-[400px]">
+                                            <Image className="w-56 h-24" source={require("@/assets/images/loading.gif")} />
+                                            <Text className="text-[#ACACAD] font-bold" style={{fontFamily: "blod"}}>Customer loading...</Text>
+                                        </View>
                                         :
                                         !isFocus && !isFetching && ((data as any)?.data as Prescription[]).map(
                                             (prescription) => (
@@ -288,19 +297,19 @@ const Home = () => {
                                                     onPress={() => handlePresentModalPress(prescription.id)}
                                                 >
                                                     <Card.Content>
-                                                        <Text className="font-bold text-lg text-[#0D74B1]">
+                                                        <Text className=" text-lg text-[#0D74B1]" style={{fontFamily: "blod"}}> 
                                                             #PC{prescription.id}
                                                         </Text>
-                                                        <Text className="text-[#0D74B1] text-base font-medium">
+                                                        <Text className="text-[#0D74B1] text-base font-medium" style={{fontFamily: "blod"}}>
                                                             Họ và tên:{" "}
-                                                            <Text className="!text-black">
+                                                            <Text className="!text-black" style={{fontFamily: "medium"}}>
                                                                 {prescription.customer.last_name}{" "}
                                                                 {prescription.customer.first_name}
                                                             </Text>
                                                         </Text>
-                                                        <Text className="text-[#0D74B1] text-base font-medium">
+                                                        <Text className="text-[#0D74B1] text-base font-medium" style={{fontFamily: "blod"}}>
                                                             Số điện thoại:{" "}
-                                                            <Text className="!text-black">
+                                                            <Text className="!text-black" style={{fontFamily: "medium"}}>
                                                                 {prescription.customer.phone_number}
                                                             </Text>
                                                         </Text>
@@ -320,38 +329,57 @@ const Home = () => {
                                 // handleIndicatorStyle={{ display: "none" }}
                                 >
                                     <BottomSheetView>
-                                        <View>
-                                            <Text className="text-xl font-bold ml-4">#PC{(prescriptionData as any)?.data.id}</Text>
-                                            <View className="px-4 py-4">
-                                                <Accordion
-                                                    sections={(prescriptionData as any)?.data.details || []}
-                                                    activeSections={activeSections}
-                                                    underlayColor="transparent"
-                                                    renderHeader={renderHeader}
-                                                    renderContent={renderContent}
-                                                    onChange={updateSections}
-                                                />
-                                            </View>
-                                        </View>
-                                        <View className="flex flex-row justify-between px-5 pb-10">
-                                            <View>
-                                                <Text className="font-bold text-2xl text-[#0D74B1]">
-                                                    Medical total
-                                                </Text>
-                                                <Text className="text-base ml-4">
-                                                    {Intl.NumberFormat("vi-VN", {}).format(
-                                                        (prescriptionData as any)?.data.total_price
-                                                    )}{" "}
-                                                    VND
-                                                </Text>
-                                            </View>
-                                            <View>
-                                                <Button
-                                                    mode="contained"
-                                                    className="w-40 h-14 flex justify-center !bg-[#0F74C1]"
-                                                >
-                                                    <Text className="text-base font-bold">Approved</Text>
-                                                </Button>
+                                        <View className='flex flex-col justify-between pb-80 h-screen' style={{ width: wp(100) }}>
+                                            {
+                                                loadingPrescription
+                                                    ?
+                                                    <View className="flex flex-1 justify-center items-center mt-5">
+                                                        <Image className="w-56 h-24" source={require("@/assets/images/loading.gif")} />
+                                                        <Text className="text-[#ACACAD] font-bold h-10" style={{fontFamily: "blod"}}>Prescription loading...</Text>
+                                                    </View>
+                                                    :
+                                                    <View >
+                                                        <Text className="text-xl font-bold ml-4" style={{fontFamily: "blod"}}>#PC{(prescriptionData as any)?.data.id}</Text>
+                                                        <View className="px-4 py-4">
+                                                            <Accordion
+                                                                sections={(prescriptionData as any)?.data.details || []}
+                                                                activeSections={activeSections}
+                                                                underlayColor="transparent"
+                                                                renderHeader={renderHeader}
+                                                                renderContent={renderContent}
+                                                                onChange={updateSections}
+                                                            />
+                                                        </View>
+                                                    </View>
+                                            }
+                                            <View className="flex flex-row justify-between px-5">
+                                                <View>
+                                                    <Text className="font-bold text-2xl text-[#0D74B1]" style={{fontFamily: "blod"}}>
+                                                        Medical total
+                                                    </Text>
+                                                    {
+                                                        loadingPrescription
+                                                            ?
+                                                            <Text className="text-base ml-4" style={{fontFamily: "medium"}}>
+                                                                000.000 VND
+                                                            </Text>
+                                                            :
+                                                            <Text className="text-base ml-4" style={{fontFamily: "medium"}}>
+                                                                {Intl.NumberFormat("vi-VN", {}).format(
+                                                                    (prescriptionData as any)?.data.total_price
+                                                                )}{" "}
+                                                                VND
+                                                            </Text>
+                                                    }
+                                                </View>
+                                                <View>
+                                                    <Button
+                                                        mode="contained"
+                                                        className="w-40 h-14 flex justify-center !bg-[#0F74C1]"
+                                                    >
+                                                        <Text className="text-base font-bold" style={{fontFamily: "blod"}}>Approved</Text>
+                                                    </Button>
+                                                </View>
                                             </View>
                                         </View>
                                     </BottomSheetView>
@@ -371,6 +399,7 @@ const styles = StyleSheet.create({
         backgroundColor: "rgba(0, 0, 0, 0.01)",
         borderWidth: 1,
         borderColor: "#0099CF",
+        fontFamily: "Kodchasan-ExtraLightItalic"
     },
     square: {
         width: 60,

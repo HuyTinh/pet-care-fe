@@ -2,10 +2,10 @@ import { Image, Keyboard, StyleSheet, Text, TouchableWithoutFeedback, View } fro
 import React from 'react'
 import { Avatar, Button, Card, IconButton } from 'react-native-paper'
 import { Link, useNavigation } from 'expo-router';
-import { useGetAccountQuery } from '@/pharmacist/pharmacist.service';
+import { useGetAllAccountQuery } from '@/pharmacist/pharmacist.service';
 import { AntDesign, FontAwesome, MaterialIcons } from '@expo/vector-icons';
 const neweditprofile = () => {
-    const { data, isLoading, isFetching, isError } = useGetAccountQuery()
+    const { data, isLoading, isFetching, isError } = useGetAllAccountQuery()
     const navigation = useNavigation();
     function handleBack() {
         navigation.goBack();
@@ -22,7 +22,7 @@ const neweditprofile = () => {
                             <View className='absolute top-12'>
                                 <Button onPress={handleBack}>
                                     <Image className='w-5 h-5 ml-3' source={require('@/assets/images/back2.png')} />
-                                    <Text className='font-semibold text-lg text-white'>Information</Text>
+                                    <Text className='font-semibold text-lg text-white'  style={{fontFamily: "blod"}}>Information</Text>
                                 </Button>
                             </View>
                             <View className='items-center !mt-32 '>
@@ -38,28 +38,28 @@ const neweditprofile = () => {
                                     <Card.Title
                                         title="User name"
                                         left={(props) => <FontAwesome name="user-circle-o" size={25} color="black" />}
-                                        right={(props) => <Text className='font-medium text-base'>{(data as any)?.data.last_name} {(data as any)?.data.first_name}</Text>}
+                                        right={(props) => <Text className='font-medium text-base'  style={{fontFamily: "medium"}}>{(data as any)?.data.last_name} {(data as any)?.data.first_name}</Text>}
                                     />
                                 </View>
                                 <View className='pr-5'>
                                     <Card.Title
                                         title="Email"
                                         left={(props) => <MaterialIcons name="email" size={24} color="black" />}
-                                        right={(props) => <Text className='font-medium text-base'>{(data as any)?.data.email}</Text>}
+                                        right={(props) => <Text className='font-medium text-base'  style={{fontFamily: "medium"}}>{(data as any)?.data.email}</Text>}
                                     />
                                 </View>
                                 <View className='pr-5'>
                                     <Card.Title
                                         title="Contact"
                                         left={(props) => <MaterialIcons name="perm-contact-cal" size={24} color="black" />}
-                                        right={(props) => <Text className='font-medium text-base'>{(data as any)?.data.contact}</Text>}
+                                        right={(props) => <Text className='font-medium text-base' style={{fontFamily: "medium"}}>{(data as any)?.data.contact}</Text>}
                                     />
                                 </View>
                                 <View className='pr-5'>
                                     <Card.Title
                                         title="Birthday"
                                         left={(props) => <MaterialIcons name="today" size={24} color="black" />}
-                                        right={(props) => <Text className='font-medium text-base'>{(data as any)?.data.birthday}</Text>}
+                                        right={(props) => <Text className='font-medium text-base'  style={{fontFamily: "medium"}}>{(data as any)?.data.birthday}</Text>}
                                     />
                                 </View>
                             </View>
@@ -69,7 +69,7 @@ const neweditprofile = () => {
                         <Link href={"../(profile)/editprofile"} className='text-lg'>
                             <Button className='bg-[#0099CF] w-[350px] flex items-center justify-center h-14 ' onPress={() => console.log("hihi")}>
                                 <AntDesign name="edit" size={20} color="white" /> 
-                                <Text className='text-lg text-white'> Edit</Text>
+                                <Text className='text-lg text-white'  style={{fontFamily: "blod"}}> Edit</Text>
                             </Button>
                         </Link>
                     </View>

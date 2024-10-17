@@ -19,32 +19,47 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { useGetAccountQuery } from "@/pharmacist/pharmacist.service";
+import { useGetAccountMutation } from "@/pharmacist/pharmacist.service";
 import { Account } from "@/pharmacist/user/User";
-const { width, height } = Dimensions.get("window");
+import { LoginRequest } from "@/pharmacist/user/LoginRequest";
+import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
 
 const Auth = () => {
-  const { data, isLoading, isFetching, isError } = useGetAccountQuery();
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState()
+  const [login, { isLoading }] = useGetAccountMutation();
   const [isSelected, setSelection] = useState(false);
   const [permission, requestPermissions] = useCameraPermissions();
   const { control, reset, handleSubmit } = useForm<Account>();
   const [modalVisible, setModalVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  useEffect(() => {
-    setEmail((data as any)?.data.email);
-    setPassword((data as any)?.data.password)
-  }, [data]);
-  const onSubmit: SubmitHandler<Account> = async (data: Account) => {
-    if (!(data.email === email && data.password === password)) {
+
+  const onSubmit: SubmitHandler<LoginRequest> = async (data: LoginRequest) => {
+    try {
+      await login(data).unwrap()
+        .then(() => {
+          router.replace('./(tabs)/list');
+        })
+    }
+    catch (error) {
       setErrorMessage("Please check your account");
       setModalVisible(true);
     }
-    else {
-      router.replace('./(tabs)/list');
-    }
   }
+  const [loaded] = useFonts({
+    blod: require("../../assets/fonts/Kodchasan-SemiBold.ttf"),
+    medium: require('../../assets/fonts/Kodchasan-ExtraLightItalic.ttf')
+  });
+  useEffect(() => {
+    if (loaded) {
+      SplashScreen.hideAsync();
+    }
+  }, [loaded]);
+
+  if (!loaded) {
+    return null;
+  }
+
+  const { width, height } = Dimensions.get("window");
   return (
     <>
       {/* Model popup */}
@@ -81,7 +96,6 @@ const Auth = () => {
             </View>
             <Text style={styles.title}>Pet care</Text>
           </View>
-
           <View style={styles.formContainer}>
             <View style={styles.circle2} />
             <View style={styles.inputContainer}>
@@ -143,16 +157,16 @@ const Auth = () => {
             </View>
           </View>
           <View style={styles.buttonContainer}>
-            <Link href="./(tabs)/list">
-            <Button
-              mode="contained"
-              style={styles.button}
-              labelStyle={styles.buttonText}
-              // onPress={handleSubmit(onSubmit)}
-            >
-              Login
-            </Button>
-            </Link>
+            {/* <Link href="./(tabs)/list"> */}
+              <Button
+                mode="contained"
+                style={styles.button}
+                labelStyle={styles.buttonText}
+                onPress={handleSubmit(onSubmit)}
+              >
+                Login
+              </Button>
+            {/* </Link> */}
             {/* <Button onPress={requestPermissions}>Alow camera</Button> */}
           </View>
         </ScrollView>
@@ -187,6 +201,7 @@ const styles = StyleSheet.create({
     color: "white",
     marginTop: hp("2%"),
     zIndex: 1,
+    fontFamily: "blod"
   },
   formContainer: {
     marginTop: hp("10%"),
@@ -213,11 +228,13 @@ const styles = StyleSheet.create({
   checkboxText: {
     color: "white",
     fontSize: wp("3.5%"),
+    fontFamily: "medium",
   },
   forgotPassword: {
     color: "white",
     fontSize: wp("3.5%"),
     fontWeight: "500",
+    fontFamily: "medium",
   },
   buttonContainer: {
     alignItems: "center",
@@ -233,6 +250,7 @@ const styles = StyleSheet.create({
     fontSize: wp("5%"),
     fontWeight: "600",
     alignItems: "center",
+    fontFamily: "blod"
   },
   circle1: {
     width: wp("150%"),
