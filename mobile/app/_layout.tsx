@@ -41,7 +41,7 @@ const theme = {
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
-    blod: require("../assets/fonts/Kodchasan-SemiBold.ttf")
+    kodchasan: require("../assets/fonts/Kodchasan-SemiBold.ttf")
     // Kodchasan: require("../assets/fonts/Kodchasan-Regular.ttf"),
   });
   const [fetchToken, setFetchToken] = useState(true)

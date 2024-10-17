@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -15,7 +15,8 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-
+import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
 const ConfirmEmail = () => {
   const { control } = useForm<any>();
   const navigation = useNavigation();
@@ -23,7 +24,7 @@ const ConfirmEmail = () => {
   function handleBack() {
     navigation.goBack();
   }
-
+ 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ScrollView contentContainerStyle={styles.container}>

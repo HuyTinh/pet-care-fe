@@ -221,20 +221,20 @@ const Home = () => {
                                             />
                                         </View>
                                         <View className="ml-[5.5px]">
-                                            <Text className="text-[50px] font-bold text-[#0099CF]" style={{ fontFamily: "Kodchasan-SemiBold" }}>
+                                            <Text className="text-[50px] font-bold text-[#0099CF]">
                                                 {day}
                                             </Text>
                                         </View>
                                         <View className="ml-[5.5px]">
-                                            <Text className="text-sm text-[#0099CF] opacity-50 font-bold " style={{ fontFamily: "Kodchasan-SemiBold" }}>
+                                            <Text className="text-sm text-[#0099CF] opacity-50 font-bold ">
                                                 {dayName}
                                             </Text>
-                                            <Text className="text-sm text-[#0099CF]" style={{ fontFamily: "Kodchasan-ExtraLightItalic" }}>
+                                            <Text className="text-sm text-[#0099CF]">
                                                 {month} {year}
                                             </Text>
                                         </View>
                                         <View className="ml-16">
-                                            <Text className="text-4xl text-[#0099CF] font-bold" style={{ fontFamily: "Kodchasan-SemiBold" }}>
+                                            <Text className="text-4xl text-[#0099CF] font-bold">
                                                 Today
                                             </Text>
                                         </View>
@@ -249,7 +249,7 @@ const Home = () => {
                                         ?
                                         <View className="flex flex-1 justify-center items-center h-[550px]">
                                             <Image className="w-56 h-24" source={require("@/assets/images/loading.gif")} />
-                                            <Text className="text-[#ACACAD]" style={{ fontFamily: "Kodchasan-SemiBold" }}>Customer loading...</Text>
+                                            <Text className="text-[#ACACAD]">Customer loading...</Text>
                                         </View>
                                         :
                                         (searchResult as any)?.map((search: any) => (
@@ -297,17 +297,17 @@ const Home = () => {
                                                     onPress={() => handlePresentModalPress(prescription.id)}
                                                 >
                                                     <Card.Content>
-                                                        <Text className=" text-lg text-[#0D74B1]" style={{ fontFamily: "Kodchasan-SemiBold" }}>
+                                                        <Text className=" text-lg text-[#0D74B1]">
                                                             #PC{prescription.id}
                                                         </Text>
-                                                        <Text className="text-[#0D74B1] text-base font-medium" style={{ fontFamily: "Kodchasan-ExtraLightItalic" }}>
+                                                        <Text className="text-[#0D74B1] text-base font-medium">
                                                             Họ và tên:{" "}
                                                             <Text className="!text-black" >
                                                                 {prescription.customer.last_name}{" "}
                                                                 {prescription.customer.first_name}
                                                             </Text>
                                                         </Text>
-                                                        <Text className="text-[#0D74B1] text-base font-medium" style={{ fontFamily: "Kodchasan-ExtraLightItalic" }}>
+                                                        <Text className="text-[#0D74B1] text-base font-medium">
                                                             Số điện thoại:{" "}
                                                             <Text className="!text-black">
                                                                 {prescription.customer.phone_number}

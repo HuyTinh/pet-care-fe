@@ -46,8 +46,8 @@ const Auth = () => {
     }
   }
   const [loaded] = useFonts({
-    blod: require("../../assets/fonts/Kodchasan-SemiBold.ttf"),
-    medium: require('../../assets/fonts/Kodchasan-ExtraLightItalic.ttf')
+    // blod: require("../../assets/fonts/Kodchasan-SemiBold.ttf"),
+    // medium: require('../../assets/fonts/Kodchasan-ExtraLightItalic.ttf')
     // Kodchasan: require("../assets/fonts/Kodchasan-Regular.ttf"),
   });
   useEffect(() => {
@@ -59,13 +59,7 @@ const Auth = () => {
   if (!loaded) {
     return null;
   }
-  // let [fontsLoaded, fontsError] = useFonts({
-  //   blod: require('../../assets/fonts/Kodchasan-SemiBold.ttf'),
-  //   medium: require('../../assets/fonts/Kodchasan-ExtraLightItalic.ttf'),
-  // })
-  // if (!fontsLoaded && fontsError) {
-  //   return (null)
-  // }
+
   const { width, height } = Dimensions.get("window");
   return (
     <>
@@ -154,7 +148,6 @@ const Auth = () => {
                 containerStyle={styles.checkbox}
                 textStyle={styles.checkboxText}
                 checkedColor="white"
-                fontFamily="Kodchasan-ExtraLightItalic"
               />
               <Link
                 href="../(forgotpassword)/forgot-confirm-email"
@@ -209,7 +202,6 @@ const styles = StyleSheet.create({
     color: "white",
     marginTop: hp("2%"),
     zIndex: 1,
-    fontFamily: "blod"
   },
   formContainer: {
     marginTop: hp("10%"),
@@ -241,7 +233,6 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: wp("3.5%"),
     fontWeight: "500",
-    fontFamily: "Kodchasan-ExtraLightItalic"
   },
   buttonContainer: {
     alignItems: "center",
@@ -257,7 +248,6 @@ const styles = StyleSheet.create({
     fontSize: wp("5%"),
     fontWeight: "600",
     alignItems: "center",
-    fontFamily: "Kodchasan-SemiBold"
   },
   circle1: {
     width: wp("150%"),
