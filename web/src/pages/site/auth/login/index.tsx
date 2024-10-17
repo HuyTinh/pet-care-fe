@@ -30,14 +30,14 @@ export const ClientLoginForm = ({
   const FB_APP_ID = import.meta.env.VITE_FACEBOOK_APP_ID;
 
   const onSubmit: SubmitHandler<any> = (data) => {
-    loginRequest(data).then((result) => {
-      if ("error" in result) {
-        toast.error((result.error as any).data.message, {
+    loginRequest(data).then((res) => {
+      if ("error" in res) {
+        toast.error((res.error as any).data.message, {
           position: "top-right",
         });
       }
-      if ("data" in result) {
-        let { data } = result;
+      if ("data" in res) {
+        let { data } = res;
         toast.success("Login successful", {
           position: "top-right",
         });
@@ -45,7 +45,7 @@ export const ClientLoginForm = ({
         const loginResponse: {
           token: string;
           authenticated: boolean;
-        } = data.result;
+        } = data.data;
 
         localStorage.setItem("token", loginResponse.token);
 

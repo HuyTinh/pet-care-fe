@@ -8,10 +8,10 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { PetPicker } from "../../../../../../components/pet-picker";
 import { IPet } from "../../../../../../types/pet.type";
-import { IHospitalService } from "../../../../../../types/hospital-service.type";
 import { ServicePicker } from "../../../../../../components/service-picker";
 import { useUpdateAppointmentMutation } from "../../../../../admin/receptionist/appointment.service";
 import { toast } from "react-toastify";
+import _ from "lodash";
 
 export const EditAppointmentModal = ({
   selectedAppointment,
@@ -19,7 +19,7 @@ export const EditAppointmentModal = ({
   selectedAppointment: IAppointment;
 }) => {
   const [pets, setPets] = useState<IPet[]>([]);
-  const [services, setServices] = useState<IHospitalService[]>([]);
+  const [services, setServices] = useState<string[]>([]);
   const { register, reset, getValues } = useForm<any>();
   const closeEditAppointmentModal = () => {
     (document.getElementById("edit_appointment_modal") as any).close();
@@ -35,8 +35,6 @@ export const EditAppointmentModal = ({
   }, [isSuccess]);
 
   useEffect(() => {
-    console.log(13);
-
     reset({
       appointment_date: displayInputDate(
         new Date(selectedAppointment.appointment_date),
@@ -94,16 +92,19 @@ export const EditAppointmentModal = ({
                   className="btn btn-outline"
                   onClick={() => {
                     updateAppointment({
-                      id: selectedAppointment.id,
-                      appointment_date: displayInputDate(
-                        new Date(getValues("appointment_date")),
+                      appointmentId: selectedAppointment.id,
+                      updateAppointment: _.omit(
+                        {
+                          ...selectedAppointment,
+                          appointment_date: displayInputDate(
+                            new Date(getValues("appointment_date")),
+                          ),
+                          appointment_time: getValues("appointment_time"),
+                          pets: pets,
+                          services: services,
+                        },
+                        ["id"],
                       ),
-                      appointment_time: time.find(
-                        (val: any) =>
-                          val.time === getValues("appointment_time"),
-                      )?.gmt_time,
-                      pets: pets,
-                      services: services,
                     });
                   }}
                   type="button"

@@ -101,66 +101,65 @@ export const BookingPage = () => {
                     isDisabled={step !== 1}
                     placeholder="Select service"
                     options={(
-                      hospitalServicesData?.result as IHospitalService[]
+                      hospitalServicesData?.data as IHospitalService[]
                     )?.map((hs) => {
                       return {
                         value: hs.name,
                         label: hs.name,
                       };
                     })}
-                    onChange={(singleValue) =>
-                      setValue("service", singleValue?.value)
-                    }
+                    onChange={(multiValue) => setValue("service", multiValue)}
                     className="flex-1 text-sm"
+                    isMulti
                   />
                   <Select
                     isDisabled={step !== 1}
                     options={[
                       {
-                        value: "00:00:00",
+                        value: "08:00:00",
                         label: "8h",
                       },
                       {
-                        value: "01:00:00",
+                        value: "09:00:00",
                         label: "9h",
                       },
                       {
-                        value: "02:00:00",
+                        value: "10:00:00",
                         label: "10h",
                       },
                       {
-                        value: "03:00:00",
+                        value: "11:00:00",
                         label: "11h",
                       },
                       {
-                        value: "04:00:00",
+                        value: "12:00:00",
                         label: "12h",
                       },
                       {
-                        value: "05:00:00",
+                        value: "13:00:00",
                         label: "13h",
                       },
                       {
-                        value: "06:00:00",
+                        value: "14:00:00",
                         label: "14h",
                       },
                       ,
                       {
-                        value: "07:00:00",
+                        value: "15:00:00",
                         label: "15h",
                       },
                       ,
                       {
-                        value: "08:00:00",
+                        value: "16:00:00",
                         label: "16h",
                       },
                       ,
                       {
-                        value: "09:00:00",
+                        value: "17:00:00",
                         label: "17h",
                       },
                     ]}
-                    className="w-36 text-sm"
+                    className="flex *:flex-1"
                     placeholder="Select time"
                     onChange={(singleValue) =>
                       setValue("time", singleValue?.value)
@@ -193,14 +192,12 @@ export const BookingPage = () => {
                             if (e.target.checked) {
                               reset({
                                 ...getValues(),
-                                first_name:
-                                  customerProfileData.result.first_name,
-                                last_name: customerProfileData.result.last_name,
+                                first_name: customerProfileData.data.first_name,
+                                last_name: customerProfileData.data.last_name,
                                 phone_number:
-                                  customerProfileData.result.phone_number,
-                                email: customerProfileData.result.email,
-                                account_id:
-                                  customerProfileData.result.account_id,
+                                  customerProfileData.data.phone_number,
+                                email: customerProfileData.data.email,
+                                account_id: customerProfileData.data.account_id,
                               });
                             } else {
                               reset({
@@ -305,11 +302,10 @@ export const BookingPage = () => {
                         {...register("pets.species", {
                           required: "Spieces is empty!",
                         })}
+                        defaultValue={""}
                       >
-                        <option disabled selected>
-                          Species?
-                        </option>
-                        {(specieData?.result as any[]).map((val, index) => (
+                        <option value={""}>Species?</option>
+                        {(specieData?.data as any[]).map((val, index) => (
                           <option key={index} value={val.name}>
                             {val.name}
                           </option>
@@ -361,13 +357,7 @@ export const BookingPage = () => {
               onClick={() => {
                 if (step < 3) {
                   if (step == 1) {
-                    if (
-                      !(
-                        getValues("service") &&
-                        getValues("date") &&
-                        getValues("time")
-                      )
-                    ) {
+                    if (!(getValues("date") && getValues("time"))) {
                       return toast.error("Check again your service!", {
                         position: "top-right",
                       });
@@ -417,15 +407,13 @@ export const BookingPage = () => {
                     email: getValues("email"),
                     phone_number: getValues("phone_number"),
                     account_id: userId,
-                    appointment: {
-                      status: "SCHEDULED",
-                      appointment_date: displayInputDate(
-                        new Date(getValues("date")),
-                      ),
-                      appointment_time: getValues("time"),
-                      pets: [getValues("pets")],
-                      services: [getValues("service")],
-                    },
+                    status: "SCHEDULED",
+                    appointment_date: displayInputDate(
+                      new Date(getValues("date")),
+                    ),
+                    appointment_time: getValues("time"),
+                    pets: [getValues("pets")],
+                    services: getValues("service").map((val: any) => val.value),
                   });
                 }
               }}

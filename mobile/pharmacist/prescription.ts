@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 interface prescriptionState {
-    prescriptionId: string
+    id: string
 }
 
 const initialState: prescriptionState = {
-    prescriptionId: ""
+    id: ""
 }
 
 const prescriptionSlice = createSlice({
@@ -13,10 +13,10 @@ const prescriptionSlice = createSlice({
     initialState,
     reducers: {
         startEditPost: (state, action: PayloadAction<string>) => {
-            state.prescriptionId = action.payload
+            state.id = action.payload
         },
         cancelEditPost: (state) => {
-            state.prescriptionId = ""
+            state.id = ""
         }
     }
 })

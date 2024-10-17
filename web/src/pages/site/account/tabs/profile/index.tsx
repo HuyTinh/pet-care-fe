@@ -12,6 +12,7 @@ import {
 } from "../../../customer.service";
 import { useCookies } from "react-cookie";
 import { useModalPetCare } from "../../../../../components/pc-modal/hook";
+import { toFormData } from "../../../../../utils/formdata";
 
 export const ProfileTab = () => {
   const { register, handleSubmit, reset } = useForm<any>({
@@ -39,21 +40,24 @@ export const ProfileTab = () => {
 
   useEffect(() => {
     if (customerProfileResponse) {
-      reset(customerProfileResponse.result);
+      reset({
+        ...customerProfileResponse.data,
+        phoneNumber: customerProfileResponse.data.phone_number,
+      });
     }
   }, [customerProfileResponse]);
 
   const onSubmit: SubmitHandler<any> = (data) => {
     updateProfileRequest({
       userId: userId,
-      data: _.omit(data, ["account_id", "id"]),
-    }).then((result) => {
-      if ("error" in result) {
-        toast.error((result.error as any).data.message, {
+      data: toFormData(_.omit(data, ["id"])),
+    }).then((res) => {
+      if ("error" in res) {
+        toast.error((res.error as any).data.message, {
           position: "top-right",
         });
       }
-      if ("data" in result) {
+      if ("data" in res) {
         toast.success("Update successful", {
           position: "top-right",
         });
@@ -79,7 +83,7 @@ export const ProfileTab = () => {
                 <div className="mask mask-squircle w-24">
                   <img
                     src={
-                      customerProfileResponse?.result.image_url ||
+                      customerProfileResponse?.data.image_url ||
                       "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
                     }
                   />
@@ -167,7 +171,7 @@ export const ProfileTab = () => {
                     type="text"
                     placeholder="Type here"
                     className="input input-bordered w-full max-w-xs"
-                    {...register("phone_number")}
+                    {...register("phoneNumber")}
                   />
                 </label>
                 <label className="form-control w-full max-w-xs">
@@ -177,8 +181,9 @@ export const ProfileTab = () => {
                   <select
                     className="select select-bordered w-full"
                     {...register("gender")}
+                    defaultValue={""}
                   >
-                    <option disabled selected>
+                    <option disabled value={""}>
                       Your gender?
                     </option>
                     <option value={"MALE"}>Male</option>
@@ -234,9 +239,7 @@ export const ProfileTab = () => {
           )}
         </div>
       </form>
-      <ClientChangePasswordModal
-        email={customerProfileResponse?.result.email}
-      />
+      <ClientChangePasswordModal email={customerProfileResponse?.data.email} />
     </div>
   );
 };

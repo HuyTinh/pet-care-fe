@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import {
   Image,
   Text,
@@ -5,64 +6,289 @@ import {
   StyleSheet,
   Keyboard,
   TouchableWithoutFeedback,
+  Dimensions,
   ScrollView,
-  SafeAreaView,
-  TextInput,
-  KeyboardAvoidingView,
+  Modal
 } from "react-native";
-import { Controller, useForm } from "react-hook-form";
-import { Button } from "react-native-paper";
+import { Controller, set, SubmitHandler, useForm } from "react-hook-form";
+import { Button, TextInput } from "react-native-paper";
 import { CheckBox } from "react-native-elements";
-import React, { useState } from "react";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { useCameraPermissions } from "expo-camera";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
+import { useGetAccountMutation } from "@/pharmacist/pharmacist.service";
+import { Account } from "@/pharmacist/user/User";
+import { LoginRequest } from "@/pharmacist/user/LoginRequest";
+import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
 
 const Auth = () => {
-  const {
-    control,
-    // handleSubmit,
-    // formState: { errors },
-    // reset
-  } = useForm<any>();
+  const [login, { isLoading }] = useGetAccountMutation();
   const [isSelected, setSelection] = useState(false);
-  const [permisson, requestPermissions] = useCameraPermissions();
+  const [permission, requestPermissions] = useCameraPermissions();
+  const { control, reset, handleSubmit } = useForm<Account>();
+  const [modalVisible, setModalVisible] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const onSubmit: SubmitHandler<LoginRequest> = async (data: LoginRequest) => {
+    try {
+      await login(data).unwrap()
+        .then(() => {
+          router.replace('./(tabs)/list');
+        })
+    }
+    catch (error) {
+      setErrorMessage("Please check your account");
+      setModalVisible(true);
+    }
+  }
+  const [loaded] = useFonts({
+    blod: require("../../assets/fonts/Kodchasan-SemiBold.ttf"),
+    medium: require('../../assets/fonts/Kodchasan-ExtraLightItalic.ttf')
+    // Kodchasan: require("../assets/fonts/Kodchasan-Regular.ttf"),
+  });
+  useEffect(() => {
+    if (loaded) {
+      SplashScreen.hideAsync();
+    }
+  }, [loaded]);
+
+  if (!loaded) {
+    return null;
+  }
+  // let [fontsLoaded, fontsError] = useFonts({
+  //   blod: require('../../assets/fonts/Kodchasan-SemiBold.ttf'),
+  //   medium: require('../../assets/fonts/Kodchasan-ExtraLightItalic.ttf'),
+  // })
+  // if (!fontsLoaded && fontsError) {
+  //   return (null)
+  // }
+  const { width, height } = Dimensions.get("window");
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View className="flex-1 bg-[#0099CF]">
-        <View className="mx-auto w-full py-10 pt-20">
-          <View className="w-36 h-36 mx-auto">
-            <Image
-              className="h-full w-full"
-              source={require("../../assets/images/logo-nobackground.png")}
-            />
-          </View>
-          <View>
-            <View className="space-y-5 px-6 pb-10 pt-8">
-              <View className="space-y-2">
-                <Text className="px-2">Email address:</Text>
-                <TextInput
-                  className="border bg-gray-100 text-gray-700 p-4 rounded-2xl"
-                  placeholderTextColor={"#cdcdcd"}
-                  placeholder="petcare@gmail.com"
-                  onChangeText={(text) => console.log(text)}
-                />
-              </View>
-              <View className="space-y-2">
-                <Text className="px-2">Password:</Text>
-                <TextInput
-                  className="border bg-gray-100 text-gray-700 p-4 rounded-2xl"
-                  placeholderTextColor={"#cdcdcd"}
-                  placeholder="type here ..."
-                  secureTextEntry
-                  onChangeText={(text) => console.log(text)}
-                />
-              </View>
+    <>
+      {/* Model popup */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }} className="flex-1 justify-center items-center">
+          <View style={{ width: 380, height: 320, padding: 50, backgroundColor: 'white', borderRadius: 10 }} className="flex justify-center items-center">
+            <View className="justify-center items-center">
+              <Image className="w-36 h-32" source={require("@/assets/images/error.gif")} />
+              <Text className="mt-3 mb-3 font-bold text-3xl text-center">{errorMessage}</Text>
+              <Button className="bg-[#0099CF] mt-5 w-56" onPress={() => setModalVisible(false)} >
+                <Text className="font-bold text-base text-white text-center">OK</Text>
+              </Button>
             </View>
           </View>
         </View>
-      </View>
-    </TouchableWithoutFeedback>
+      </Modal>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ScrollView contentContainerStyle={styles.container}>
+          <View style={styles.topSection}>
+            <View style={styles.logoContainer}>
+              <View style={styles.circle1} />
+              <Image
+                style={styles.logo}
+                source={require("@/assets/images/Logo2.png")}
+                resizeMode="contain"
+              />
+            </View>
+            <Text style={styles.title}>Pet care</Text>
+          </View>
+          <View style={styles.formContainer}>
+            <View style={styles.circle2} />
+            <View style={styles.inputContainer}>
+              <Controller
+                control={control}
+                rules={{ required: true }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    style={styles.input}
+                    className="rounded-3xl"
+                    label="Email"
+                    onBlur={onBlur}
+                    value={value}
+                    onChangeText={onChange}
+                    left={<TextInput.Icon icon="email" />}
+                    underlineColor="transparent"
+                    activeUnderlineColor="#0099CF"
+                  />
+                )}
+                name="email"
+              />
+            </View>
+            <View style={styles.inputContainer}>
+              <Controller
+                control={control}
+                rules={{ required: true }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    style={styles.input}
+                    className="rounded-3xl"
+                    label="Password"
+                    onBlur={onBlur}
+                    value={value}
+                    onChangeText={onChange}
+                    left={<TextInput.Icon icon="key" />}
+                    secureTextEntry
+                    underlineColor="transparent"
+                    activeUnderlineColor="#0099CF"
+                  />
+                )}
+                name="password"
+              />
+            </View>
+            <View style={styles.checkboxContainer}>
+              <CheckBox
+                title="Remember Me?"
+                checked={isSelected}
+                onPress={() => setSelection(!isSelected)}
+                containerStyle={styles.checkbox}
+                textStyle={styles.checkboxText}
+                checkedColor="white"
+                fontFamily="Kodchasan-ExtraLightItalic"
+              />
+              <Link
+                href="../(forgotpassword)/forgot-confirm-email"
+                style={styles.forgotPassword}
+              >
+                Forgot Password!
+              </Link>
+            </View>
+          </View>
+          <View style={styles.buttonContainer}>
+            {/* <Link href="./(tabs)/list"> */}
+              <Button
+                mode="contained"
+                style={styles.button}
+                labelStyle={styles.buttonText}
+                onPress={handleSubmit(onSubmit)}
+              >
+                Login
+              </Button>
+            {/* </Link> */}
+            {/* <Button onPress={requestPermissions}>Alow camera</Button> */}
+          </View>
+        </ScrollView>
+      </TouchableWithoutFeedback>
+    </>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flexGrow: 1,
+    backgroundColor: "#0099CF",
+    paddingHorizontal: wp("5%"),
+  },
+  topSection: {
+    alignItems: "center",
+    marginTop: hp("5%"),
+  },
+  logoContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: wp("100%"),
+    height: hp("20%"),
+  },
+  logo: {
+    width: wp("50%"),
+    height: hp("40%"),
+  },
+  title: {
+    fontSize: wp("12%"),
+    fontWeight: "bold",
+    color: "white",
+    marginTop: hp("2%"),
+    zIndex: 1,
+    fontFamily: "blod"
+  },
+  formContainer: {
+    marginTop: hp("10%"),
+    width: "100%",
+  },
+  inputContainer: {
+    marginBottom: hp("5%"),
+  },
+  input: {
+    backgroundColor: "white",
+    height: hp("7%"),
+    // borderRadius: 25,
+  },
+  checkboxContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  checkbox: {
+    backgroundColor: "transparent",
+    borderWidth: 0,
+    padding: 0,
+  },
+  checkboxText: {
+    color: "white",
+    fontSize: wp("3.5%"),
+  },
+  forgotPassword: {
+    color: "white",
+    fontSize: wp("3.5%"),
+    fontWeight: "500",
+    fontFamily: "Kodchasan-ExtraLightItalic"
+  },
+  buttonContainer: {
+    alignItems: "center",
+    marginTop: hp("5%"),
+  },
+  button: {
+    width: wp("60%"),
+    height: hp("7%"),
+    justifyContent: "center",
+    backgroundColor: "#0F74C1",
+  },
+  buttonText: {
+    fontSize: wp("5%"),
+    fontWeight: "600",
+    alignItems: "center",
+    fontFamily: "Kodchasan-SemiBold"
+  },
+  circle1: {
+    width: wp("150%"),
+    height: wp("170%"),
+    borderRadius: wp("75%"),
+    backgroundColor: "rgba(0, 0, 0, 0.01)",
+    position: "absolute",
+    top: -wp("95%"),
+    left: -wp("25%"),
+    borderWidth: 5,
+    borderColor: "#0D74B1",
+    shadowColor: "#0D74B1",
+    shadowOffset: { width: 1, height: 5 },
+    shadowOpacity: 0.5,
+    shadowRadius: 0.25,
+  },
+  circle2: {
+    width: wp("200%"),
+    height: wp("150%"),
+    borderRadius: wp("100%"),
+    backgroundColor: "rgba(0, 0, 0, 0.01)",
+    position: "absolute",
+    top: -wp("20%"),
+    right: -wp("155%"),
+    borderWidth: 5,
+    borderColor: "#0D74B1",
+    shadowColor: "#0D74B1",
+    shadowOffset: { width: 1, height: 5 },
+    shadowOpacity: 0.5,
+    shadowRadius: 0.25,
+  },
+});
 
 export default Auth;

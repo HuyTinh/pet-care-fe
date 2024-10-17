@@ -53,9 +53,9 @@ export const ProfilePage = () => {
               <div className="flex flex-col items-center justify-center gap-y-1">
                 <div className="font-bold">Welcome back, </div>
                 <div className="text-center text-sm">
-                  {customerProfileResponse?.result.first_name +
+                  {customerProfileResponse?.data.first_name +
                     " " +
-                    customerProfileResponse?.result.last_name}
+                    customerProfileResponse?.data.last_name}
                 </div>
               </div>
             </div>

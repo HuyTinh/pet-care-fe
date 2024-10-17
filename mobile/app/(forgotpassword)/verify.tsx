@@ -1,94 +1,170 @@
-import { StyleSheet, Text, Image, View, Keyboard, TouchableWithoutFeedback } from 'react-native'
-import React from 'react'
+import React from 'react';
+import { StyleSheet, Text, Image, View, Keyboard, TouchableWithoutFeedback, ScrollView } from 'react-native';
 import { Controller, useForm } from 'react-hook-form';
 import { Button, TextInput } from 'react-native-paper';
 import { Link, useNavigation } from 'expo-router';
-import { TouchableOpacity } from '@gorhom/bottom-sheet';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
-const verify = () => {
-    const {
-        control,
-        // handleSubmit,
-        // formState: { errors },
-        // reset
-    } = useForm<any>();
-    const navigation = useNavigation();
-    const handleBack = () => {
-        navigation.goBack();
-    };
-    return (
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View className='w-full h-full'>
-                <View>
-                    <TouchableOpacity onPress={handleBack}>
-                        <Image className='w-5 h-5 mt-16 ml-6' source={require('@/assets/images/back.png')} />
-                    </TouchableOpacity>
-                </View>
-                <View className='flex'>
-                    <View className='mt-16 items-center '>
-                        <Image className='absolute ml-[14px]  w-[269px] h-[136px]' source={require('@/assets/images/logo-removebg-preview.png')} />
-                    </View>
-                </View>
-                <View className='flex mt-36'>
-                    <View className='items-center justify-center px-[64px]'>
-                        <Text className='text-2xl font-bold'>Email Verification</Text>
-                        <Text className='text-base text-center opacity-50'>Please enter the 5 digit code sent to your email</Text>
-                    </View>
-                </View>
+const Verify = () => {
+  const { control } = useForm<any>();
+  const navigation = useNavigation();
 
-                <View className='px-3 mt-2'>
-                    <Text style={styles.text} className='font-semibold'>Code</Text>
-                    <Controller
-                        control={control}
-                        rules={{
-                            required: true,
-                        }}
-                        render={({ field: { onChange, onBlur, value } }) => (
+  function handleBack() {
+    navigation.goBack();
+  }
 
-                            <TextInput
-                                className='mt-3 rounded-xl'
-                                mode='outlined'
-                                onBlur={onBlur}
-                                value={value}
-                                onChangeText={onChange}
-                                underlineColor="transparent"
-                                activeUnderlineColor="transparent"
-                                selectionColor="#0099CF"
-                                style={{
-                                  backgroundColor: "white",
-                                  borderWidth: 1,
-                                  borderColor: '#606060',
-                                }}
-                            />
+  return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.header}>
+          <Button onPress={handleBack} style={styles.backButton}>
+            <Image source={require('@/assets/images/back.png')} style={styles.backIcon} />
+          </Button>
+          <View style={styles.logoContainer}>
+            <Image source={require('@/assets/images/logo-removebg-preview.png')} style={styles.logo} resizeMode="contain" />
+          </View>
+        </View>
 
-                        )}
-                        name="verify"
-                    />
-                </View>
-                <View className='mt-7 flex items-center'>
-                    <Button className='bg-[#0099CF] w-[380px] flex items-center justify-center h-14 ' onPress={() => console.log("")}>
-                        <Text className='text-lg text-white'><Link href={"./new-password"} className='text-lg'>Verify</Link></Text>
-                    </Button>
-                </View>
-                <View className='mt-7 flex items-center'>
-                    <Button className=' w-[380px] flex items-center justify-center h-14' style={styles.resend} onPress={() => console.log("")}>
-                        <Text className='text-lg text-black'>Resend</Text>
-                    </Button>
-                </View>
-            </View>
-        </TouchableWithoutFeedback>
-    )
-}
+        <View style={styles.contentContainer}>
+          <Text style={styles.title}>Email Verification</Text>
+          <Text style={styles.subtitle}>Please enter the 5 digit code sent to your email</Text>
+        </View>
 
-export default verify
+        <View style={styles.formContainer}>
+          <Text style={styles.label}>Code</Text>
+          <Controller
+            control={control}
+            rules={{ required: true }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                style={styles.input}
+                className='rounded-xl'
+                onBlur={onBlur}
+                value={value}
+                onChangeText={onChange}
+                underlineColor="transparent"
+                activeUnderlineColor="transparent"
+                selectionColor="#0099CF"
+              />
+            )}
+            name="verify"
+          />
+        </View>
+
+        <View style={styles.buttonContainer}>
+          <Button
+            style={styles.verifyButton}
+            onPress={() => console.log("")}
+          >
+            <Link href="./new-password" style={styles.buttonText}>
+              Verify
+            </Link>
+          </Button>
+        </View>
+
+        <View style={styles.buttonContainer}>
+          <Button
+            style={styles.resendButton}
+            onPress={() => console.log("")}
+          >
+            <Text style={styles.resendButtonText}>Resend</Text>
+          </Button>
+        </View>
+      </ScrollView>
+    </TouchableWithoutFeedback>
+  );
+};
 
 const styles = StyleSheet.create({
-    text: {
-        color: '#4F4F4F',
-        opacity: 0.5
-    },
-    resend: {
-        borderWidth: 1,
-        borderColor: '#0099CF',
-    }
-})
+  container: {
+    flexGrow: 1,
+    width: wp('100%'),
+    paddingHorizontal: wp('5%'),
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: hp('5%'),
+  },
+  backButton: {
+    position: "absolute",
+    left: -20,
+    top:10,
+    zIndex: 1,
+  },
+  backIcon: {
+    width: wp('7%'),
+    height: wp('7%'),
+  },
+  logoContainer: {
+    flex: 1,
+    alignItems: 'center',
+    marginTop: hp('6%'),
+  },
+  logo: {
+    width: wp('100%'),
+    height: hp('20%'),
+  },
+  contentContainer: {
+    alignItems: 'center',
+    paddingHorizontal: wp('5%'),
+  },
+  title: {
+    fontSize: wp('6%'),
+    fontWeight: 'bold',
+    marginBottom: hp('2%'),
+  },
+  subtitle: {
+    fontSize: wp('4%'),
+    textAlign: 'center',
+    opacity: 0.5,
+  },
+  formContainer: {
+    marginTop: hp('5%'),
+  },
+  label: {
+    fontSize: wp('4%'),
+    fontWeight: '600',
+    color: '#4F4F4F',
+    opacity: 0.5,
+    marginBottom: hp('1%'),
+  },
+  input: {
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderColor: '#606060',
+    height: hp('7%'),
+    fontSize: wp('4%'),
+  },
+  buttonContainer: {
+    alignItems: 'center',
+    marginTop: hp('3%'),
+  },
+  verifyButton: {
+    backgroundColor: '#0099CF',
+    width: wp('90%'),
+    height: hp('7%'),
+    justifyContent: 'center',
+    borderRadius: wp('2%'),
+  },
+  resendButton: {
+    width: wp('90%'),
+    height: hp('7%'),
+    justifyContent: 'center',
+    borderRadius: wp('2%'),
+    borderWidth: 1,
+    borderColor: '#0099CF',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: wp('4.5%'),
+    fontWeight: '600',
+  },
+  resendButtonText: {
+    color: 'black',
+    fontSize: wp('4.5%'),
+    fontWeight: '600',
+  },
+});
+
+export default Verify;
