@@ -1,17 +1,20 @@
 import { useState, useEffect } from "react";
 import { IAppointment } from "../../../../../types/appoiment.type";
 import Select from "react-select";
-import { displayCustomDate, getDaysArray } from "../../../../../utils/date";
-import { usePdfGenerator } from "../../../../../hooks/pdf-generator";
+import {
+  displayCustomDate,
+  displayInputDate,
+  getDaysArray,
+} from "../../../../../utils/date";
 import { FcCalendar } from "react-icons/fc";
 import { motion } from "framer-motion";
 import { EditPrescriptionModal } from "./edit-prescription-modal";
-import WebSocketManager from "../../../../../config/web-socket-manager";
 import { QRScanModal } from "./qr-scan";
 import { IoQrCodeOutline } from "react-icons/io5";
+import { useFilterAppointmentsQuery } from "../../prescription.service";
 
 export const PrescriptionManagement = () => {
-  const initialDate = `${new Date().getFullYear()}-01-01`;
+  const initialDate = `${displayInputDate(new Date())}`;
   const [appointments, setAppointments] = useState<IAppointment[]>([]);
   const [startDate, setStartDate] = useState<any>({
     value: initialDate,
@@ -22,102 +25,23 @@ export const PrescriptionManagement = () => {
     label: initialDate,
   });
 
-  // const {
-  //   data: filterAppointmentData,
-  //   isFetching: isFetchingFilterAppointmentData,
-  // } = useFilterAppointmentsQuery({
-  //   startDate: startDate?.value,
-  //   endDate: endDate?.value,
-  // });
+  const {
+    data: filterAppointmentData,
+    isFetching: isFetchingFilterAppointmentData,
+  } = useFilterAppointmentsQuery({
+    startDate: startDate?.value,
+    endDate: endDate?.value,
+    statues: ["CHECKED_IN"],
+  });
 
   const [selectedAppointment, setSelectedAppointment] = useState<IAppointment>(
     {} as IAppointment,
   );
   const [qrModalVisible, setQrModalVisible] = useState<boolean>(false);
-  const [sessionId, _] = useState(new Date().getTime());
-  const stompClient = WebSocketManager.getInstance().getClient();
-  const { generatePDF } = usePdfGenerator();
-  // useEffect(() => {
-  //   setAppointments(filterAppointmentData?.data);
-  //   return () => {};
-  // }, [filterAppointmentData?.data]);
-
   useEffect(() => {
-    if (stompClient) {
-      stompClient.onConnect = () => {
-        console.log("Connected to WebSocket");
-        // Gửi yêu cầu kết nối
-        stompClient.publish({ destination: "/app/connect" });
-        stompClient.subscribe("/topic/updateAppointment", (message) => {
-          setAppointments((prev) => {
-            let arr = [...prev];
-
-            return arr.map((ap) => {
-              if (ap.id == message.body) {
-                return {
-                  ...ap,
-                  status: "CHECKED_IN",
-                };
-              }
-              return ap;
-            }) as IAppointment[];
-          });
-        });
-
-        stompClient.subscribe("/topic/createAppointment", (message) => {
-          setAppointments((prev) => [...prev, JSON.parse(message.body)]);
-        });
-
-        stompClient.subscribe("/topic/exportPDF/" + sessionId, (message) => {
-          if (Number(message.body)) {
-            // genPDF({
-            //   appointment_number: 124,
-            //   appointment_id: message.body,
-            // }).then((res: any) => {
-            //   // Create a new link
-            //   const anchor = document.createElement("a");
-
-            //   anchor.href = res.data.response;
-            //   anchor.download = "baba";
-            //   anchor.target = "_blank";
-            //   anchor.rel = "noreferrer";
-
-            //   // Append to the DOM
-            //   document.body.appendChild(anchor);
-
-            //   // Trigger `click` event
-            //   anchor.click();
-
-            //   // Remove element from DOM
-            //   document.body.removeChild(anchor);
-            // });
-            generatePDF(Number(message.body));
-          }
-        });
-      };
-
-      stompClient.onDisconnect = () => {
-        console.log("Disconnected from WebSocket");
-      };
-    }
-
-    return () => {
-      // Không gọi deactivate() ở đây
-      // stompClient?.deactivate;
-    };
-  }, [stompClient]);
-
-  const sendMessage = (appointmentId: string) => {
-    if (stompClient) {
-      stompClient.publish({
-        destination: "/app/sendMessage",
-        body: JSON.stringify({
-          sessionId: sessionId,
-          appointmentId: appointmentId,
-        }),
-      });
-    }
-  };
+    setAppointments(filterAppointmentData?.data);
+    return () => {};
+  }, [filterAppointmentData?.data]);
 
   return (
     <>
@@ -177,7 +101,7 @@ export const PrescriptionManagement = () => {
       </div>
       <div className="flex-1 p-2">
         <div className="relative h-[36rem] overflow-auto rounded-xl border">
-          {/* {!isFetchingFilterAppointmentData &&
+          {!isFetchingFilterAppointmentData &&
             !(appointments as any[])?.length && (
               <div className="absolute top-0 z-50 flex h-full w-full flex-col items-center justify-center">
                 <FcCalendar size={64} className="mb-10" />
@@ -205,7 +129,7 @@ export const PrescriptionManagement = () => {
               </div>
               <div>Watting for few minute...</div>
             </motion.div>
-          )} */}
+          )}
           <table className="table">
             {/* head */}
             <thead className="sticky top-0 bg-white">
@@ -217,12 +141,9 @@ export const PrescriptionManagement = () => {
               </tr>
             </thead>
             <tbody>
-              {/* {!isFetchingFilterAppointmentData &&
+              {!isFetchingFilterAppointmentData &&
                 (appointments as IAppointment[])?.map((ap, index) => (
-                  <motion.tr
-                    key={index}
-                    className={`${ap.status === "CHECKED_IN" && "rounded-lg bg-zinc-400 p-1"}`}
-                  >
+                  <motion.tr key={index}>
                     <th>#{ap.id}</th>
                     <td>
                       <div>
@@ -237,57 +158,50 @@ export const PrescriptionManagement = () => {
                       </div>
                       <div className="truncate">
                         <span>Date: </span>
-                        <span className="underline">
-                          {displayCustomDate(new Date(ap.appointment_date))}
+                        <span className="font-bold underline">
+                          {displayCustomDate(new Date(ap.appointment_date))},{" "}
+                          {ap.appointment_time.substring(0, 5) + "h"}
                         </span>
                       </div>
-                      <div className="truncate">
+                      {/* <div className="truncate">
                         <span>Time: </span>
                         <span className="underline">
-                          {ap.appointment_time.substring(0, 5)}
+                          {ap.appointment_time.substring(0, 5) + "h"}
                         </span>
-                      </div>
+                      </div> */}
                     </td>
                     <td>
                       <span
-                        className={`${ap.status === "SCHEDULED" && "rounded-lg bg-yellow-300 p-1"}`}
+                        className={`${ap.status === "CHECKED_IN" && "rounded-lg bg-blue-300 p-1"}`}
                       >
                         {ap.status}
                       </span>
                     </td>
                     <td className="space-x-2">
-                      {ap.status === "SCHEDULED" && (
-                        <button
-                          className="btn btn-success btn-sm"
-                          onClick={() => sendMessage(ap.id)}
-                        >
-                          Check in
-                        </button>
-                      )}
-                      {ap.status === "CHECKED_IN" && (
-                        <button
-                          className="btn btn-error btn-sm"
-                          onClick={() => sendMessage(ap.id)}
-                        >
-                          Cancel
-                        </button>
-                      )}
                       <button
                         className="btn btn-info btn-sm"
                         onClick={() => {
                           (
                             document.getElementById(
-                              "edit_appointment_modal",
+                              "make_prescription_modal",
                             ) as any
                           ).showModal();
                           setSelectedAppointment(ap as any);
                         }}
                       >
-                        Edit
+                        Make prescription
                       </button>
+                      {ap.status === "CHECKED_IN" && (
+                        <button
+                          className="btn btn-error btn-sm"
+                          // onClick={() => sendMessage(ap.id)}
+                        >
+                          Cancel
+                        </button>
+                      )}
                     </td>
                   </motion.tr>
-                ))} */}
+                ))}
             </tbody>
           </table>
         </div>

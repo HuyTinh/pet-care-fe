@@ -15,7 +15,9 @@ import { ServicePage } from "./pages/site/service";
 import { AllService } from "./pages/site/service/all-service";
 import { DiagnosticsService } from "./pages/site/service/diagnostics";
 import { useCookies } from "react-cookie";
+import { Blog } from "./pages/site/blog/blog";
 import { useEffect } from "react";
+import { WareHousePage } from "./pages/admin/warehouse";
 
 const Page = (isAuth: Boolean, role: string) => {
   return {
@@ -46,6 +48,10 @@ const Page = (isAuth: Boolean, role: string) => {
           element: <BookingPage />,
         },
         {
+          path: "blog",
+          element: <Blog />,
+        },
+        {
           path: "service",
           element: <ServicePage />,
           children: [
@@ -70,6 +76,10 @@ const Page = (isAuth: Boolean, role: string) => {
         {
           path: "doctor",
           element: <DoctorPage />,
+        },
+        {
+          path: "warehouse",
+          element: <WareHousePage />,
         },
       ],
     },

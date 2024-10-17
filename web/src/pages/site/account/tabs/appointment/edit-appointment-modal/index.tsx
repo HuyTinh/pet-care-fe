@@ -8,7 +8,6 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { PetPicker } from "../../../../../../components/pet-picker";
 import { IPet } from "../../../../../../types/pet.type";
-import { IHospitalService } from "../../../../../../types/hospital-service.type";
 import { ServicePicker } from "../../../../../../components/service-picker";
 import { useUpdateAppointmentMutation } from "../../../../../admin/receptionist/appointment.service";
 import { toast } from "react-toastify";
@@ -20,7 +19,7 @@ export const EditAppointmentModal = ({
   selectedAppointment: IAppointment;
 }) => {
   const [pets, setPets] = useState<IPet[]>([]);
-  const [services, setServices] = useState<IHospitalService[]>([]);
+  const [services, setServices] = useState<string[]>([]);
   const { register, reset, getValues } = useForm<any>();
   const closeEditAppointmentModal = () => {
     (document.getElementById("edit_appointment_modal") as any).close();
@@ -100,10 +99,7 @@ export const EditAppointmentModal = ({
                           appointment_date: displayInputDate(
                             new Date(getValues("appointment_date")),
                           ),
-                          appointment_time: time.find(
-                            (val: any) =>
-                              val.time === getValues("appointment_time"),
-                          )?.gmt_time,
+                          appointment_time: getValues("appointment_time"),
                           pets: pets,
                           services: services,
                         },

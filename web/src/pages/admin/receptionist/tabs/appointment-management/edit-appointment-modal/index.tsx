@@ -3,7 +3,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { IHospitalService } from "../../../../../../types/hospital-service.type";
 import { IPet } from "../../../../../../types/pet.type";
 import { IAppointment } from "../../../../../../types/appoiment.type";
-import { ServicePicker } from "../../../../../../components/service-picker";
 import { PetPicker } from "../../../../../../components/pet-picker";
 import { time } from "../../../../../../constant/time";
 import {
@@ -12,6 +11,7 @@ import {
 } from "../../../../../../utils/date";
 import { toast } from "react-toastify";
 import { MdOutlineErrorOutline } from "react-icons/md";
+import { useUpdateAppointmentMutation } from "../../../appointment.service";
 
 type EditAppointmentModalProps = {
   appointment: IAppointment;
@@ -33,18 +33,21 @@ export const EditAppointmentModal = ({
 
   const [services, setServices] = useState<IHospitalService[]>([]);
 
-  const onSubmit: SubmitHandler<any> = (data) =>
-    console.log({
-      ...data,
-      pets: pets,
-      services: services,
-    });
+  const [updateAppointment] = useUpdateAppointmentMutation();
 
-  const updateAppointment = () => {
-    toast.success("Change appointment info successful", {
-      position: "top-right",
+  const onSubmit: SubmitHandler<any> = (data) =>
+    updateAppointment({
+      appointmentId: appointment.id,
+      updateAppointment: {
+        ...data,
+        pets: pets,
+        services: services,
+      },
+    }).then(() => {
+      toast.success("Change appointment info successful", {
+        position: "top-right",
+      });
     });
-  };
 
   useEffect(() => {
     if (appointment) {
@@ -56,7 +59,7 @@ export const EditAppointmentModal = ({
 
   return (
     <dialog id="edit_appointment_modal" className="modal backdrop:!hidden">
-      <div className="modal-box w-full max-w-xl">
+      <div className="modal-box w-full max-w-xl border-2 border-black">
         <div className="text-center text-3xl font-bold">
           Change Appointment Info
         </div>
@@ -177,7 +180,7 @@ export const EditAppointmentModal = ({
           </div>
           <div className="space-y-2 py-2">
             <PetPicker pets={pets} setPets={setPets} />
-            <ServicePicker services={services} setServices={setServices} />
+            {/* <ServicePicker services={services} setServices={setServices} /> */}
           </div>
           <div>
             <button className="btn btn-outline">Save</button>
