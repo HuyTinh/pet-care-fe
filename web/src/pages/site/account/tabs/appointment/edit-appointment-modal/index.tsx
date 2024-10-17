@@ -86,7 +86,6 @@ export const EditAppointmentModal = ({
                 </label>
               </div>
               <PetPicker pets={pets} setPets={setPets} />
-              <ServicePicker services={services} setServices={setServices} />
               <div>
                 <button
                   className="btn btn-outline"
