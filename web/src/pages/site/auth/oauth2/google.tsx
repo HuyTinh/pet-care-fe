@@ -21,7 +21,7 @@ export const PetCareGoogleLoginButton = () => {
             const loginResponse: {
               token: string;
               authenticated: boolean;
-            } = data.result;
+            } = data.data;
             localStorage.setItem("token", loginResponse.token);
             dispatch(setAuthenticated(loginResponse.token));
             (document.getElementById("authentication_modal") as any).close();
