@@ -2,9 +2,10 @@ export interface IMedicine {
   id: number;
   name: string;
   quantity: number;
+  image: string;
   price: number;
-  note: string;
-  manufactures: IManufacture[];
+  date_import: string;
+  manufactures: string;
   locations: ILocation[];
   status: string;
   manufacturing_date: number;

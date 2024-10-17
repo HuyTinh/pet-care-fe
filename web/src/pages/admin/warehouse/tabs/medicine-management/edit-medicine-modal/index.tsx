@@ -1,8 +1,7 @@
 import { useEffect } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { MdOutlineErrorOutline } from "react-icons/md";
 import { IMedicine } from "../../../../../../types/medicine.type";
-import { toast } from "react-toastify";
 
 type EditMedicineModalProps = {
   medicine: IMedicine;
@@ -11,14 +10,16 @@ type EditMedicineModalProps = {
 export const EditMedicineModal = ({ medicine }: EditMedicineModalProps) => {
   const {
     register,
-    handleSubmit,
+    // handleSubmit,
     reset,
+    getValues,
     formState: { errors },
   } = useForm<any>({
     mode: "all",
   });
+  console.log("hihi: ", getValues("manufactures"));
 
-  const onSubmit: SubmitHandler<any> = (data) => {};
+  // const onSubmit: SubmitHandler<any> = (data) => { };
   // updateAppointment({
   //   appointmentId: appointment.id,
   //   updateAppointment: {
@@ -42,20 +43,21 @@ export const EditMedicineModal = ({ medicine }: EditMedicineModalProps) => {
 
   return (
     <dialog id="edit_medicine_modal" className="modal backdrop:!hidden">
-      <div className="modal-box w-full max-w-xl border-2 border-black">
-        <div className="text-center text-3xl font-bold">
+      <div className="modal-box w-full max-w-3xl border-2 border-black">
+        <div className="text-center text-3xl ">
           Change Medicine Info
         </div>
-        <form action="" onSubmit={handleSubmit(onSubmit)}>
-          <div className="flex justify-center gap-x-5">
-            <label className="form-control w-full max-w-xs">
+        {/* onSubmit={handleSubmit(onSubmit)} */}
+        <form action="" >
+          <div className="flex justify-center gap-x-10">
+            <label className="form-control w-full max-w-md">
               <div className="label">
-                <span className="label-text">Name:</span>
+                <span className="font-bold label-text">Name:</span>
               </div>
               <input
                 type="text"
                 placeholder="Type here"
-                className="input input-bordered w-full max-w-xs"
+                className="input input-bordered w-full max-w-md"
                 {...register("name", {
                   required: "Name is empty!",
                 })}
@@ -67,28 +69,28 @@ export const EditMedicineModal = ({ medicine }: EditMedicineModalProps) => {
                 </span>
               )}
             </label>
-            <label className="form-control w-full max-w-xs">
+            <label className="form-control w-full max-w-md">
               <div className="label">
-                <span className="label-text">Quantity:</span>
+                <span className="label-text font-bold">Quantity:</span>
               </div>
               <input
                 type="number"
                 defaultValue={0}
                 step={1}
-                className="input input-bordered w-full max-w-xs"
+                className="input input-bordered w-full max-w-md"
                 {...register("quantity")}
               />
             </label>
           </div>
-          <div className="flex gap-x-5">
-            <label className="form-control w-full max-w-xs justify-between">
+          <div className="flex gap-x-10">
+            <label className="form-control w-full max-w-md justify-between">
               <div className="label">
-                <span className="label-text">Price:</span>
+                <span className="label-text font-bold">Price:</span>
               </div>
               <input
                 type="text"
                 placeholder="Type here"
-                className="input input-bordered w-full max-w-xs"
+                className="input input-bordered w-full max-w-md"
                 {...register("price", {
                   required: "Price is empty!",
                 })}
@@ -100,9 +102,9 @@ export const EditMedicineModal = ({ medicine }: EditMedicineModalProps) => {
                 </span>
               )}
             </label>
-            <label className="form-control w-full max-w-xs justify-between">
+            <label className="form-control w-full max-w-md justify-between">
               <div className="label">
-                <span className="label-text">Status:</span>
+                <span className="label-text font-bold">Status:</span>
               </div>
               <select
                 className="select select-bordered"
@@ -116,11 +118,11 @@ export const EditMedicineModal = ({ medicine }: EditMedicineModalProps) => {
               </select>
             </label>
           </div>
-          <div className="flex gap-x-2 py-2">
-            <label className="form-control w-full max-w-xs justify-between">
+          <div className="flex gap-x-10 py-2">
+            <label className="form-control w-full max-w-md justify-between">
               <div>
-                Manufacturing Date{" "}
-                <span className="font-bold underline">(month/day/year)</span>:
+                <span className="font-bold">Manufacture Date</span>{" "}
+                <span className="underline ">(month/day/year)</span>:
               </div>
               <input
                 type="date"
@@ -128,10 +130,10 @@ export const EditMedicineModal = ({ medicine }: EditMedicineModalProps) => {
                 {...register("manufacturing_date")}
               />
             </label>
-            <label className="form-control w-full max-w-xs justify-between">
+            <label className="form-control w-full max-w-md justify-between">
               <div>
-                Expiry Date{" "}
-                <span className="font-bold underline">(month/day/year)</span>:
+                <span className="font-bold"> Expiry Date</span>{" "}
+                <span className="underline">(month/day/year)</span>:
               </div>
               <input
                 type="date"
@@ -140,8 +142,41 @@ export const EditMedicineModal = ({ medicine }: EditMedicineModalProps) => {
               />
             </label>
           </div>
-          <div>
-            <button className="btn btn-outline">Save</button>
+          <div className="flex justify-center gap-x-10">
+            <label className="form-control w-full max-w-md">
+              <div className="label">
+                <span className="label-text font-bold">Manufacturer:</span>
+              </div>
+              <input
+                type="text"
+                placeholder="Type here"
+                className="input input-bordered w-full max-w-sm"
+                {...register("manufactures", {
+                  required: "Manufactures is empty!",
+                })}
+              />
+              {/* {getValues("manufactures")?.map((e : any) => e.name)} */}
+              {errors?.name && (
+                <span className="badge badge-error mt-2 gap-2 text-white">
+                  <MdOutlineErrorOutline />
+                  {(errors?.name as any).message}
+                </span>
+              )}
+            </label>
+            <label className="form-control w-full max-w-md justify-between">
+              <div>
+              <span className="label-text font-bold">Date Import</span>{" "}
+                <span className=" underline">(month/day/year)</span>:
+              </div>
+              <input
+                type="date"
+                className="input input-bordered w-full"
+                {...register("date_import")}
+              />
+            </label>
+          </div>
+          <div className="mt-5 flex justify-end">
+            <button className="btn btn-outline font-bold">Save</button>
           </div>
         </form>
       </div>
