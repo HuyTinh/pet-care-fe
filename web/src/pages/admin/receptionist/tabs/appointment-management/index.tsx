@@ -14,6 +14,8 @@ import { EditAppointmentModal } from "./edit-appointment-modal";
 import WebSocketManager from "../../../../../config/web-socket-manager";
 import { QRScanModal } from "./qr-scan";
 import { IoQrCodeOutline } from "react-icons/io5";
+import { CiCalendar } from "react-icons/ci";
+import { LiaEditSolid } from "react-icons/lia";
 
 export const AppointmentManagement = () => {
   const initialDate = `${displayInputDate(new Date())}`;
@@ -218,8 +220,12 @@ export const AppointmentManagement = () => {
             <thead className="sticky top-0 bg-white">
               <tr className="text-lg">
                 <th></th>
-                <th>Details</th>
+                <th>Customer</th>
+                <th>Pets <span className="text-sm ">(name | age | weight | species)</span></th>
+                <th>Appointment Date</th>
                 <th>Status</th>
+                <th>Check In</th>
+                <th>Edit</th>
                 <th></th>
               </tr>
             </thead>
@@ -233,25 +239,57 @@ export const AppointmentManagement = () => {
                     <th>#{ap.id}</th>
                     <td>
                       <div>
-                        <span>Customer: </span>
-                        <span className="font-bold">
+                        <span>Name: </span>
+                        <span className="font-bold underline">
                           {ap.first_name + " " + ap.last_name}
                         </span>
                       </div>
                       <div>
                         <span>Email: </span>
-                        <span className="font-bold">{ap.email}</span>
+                        <span className="font-bold underline">{ap.email}</span>
                       </div>
-                      <div className="truncate">
-                        <span>Date: </span>
-                        <span className="underline">
-                          {displayCustomDate(new Date(ap.appointment_date))}
-                        </span>
+                      <div>
+                        <span>Phone: </span>
+                        <span className="font-bold underline">{ap.phone_number}</span>
                       </div>
+
+                    </td>
+                    <td>
+                      {
+                        ap.pets?.map((val, index) => <div className="flex gap-x-2">
+                          <div>
+                            <span className="font-bold underline">
+                              {val.name}
+                            </span>
+                          </div>
+                          |
+                          <div>
+                            <span className="font-bold underline">
+                              {val.age}
+                            </span>
+                          </div>
+                          |
+                          <div>
+                            <span className="font-bold underline">
+                              {val.weight}
+                            </span>
+                          </div>
+                          |
+                          <div>
+                            <span className="font-bold underline">
+                              {val.species}
+                            </span>
+                          </div>
+                        </div>)
+                      }
+
+                    </td>
+                    <td>
                       <div className="truncate">
-                        <span>Time: </span>
-                        <span className="underline">
-                          {ap.appointment_time.substring(0, 5)}
+                        <span className="underline font-bold">
+                          {displayCustomDate(new Date(ap.appointment_date))}, <span>
+                            {ap.appointment_time.substring(0, 5)}h
+                          </span>
                         </span>
                       </div>
                     </td>
@@ -265,10 +303,10 @@ export const AppointmentManagement = () => {
                     <td className="space-x-2">
                       {ap.status === "SCHEDULED" && (
                         <button
-                          className="btn btn-success btn-sm"
+                          className="btn btn-outline  btn-info"
                           onClick={() => sendMessage(ap.id, "CHECKED_IN")}
                         >
-                          Check in
+                          <CiCalendar size={24} />
                         </button>
                       )}
                       {ap.status === "CHECKED_IN" && (
@@ -279,9 +317,11 @@ export const AppointmentManagement = () => {
                           Cancel
                         </button>
                       )}
+
+                    </td>
+                    <td>
                       <button
-                        className="btn btn-info btn-sm"
-                        onClick={() => {
+                        className="btn btn-outline btn-info" onClick={() => {
                           (
                             document.getElementById(
                               "edit_appointment_modal",
@@ -290,7 +330,7 @@ export const AppointmentManagement = () => {
                           setSelectedAppointment(ap as any);
                         }}
                       >
-                        Edit
+                        <LiaEditSolid size={24} />
                       </button>
                     </td>
                   </motion.tr>

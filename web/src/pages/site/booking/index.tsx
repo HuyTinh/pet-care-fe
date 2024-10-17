@@ -335,7 +335,7 @@ export const BookingPage = () => {
                     ),
                     appointment_time: getValues("time"),
                     pets: [getValues("pets")],
-                    services: ["Diagnosis"],
+                    services: ["Diagnosis."],
                   });
                 }
               }}
