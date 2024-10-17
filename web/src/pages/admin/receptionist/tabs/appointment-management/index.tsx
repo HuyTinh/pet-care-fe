@@ -43,6 +43,12 @@ export const AppointmentManagement = () => {
   const stompClient = WebSocketManager.getInstance().getClient();
   const { generatePDF } = usePdfGenerator();
 
+  const [isOpen, setIsOpen] = useState(false)
+  const ToggleContent = () => {
+    setIsOpen(!isOpen)
+  }
+
+
   useEffect(() => {
     if (stompClient) {
       stompClient.onConnect = () => {
@@ -128,7 +134,9 @@ export const AppointmentManagement = () => {
   };
   return (
     <>
+
       <div className="flex gap-x-2 p-2">
+       
         <div className="flex-1">
           <label className="input input-bordered flex items-center gap-2">
             <input type="text" className="grow" placeholder="Search" />
@@ -213,7 +221,7 @@ export const AppointmentManagement = () => {
               <div>Watting for few minute...</div>
             </motion.div>
           )}
-          <table className="table">
+          <table className="table ">
             {/* head */}
             <thead className="sticky top-0 bg-white">
               <tr className="text-lg">
