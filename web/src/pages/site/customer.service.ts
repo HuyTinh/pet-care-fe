@@ -8,12 +8,12 @@ export const customerApi = createApi({
     getCustomerProfile: build.query<any, { userId: string | null }>({
       query(body) {
         return {
-          url: `customer/account/${body.userId}`,
+          url: `${import.meta.env.VITE_CUSTOMER_PATH}/customer/account/${body.userId}`,
           method: "GET",
         };
       },
       providesTags(result) {
-        return [{ type: "Customer" as const, id: result?.result.id }];
+        return [{ type: "Customer" as const, id: result?.data.id }];
       },
     }),
     updateCustomerProfile: build.mutation<
@@ -22,13 +22,13 @@ export const customerApi = createApi({
     >({
       query(body) {
         return {
-          url: `customer/account/${body.userId}`,
+          url: `${import.meta.env.VITE_CUSTOMER_PATH}/customer/account/${body.userId}`,
           method: "PUT",
           body: body.data,
         };
       },
       invalidatesTags: (result) => [
-        { type: "Customer" as const, id: result?.result.id },
+        { type: "Customer" as const, id: result?.data.id },
       ],
     }),
   }),

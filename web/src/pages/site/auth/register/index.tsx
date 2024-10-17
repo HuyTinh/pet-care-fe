@@ -29,23 +29,24 @@ export const ClientRegisterForm = ({
       ..._.omit(data, ["confirm_password"]),
       roles: ["CUSTOMER"],
       authentication_method: "LOCAL",
-    }).then((result) => {
-      if ("error" in result) {
-        toast.error((result.error as any).data.message, {
+    }).then((res) => {
+      if ("error" in res) {
+        toast.error((res.error as any).data.message, {
           position: "top-right",
         });
       }
-      if ("data" in result) {
-        let { data } = result;
+      if ("data" in res) {
+        let { data } = res;
         toast.success("Register successful", {
           position: "top-right",
         });
         const loginResponse: {
           token: string;
           authenticated: boolean;
-        } = data.result;
+        } = data.data;
         localStorage.setItem("token", loginResponse.token);
         dispatch(setAuthenticated(loginResponse.token));
+        (document.getElementById("authentication_modal") as any).close();
       }
     });
   };
