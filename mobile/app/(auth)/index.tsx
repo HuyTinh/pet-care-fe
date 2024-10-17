@@ -48,7 +48,6 @@ const Auth = () => {
   const [loaded] = useFonts({
     blod: require("../../assets/fonts/Kodchasan-SemiBold.ttf"),
     medium: require('../../assets/fonts/Kodchasan-ExtraLightItalic.ttf')
-    // Kodchasan: require("../assets/fonts/Kodchasan-Regular.ttf"),
   });
   useEffect(() => {
     if (loaded) {
@@ -59,13 +58,6 @@ const Auth = () => {
   if (!loaded) {
     return null;
   }
-  // let [fontsLoaded, fontsError] = useFonts({
-  //   blod: require('../../assets/fonts/Kodchasan-SemiBold.ttf'),
-  //   medium: require('../../assets/fonts/Kodchasan-ExtraLightItalic.ttf'),
-  // })
-  // if (!fontsLoaded && fontsError) {
-  //   return (null)
-  // }
   const { width, height } = Dimensions.get("window");
   return (
     <>
@@ -236,12 +228,14 @@ const styles = StyleSheet.create({
   checkboxText: {
     color: "white",
     fontSize: wp("3.5%"),
+    fontFamily: "medium",
   },
   forgotPassword: {
     color: "white",
     fontSize: wp("3.5%"),
     fontWeight: "500",
-    fontFamily: "Kodchasan-ExtraLightItalic"
+    fontFamily: "medium",
+
   },
   buttonContainer: {
     alignItems: "center",
@@ -257,7 +251,7 @@ const styles = StyleSheet.create({
     fontSize: wp("5%"),
     fontWeight: "600",
     alignItems: "center",
-    fontFamily: "Kodchasan-SemiBold"
+    fontFamily: "blod"
   },
   circle1: {
     width: wp("150%"),
