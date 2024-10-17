@@ -1,58 +1,56 @@
 import { useState } from "react";
 import useFetch from "../../../hooks/useFecth";
 import { IBlog } from "../../../types/blog.type"
+
+import { IComment } from "../../../types/comment.type"
 import ReactMarkdown from 'react-markdown';
 import { displayCustomDate } from "../../../utils/date";
 
 export const Blog = () => {
-    const { loading, error, data } = useFetch('http://localhost:1337/api/blogs?populate=*')
 
+    const { data } = useFetch('http://localhost:1337/api/blogs?populate=*')
     const blogs = (data as any)?.data || [];
-
     const [blog, setBlog] = useState<IBlog>();
+    const user_id = 2;
 
-    const [comments] = useState([
-        {
-            id: 1,
-            avatar: "https://vnn-imgs-f.vgcloud.vn/2022/01/18/18/kim-da-mi-our-beloved-summer-dep-me-hon-thoi-chua-ra-mat-11.jpg",
-            user: '@kimdami',
-            time: '2 giờ trước',
-            content:
-                'rất hữu ích, cảm ơn cám vị bác sĩ có tâm như này',
-            likes: 769,
-            replies: 27,
-        },
-        {
-            id: 2,
-            avatar: "https://image.tienphong.vn/w1000/Uploaded/2024/neg-sleclyr/2023_02_05/kim-yoo-jung5-2416.jpeg",
-            user: '@kimyouyoung',
-            time: '2 phút trước',
-            content:
-                'Ai đọc được bình luận này thì mình: Chúc gia đình bạn bình an và luôn may mắn',
-            likes: 2700,
-            replies: 119,
-        },
-        {
-            id: 3,
-            avatar: "https://upload.wikimedia.org/wikipedia/commons/0/08/240314_Kim_Ji-won.jpg",
-            user: '@kimjiwon',
-            time: '15 phút trước',
-            content:
-                'có cách nào cho mèo ăn Bánh Bao khong ạ',
-            likes: 208,
-            replies: 0,
-        },
-        {
-            id: 4,
-            avatar: "https://i.mydramalist.com/4epPyY_5c.jpg",
-            user: '@goyounjung',
-            time: '15 phút trước',
-            content:
-                'Sống ngoài đảo làm việc luôn hoàn hảo',
-            likes: 208,
-            replies: 0,
-        },
-    ]);
+    const [content, setContent] = useState();
+    const [rating, setRating] = useState(0);
+    const [hover, setHover] = useState<number | null>(null);
+
+    function postComments(comment: IComment) {
+
+        fetch(`http://localhost:1337/api/blogs/${blog?.documentId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ data: { comments: [...(blog as any)?.comments || [], comment] } })
+        })
+            .then(response => response.json()).then(data => setBlog((prevState: any) => {
+
+                return { ...prevState, comments: data.data?.comments }
+            }));
+    }
+
+    function eidtComments(comment: IComment) {
+        fetch(`http://localhost:1337/api/blogs/${blog?.documentId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                data: {
+                    comments: [...(blog as any)?.comments.map(c => {
+                        if (c.id == comment.id) {
+                            return comment
+                        }
+                        return c
+                    })]
+                }
+            })
+        })
+            .then(response => response.json()).then(data => setBlog((prevState: any) => {
+
+                return { ...prevState, comments: data.data.comments }
+            }));
+
+    }
     return (
         <div className="relative">
             <div
@@ -126,6 +124,7 @@ export const Blog = () => {
                                     </div>
                                 </div>
                             </div>
+
                         </div>
 
                         <div className="flex flex-col md:flex-row items-center py-16 px-8">
@@ -143,7 +142,17 @@ export const Blog = () => {
                                     <ReactMarkdown>{blog?.blogInstruct || ''}</ReactMarkdown>
                                 </p>
                             </div>
+
                         </div>
+                        <div>
+                            {blog?.blogVideo &&
+                                <video
+                                    src={`http://localhost:1337${(blog?.blogVideo as any)?.url}`}
+                                    controls
+                                    className="rounded-lg shadow-2xl w-full h-[500px]"
+                                />}
+                        </div>
+
 
                         <div className="text-black p-4">
                             <h2 className="text-lg font-semibold mb-4">2,973 bình luận</h2>
@@ -153,24 +162,95 @@ export const Blog = () => {
                                     placeholder="Viết bình luận..."
                                     className="w-full p-2 rounded-md bg-gray-800 text-white focus:outline-none"
                                 />
+                                <div className="flex items-center mt-3">
+                                    {[...Array(5)].map((_, index) => (
+                                        <svg
+                                            key={index}
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="currentColor"
+                                            viewBox="0 0 24 24"
+                                            className={`w-4 h-4 cursor-pointer ${(hover || rating) > index
+                                                ? 'text-yellow-500'
+                                                : 'text-gray-400'
+                                                }`}
+                                            onClick={() => setRating(index + 1)}
+                                            onMouseEnter={() => setHover(index + 1)}
+                                            onMouseLeave={() => setHover(null)}
+                                        >
+                                            <path d="M12 .587l3.668 7.568L24 9.75l-6 5.984L19.336 24 12 20.186 4.664 24 6 15.734 0 9.75l8.332-1.595L12 .587z" />
+                                        </svg>
+                                    ))}
+                                </div>
+                                <div className="flex justify-between">
+                                    <p></p>
+                                    <button
+                                        className="border w-[100px] rounded shadow text-[18px] hover:bg-slate-300 hover:border hover:border-gray-600 mt-3"
+                                        onClick={() => postComments({
+                                            avatar: "a",
+                                            content: "test put",
+                                            time: "2024-10-13",
+                                            user: "dua",
+                                            user_id: user_id,
+                                            id: self.crypto.randomUUID() as any,
+                                            rating: 5
+                                        })} >Comment</button>
+                                </div>
                             </div>
 
-                            {comments.map((comment) => (
-                                <div key={comment.id} className="mb-6">
+                            {(blog as any)?.comments?.map((comment: IComment) => (
+                                <div key={comment.id} className="mb-6 *:text-black">
                                     <div className="flex items-start space-x-4">
-                                        <img src={comment.avatar} alt="" className="rounded-[50%] object-cover w-[50px] h-[50px]" />
+                                        <img
+                                            src={`${(comment?.avatar as any)}`}
+                                            className="rounded-full object-cover w-[50px] h-[50px]"
+                                        />
                                         <div>
                                             <div className="flex items-center space-x-2">
                                                 <p className="font-semibold">{comment.user}</p>
                                                 <span className="text-gray-400 text-sm">{comment.time}</span>
                                             </div>
-                                            <p className="whitespace-pre-line mt-2">{comment.content}</p>
-                                            <div className="flex items-center space-x-4 mt-2 text-sm text-gray-400">
-                                                <button className="hover:text-white">👍 {comment.likes} lượt thích</button>
+                                            <div >
+                                                <div>
+                                                    <textarea 
+                                                    className="whitespace-pre-line mt-2 w-[800px] h-[auto] mb-2" 
+                                                    disabled={(comment as any)?.user_id != user_id} onChange={(e) => setContent(e.target.value as any)} >{comment.content}
+                                                    </textarea>
+                                                </div>
+                                                <div className="mb-2">
+                                                    <div className="flex items-center space-x-1">
+                                                        {[...Array(5)].map((_, index) => (
+                                                            <svg
+                                                                key={index}
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                fill="currentColor"
+                                                                viewBox="0 0 24 24"
+                                                                className={`w-3 h-3 ${index < comment.rating ? 'text-yellow-500' : 'text-gray-400'}`}
+                                                            >
+                                                                <path d="M12 .587l3.668 7.568L24 9.75l-6 5.984L19.336 24 12 20.186 4.664 24 6 15.734 0 9.75l8.332-1.595L12 .587z" />
+                                                            </svg>
+                                                        ))}
+                                                        <span className="text-gray-500 text-sm">({comment.rating}/5)</span>
+                                                    </div>
+                                                </div>
+                                                <button
+                                                    className="w-[80px] shadow rounded text-[12px] hover:bg-slate-300 hover:border hover:border-gray-600 "
+                                                    onClick={() => eidtComments({
+                                                        avatar: comment.avatar,
+                                                        content: content as any,
+                                                        time: "2024-10-13",
+                                                        user: "dua",
+                                                        user_id: (comment as any)?.user_id,
+                                                        id: comment.id,
+                                                        rating: 5
+                                                    })}>Edit</button>
+                                            </div>  
+
+                                            {/* <div className="flex items-center space-x-4 mt-2 text-sm text-gray-400">
+                                                <button className="hover:text-white">👍 {comment.likes || 0} lượt thích</button>
                                                 {comment.replies > 0 && (
                                                     <button className="hover:text-white">{comment.replies} phản hồi</button>
                                                 )}
-                                            </div>
+                                            </div> */}
                                         </div>
                                     </div>
                                 </div>
