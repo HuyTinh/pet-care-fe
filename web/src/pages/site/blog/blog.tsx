@@ -36,7 +36,7 @@ export const Blog = () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 data: {
-                    comments: [...(blog as any)?.comments.map(c => {
+                    comments: [...(blog as any)?.comments.map((c: any) => {
                         if (c.id == comment.id) {
                             return comment
                         }
@@ -192,7 +192,7 @@ export const Blog = () => {
                                             user: "dua",
                                             user_id: user_id,
                                             id: self.crypto.randomUUID() as any,
-                                            rating: 5
+                                            rating: rating
                                         })} >Comment</button>
                                 </div>
                             </div>
