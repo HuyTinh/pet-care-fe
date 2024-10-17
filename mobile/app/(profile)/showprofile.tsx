@@ -2,10 +2,10 @@ import { Image, Keyboard, StyleSheet, Text, TouchableWithoutFeedback, View } fro
 import React from 'react'
 import { Avatar, Button, Card, IconButton } from 'react-native-paper'
 import { Link, useNavigation } from 'expo-router';
-import { useGetAccountQuery } from '@/pharmacist/pharmacist.service';
+import { useGetAllAccountQuery } from '@/pharmacist/pharmacist.service';
 import { AntDesign, FontAwesome, MaterialIcons } from '@expo/vector-icons';
 const neweditprofile = () => {
-    const { data, isLoading, isFetching, isError } = useGetAccountQuery()
+    const { data, isLoading, isFetching, isError } = useGetAllAccountQuery()
     const navigation = useNavigation();
     function handleBack() {
         navigation.goBack();

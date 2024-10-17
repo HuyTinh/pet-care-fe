@@ -1,11 +1,13 @@
 import { useState } from "react";
 import useFetch from "../../../hooks/useFecth";
 import { IBlog } from "../../../types/blog.type"
+
 import { IComment } from "../../../types/comment.type"
 import ReactMarkdown from 'react-markdown';
 import { displayCustomDate } from "../../../utils/date";
 
 export const Blog = () => {
+
     const { data } = useFetch('http://localhost:1337/api/blogs?populate=*')
     const blogs = (data as any)?.data || [];
     const [blog, setBlog] = useState<IBlog>();
@@ -122,6 +124,7 @@ export const Blog = () => {
                                     </div>
                                 </div>
                             </div>
+
                         </div>
 
                         <div className="flex flex-col md:flex-row items-center py-16 px-8">

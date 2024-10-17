@@ -1,11 +1,15 @@
 import { StyleSheet, View, Image, Text } from 'react-native'
 import React from 'react'
 import { Avatar, Button, Card } from 'react-native-paper';
-import { Link } from 'expo-router';
-import { useGetAccountQuery } from '@/pharmacist/pharmacist.service';
-
+import { Link,router } from 'expo-router';
+import { useGetAllAccountQuery } from '@/pharmacist/pharmacist.service';
+import * as SecureStore from 'expo-secure-store';
 const explore = () => {
-  const { data, isLoading, isFetching, isError } = useGetAccountQuery()
+  const { data, isLoading, isFetching, isError } = useGetAllAccountQuery()
+  const handlDeleteTonken = async () => {
+    await SecureStore.deleteItemAsync("token")
+    router.replace("/(auth)")
+  }
   return (
     <View className='h-full w-full'>
       <View style={styles.square}>
@@ -41,7 +45,7 @@ const explore = () => {
             </Card.Content>
           </Link>
         </Card>
-        <Card style={styles.card} className='mt-7'>
+        <Card style={styles.card} className='mt-7' onPress={handlDeleteTonken}>
           <Card.Content className=' h-20'>
             <Image className='absolute top-[23] left-[25px]' source={require('@/assets/images/Log out.png')} />
             <Text className='absolute top-8 left-[85px] font-semibold text-[15px] text-white'>Sign out</Text>
