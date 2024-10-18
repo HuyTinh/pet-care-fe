@@ -2,10 +2,12 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 interface prescriptionState {
     id: string
+    remember: boolean
 }
 
 const initialState: prescriptionState = {
-    id: ""
+    id: "",
+    remember: false
 }
 
 const prescriptionSlice = createSlice({
@@ -17,10 +19,13 @@ const prescriptionSlice = createSlice({
         },
         cancelEditPost: (state) => {
             state.id = ""
-        }
+        },
+        isRemember: (state, action : PayloadAction<boolean>) =>{
+            state.remember = action.payload
+        } 
     }
 })
 
 const prescriptionReducer = prescriptionSlice.reducer
-export const {startEditPost, cancelEditPost} = prescriptionSlice.actions
+export const {startEditPost, cancelEditPost, isRemember} = prescriptionSlice.actions
 export default prescriptionReducer

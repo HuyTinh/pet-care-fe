@@ -24,21 +24,34 @@ import { Account } from "@/pharmacist/user/User";
 import { LoginRequest } from "@/pharmacist/user/LoginRequest";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-
+import * as SecureStore from 'expo-secure-store';
+import { isRemember } from "@/pharmacist/prescription";
+import { useDispatch, useSelector } from "react-redux";
 const Auth = () => {
   const [login, { isLoading }] = useGetAccountMutation();
-  const [isSelected, setSelection] = useState(false);
+  // const [isSelected, setSelection] = useState(false);
   const [permission, requestPermissions] = useCameraPermissions();
   const { control, reset, handleSubmit } = useForm<Account>();
   const [modalVisible, setModalVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
+  const mystate = useSelector((state) => (state as any)?.change);
+  const dispatch = useDispatch();
   const onSubmit: SubmitHandler<LoginRequest> = async (data: LoginRequest) => {
     try {
-      await login(data).unwrap()
-        .then(() => {
-          router.replace('./(tabs)/list');
-        })
+      // if (isSelected) {
+        // dispatch(isRemember(true))
+        await login(data).unwrap()
+          .then(() => {
+            router.replace('./(tabs)/list');
+          })
+      // }
+      // else {
+        // await login(data).unwrap()
+        //   .then(() => {
+        //     SecureStore.deleteItemAsync("token")
+        //     router.replace('./(tabs)/list');
+        //   })
+      // }
     }
     catch (error) {
       setErrorMessage("Please check your account");
@@ -140,14 +153,14 @@ const Auth = () => {
               />
             </View>
             <View style={styles.checkboxContainer}>
-              <CheckBox
+              {/* <CheckBox
                 title="Remember Me?"
                 checked={isSelected}
                 onPress={() => setSelection(!isSelected)}
                 containerStyle={styles.checkbox}
                 textStyle={styles.checkboxText}
                 checkedColor="white"
-              />
+              /> */}
               <Link
                 href="../(forgotpassword)/forgot-confirm-email"
                 style={styles.forgotPassword}
@@ -158,14 +171,14 @@ const Auth = () => {
           </View>
           <View style={styles.buttonContainer}>
             {/* <Link href="./(tabs)/list"> */}
-              <Button
-                mode="contained"
-                style={styles.button}
-                labelStyle={styles.buttonText}
-                onPress={handleSubmit(onSubmit)}
-              >
-                Login
-              </Button>
+            <Button
+              mode="contained"
+              style={styles.button}
+              labelStyle={styles.buttonText}
+              onPress={handleSubmit(onSubmit)}
+            >
+              Login
+            </Button>
             {/* </Link> */}
             {/* <Button onPress={requestPermissions}>Alow camera</Button> */}
           </View>
@@ -235,6 +248,7 @@ const styles = StyleSheet.create({
     fontSize: wp("3.5%"),
     fontWeight: "500",
     fontFamily: "medium",
+    marginLeft: 250
   },
   buttonContainer: {
     alignItems: "center",
