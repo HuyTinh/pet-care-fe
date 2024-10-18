@@ -2,10 +2,15 @@ import { MdEmail, MdKey, MdOutlineErrorOutline } from "react-icons/md";
 import { Fragment } from "react/jsx-runtime";
 import { PCCheckBox } from "../../../../components/pc-checkbox";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLoginRequestMutation } from "../../../auth.service";
 import { toast } from "react-toastify";
 import { setAuthenticated } from "../../../auth.slice";
+import { jwtDecode } from "jwt-decode";
+import { Navigate, useNavigate } from "react-router-dom";
+import { RootState } from "../../../../store/store";
+import { useEffect } from "react";
+
 
 export const AdminLoginForm = () => {
   const {
@@ -17,6 +22,9 @@ export const AdminLoginForm = () => {
   });
   const dispatch = useDispatch();
   const [loginRequest] = useLoginRequestMutation();
+  const navigate = useNavigate();
+  const role = useSelector((state: RootState) => state.authentication.role);
+
 
   const onSubmit: SubmitHandler<any> = (data) => {
     loginRequest(data).then((res) => {
@@ -36,9 +44,40 @@ export const AdminLoginForm = () => {
         } = data.data;
         localStorage.setItem("token", loginResponse.token);
         dispatch(setAuthenticated(loginResponse.token));
+        const decodedToken: {
+          scope: string;
+        } = jwtDecode(loginResponse.token);
+
       }
     });
   };
+
+  useEffect(() => {
+    switch (role?.replace("ROLE_", "")) {
+      case "RECEPTIONIST":
+        setTimeout(() => {
+          navigate("/receptionist");
+        }, 500)
+        return;
+
+      case "DOCTOR":
+        setTimeout(() => {
+          navigate("/doctor");
+        }, 500)
+        return;
+
+      case "WAREHOUSE_MANAGER":
+        setTimeout(() => {
+          navigate("/warehouse");
+        }, 500)
+        return;
+
+      default:
+        return;
+    }
+
+  }, [role])
+
   return (
     <Fragment>
       <form onSubmit={handleSubmit(onSubmit)}>

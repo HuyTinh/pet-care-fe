@@ -16,7 +16,7 @@ import { AllService } from "./pages/site/service/all-service";
 import { DiagnosticsService } from "./pages/site/service/diagnostics";
 import { useCookies } from "react-cookie";
 import { Blog } from "./pages/site/blog/blog";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { WareHousePage } from "./pages/admin/warehouse";
 import { AdminAuthPage } from "./pages/admin/auth";
 
@@ -34,13 +34,14 @@ const ProtectedRoute = ({
   isAuth,
   role,
 }: ProtectedRouteProps) => {
-  console.log(isAuth);
-  if (role) {
-    if (!isAuth) {
-      return <Navigate to="/" />;
-    }
+  if (role != null) {
+
     return allowedRoles.includes(role) ? element : <Navigate to="/admin" />;
+
+  } else {
+    return <Navigate to="/" />;
   }
+
 };
 
 const userRoutes = {
@@ -94,6 +95,54 @@ const userRoutes = {
   ],
 };
 
+const adminRoutes = (role: string | null, isAuth: boolean) => {
+  console.log(isAuth)
+  return [
+    {
+      path: "/receptionist",
+      element: {
+        page: <ReceptionistPage />,
+        allowedRoles: ["RECEPTIONIST"]
+      }
+    },
+    {
+      path: "/doctor",
+      element: {
+        page: <DoctorPage />,
+        allowedRoles: ["DOCTOR"]
+      }
+    },
+    {
+      path: "/warehouse",
+      element: {
+        page: <WareHousePage />,
+        allowedRoles: ["WAREHOUSE_MANAGER"]
+      }
+    },
+  ].map(route => {
+    return {
+      ...route,
+      element: <ProtectedRoute
+        element={route.element.page}
+        allowedRoles={route.element.allowedRoles}
+        role={role!}
+        isAuth={isAuth}
+      />
+    }
+  });
+}
+
+const defaultRoute = {
+  path: "/admin",
+  element: <RootLayout />,
+  children: [
+    {
+      index: true,
+      element: <AdminAuthPage />,
+    },
+  ],
+};
+
 export const RouterHooks = () => {
   const isAuth = useSelector((state: RootState) => state.authentication.isAuth);
   const userId = useSelector((state: RootState) => state.authentication.userId);
@@ -108,58 +157,10 @@ export const RouterHooks = () => {
     }
   }, [userId]);
 
-
-  const adminRoutes = [
-    {
-      path: "/doctor",
-      element: (
-        <ProtectedRoute
-          element={<DoctorPage />}
-          allowedRoles={["DOCTOR"]}
-          role={role!}
-          isAuth={isAuth}
-        />
-      ),
-    },
-    {
-      path: "/receptionist",
-      element: (
-        <ProtectedRoute
-          element={<ReceptionistPage />}
-          allowedRoles={["RECEPTIONIST"]}
-          role={role!}
-          isAuth={isAuth}
-        />
-      ),
-    },
-    {
-      path: "/warehouse",
-      element: (
-        <ProtectedRoute
-          element={<WareHousePage />}
-          allowedRoles={["WAREHOUSE_MANAGER"]}
-          role={role!}
-          isAuth={isAuth}
-        />
-      ),
-    },
-  ];
-
-  const defaultRoute = {
-    path: "/admin",
-    element: <RootLayout />,
-    children: [
-      {
-        index: true,
-        element: <AdminAuthPage />,
-      },
-    ],
-  };
-
-  const router = createBrowserRouter([
+  const router = isAuth != null && createBrowserRouter([
     defaultRoute,
     userRoutes,
-    ...adminRoutes,
+    ...adminRoutes(role, isAuth),
   ]);
 
   return { router: router };

@@ -16,6 +16,7 @@ import { QRScanModal } from "./qr-scan";
 import { IoQrCodeOutline } from "react-icons/io5";
 import { CiCalendar } from "react-icons/ci";
 import { LiaEditSolid } from "react-icons/lia";
+import { MdOutlineCancel } from "react-icons/md";
 
 export const AppointmentManagement = () => {
   const initialDate = `${displayInputDate(new Date())}`;
@@ -226,7 +227,7 @@ export const AppointmentManagement = () => {
                 <th>Pets <span className="text-sm ">(name | age | weight | species)</span></th>
                 <th>Appointment Date</th>
                 <th>Status</th>
-                <th>Check In</th>
+                <th>Action</th>
                 <th>Edit</th>
                 <th></th>
               </tr>
@@ -236,7 +237,7 @@ export const AppointmentManagement = () => {
                 (appointments as IAppointment[])?.map((ap, index) => (
                   <motion.tr
                     key={index}
-                    className={`${["CHECKED_IN", "CANCELLED"].includes(ap.status) && "rounded-lg bg-zinc-400 p-1"}`}
+                    className={`${["CHECKED_IN", "CANCELLED"].includes(ap.status) && "rounded-lg bg-zinc-300 p-1"}`}
                   >
                     <th>#{ap.id}</th>
                     <td>
@@ -259,7 +260,7 @@ export const AppointmentManagement = () => {
                     <td>
                       {
                         ap.pets?.map((val, index) => <div className="flex gap-x-2">
-                          <div>
+                          <div key={index}>
                             <span className="font-bold underline">
                               {val.name}
                             </span>
@@ -305,7 +306,7 @@ export const AppointmentManagement = () => {
                     <td className="space-x-2">
                       {ap.status === "SCHEDULED" && (
                         <button
-                          className="btn btn-outline  btn-info"
+                          className="btn btn-outline btn-neutral"
                           onClick={() => sendMessage(ap.id, "CHECKED_IN")}
                         >
                           <CiCalendar size={24} />
@@ -313,17 +314,17 @@ export const AppointmentManagement = () => {
                       )}
                       {ap.status === "CHECKED_IN" && (
                         <button
-                          className="btn btn-error btn-sm"
+                          className="btn btn-outline btn-neutral btn-error"
                           onClick={() => sendMessage(ap.id, "CANCELLED")}
                         >
-                          Cancel
+                          <MdOutlineCancel size={24} />
                         </button>
                       )}
 
                     </td>
                     <td>
                       <button
-                        className="btn btn-outline btn-info" onClick={() => {
+                        className="btn btn-outline btn-neutral" onClick={() => {
                           (
                             document.getElementById(
                               "edit_appointment_modal",
