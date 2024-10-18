@@ -14,6 +14,9 @@ import { EditAppointmentModal } from "./edit-appointment-modal";
 import WebSocketManager from "../../../../../config/web-socket-manager";
 import { QRScanModal } from "./qr-scan";
 import { IoQrCodeOutline } from "react-icons/io5";
+import { CiCalendar } from "react-icons/ci";
+import { LiaEditSolid } from "react-icons/lia";
+import { MdOutlineCancel } from "react-icons/md";
 
 export const AppointmentManagement = () => {
   const initialDate = `${displayInputDate(new Date())}`;
@@ -42,6 +45,7 @@ export const AppointmentManagement = () => {
   const [sessionId, _] = useState(new Date().getTime());
   const stompClient = WebSocketManager.getInstance().getClient();
   const { generatePDF } = usePdfGenerator();
+
 
   useEffect(() => {
     if (stompClient) {
@@ -129,6 +133,7 @@ export const AppointmentManagement = () => {
   return (
     <>
       <div className="flex gap-x-2 p-2">
+
         <div className="flex-1">
           <label className="input input-bordered flex items-center gap-2">
             <input type="text" className="grow" placeholder="Search" />
@@ -213,13 +218,17 @@ export const AppointmentManagement = () => {
               <div>Watting for few minute...</div>
             </motion.div>
           )}
-          <table className="table">
+          <table className="table ">
             {/* head */}
             <thead className="sticky top-0 bg-white">
-              <tr className="text-lg">
+              <tr>
                 <th></th>
-                <th>Details</th>
+                <th>Customer</th>
+                <th>Pets <span className="text-sm ">(name | age | weight | species)</span></th>
+                <th>Appointment Date</th>
                 <th>Status</th>
+                <th>Action</th>
+                <th>Edit</th>
                 <th></th>
               </tr>
             </thead>
@@ -228,30 +237,62 @@ export const AppointmentManagement = () => {
                 (appointments as IAppointment[])?.map((ap, index) => (
                   <motion.tr
                     key={index}
-                    className={`${["CHECKED_IN", "CANCELLED"].includes(ap.status) && "rounded-lg bg-zinc-400 p-1"}`}
+                    className={`${["CHECKED_IN", "CANCELLED"].includes(ap.status) && "rounded-lg bg-zinc-300 p-1"}`}
                   >
                     <th>#{ap.id}</th>
                     <td>
                       <div>
-                        <span>Customer: </span>
-                        <span className="font-bold">
+                        <span>Name: </span>
+                        <span className="font-bold underline">
                           {ap.first_name + " " + ap.last_name}
                         </span>
                       </div>
                       <div>
                         <span>Email: </span>
-                        <span className="font-bold">{ap.email}</span>
+                        <span className="font-bold underline">{ap.email}</span>
                       </div>
-                      <div className="truncate">
-                        <span>Date: </span>
-                        <span className="underline">
-                          {displayCustomDate(new Date(ap.appointment_date))}
-                        </span>
+                      <div>
+                        <span>Phone: </span>
+                        <span className="font-bold underline">{ap.phone_number}</span>
                       </div>
+
+                    </td>
+                    <td>
+                      {
+                        ap.pets?.map((val, index) => <div className="flex gap-x-2">
+                          <div key={index}>
+                            <span className="font-bold underline">
+                              {val.name}
+                            </span>
+                          </div>
+                          |
+                          <div>
+                            <span className="font-bold underline">
+                              {val.age}
+                            </span>
+                          </div>
+                          |
+                          <div>
+                            <span className="font-bold underline">
+                              {val.weight}
+                            </span>
+                          </div>
+                          |
+                          <div>
+                            <span className="font-bold underline">
+                              {val.species}
+                            </span>
+                          </div>
+                        </div>)
+                      }
+
+                    </td>
+                    <td>
                       <div className="truncate">
-                        <span>Time: </span>
-                        <span className="underline">
-                          {ap.appointment_time.substring(0, 5)}
+                        <span className="underline font-bold">
+                          {displayCustomDate(new Date(ap.appointment_date))}, <span>
+                            {ap.appointment_time.substring(0, 5)}h
+                          </span>
                         </span>
                       </div>
                     </td>
@@ -265,23 +306,25 @@ export const AppointmentManagement = () => {
                     <td className="space-x-2">
                       {ap.status === "SCHEDULED" && (
                         <button
-                          className="btn btn-success btn-sm"
+                          className="btn btn-outline btn-neutral"
                           onClick={() => sendMessage(ap.id, "CHECKED_IN")}
                         >
-                          Check in
+                          <CiCalendar size={24} />
                         </button>
                       )}
                       {ap.status === "CHECKED_IN" && (
                         <button
-                          className="btn btn-error btn-sm"
+                          className="btn btn-outline btn-neutral btn-error"
                           onClick={() => sendMessage(ap.id, "CANCELLED")}
                         >
-                          Cancel
+                          <MdOutlineCancel size={24} />
                         </button>
                       )}
+
+                    </td>
+                    <td>
                       <button
-                        className="btn btn-info btn-sm"
-                        onClick={() => {
+                        className="btn btn-outline btn-neutral" onClick={() => {
                           (
                             document.getElementById(
                               "edit_appointment_modal",
@@ -290,7 +333,7 @@ export const AppointmentManagement = () => {
                           setSelectedAppointment(ap as any);
                         }}
                       >
-                        Edit
+                        <LiaEditSolid size={24} />
                       </button>
                     </td>
                   </motion.tr>

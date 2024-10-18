@@ -1,8 +1,8 @@
-import { LoginForm } from "./login";
+import { AdminLoginForm } from "./login";
 
 export const AdminAuthPage = () => {
   return (
-    <div className="h-full">
+    <div className="h-screen">
       <div className="h-full bg-[url('/src/assets/images/login_banner_admin.jpg')] bg-cover p-5">
         <div className="flex h-full">
           <div className="flex flex-1 justify-center">
@@ -18,7 +18,7 @@ export const AdminAuthPage = () => {
           </div>
           <div className="flex items-center pb-10 pr-52">
             <div className="flex w-96 flex-col gap-y-5 rounded-lg bg-zinc-700/35 p-4 backdrop-blur-sm">
-              <LoginForm />
+              <AdminLoginForm />
             </div>
           </div>
         </div>

@@ -36,6 +36,7 @@ const Home = () => {
     const bottomSheetModalRef = useRef<BottomSheetModal>(null);
     // variables
     const snapPoints = useMemo(() => ["75%", "75%", "75%", "75%"], []);
+
     // callbacks
     const handlePresentModalPress = useCallback((id: any) => {
         bottomSheetModalRef.current?.present();
@@ -222,6 +223,7 @@ const Home = () => {
                                         </View>
                                         <View className="ml-[5.5px]">
                                             <Text className="text-[50px] font-bold text-[#0099CF]" style={{fontFamily: "blod"}}>
+
                                                 {day}
                                             </Text>
                                         </View>
@@ -230,11 +232,13 @@ const Home = () => {
                                                 {dayName}
                                             </Text>
                                             <Text className="text-sm text-[#0099CF]" style={{fontFamily: "medium"}}>
+
                                                 {month} {year}
                                             </Text>
                                         </View>
                                         <View className="ml-16">
                                             <Text className="text-4xl text-[#0099CF] font-bold" style={{fontFamily: "blod"}}>
+
                                                 Today
                                             </Text>
                                         </View>
@@ -250,6 +254,7 @@ const Home = () => {
                                         <View className="flex flex-1 justify-center items-center h-[550px]">
                                             <Image className="w-56 h-24" source={require("@/assets/images/loading.gif")} />
                                             <Text className="text-[#ACACAD]" style={{fontFamily: "blod"}}>Waiting for few minus...</Text>
+
                                         </View>
                                         :
                                         (searchResult as any)?.map((search: any) => (
@@ -271,6 +276,7 @@ const Home = () => {
                                                     <Text className="text-[#0D74B1] text-base font-medium" style={{fontFamily: "blod"}}>
                                                         Số điện thoại:{" "}
                                                         <Text className="!text-black" style={{fontFamily: "medium"}}>
+
                                                             {search.customer.phone_number}
                                                         </Text>
                                                     </Text>
@@ -288,6 +294,7 @@ const Home = () => {
                                         <View className="flex flex-1 justify-center items-center h-[400px]">
                                             <Image className="w-56 h-24" source={require("@/assets/images/loading.gif")} />
                                             <Text className="text-[#ACACAD] font-bold" style={{fontFamily: "blod"}}>Customer loading...</Text>
+
                                         </View>
                                         :
                                         !isFocus && !isFetching && ((data as any)?.data as Prescription[]).map(
@@ -303,11 +310,13 @@ const Home = () => {
                                                         <Text className="text-[#0D74B1] text-base font-medium" style={{fontFamily: "blod"}}>
                                                             Họ và tên:{" "}
                                                             <Text className="!text-black" style={{fontFamily: "medium"}}>
+
                                                                 {prescription.customer.last_name}{" "}
                                                                 {prescription.customer.first_name}
                                                             </Text>
                                                         </Text>
                                                         <Text className="text-[#0D74B1] text-base font-medium" style={{fontFamily: "blod"}}>
+
                                                             Số điện thoại:{" "}
                                                             <Text className="!text-black" style={{fontFamily: "medium"}}>
                                                                 {prescription.customer.phone_number}
@@ -330,6 +339,7 @@ const Home = () => {
                                 >
                                     <BottomSheetView>
                                         <View className='flex flex-col justify-between pb-80 h-screen' style={{ width: wp(100) }}>
+
                                             {
                                                 loadingPrescription
                                                     ?
@@ -340,6 +350,7 @@ const Home = () => {
                                                     :
                                                     <View >
                                                         <Text className="text-xl font-bold ml-4" style={{fontFamily: "blod"}}>#PC{(prescriptionData as any)?.data.id}</Text>
+
                                                         <View className="px-4 py-4">
                                                             <Accordion
                                                                 sections={(prescriptionData as any)?.data.details || []}
@@ -355,6 +366,7 @@ const Home = () => {
                                             <View className="flex flex-row justify-between px-5">
                                                 <View>
                                                     <Text className="font-bold text-2xl text-[#0D74B1]" style={{fontFamily: "blod"}}>
+
                                                         Medical total
                                                     </Text>
                                                     {
@@ -365,6 +377,7 @@ const Home = () => {
                                                             </Text>
                                                             :
                                                             <Text className="text-base ml-4" style={{fontFamily: "medium"}}>
+
                                                                 {Intl.NumberFormat("vi-VN", {}).format(
                                                                     (prescriptionData as any)?.data.total_price
                                                                 )}{" "}
@@ -378,6 +391,7 @@ const Home = () => {
                                                         className="w-40 h-14 flex justify-center !bg-[#0F74C1]"
                                                     >
                                                         <Text className="text-base font-bold" style={{fontFamily: "blod"}}>Approved</Text>
+
                                                     </Button>
                                                 </View>
                                             </View>

@@ -44,14 +44,6 @@ const Auth = () => {
           .then(() => {
             router.replace('./(tabs)/list');
           })
-      // }
-      // else {
-        // await login(data).unwrap()
-        //   .then(() => {
-        //     SecureStore.deleteItemAsync("token")
-        //     router.replace('./(tabs)/list');
-        //   })
-      // }
     }
     catch (error) {
       setErrorMessage("Please check your account");
@@ -71,7 +63,6 @@ const Auth = () => {
   if (!loaded) {
     return null;
   }
-
   const { width, height } = Dimensions.get("window");
   return (
     <>
@@ -153,14 +144,6 @@ const Auth = () => {
               />
             </View>
             <View style={styles.checkboxContainer}>
-              {/* <CheckBox
-                title="Remember Me?"
-                checked={isSelected}
-                onPress={() => setSelection(!isSelected)}
-                containerStyle={styles.checkbox}
-                textStyle={styles.checkboxText}
-                checkedColor="white"
-              /> */}
               <Link
                 href="../(forgotpassword)/forgot-confirm-email"
                 style={styles.forgotPassword}
@@ -249,6 +232,7 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     fontFamily: "medium",
     marginLeft: 250
+
   },
   buttonContainer: {
     alignItems: "center",
