@@ -7,6 +7,7 @@ import { Account } from './user/User';
 import { LoginRequest } from './user/LoginRequest';
 import { LoginReponse } from './user/LoginReponse';
 import * as SecureStore from 'expo-secure-store';
+import { isRemember } from './prescription';
 export const pharmacistApi = createApi({
     reducerPath: 'pharmacistApi',
     tagTypes: ['Post'],
