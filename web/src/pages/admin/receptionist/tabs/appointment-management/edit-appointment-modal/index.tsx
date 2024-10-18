@@ -11,7 +11,9 @@ import {
 } from "../../../../../../utils/date";
 import { toast } from "react-toastify";
 import { MdOutlineErrorOutline } from "react-icons/md";
-import { useUpdateAppointmentMutation } from "../../../appointment.service";
+import { useUpdateAppointmentMutation, useCreateAppointmentMutation } from "../../../appointment.service";
+import _ from "lodash"
+import { usePdfGenerator } from "../../../../../../hooks/pdf-generator";
 
 type EditAppointmentModalProps = {
   appointment: IAppointment;
@@ -27,6 +29,7 @@ export const EditAppointmentModal = ({
     formState: { errors },
   } = useForm<any>({
     mode: "all",
+    defaultValues: {}
   });
 
   const [pets, setPets] = useState<IPet[]>([]);
@@ -35,25 +38,46 @@ export const EditAppointmentModal = ({
 
   const [updateAppointment] = useUpdateAppointmentMutation();
 
-  const onSubmit: SubmitHandler<any> = (data) =>
-    updateAppointment({
-      appointmentId: appointment.id,
-      updateAppointment: {
+  const [createAppointment] = useCreateAppointmentMutation();
+
+  const { generatePDF } = usePdfGenerator();
+
+  const onSubmit: SubmitHandler<any> = (data) => {
+
+    if (appointment.id) {
+      updateAppointment({
+        appointmentId: appointment.id,
+        updateAppointment: {
+          ...data,
+          pets: pets,
+          services: services,
+        },
+      }).then(() => {
+        toast.success("Change appointment info successful", {
+          position: "top-right",
+        });
+      });
+    } else {
+      createAppointment(_.omit({
         ...data,
         pets: pets,
-        services: services,
-      },
-    }).then(() => {
-      toast.success("Change appointment info successful", {
-        position: "top-right",
+        services: ["Diagnosis."],
+      }, ["id"])).then((res) => {
+        toast.success("Create appointment successful", {
+          position: "top-right",
+        });
+        generatePDF((res as any)?.data.id);
       });
-    });
+    }
+  }
 
   useEffect(() => {
-    if (appointment) {
+    if (!_.isEmpty(appointment)) {
       setServices(appointment?.services || []);
       setPets(appointment?.pets || []);
       reset(appointment);
+    } else {
+      reset(appointment)
     }
   }, [appointment]);
 
@@ -63,7 +87,7 @@ export const EditAppointmentModal = ({
         <div className="text-center text-3xl font-bold">
           Change Appointment Info
         </div>
-        <form action="" onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex justify-center gap-x-5">
             <label className="form-control w-full max-w-xs">
               <div className="label">
@@ -113,9 +137,18 @@ export const EditAppointmentModal = ({
                 type="text"
                 placeholder="Type here"
                 className="input input-bordered w-full max-w-xs"
-                readOnly
-                {...register("email")}
+
+                {...register("email", {
+                  required: "Email is empty!",
+                })}
+
               />
+              {errors.email && (
+                <span className="badge badge-error mt-2 gap-2 text-white">
+                  <MdOutlineErrorOutline />
+                  {(errors.email as any)?.message}
+                </span>
+              )}
             </label>
             <label className="form-control w-full max-w-xs">
               <div className="label">
@@ -190,6 +223,6 @@ export const EditAppointmentModal = ({
       <form method="dialog" className="modal-backdrop">
         <button>close</button>
       </form>
-    </dialog>
+    </dialog >
   );
 };

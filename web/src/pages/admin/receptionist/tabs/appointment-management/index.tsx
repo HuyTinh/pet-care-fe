@@ -17,6 +17,7 @@ import { IoQrCodeOutline } from "react-icons/io5";
 import { CiCalendar } from "react-icons/ci";
 import { LiaEditSolid } from "react-icons/lia";
 import { MdOutlineCancel } from "react-icons/md";
+import { FaPlus } from "react-icons/fa6";
 
 export const AppointmentManagement = () => {
   const initialDate = `${displayInputDate(new Date())}`;
@@ -177,6 +178,31 @@ export const AppointmentManagement = () => {
           <button
             className="btn btn-outline"
             onClick={() => {
+              (
+                document.getElementById(
+                  "edit_appointment_modal",
+                ) as any
+              ).showModal();
+              setSelectedAppointment({
+                account_id: "",
+                appointment_date: "",
+                appointment_time: "",
+                email: "",
+                first_name: "",
+                id: "",
+                last_name: "",
+                pets: [],
+                phone_number: "",
+                status: "CHECKED_IN",
+                services: []
+              })
+            }}
+          >
+            <FaPlus />
+          </button>
+          <button
+            className="btn btn-outline"
+            onClick={() => {
               setQrModalVisible(true);
               (
                 document.getElementById("qr_scan_appointment_modal") as any
@@ -186,14 +212,14 @@ export const AppointmentManagement = () => {
             <IoQrCodeOutline />
           </button>
         </div>
-      </div>
+      </div >
       <div className="flex-1 p-2">
         <div className="relative h-[36rem] overflow-auto rounded-xl border">
           {!isFetchingFilterAppointmentData &&
             !(appointments as any[])?.length && (
               <div className="absolute top-0 z-50 flex h-full w-full flex-col items-center justify-center">
                 <FcCalendar size={64} className="mb-10" />
-                <div>You don't have any appoiment</div>
+                <div>You don't have any appointment</div>
               </div>
             )}
           {isFetchingFilterAppointmentData && (
@@ -224,12 +250,11 @@ export const AppointmentManagement = () => {
               <tr>
                 <th></th>
                 <th>Customer</th>
-                <th>Pets <span className="text-sm ">(name | age | weight | species)</span></th>
+                <th>Pets</th>
                 <th>Appointment Date</th>
                 <th>Status</th>
                 <th>Action</th>
                 <th>Edit</th>
-                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -259,31 +284,23 @@ export const AppointmentManagement = () => {
                     </td>
                     <td>
                       {
-                        ap.pets?.map((val, index) => <div className="flex gap-x-2">
-                          <div key={index}>
-                            <span className="font-bold underline">
-                              {val.name}
-                            </span>
-                          </div>
-                          |
-                          <div>
-                            <span className="font-bold underline">
-                              {val.age}
-                            </span>
-                          </div>
-                          |
-                          <div>
-                            <span className="font-bold underline">
-                              {val.weight}
-                            </span>
-                          </div>
-                          |
-                          <div>
-                            <span className="font-bold underline">
-                              {val.species}
-                            </span>
-                          </div>
-                        </div>)
+                        ap.pets?.map((val, index) =>
+                          <div className="flex gap-x-2" key={index}>
+                            <span>#{index + 1}</span>
+                            <div >
+                              <span>Name: </span>
+                              <span className="font-bold underline">
+                                {val.name}
+                              </span>
+                            </div>
+                            |
+                            <div>
+                              <span>Species: </span>
+                              <span className="font-bold underline">
+                                {val.species}
+                              </span>
+                            </div>
+                          </div>)
                       }
 
                     </td>
