@@ -85,7 +85,7 @@ export const appointmentApi = createApi({
           params: {
             emailNotification: getCookieValue(
               `email-notification-${body.account_id}`,
-            ),
+            ) || false,
           },
         };
       },

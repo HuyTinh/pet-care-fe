@@ -44,10 +44,6 @@ export const AdminLoginForm = () => {
         } = data.data;
         localStorage.setItem("token", loginResponse.token);
         dispatch(setAuthenticated(loginResponse.token));
-        const decodedToken: {
-          scope: string;
-        } = jwtDecode(loginResponse.token);
-
       }
     });
   };
