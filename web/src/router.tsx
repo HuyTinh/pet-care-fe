@@ -16,7 +16,7 @@ import { AllService } from "./pages/site/service/all-service";
 import { DiagnosticsService } from "./pages/site/service/diagnostics";
 import { useCookies } from "react-cookie";
 import { Blog } from "./pages/site/blog/blog";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { WareHousePage } from "./pages/admin/warehouse";
 import { AdminAuthPage } from "./pages/admin/auth";
 
@@ -34,10 +34,13 @@ const ProtectedRoute = ({
   isAuth,
   role,
 }: ProtectedRouteProps) => {
-  if (!isAuth) {
-    return <Navigate to="/" />;
+  console.log(isAuth);
+  if (role) {
+    if (!isAuth) {
+      return <Navigate to="/" />;
+    }
+    return allowedRoles.includes(role) ? element : <Navigate to="/admin" />;
   }
-  return allowedRoles.includes(role) ? element : <Navigate to="/admin" />;
 };
 
 const userRoutes = {
@@ -104,6 +107,7 @@ export const RouterHooks = () => {
       }
     }
   }, [userId]);
+
 
   const adminRoutes = [
     {
