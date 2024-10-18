@@ -35,7 +35,7 @@ export const SideMenu = () => {
   };
 
   return (
-    <div className="p-4 pb-2">
+    <div className="p-4 pb-2 pr-0">
       <motion.div
         className="h-full overflow-hidden rounded-lg"
         initial={{
