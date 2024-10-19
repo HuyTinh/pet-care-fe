@@ -6,8 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLoginRequestMutation } from "../../../auth.service";
 import { toast } from "react-toastify";
 import { setAuthenticated } from "../../../auth.slice";
-import { jwtDecode } from "jwt-decode";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { RootState } from "../../../../store/store";
 import { useEffect } from "react";
 
@@ -44,10 +43,6 @@ export const AdminLoginForm = () => {
         } = data.data;
         localStorage.setItem("token", loginResponse.token);
         dispatch(setAuthenticated(loginResponse.token));
-        const decodedToken: {
-          scope: string;
-        } = jwtDecode(loginResponse.token);
-
       }
     });
   };

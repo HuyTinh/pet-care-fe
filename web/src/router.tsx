@@ -28,20 +28,21 @@ import { AdminAuthPage } from "./pages/admin/auth";
 // }
 
 // Hàm xác thực vai trò
-// const ProtectedRoute = ({
-//   element,
-//   allowedRoles,
-//   isAuth,
-//   role,
-// }: ProtectedRouteProps) => {
-//   if (role != null) {
+const ProtectedRoute = ({
+  element,
+  allowedRoles,
+  isAuth,
+  role,
+}: ProtectedRouteProps) => {
+  // if (role != null) {
 
-//     return allowedRoles.includes(role) ? element : <Navigate to="/admin" />;
+  //   return allowedRoles.includes(role) ? element : <Navigate to="/admin" />;
 
-//   } else {
-//     return <Navigate to="/" />;
-//   }
-// };
+  // } else {
+  //   return <Navigate to="/" />;
+  // }
+  return true ? <DoctorPage /> : <Navigate to="/admin" />;
+};
 
 const userRoutes = {
   path: "/",

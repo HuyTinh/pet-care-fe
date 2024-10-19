@@ -42,7 +42,7 @@ export const SideMenu = () => {
           width: 0,
         }}
         animate={{
-          width: isOpen ? '88px' : 265,
+          width: isOpen ? '88px' : 235,
           opacity: isOpen ? '0px' : 100,
         }}
         transition={{
@@ -83,7 +83,7 @@ export const SideMenu = () => {
             <div className="flex w-full flex-col">
               <div className="flex flex-1">
 
-                <div className="absolute left-8 z-10 space-y-5 ps-2 pt-5">
+                <div className="absolute left-2 z-10 space-y-5 ps-2 pt-5">
                   {menuItems.map((item, index) => (
                     <NavLink
                       to={item.path}
