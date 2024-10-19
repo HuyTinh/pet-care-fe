@@ -12,12 +12,10 @@ export const EditMedicineModal = ({ medicine }: EditMedicineModalProps) => {
     register,
     // handleSubmit,
     reset,
-    getValues,
     formState: { errors },
   } = useForm<any>({
     mode: "all",
   });
-  console.log("hihi: ", getValues("manufactures"));
 
   // const onSubmit: SubmitHandler<any> = (data) => { };
   // updateAppointment({
@@ -121,8 +119,8 @@ export const EditMedicineModal = ({ medicine }: EditMedicineModalProps) => {
           <div className="flex gap-x-10 py-2">
             <label className="form-control w-full max-w-md justify-between">
               <div>
-                <span className="font-bold">Manufacture Date</span>{" "}
-                <span className="underline ">(month/day/year)</span>:
+                <span className="font-bold label-text">Manufacture Date</span>{" "}
+                <span className="not-italic label-text">(month/day/year)</span>:
               </div>
               <input
                 type="date"
@@ -132,8 +130,8 @@ export const EditMedicineModal = ({ medicine }: EditMedicineModalProps) => {
             </label>
             <label className="form-control w-full max-w-md justify-between">
               <div>
-                <span className="font-bold"> Expiry Date</span>{" "}
-                <span className="underline">(month/day/year)</span>:
+                <span className="font-bold label-text"> Expiry Date</span>{" "}
+                <span className="label-text">(month/day/year)</span>:
               </div>
               <input
                 type="date"
@@ -166,7 +164,7 @@ export const EditMedicineModal = ({ medicine }: EditMedicineModalProps) => {
             <label className="form-control w-full max-w-md justify-between">
               <div>
               <span className="label-text font-bold">Date Import</span>{" "}
-                <span className=" underline">(month/day/year)</span>:
+                <span className="label-text">(month/day/year)</span>:
               </div>
               <input
                 type="date"
