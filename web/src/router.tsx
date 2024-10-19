@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";   //
 import { RootLayout } from "./components/root-layout";
 import { ReceptionistPage } from "./pages/admin/receptionist";
 import { DoctorPage } from "./pages/admin/doctor";
@@ -20,12 +20,12 @@ import { useEffect } from "react";
 import { WareHousePage } from "./pages/admin/warehouse";
 import { AdminAuthPage } from "./pages/admin/auth";
 
-interface ProtectedRouteProps {
-  element: JSX.Element;
-  allowedRoles: string[];
-  isAuth: boolean;
-  role: string;
-}
+// interface ProtectedRouteProps {
+//   element: JSX.Element;
+//   allowedRoles: string[];
+//   isAuth: boolean;
+//   role: string;
+// }
 
 // Hàm xác thực vai trò
 const ProtectedRoute = ({
@@ -95,6 +95,7 @@ const userRoutes = {
   ],
 };
 
+
 const adminRoutes = (role: string | null, isAuth: boolean) => {
   console.log(isAuth)
   return [
@@ -122,12 +123,7 @@ const adminRoutes = (role: string | null, isAuth: boolean) => {
   ].map(route => {
     return {
       ...route,
-      element: <ProtectedRoute
-        element={route.element.page}
-        allowedRoles={route.element.allowedRoles}
-        role={role!}
-        isAuth={isAuth}
-      />
+      element: route.element.page
     }
   });
 }
