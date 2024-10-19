@@ -213,7 +213,6 @@ export const EditAppointmentModal = ({
           </div>
           <div className="space-y-2 py-2">
             <PetPicker pets={pets} setPets={setPets} />
-            {/* <ServicePicker services={services} setServices={setServices} /> */}
           </div>
           <div>
             <button className="btn btn-outline">Save</button>
