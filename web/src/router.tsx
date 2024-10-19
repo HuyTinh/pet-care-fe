@@ -34,14 +34,13 @@ const ProtectedRoute = ({
   isAuth,
   role,
 }: ProtectedRouteProps) => {
-  // if (role != null) {
+  if (role != null) {
 
-  //   return allowedRoles.includes(role) ? element : <Navigate to="/admin" />;
+    return allowedRoles.includes(role) ? element : <Navigate to="/admin" />;
 
-  // } else {
-  //   return <Navigate to="/" />;
-  // }
-  return allowedRoles.includes(role) ? element : <Navigate to="/admin" />;
+  } else {
+    return <Navigate to="/" />;
+  }
 };
 
 const userRoutes = {
