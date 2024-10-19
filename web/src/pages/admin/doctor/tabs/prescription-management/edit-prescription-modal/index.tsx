@@ -5,6 +5,7 @@ import {
   useGetAllCalculationUnitQuery,
   useGetAllMedicineQuery,
 } from "../../../prescription.service";
+import { ServicePicker } from "../../../../../../components/service-picker";
 
 type EditPrescriptionModalProps = {
   appointment: IAppointment;
@@ -26,12 +27,13 @@ export const EditPrescriptionModal = ({
 
   const [medicines, setMedicines] = useState([]);
 
+  const [services, setServices] = useState<string[]>([]);
+
   const {
-    data: calculationUnitData,
-    isFetching: isFetchingCalculationUnitData,
+    data: calculationUnitData
   } = useGetAllCalculationUnitQuery();
 
-  const { data: medicinesData, isFetching: isFetchingMedicinesData } =
+  const { data: medicinesData } =
     useGetAllMedicineQuery();
 
   useEffect(() => {
@@ -142,14 +144,20 @@ export const EditPrescriptionModal = ({
               </label>
             </div>
             <div>
-              <button className="w-full btn btn-sm">Add</button>
+              <button className="w-full btn btn-sm">Add medicine</button>
             </div>
           </div>
-          <div className="flex-1">
+          <div className="flex-1 gap-y-2">
             <label className="space-y-2 bg- w-full">
               <div>Diagnosis:</div>
               <textarea className="textarea textarea-bordered w-full" placeholder="Bio"></textarea>
             </label>
+            <label className="space-y-2 bg- w-full">
+              <div>Note:</div>
+              <textarea className="textarea textarea-bordered w-full" placeholder="Bio"></textarea>
+            </label>
+            <ServicePicker services={services} setServices={setServices} />
+
           </div>
         </div>
       </div>

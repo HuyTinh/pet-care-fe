@@ -12,6 +12,7 @@ import { EditPrescriptionModal } from "./edit-prescription-modal";
 import { QRScanModal } from "./qr-scan";
 import { IoQrCodeOutline } from "react-icons/io5";
 import { useFilterAppointmentsQuery } from "../../prescription.service";
+import { SiGoogledocs } from "react-icons/si";
 
 export const PrescriptionManagement = () => {
   const initialDate = `${displayInputDate(new Date())}`;
@@ -40,7 +41,7 @@ export const PrescriptionManagement = () => {
   const [qrModalVisible, setQrModalVisible] = useState<boolean>(false);
   useEffect(() => {
     setAppointments(filterAppointmentData?.data);
-    return () => {};
+    return () => { };
   }, [filterAppointmentData?.data]);
 
   return (
@@ -133,11 +134,12 @@ export const PrescriptionManagement = () => {
           <table className="table">
             {/* head */}
             <thead className="sticky top-0 bg-white">
-              <tr className="text-lg">
+              <tr>
                 <th></th>
-                <th>Details</th>
+                <th>Customer</th>
+                <th>Appointment Date</th>
                 <th>Status</th>
-                <th></th>
+                <th className="text-center">Make Prescription</th>
               </tr>
             </thead>
             <tbody>
@@ -147,28 +149,23 @@ export const PrescriptionManagement = () => {
                     <th>#{ap.id}</th>
                     <td>
                       <div>
-                        <span>Customer: </span>
-                        <span className="font-bold">
+                        <span>Name: </span>
+                        <span className="font-bold underline">
                           {ap.first_name + " " + ap.last_name}
                         </span>
                       </div>
                       <div>
                         <span>Email: </span>
-                        <span className="font-bold">{ap.email}</span>
+                        <span className="font-bold underline">{ap.email}</span>
                       </div>
+                    </td>
+                    <td>
                       <div className="truncate">
-                        <span>Date: </span>
                         <span className="font-bold underline">
                           {displayCustomDate(new Date(ap.appointment_date))},{" "}
                           {ap.appointment_time.substring(0, 5) + "h"}
                         </span>
                       </div>
-                      {/* <div className="truncate">
-                        <span>Time: </span>
-                        <span className="underline">
-                          {ap.appointment_time.substring(0, 5) + "h"}
-                        </span>
-                      </div> */}
                     </td>
                     <td>
                       <span
@@ -177,9 +174,9 @@ export const PrescriptionManagement = () => {
                         {ap.status}
                       </span>
                     </td>
-                    <td className="space-x-2">
+                    <td className="space-x-2 text-center">
                       <button
-                        className="btn btn-info btn-sm"
+                        className="btn btn-info btn-outline"
                         onClick={() => {
                           (
                             document.getElementById(
@@ -189,16 +186,9 @@ export const PrescriptionManagement = () => {
                           setSelectedAppointment(ap as any);
                         }}
                       >
-                        Make prescription
+                        <SiGoogledocs size={24} />
                       </button>
-                      {ap.status === "CHECKED_IN" && (
-                        <button
-                          className="btn btn-error btn-sm"
-                          // onClick={() => sendMessage(ap.id)}
-                        >
-                          Cancel
-                        </button>
-                      )}
+
                     </td>
                   </motion.tr>
                 ))}

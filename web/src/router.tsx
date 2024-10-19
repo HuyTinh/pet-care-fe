@@ -41,6 +41,7 @@ const ProtectedRoute = ({
   } else {
     return <Navigate to="/" />;
   }
+  // return true ? <DoctorPage /> : <Navigate to="/admin" />;
 };
 
 const userRoutes = {

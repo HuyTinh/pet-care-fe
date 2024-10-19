@@ -90,7 +90,7 @@ export const ServicePicker = ({
             height: expand ? "auto" : "0",
           }}
         >
-          <div className="flex justify-between gap-x-2 px-2 py-1">
+          <div className="flex justify-between gap-x-2 px-2 py-2">
             <label className="flex flex-1 items-center">
               <select
                 className="select select-bordered w-full"
