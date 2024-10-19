@@ -8,7 +8,7 @@ export const medicineApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_BACKEND_URL }),
   endpoints: (build) => ({
     getAllMedicines: build.query<APIResponse, void>({
-      query: () => `${import.meta.env.VITE_MEDICINE_PATH}/Warehouse`,
+      query: () => `${import.meta.env.VITE_MEDICINE_PATH}/warehouse`,
       providesTags(result) {
         if (result) {
           console.log("result: ",result);

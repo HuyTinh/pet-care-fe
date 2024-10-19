@@ -13,11 +13,11 @@ export interface IMedicine {
   calculation_units: ICalculationUnit[];
 }
 
-export interface IManufacture {
-  id: number;
-  name: string;
-  status: boolean;
-}
+// export interface IManufacture {
+//   id: number;
+//   name: string;
+//   status: boolean;
+// }
 
 export interface ILocation {
   id: number;
