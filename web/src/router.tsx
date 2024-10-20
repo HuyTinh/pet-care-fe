@@ -19,6 +19,7 @@ import { Blog } from "./pages/site/blog/blog";
 import { useEffect } from "react";
 import { WareHousePage } from "./pages/admin/warehouse";
 import { AdminAuthPage } from "./pages/admin/auth";
+import PetsPage from "./pages/admin/pet";
 
 interface ProtectedRouteProps {
   element: JSX.Element;
@@ -41,7 +42,8 @@ const ProtectedRoute = ({
   // } else {
   //   return <Navigate to="/" />;
   // }
-  return true ? <DoctorPage /> : <Navigate to="/admin" />;
+  // return true ? <DoctorPage /> : <Navigate to="/admin" />;
+  return true ? element : <Navigate to="/admin" />;
 };
 
 const userRoutes = {
@@ -117,6 +119,20 @@ const adminRoutes = (role: string | null, isAuth: boolean) => {
       element: {
         page: <WareHousePage />,
         allowedRoles: ["WAREHOUSE_MANAGER"]
+      }
+    },
+    {
+      path: "/pet",
+      element: {
+        page: <PetsPage />,
+        allowedRoles: ["PET_MANAGER"]
+      }
+    },
+    {
+      path: "/pet-detail",
+      element: {
+        page: <PetsPage />,
+        allowedRoles: ["PET_DETAIL"]
       }
     },
   ].map(route => {
