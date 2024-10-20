@@ -97,7 +97,6 @@ const userRoutes = {
 
 
 const adminRoutes = (role: string | null, isAuth: boolean) => {
-  console.log(isAuth)
   return [
     {
       path: "/receptionist",

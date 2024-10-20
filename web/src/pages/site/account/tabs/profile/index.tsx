@@ -11,7 +11,6 @@ import {
   useUpdateCustomerProfileMutation,
 } from "../../../customer.service";
 import { useCookies } from "react-cookie";
-import { useModalPetCare } from "../../../../../components/pc-modal/hook";
 import { toFormData } from "../../../../../utils/form-data";
 
 export const ProfileTab = () => {
@@ -35,8 +34,6 @@ export const ProfileTab = () => {
   );
   const [updateProfileRequest, { isLoading }] =
     useUpdateCustomerProfileMutation();
-
-  const { openModalPetCare } = useModalPetCare();
 
   useEffect(() => {
     if (customerProfileResponse) {
@@ -201,7 +198,6 @@ export const ProfileTab = () => {
                 )}
                 <button
                   className="btn btn-neutral"
-                  onClick={() => openModalPetCare()}
                   type="button"
                 >
                   Change Password

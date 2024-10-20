@@ -43,6 +43,15 @@ export const prescriptionApi = createApi({
     getAllMedicine: build.query<APIResponse, void>({
       query: () => `${import.meta.env.VITE_MEDICINE_PATH}/medicine`,
     }),
+    createPrescription: build.mutation<APIResponse, any>({
+      query(body) {
+        return {
+          url: `${import.meta.env.VITE_MEDICAL_PRESCRIPTION_PATH}/prescription`,
+          method: "POST",
+          body,
+        };
+      }
+    })
   }),
 });
 
@@ -50,4 +59,5 @@ export const {
   useFilterAppointmentsQuery,
   useGetAllCalculationUnitQuery,
   useGetAllMedicineQuery,
+  useCreatePrescriptionMutation
 } = prescriptionApi;

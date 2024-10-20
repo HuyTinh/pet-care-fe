@@ -46,6 +46,7 @@ export const PrescriptionManagement = () => {
 
   return (
     <>
+
       <div className="flex gap-x-2 p-2">
         <div className="flex-1">
           <label className="input input-bordered flex items-center gap-2">
