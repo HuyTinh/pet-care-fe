@@ -1,7 +1,6 @@
 import { AnimatePresence } from "framer-motion";
 import { SideMenu } from "./side-menu";
 import { MedicinesManagement } from "./tabs/medicine-management";
-
 export const WareHousePage = () => {
   return (
     <AnimatePresence initial={false}>

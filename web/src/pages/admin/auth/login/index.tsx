@@ -10,7 +10,6 @@ import { useNavigate } from "react-router-dom";
 import { RootState } from "../../../../store/store";
 import { useEffect } from "react";
 
-
 export const AdminLoginForm = () => {
   const {
     register,
@@ -23,7 +22,6 @@ export const AdminLoginForm = () => {
   const [loginRequest] = useLoginRequestMutation();
   const navigate = useNavigate();
   const role = useSelector((state: RootState) => state.authentication.role);
-
 
   const onSubmit: SubmitHandler<any> = (data) => {
     loginRequest(data).then((res) => {
@@ -50,28 +48,24 @@ export const AdminLoginForm = () => {
   useEffect(() => {
     switch (role?.replace("ROLE_", "")) {
       case "RECEPTIONIST":
-        setTimeout(() => {
-          navigate("/receptionist");
-        }, 500)
+        navigate("/receptionist");
         return;
 
       case "DOCTOR":
-        setTimeout(() => {
-          navigate("/doctor");
-        }, 500)
+        navigate("/doctor");
         return;
 
       case "WAREHOUSE_MANAGER":
-        setTimeout(() => {
-          navigate("/warehouse");
-        }, 500)
+        navigate("/warehouse");
         return;
-
+      case "CUSTOMER":
+        navigate("/");
+        return;
       default:
+        navigate("/admin");
         return;
     }
-
-  }, [role])
+  }, [role]);
 
   return (
     <Fragment>
