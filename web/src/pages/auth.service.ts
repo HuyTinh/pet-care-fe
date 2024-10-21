@@ -8,7 +8,7 @@ export const authenticationApi = createApi({
     loginRequest: build.mutation<any, { email: string; password: string }>({
       query(body) {
         return {
-          url: `https://b9a79015-c9bf-417d-a557-de62bc2b383f.mock.pstmn.io/login`,
+          url: `${import.meta.env.VITE_IDENTITY_PATH}/auth/token`,
           method: "POST",
           body,
         };
