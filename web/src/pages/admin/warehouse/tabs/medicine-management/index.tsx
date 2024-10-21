@@ -6,6 +6,9 @@ import { useEffect, useState } from "react";
 import { IMedicine } from "../../../../../types/medicine.type";
 import { EditMedicineModal } from "./edit-medicine-modal";
 import { toCurrency } from "../../../../../utils/number-format";
+import { AddMedicineModal } from "./add-medicine-modal";
+import { FilterMedicineModal } from "./filter-medicine-modal";
+import { FaFilter } from "react-icons/fa";
 
 export const MedicinesManagement = () => {
   const [medicines, setMedicines] = useState<IMedicine[]>();
@@ -17,11 +20,7 @@ export const MedicinesManagement = () => {
       setMedicines((medicineData as any)?.data);
     }
   }, [medicineData]);
-  const [isSortedByName, setIsSortedByName] = useState(false);
 
-  const hanldSortByName = () => {
-   
-  }
   return (
     <>
       <div className="flex justify-between gap-x-2 p-2">
@@ -51,7 +50,16 @@ export const MedicinesManagement = () => {
             />
           </div>
           <div>
-            <button className="btn btn-info flex items-center gap-2">
+            <button
+              className="btn btn-info flex items-center gap-2"
+              onClick={() => {
+                (
+                  document.getElementById(
+                    "add_medicine_modal",
+                  )as any
+                ).showModal();
+              }}
+            >
               <img
                 src="/src/assets/images/add.png"
                 alt=""
@@ -70,11 +78,8 @@ export const MedicinesManagement = () => {
                 ).showModal();
               }}
             >
-              <img
-                src="/src/assets/images/filter.png"
-                alt=""
-              />
-              <span className="font-semibold text-black">Filter</span>
+              <FaFilter color="white"/>
+              <span className="font-semibold text-white" >Filter</span>
             </button>
           </div>
         </div>
@@ -116,7 +121,7 @@ export const MedicinesManagement = () => {
                 <th></th>
                 <th>
                   <span>Name</span>{" "}
-                  <button onClick={hanldSortByName}>
+                  <button>
                     <img
                       src="/src/assets/images/sort.png"
                       className="w-[12px] h-[12px]"
@@ -179,12 +184,6 @@ export const MedicinesManagement = () => {
                         <span className="text-base font-bold">{me.manufactures}</span>
                       </div>
                     </td>
-                    {/* <td>
-                      {displayCustomDate(new Date(me.manufacturing_date))}
-                      <br />
-                      <span className="badge badge-ghost badge-sm">{displayCustomDate(new Date(me.expiry_date))}</span>
-                    </td>
-                     */}
                     <td className="text-center">
                       <div className="flex truncate flex-col">
                         <span className="font-bold underline">
@@ -240,6 +239,8 @@ export const MedicinesManagement = () => {
           </table>
         </div>
         <EditMedicineModal medicine={selectedMedicine} />
+        <AddMedicineModal />
+        <FilterMedicineModal />
       </div >
     </>
   );

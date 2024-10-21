@@ -1,43 +1,46 @@
-import { useEffect } from "react";
+
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { MdOutlineErrorOutline } from "react-icons/md";
-import { IMedicine } from "../../../../../../types/medicine.type";
 
-type EditMedicineModalProps = {
-  medicine: IMedicine;
-};
 
-export const EditMedicineModal = ({ medicine }: EditMedicineModalProps) => {
+export const AddMedicineModal = () => {
   const {
     register,
     // handleSubmit,
     getValues,
-    reset,
     formState: { errors },
   } = useForm<any>({
-    mode: "all",
   });
-  useEffect(() => {
-    if (medicine) {
-      // setServices(medicine?.services || []);
-      // setPets(medicine?.pets || []);
-      reset(medicine);
+  const [image, setImage] = useState(null);
+  const handleImageChange = (e: any) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setImage((reader as any)?.result);
+      };
+      reader.readAsDataURL(file);
     }
-  }, [medicine]);
-
+  };
   return (
-    <dialog id="edit_medicine_modal" className="modal backdrop:!hidden">
+    <dialog id="add_medicine_modal" className="modal backdrop:!hidden">
       <div className="modal-box w-full max-w-3xl border-2 border-black">
         <div className="text-center text-3xl ">
-          Change Medicine Info
+          Add Medicine
         </div>
         {/* onSubmit={handleSubmit(onSubmit)} */}
         <form action="" >
           <div className="flex justify-around gap-x-5 mt-5 ml-5">
             <div className="avatar">
               <div className="w-40 rounded-xl">
-                <img src={`src/assets/images/${getValues("image")}`} />
+                <img src={image || `src/assets/images/${getValues("image")}`} />
               </div>
+              <input
+                type="file"
+                className="absolute inset-0 opacity-0 cursor-pointer"
+                onChange={handleImageChange}
+              />
             </div>
             <div className="flex flex-col w-2/3">
               <label className="form-control w-full max-w-md">
@@ -59,7 +62,7 @@ export const EditMedicineModal = ({ medicine }: EditMedicineModalProps) => {
                   </span>
                 )}
               </label>
-              <div className="flex justify-center gap-x-5 w-[96%]">
+              <div className="flex justify-center gap-x-10 w-[96%]">
                 <label className="form-control w-full max-w-md">
                   <div className="label">
                     <span className="label-text font-bold">Quantity:</span>
@@ -70,6 +73,7 @@ export const EditMedicineModal = ({ medicine }: EditMedicineModalProps) => {
                     step={1}
                     className="input input-bordered w-full max-w-md"
                     {...register("quantity")}
+                    min={0}
                   />
                 </label>
                 <label className="form-control w-full max-w-md justify-between">
@@ -113,7 +117,7 @@ export const EditMedicineModal = ({ medicine }: EditMedicineModalProps) => {
               </label>
             </div>
           </div>
-          <div className="flex gap-x-10 mt-3">
+          <div className="flex gap-x-10">
             <label className="form-control w-full max-w-md justify-between">
               <div className="label">
                 <span className="label-text font-bold">Status:</span>
