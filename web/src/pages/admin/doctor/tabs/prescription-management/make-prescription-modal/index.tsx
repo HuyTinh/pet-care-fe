@@ -1,20 +1,23 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { IAppointment } from "../../../../../../types/appoiment.type";
 import {
+  useCreatePrescriptionMutation,
   useGetAllCalculationUnitQuery,
   useGetAllMedicineQuery,
 } from "../../../prescription.service";
 import { ServicePicker } from "../../../../../../components/service-picker";
 import _ from "lodash"
+import { toast } from "react-toastify";
 
 
-type EditPrescriptionModalProps = {
-  prescription: any;
+type MakePrescriptionModalProps = {
+  appointment: IAppointment;
 };
 
-export const EditPrescriptionModal = ({
-  prescription,
-}: EditPrescriptionModalProps) => {
+export const MakePrescriptionModal = ({
+  appointment,
+}: MakePrescriptionModalProps) => {
   const {
     register,
     getValues,
@@ -28,9 +31,11 @@ export const EditPrescriptionModal = ({
 
   const [services, setServices] = useState<string[]>([]);
 
-  const [_, setSelectedPet] = useState<any>()
+  const [selectedPet, setSelectedPet] = useState<any>()
 
   const [prescriptionDetails, setPrescriptionDetails] = useState<any[]>([])
+
+  const [createPrescription] = useCreatePrescriptionMutation()
 
   const {
     data: calculationUnitData
@@ -51,19 +56,19 @@ export const EditPrescriptionModal = ({
 
 
   useEffect(() => {
-    if (prescription?.appointment.pets) {
-      setSelectedPet((prescription.appointment as any).pets[0].id);
+    if (appointment.pets) {
+      setSelectedPet((appointment as any).pets[0].id);
     }
 
-    if (prescription?.appointment.services) {
-      setServices((prescription.appointment as any).services)
+    if (appointment.services) {
+      setServices((appointment as any).services)
     }
     return () => { };
-  }, [prescription]);
+  }, [appointment]);
 
 
   return (
-    <dialog id="edit_prescription_modal" className="modal backdrop:!hidden">
+    <dialog id="make_prescription_modal" className="modal backdrop:!hidden">
       <div className="modal-box w-full max-w-3xl">
         <div className="my-1 text-center text-3xl font-bold">
           Make Prescription
@@ -76,7 +81,7 @@ export const EditPrescriptionModal = ({
                 className="select select-bordered w-full"
                 onChange={(e) => setSelectedPet(e.target.value)}
               >
-                {prescription?.appointment?.pets?.map(({ val, index }: { val: any, index: number }) => (
+                {appointment?.pets?.map((val, index) => (
                   <option key={index + 10} value={val.id}>
                     {val.name}
                   </option>
@@ -193,30 +198,30 @@ export const EditPrescriptionModal = ({
             <ServicePicker services={services} setServices={setServices} />
             <div>
               <button className="btn" onClick={() => {
-                // createPrescription({
-                //   appointment_id: appointment.id,
-                //   services: services,
-                //   details: [{
-                //     pet_id: selectedPet,
-                //     medicines: [...prescriptionDetails].map(val => {
-                //       return _.omit({
-                //         ...val,
-                //         medicine_id: (medicines.find((v: any) => v.name == val.medicine) as any).id,
-                //         calculation_id: (calculationUnits.find((v: any) => v.name == val.calculate_unit) as any).id,
-                //         total_money: val.price * val.quantity
-                //       }, ["medicine", "calculate_unit", "price"])
-                //     }),
-                //     diagnosis: getValues("diagnosis"),
-                //     note: getValues("note")
-                //   }],
-                //   total_money: [...prescriptionDetails].reduce((sum, val) => {
-                //     return sum + (val.price * val.quantity)
-                //   }, 0)
-                // }).then(() => {
-                //   toast.success("Create prescription successful", {
-                //     position: "top-right"
-                //   })
-                // });
+                createPrescription({
+                  appointment_id: appointment.id,
+                  services: services,
+                  details: [{
+                    pet_id: selectedPet,
+                    medicines: [...prescriptionDetails].map(val => {
+                      return _.omit({
+                        ...val,
+                        medicine_id: (medicines.find((v: any) => v.name == val.medicine) as any).id,
+                        calculation_id: (calculationUnits.find((v: any) => v.name == val.calculate_unit) as any).id,
+                        total_money: val.price * val.quantity
+                      }, ["medicine", "calculate_unit", "price"])
+                    }),
+                    diagnosis: getValues("diagnosis"),
+                    note: getValues("note")
+                  }],
+                  total_money: [...prescriptionDetails].reduce((sum, val) => {
+                    return sum + (val.price * val.quantity)
+                  }, 0)
+                }).then(() => {
+                  toast.success("Create prescription successful", {
+                    position: "top-right"
+                  })
+                });
                 // console.log();
 
               }}>Save</button>
