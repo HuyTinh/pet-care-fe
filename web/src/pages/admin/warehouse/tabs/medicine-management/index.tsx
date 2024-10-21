@@ -8,6 +8,7 @@ import { EditMedicineModal } from "./edit-medicine-modal";
 import { toCurrency } from "../../../../../utils/number-format";
 import { AddMedicineModal } from "./add-medicine-modal";
 import { FilterMedicineModal } from "./filter-medicine-modal";
+import { FaFilter } from "react-icons/fa";
 
 export const MedicinesManagement = () => {
   const [medicines, setMedicines] = useState<IMedicine[]>();
@@ -77,10 +78,7 @@ export const MedicinesManagement = () => {
                 ).showModal();
               }}
             >
-              <img
-                src="/src/assets/images/filter.png"
-                alt=""
-              />
+              <FaFilter color="white"/>
               <span className="font-semibold text-white" >Filter</span>
             </button>
           </div>
