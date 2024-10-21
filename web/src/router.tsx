@@ -32,28 +32,29 @@ const ProtectedRoute: React.FC<{
     (state: RootState) => state.authentication,
   );
   const navigate = useNavigate();
-  useEffect(() => {
-    if (!isAuth) {
-      navigate("/admin"); // Điều hướng tới trang đăng nhập nếu chưa đăng nhập
-    } else if (!allowedRoles.includes(role!)) {
-      // Điều hướng tới trang đúng với vai trò của họ nếu vai trò không hợp lệ
-      switch (role) {
-        case "DOCTOR":
-          navigate("/doctor");
-          break;
-        case "RECEPTIONIST":
-          navigate("/receptionist");
-          break;
-        case "WAREHOUSE_MANAGER":
-          navigate("/warehouse");
-          break;
-        default:
-          navigate("/admin"); // Điều hướng về trang admin nếu không có vai trò hợp lệ
-      }
-    }
-  }, [isAuth, role, allowedRoles, navigate]);
+  // useEffect(() => {
+  //   if (!isAuth) {
+  //     navigate("/admin"); // Điều hướng tới trang đăng nhập nếu chưa đăng nhập
+  //   } else if (!allowedRoles.includes(role!)) {
+  //     // Điều hướng tới trang đúng với vai trò của họ nếu vai trò không hợp lệ
+  //     switch (role) {
+  //       case "DOCTOR":
+  //         navigate("/doctor");
+  //         break;
+  //       case "RECEPTIONIST":
+  //         navigate("/receptionist");
+  //         break;
+  //       case "WAREHOUSE_MANAGER":
+  //         navigate("/warehouse");
+  //         break;
+  //       default:
+  //         navigate("/admin"); // Điều hướng về trang admin nếu không có vai trò hợp lệ
+  //     }
+  //   }
+  // }, [isAuth, role, allowedRoles, navigate]);
+  // return allowedRoles.includes(role!) ? element : null;
 
-  return allowedRoles.includes(role!) ? element : null;
+  return true ? element : null;
 };
 
 const userRoutes: RouteObject = {

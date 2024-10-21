@@ -8,9 +8,9 @@ export const DoctorPage = () => {
   return (
     <AnimatePresence initial={false}>
       <div className="h-screen bg-blue-400">
-      <button className="btn" onClick={handleLogout}>
+        {/* <button className="btn" onClick={handleLogout}>
               Logout
-            </button>
+            </button> */}
         <div className="flex h-full">
           <SideMenu />
           <div className="relative z-20 w-full pb-2 pe-4 pt-4">
