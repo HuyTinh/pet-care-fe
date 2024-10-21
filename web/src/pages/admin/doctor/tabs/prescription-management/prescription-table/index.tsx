@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useGetAllPresctiptionQuery } from "../../../prescription.service";
 import { motion } from "framer-motion"
 import { FcCalendar } from "react-icons/fc";
+import { FaEye } from "react-icons/fa";
+import { MdOutlineModeEdit } from "react-icons/md";
 
 export const PrescriptionTable = () => {
 
@@ -29,8 +31,8 @@ export const PrescriptionTable = () => {
                 <thead className="sticky top-0 bg-white">
                     <tr>
                         <th></th>
-                        <th>Customer</th>
-                        {/* <th>Appointment Date</th> */}
+                        <th>Appointment</th>
+                        <th>Services</th>
                         <th>Status</th>
                         <th className="text-center">Actions</th>
                     </tr>
@@ -52,14 +54,13 @@ export const PrescriptionTable = () => {
                                         <span className="font-bold underline">{pre.appointment.email}</span>
                                     </div>
                                 </td>
-                                {/* <td>
-                                    <div className="truncate">
-                                        <span className="font-bold underline">
-                                            {displayCustomDate(new Date(ap.appointment_date))},{" "}
-                                            {ap.appointment_time.substring(0, 5) + "h"}
-                                        </span>
+                                <td>
+                                    <div className="truncate ">
+                                        {
+                                            pre.appointment.services.map((val: any, index: any) => <div>- <div className="underline font-bold inline">{val}</div></div>)
+                                        }
                                     </div>
-                                </td> */}
+                                </td>
                                 <td>
                                     <span
                                         className={`${pre.status === "APPROVED" && "rounded-lg bg-green-300 p-1"}`}
@@ -68,6 +69,12 @@ export const PrescriptionTable = () => {
                                     </span>
                                 </td>
                                 <td className="space-x-2 text-center">
+                                    <button className="btn btn-info btn-outline">
+                                        <FaEye size={24} />
+                                    </button>
+                                    <button className="btn btn-neutral btn-outline">
+                                        <MdOutlineModeEdit size={24} />
+                                    </button>
                                     {/* <button
                                         className="btn btn-info btn-outline"
                                         onClick={() => {
