@@ -57,7 +57,7 @@ export const PrescriptionTable = () => {
                                 <td>
                                     <div className="truncate ">
                                         {
-                                            pre.appointment.services.map((val: any, index: any) => <div>- <div className="underline font-bold inline">{val}</div></div>)
+                                            pre.appointment.services.map((val: any, index: any) => <div key={index}>- <div className="underline font-bold inline">{val}</div></div>)
                                         }
                                     </div>
                                 </td>

@@ -2,18 +2,13 @@ import { useState, useEffect } from "react";
 import { IAppointment } from "../../../../../types/appoiment.type";
 import Select from "react-select";
 import {
-  displayCustomDate,
   displayInputDate,
   getDaysArray,
 } from "../../../../../utils/date";
-import { FcCalendar } from "react-icons/fc";
-import { motion } from "framer-motion";
 import { EditPrescriptionModal } from "./edit-prescription-modal";
 import { QRScanModal } from "./qr-scan";
 import { IoQrCodeOutline } from "react-icons/io5";
 import { useFilterAppointmentsQuery } from "../../prescription.service";
-import { SiGoogledocs } from "react-icons/si";
-import { AppointmentTable } from "./appointment-table";
 import { PrescriptionTable } from "./prescription-table";
 
 export const PrescriptionManagement = () => {

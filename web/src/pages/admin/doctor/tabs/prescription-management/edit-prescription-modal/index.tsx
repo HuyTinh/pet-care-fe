@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { IAppointment } from "../../../../../../types/appoiment.type";
 import {
   useCreatePrescriptionMutation,
