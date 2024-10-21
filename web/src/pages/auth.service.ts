@@ -14,6 +14,14 @@ export const authenticationApi = createApi({
         };
       },
     }),
+    logoutRequest: build.query<any, void>({
+      query() {
+        return {
+          url: `${import.meta.env.VITE_IDENTITY_PATH}/auth/logout`,
+          method: "POST",
+        };
+      },
+    }),
     loginWithGoogleRequest: build.mutation<any, { token: string }>({
       query(body) {
         return {
@@ -47,6 +55,7 @@ export const authenticationApi = createApi({
 
 export const {
   useLoginRequestMutation,
+  useLogoutRequestQuery,
   useRegisterRequestMutation,
   useLoginWithGoogleRequestMutation,
   useLoginWithFacebookRequestMutation,

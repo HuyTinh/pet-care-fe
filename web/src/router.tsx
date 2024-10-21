@@ -1,4 +1,8 @@
-import { createBrowserRouter, Navigate } from "react-router-dom";   //
+import {
+  createBrowserRouter,
+  RouteObject,
+  useNavigate,
+} from "react-router-dom";
 import { RootLayout } from "./components/root-layout";
 import { ReceptionistPage } from "./pages/admin/receptionist";
 import { DoctorPage } from "./pages/admin/doctor";
@@ -20,143 +24,115 @@ import { useEffect } from "react";
 import { WareHousePage } from "./pages/admin/warehouse";
 import { AdminAuthPage } from "./pages/admin/auth";
 
-// interface ProtectedRouteProps {
-//   element: JSX.Element;
-//   allowedRoles: string[];
-//   isAuth: boolean;
-//   role: string;
-// }
+const ProtectedRoute: React.FC<{
+  element: JSX.Element;
+  allowedRoles: string[];
+}> = ({ element, allowedRoles }) => {
+  const { isAuth, role } = useSelector(
+    (state: RootState) => state.authentication,
+  );
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!isAuth) {
+      navigate("/admin"); // Điều hướng tới trang đăng nhập nếu chưa đăng nhập
+    } else if (!allowedRoles.includes(role!)) {
+      // Điều hướng tới trang đúng với vai trò của họ nếu vai trò không hợp lệ
+      switch (role) {
+        case "DOCTOR":
+          navigate("/doctor");
+          break;
+        case "RECEPTIONIST":
+          navigate("/receptionist");
+          break;
+        case "WAREHOUSE_MANAGER":
+          navigate("/warehouse");
+          break;
+        default:
+          navigate("/admin"); // Điều hướng về trang admin nếu không có vai trò hợp lệ
+      }
+    }
+  }, [isAuth, role, allowedRoles, navigate]);
 
-// Hàm xác thực vai trò
-const ProtectedRoute = ({
-  element,
-  allowedRoles,
-  isAuth,
-  role,
-}: ProtectedRouteProps) => {
-  // if (role != null) {
-
-  //   return allowedRoles.includes(role) ? element : <Navigate to="/admin" />;
-
-  // } else {
-  //   return <Navigate to="/" />;
-  // }
-  return true ? <DoctorPage /> : <Navigate to="/admin" />;
+  return allowedRoles.includes(role!) ? element : null;
 };
 
-const userRoutes = {
+const userRoutes: RouteObject = {
   path: "/",
   element: <ClientLayout />,
   children: [
-    {
-      index: true,
-      element: <HomePage />,
-    },
+    { index: true, element: <HomePage /> },
     {
       path: "account",
       element: <ProfilePage />,
       children: [
-        {
-          index: true,
-          element: <ProfileTab />,
-        },
-        {
-          path: "appointment",
-          element: <AppointmentTab />,
-        },
+        { index: true, element: <ProfileTab /> },
+        { path: "appointment", element: <AppointmentTab /> },
       ],
     },
-    {
-      path: "booking",
-      element: <BookingPage />,
-    },
-    {
-      path: "blog",
-      element: <Blog />,
-    },
+    { path: "booking", element: <BookingPage /> },
+    { path: "blog", element: <Blog /> },
     {
       path: "service",
       element: <ServicePage />,
       children: [
-        {
-          index: true,
-          element: <AllService />,
-        },
-        {
-          path: "diagnostics",
-          element: <DiagnosticsService />,
-        },
+        { index: true, element: <AllService /> },
+        { path: "diagnostics", element: <DiagnosticsService /> },
       ],
     },
-    {
-      path: "contact",
-      element: <ContactPage />,
-    },
+    { path: "contact", element: <ContactPage /> },
   ],
 };
 
+const adminRoutes: RouteObject[] = [
+  {
+    path: "/receptionist",
+    element: (
+      <ProtectedRoute
+        element={<ReceptionistPage />}
+        allowedRoles={["RECEPTIONIST"]}
+      />
+    ),
+  },
+  {
+    path: "/doctor",
+    element: (
+      <ProtectedRoute element={<DoctorPage />} allowedRoles={["DOCTOR"]} />
+    ),
+  },
+  {
+    path: "/warehouse",
+    element: (
+      <ProtectedRoute
+        element={<WareHousePage />}
+        allowedRoles={["WAREHOUSE_MANAGER"]}
+      />
+    ),
+  },
+];
 
-const adminRoutes = (role: string | null, isAuth: boolean) => {
-  return [
-    {
-      path: "/receptionist",
-      element: {
-        page: <ReceptionistPage />,
-        allowedRoles: ["RECEPTIONIST"]
-      }
-    },
-    {
-      path: "/doctor",
-      element: {
-        page: <DoctorPage />,
-        allowedRoles: ["DOCTOR"]
-      }
-    },
-    {
-      path: "/warehouse",
-      element: {
-        page: <WareHousePage />,
-        allowedRoles: ["WAREHOUSE_MANAGER"]
-      }
-    },
-  ].map(route => {
-    return {
-      ...route,
-      element: route.element.page
-    }
-  });
-}
-
-const defaultRoute = {
+const defaultRoute: RouteObject = {
   path: "/admin",
   element: <RootLayout />,
-  children: [
-    {
-      index: true,
-      element: <AdminAuthPage />,
-    },
-  ],
+  children: [{ index: true, element: <AdminAuthPage /> }],
 };
 
 export const RouterHooks = () => {
-  const isAuth = useSelector((state: RootState) => state.authentication.isAuth);
-  const userId = useSelector((state: RootState) => state.authentication.userId);
-  const role = useSelector((state: RootState) => state.authentication.role);
+  const { isAuth, userId } = useSelector(
+    (state: RootState) => state.authentication,
+  );
   const [cookies, setCookies] = useCookies<any>();
 
   useEffect(() => {
-    if (userId) {
-      if (cookies[`email-notification-${userId}`] === undefined) {
-        setCookies(`email-notification-${userId}`, true);
-      }
+    if (userId && cookies[`email-notification-${userId}`] === undefined) {
+      setCookies(`email-notification-${userId}`, true);
     }
-  }, [userId]);
+  }, [userId, cookies, setCookies]);
 
-  const router = isAuth != null && createBrowserRouter([
+  const router = createBrowserRouter([
     defaultRoute,
     userRoutes,
-    ...adminRoutes(role, isAuth),
+    ...adminRoutes,
   ]);
 
-  return { router: router };
+  return { router };
 };
