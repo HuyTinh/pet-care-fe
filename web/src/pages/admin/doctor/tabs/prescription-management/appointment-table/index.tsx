@@ -34,7 +34,7 @@ export const AppointmentTable = ({ startDate, endDate, setSelectedAppointment }:
         return () => { };
     }, [filterAppointmentData?.data]);
     return (
-        <div>
+        <div className="h-[32rem] overflow-auto">
             <table className="table">
                 {/* head */}
                 <thead className="sticky top-0 bg-white">

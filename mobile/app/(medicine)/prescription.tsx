@@ -1,13 +1,10 @@
 import { StyleSheet, Text, View, Image, ScrollView } from 'react-native'
-import React, { useCallback, useMemo, useRef, useState } from 'react'
-import { Button, Card, Searchbar } from 'react-native-paper';
+import React, { useState } from 'react'
+import { Button, Card } from 'react-native-paper';
 import Accordion from 'react-native-collapsible/Accordion'
-import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { useSelector } from 'react-redux';
 import { useGetPrescriptionByIdQuery } from '@/pharmacist/pharmacist.service';
 import { RootState } from '@/pharmacist/store';
-import { Pet } from '@/pharmacist/pet/Pet.type';
-import { Prescription } from '@/pharmacist/prescription/Prescription.type';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const prescription = () => {
@@ -33,8 +30,8 @@ const prescription = () => {
                                         <Image source={require('@/assets/images/pets 4.png')} />
                                     </View>
                                     <View className='ml-3'>
-                                        <Text className='text-[#0D74B1] text-base font-medium ' style={{fontFamily: "blod"}}>Tên: <Text className='!text-black' style={{fontFamily: "medium"}}> {session.pet.name}</Text></Text>
-                                        <Text className='text-[#0D74B1] text-base font-medium ' style={{fontFamily: "blod"}}>Bệnh: <Text className='!text-black' style={{fontFamily: "medium"}}>{session.note}</Text></Text>
+                                        <Text className='text-[#0D74B1] text-base font-medium ' style={{ fontFamily: "blod" }}>Tên: <Text className='!text-black' style={{ fontFamily: "medium" }}> {session.pet.name}</Text></Text>
+                                        <Text className='text-[#0D74B1] text-base font-medium ' style={{ fontFamily: "blod" }}>Bệnh: <Text className='!text-black' style={{ fontFamily: "medium" }}>{session.note}</Text></Text>
                                     </View>
                                 </View>
                                 <View >
@@ -61,12 +58,12 @@ const prescription = () => {
                                         <Image source={require('@/assets/images/image.png')} />
                                     </View>
                                     <View className='ml-3'>
-                                        <Text className='text-[#0D74B1] text-sm font-medium ' style={{fontFamily: "blod"}}>{medicine.name}</Text>
-                                        <Text className='text-[#0D74B1] text-base font-medium ' style={{fontFamily: "blod"}}>Mã sản phẩm: <Text className='!text-black font-bold' style={{fontFamily: "medium"}}>{medicine.id}</Text></Text>
+                                        <Text className='text-[#0D74B1] text-sm font-medium ' style={{ fontFamily: "blod" }}>{medicine.name}</Text>
+                                        <Text className='text-[#0D74B1] text-base font-medium ' style={{ fontFamily: "blod" }}>Mã sản phẩm: <Text className='!text-black font-bold' style={{ fontFamily: "medium" }}>{medicine.id}</Text></Text>
                                     </View>
                                 </View>
                                 <View>
-                                    <Text style={{fontFamily: "blod"}}>x{medicine.quantity} / <Text>{medicine.calculate_unit}</Text></Text>
+                                    <Text style={{ fontFamily: "blod" }}>x{medicine.quantity} / <Text>{medicine.calculate_unit}</Text></Text>
                                 </View>
                             </View>
                         )}
@@ -89,7 +86,7 @@ const prescription = () => {
                             isLoading ?
                                 <View className="flex flex-1 justify-center items-center h-[400px]">
                                     <Image className="w-56 h-24" source={require("@/assets/images/loading.gif")} />
-                                    <Text className="text-[#ACACAD] font-bold"  style={{fontFamily: "blod"}}>Prescription loading...</Text>
+                                    <Text className="text-[#ACACAD] font-bold" style={{ fontFamily: "blod" }}>Prescription loading...</Text>
                                 </View>
                                 :
                                 !isFetching &&
@@ -106,12 +103,12 @@ const prescription = () => {
                 </View>
                 <View className='flex flex-row justify-between px-5 pb-10 '>
                     <View >
-                        <Text className='font-bold text-2xl text-[#0D74B1]'  style={{fontFamily: "blod"}}>Medical total</Text>
-                        <Text className='text-base ml-4'  style={{fontFamily: "medium"}}>{Intl.NumberFormat('vi-VN', {
+                        <Text className='font-bold text-2xl text-[#0D74B1]' style={{ fontFamily: "blod" }}>Medical total</Text>
+                        <Text className='text-base ml-4' style={{ fontFamily: "medium" }}>{Intl.NumberFormat('vi-VN', {
                         }).format((data as any)?.data.total_price)} VND</Text>
                     </View>
                     <View>
-                        <Button mode="contained" className='w-40 h-14 flex justify-center !bg-[#0F74C1]'><Text className='text-base font-bold'  style={{fontFamily: "blod"}}>Approved</Text></Button>
+                        <Button mode="contained" className='w-40 h-14 flex justify-center !bg-[#0F74C1]'><Text className='text-base font-bold' style={{ fontFamily: "blod" }}>Approved</Text></Button>
                     </View>
                 </View>
             </View>
