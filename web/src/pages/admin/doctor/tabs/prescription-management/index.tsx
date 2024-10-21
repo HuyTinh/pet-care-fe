@@ -10,6 +10,7 @@ import { QRScanModal } from "./qr-scan";
 import { IoQrCodeOutline } from "react-icons/io5";
 import { useFilterAppointmentsQuery } from "../../prescription.service";
 import { PrescriptionTable } from "./prescription-table";
+import { AppointmentTable } from "./appointment-table";
 
 export const PrescriptionManagement = () => {
   const initialDate = `${displayInputDate(new Date())}`;
@@ -98,10 +99,24 @@ export const PrescriptionManagement = () => {
         </div>
       </div>
       <div className="flex-1 p-2">
-        <div className="relative h-[37rem] overflow-auto rounded-xl border">
+        <div className="relative  rounded-xl">
+          <div role="tablist" className="tabs tabs-lifted">
+            <input type="radio" name="my_tabs_2" role="tab" className="tab" aria-label="Appointment" defaultChecked />
+            <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6">
+              <AppointmentTable startDate={startDate} endDate={endDate} setSelectedAppointment={setSelectedAppointment} />
+            </div>
 
-          {/* <AppointmentTable startDate={startDate} endDate={endDate} setSelectedAppointment={setSelectedAppointment} /> */}
-          <PrescriptionTable />
+            <input
+              type="radio"
+              name="my_tabs_2"
+              role="tab"
+              className="tab"
+              aria-label="Prescription"
+            />
+            <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6">
+              <PrescriptionTable />
+            </div>
+          </div>
         </div>
         <EditPrescriptionModal appointment={selectedAppointment} />
         <QRScanModal

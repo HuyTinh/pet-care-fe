@@ -19,7 +19,7 @@ export const PrescriptionTable = () => {
     }, [prescriptionsData?.data]);
 
     return (
-        <div>
+        <div className="h-[32rem] overflow-auto">
             {!isFetchingPrescriptionsData &&
                 !(prescriptions as any[])?.length ? (
                 <div className="absolute top-0 z-50 flex h-full w-full flex-col items-center justify-center">
