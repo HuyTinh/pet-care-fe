@@ -13,6 +13,8 @@ import { QRScanModal } from "./qr-scan";
 import { IoQrCodeOutline } from "react-icons/io5";
 import { useFilterAppointmentsQuery } from "../../prescription.service";
 import { SiGoogledocs } from "react-icons/si";
+import { AppointmentTable } from "./appointment-table";
+import { PrescriptionTable } from "./prescription-table";
 
 export const PrescriptionManagement = () => {
   const initialDate = `${displayInputDate(new Date())}`;
@@ -46,7 +48,6 @@ export const PrescriptionManagement = () => {
 
   return (
     <>
-
       <div className="flex gap-x-2 p-2">
         <div className="flex-1">
           <label className="input input-bordered flex items-center gap-2">
@@ -102,99 +103,10 @@ export const PrescriptionManagement = () => {
         </div>
       </div>
       <div className="flex-1 p-2">
-        <div className="relative h-[36rem] overflow-auto rounded-xl border">
-          {!isFetchingFilterAppointmentData &&
-            !(appointments as any[])?.length && (
-              <div className="absolute top-0 z-50 flex h-full w-full flex-col items-center justify-center">
-                <FcCalendar size={64} className="mb-10" />
-                <div>You don't have any appoiment</div>
-              </div>
-            )}
-          {isFetchingFilterAppointmentData && (
-            <motion.div
-              animate={{ opacity: 1 }}
-              exit={{
-                opacity: 0,
-              }}
-              transition={{
-                type: "spring",
-                stiffness: 100,
-              }}
-              className="absolute top-0 z-50 flex h-full w-full flex-col items-center justify-center"
-            >
-              <div className="w-64">
-                <img
-                  src="/src/assets/images/loading.gif"
-                  className="object-cover"
-                  alt=""
-                />
-              </div>
-              <div>Watting for few minute...</div>
-            </motion.div>
-          )}
-          <table className="table">
-            {/* head */}
-            <thead className="sticky top-0 bg-white">
-              <tr>
-                <th></th>
-                <th>Customer</th>
-                <th>Appointment Date</th>
-                <th>Status</th>
-                <th className="text-center">Make Prescription</th>
-              </tr>
-            </thead>
-            <tbody>
-              {!isFetchingFilterAppointmentData &&
-                (appointments as IAppointment[])?.map((ap, index) => (
-                  <motion.tr key={index}>
-                    <th>#{ap.id}</th>
-                    <td>
-                      <div>
-                        <span>Name: </span>
-                        <span className="font-bold underline">
-                          {ap.first_name + " " + ap.last_name}
-                        </span>
-                      </div>
-                      <div>
-                        <span>Email: </span>
-                        <span className="font-bold underline">{ap.email}</span>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="truncate">
-                        <span className="font-bold underline">
-                          {displayCustomDate(new Date(ap.appointment_date))},{" "}
-                          {ap.appointment_time.substring(0, 5) + "h"}
-                        </span>
-                      </div>
-                    </td>
-                    <td>
-                      <span
-                        className={`${ap.status === "CHECKED_IN" && "rounded-lg bg-blue-300 p-1"}`}
-                      >
-                        {ap.status}
-                      </span>
-                    </td>
-                    <td className="space-x-2 text-center">
-                      <button
-                        className="btn btn-info btn-outline"
-                        onClick={() => {
-                          (
-                            document.getElementById(
-                              "make_prescription_modal",
-                            ) as any
-                          ).showModal();
-                          setSelectedAppointment(ap as any);
-                        }}
-                      >
-                        <SiGoogledocs size={24} />
-                      </button>
+        <div className="relative h-[37rem] overflow-auto rounded-xl border">
 
-                    </td>
-                  </motion.tr>
-                ))}
-            </tbody>
-          </table>
+          {/* <AppointmentTable startDate={startDate} endDate={endDate} setSelectedAppointment={setSelectedAppointment} /> */}
+          <PrescriptionTable />
         </div>
         <EditPrescriptionModal appointment={selectedAppointment} />
         <QRScanModal

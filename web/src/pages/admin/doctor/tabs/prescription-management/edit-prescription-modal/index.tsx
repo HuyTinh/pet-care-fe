@@ -200,6 +200,7 @@ export const EditPrescriptionModal = ({
               <button className="btn" onClick={() => {
                 createPrescription({
                   appointment_id: appointment.id,
+                  services: services,
                   details: [{
                     pet_id: selectedPet,
                     medicines: [...prescriptionDetails].map(val => {
