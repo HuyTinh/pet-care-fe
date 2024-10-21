@@ -4,8 +4,14 @@ import { motion } from "framer-motion"
 import { FcCalendar } from "react-icons/fc";
 import { FaEye } from "react-icons/fa";
 import { MdOutlineModeEdit } from "react-icons/md";
+import { SiGoogledocs } from "react-icons/si";
 
-export const PrescriptionTable = () => {
+
+type PrescriptionTableProps = {
+    setSelectedPrescription: React.Dispatch<React.SetStateAction<any>>
+}
+
+export const PrescriptionTable = ({ setSelectedPrescription }: PrescriptionTableProps) => {
 
     const [prescriptions, setPrescriptions] = useState<any[]>([]);
     const {
@@ -72,23 +78,16 @@ export const PrescriptionTable = () => {
                                     <button className="btn btn-info btn-outline">
                                         <FaEye size={24} />
                                     </button>
-                                    <button className="btn btn-neutral btn-outline">
+                                    <button className="btn btn-neutral btn-outline" onClick={() => {
+                                        (
+                                            document.getElementById(
+                                                "make_prescription_modal",
+                                            ) as any
+                                        ).showModal();
+                                        // setSelectedPrescription();
+                                    }}>
                                         <MdOutlineModeEdit size={24} />
                                     </button>
-                                    {/* <button
-                                        className="btn btn-info btn-outline"
-                                        onClick={() => {
-                                            (
-                                                document.getElementById(
-                                                    "make_prescription_modal",
-                                                ) as any
-                                            ).showModal();
-                                            setSelectedAppointment(ap as any);
-                                        }}
-                                    >
-                                        <SiGoogledocs size={24} />
-                                    </button> */}
-
                                 </td>
                             </motion.tr>
                         ))}

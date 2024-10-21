@@ -11,6 +11,7 @@ import { IoQrCodeOutline } from "react-icons/io5";
 import { useFilterAppointmentsQuery } from "../../prescription.service";
 import { PrescriptionTable } from "./prescription-table";
 import { AppointmentTable } from "./appointment-table";
+import { MakePrescriptionModal } from "./make-prescription-modal";
 
 export const PrescriptionManagement = () => {
   const initialDate = `${displayInputDate(new Date())}`;
@@ -36,6 +37,8 @@ export const PrescriptionManagement = () => {
   const [selectedAppointment, setSelectedAppointment] = useState<IAppointment>(
     {} as IAppointment,
   );
+
+  const [selectedPrescription, setSelectedPrescription] = useState<any>()
   const [qrModalVisible, setQrModalVisible] = useState<boolean>(false);
   useEffect(() => {
     setAppointments(filterAppointmentData?.data);
@@ -114,11 +117,12 @@ export const PrescriptionManagement = () => {
               aria-label="Prescription"
             />
             <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6">
-              <PrescriptionTable />
+              <PrescriptionTable setSelectedPrescription={setSelectedPrescription} />
             </div>
           </div>
         </div>
-        <EditPrescriptionModal appointment={selectedAppointment} />
+        <MakePrescriptionModal appointment={selectedAppointment} />
+        <EditPrescriptionModal prescription={selectedPrescription} />
         <QRScanModal
           qrModalVisible={qrModalVisible}
           setQrModalVisible={setQrModalVisible}
