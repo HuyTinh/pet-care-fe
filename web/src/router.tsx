@@ -124,6 +124,7 @@ export const RouterHooks = () => {
 
   useEffect(() => {
     if (userId && cookies[`email-notification-${userId}`] === undefined) {
+      localStorage.setItem("userId", userId);
       setCookies(`email-notification-${userId}`, true);
     }
   }, [userId, cookies, setCookies]);

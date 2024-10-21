@@ -40,6 +40,7 @@ const authenticationSlice = createSlice({
       state.token = null;
       state.email = "";
       state.userId = null;
+      state.role = "";
       localStorage.removeItem("token");
     },
     openAuthModal(state) {

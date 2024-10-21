@@ -8,9 +8,17 @@ export const authenticationApi = createApi({
     loginRequest: build.mutation<any, { email: string; password: string }>({
       query(body) {
         return {
-          url: `${import.meta.env.VITE_IDENTITY_PATH}/auth/token`,
+          url: `https://b9a79015-c9bf-417d-a557-de62bc2b383f.mock.pstmn.io/login`,
           method: "POST",
           body,
+        };
+      },
+    }),
+    logoutRequest: build.query<any, void>({
+      query() {
+        return {
+          url: `${import.meta.env.VITE_IDENTITY_PATH}/auth/logout`,
+          method: "POST",
         };
       },
     }),
@@ -47,6 +55,7 @@ export const authenticationApi = createApi({
 
 export const {
   useLoginRequestMutation,
+  useLogoutRequestQuery,
   useRegisterRequestMutation,
   useLoginWithGoogleRequestMutation,
   useLoginWithFacebookRequestMutation,
