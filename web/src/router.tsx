@@ -28,10 +28,10 @@ const ProtectedRoute: React.FC<{
   element: JSX.Element;
   allowedRoles: string[];
 }> = ({ element, allowedRoles }) => {
-  const { isAuth, role } = useSelector(
-    (state: RootState) => state.authentication,
-  );
-  const navigate = useNavigate();
+  // const { isAuth, role } = useSelector(
+  //   (state: RootState) => state.authentication,
+  // );
+  // const navigate = useNavigate();
   // useEffect(() => {
   //   if (!isAuth) {
   //     navigate("/admin"); // Điều hướng tới trang đăng nhập nếu chưa đăng nhập
