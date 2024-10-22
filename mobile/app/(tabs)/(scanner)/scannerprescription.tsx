@@ -1,9 +1,8 @@
-import { Alert, AppState, StyleSheet, Text, Vibration, View } from 'react-native'
-import React, { useEffect, useRef, useState } from 'react'
+import { Alert, AppState, StyleSheet, Vibration, View } from 'react-native'
+import React, { useEffect, useRef } from 'react'
 import { CameraView } from 'expo-camera'
 import { BarCodeScanningResult } from 'expo-camera/build/legacy/Camera.types';
 import { useDispatch } from 'react-redux';
-// import { startEditPost } from '../Pharmacist/pharmacist.slice';
 import { Href, router } from 'expo-router';
 import { Overlay } from './orverlay';
 import { startEditPost } from '@/app/prescription.slice';
@@ -32,7 +31,6 @@ const scannerprescription = () => {
             if (data && !qrLock.current) {
                 qrLock.current = true;
                 Vibration.vibrate();
-                // console.log(data);
                 distpath(startEditPost(data))
                 Alert.alert('Success', "Quét thành công", [
                     { text: 'Ok', onPress: () => router.replace('/(medicine)/prescription' as Href<string | object>) },

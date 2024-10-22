@@ -7,6 +7,7 @@ import {
     TouchableWithoutFeedback,
     ScrollView,
     TextInput,
+    StatusBar,
 } from "react-native";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -54,8 +55,6 @@ const Home = () => {
     const { data: prescriptionData, isFetching: fetchingPrescriptionData, isLoading: loadingPrescription } = useGetPrescriptionByIdQuery(presrptionId, {
         skip: !presrptionId,
     });
-
-    console.log(data);
 
     const distpath = useDispatch()
     const filterCustomer = (value: any) => {
@@ -178,6 +177,7 @@ const Home = () => {
             <GestureHandlerRootView>
                 <BottomSheetModalProvider>
                     <View className="mt-16">
+                        <StatusBar barStyle="dark-content" />
                         <View className="flex-row gap-4 gap-y-5 static py-5 items-center">
                             {
                                 !isFocus
@@ -225,13 +225,13 @@ const Home = () => {
                                                 source={require("@/assets/images/calendar.png")}
                                             />
                                         </View>
-                                        <View className="ml-[5.5px]">
+                                        <View className="px-1">
                                             <Text className="text-[50px] font-bold text-[#0099CF]" style={{ fontFamily: "blod" }}>
 
                                                 {day}
                                             </Text>
                                         </View>
-                                        <View className="ml-[5.5px]">
+                                        <View>
                                             <Text className="text-sm text-[#0099CF] opacity-70 font-bold" style={{ fontFamily: "blod" }}>
                                                 {dayName}
                                             </Text>
@@ -240,8 +240,8 @@ const Home = () => {
                                                 {month} {year}
                                             </Text>
                                         </View>
-                                        <View className="ml-16">
-                                            <Text className="text-4xl text-[#0099CF] font-bold" style={{ fontFamily: "blod" }}>
+                                        <View className="flex-1">
+                                            <Text className="text-4xl text-[#0099CF] font-bold text-right" style={{ fontFamily: "blod" }}>
 
                                                 Today
                                             </Text>

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, Image, ScrollView, StatusBar } from 'react-native'
 import React, { useState } from 'react'
 import { Button, Card } from 'react-native-paper';
 import Accordion from 'react-native-collapsible/Accordion'
@@ -75,10 +75,11 @@ const prescription = () => {
     return (
         <ScrollView>
             <View className='flex flex-col justify-between' style={{ height: hp(100), width: wp(100) }}>
+                <StatusBar barStyle="dark-content" />
                 <View>
                     <View className='mt-20 ml-12'>
                         {/* <Text style={styles.text_code}>#PC{(data as any)?.data.appointmentId}</Text> */}
-                        <Text style={styles.text_code}>#PC{(data as any).data?.id}</Text>
+                        <Text style={styles.text_code}>#PC{(data as any)?.data?.id}</Text>
                     </View>
                     <View className='px-4 py-4'>
 

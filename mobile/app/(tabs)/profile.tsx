@@ -1,4 +1,4 @@
-import { StyleSheet, View, Image, Text } from 'react-native'
+import { StyleSheet, View, Image, Text, StatusBar } from 'react-native'
 import React from 'react'
 import { Avatar, Button, Card } from 'react-native-paper';
 import { Link, router } from 'expo-router';
