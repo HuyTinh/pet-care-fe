@@ -11,11 +11,14 @@ import { isRemember } from './prescription';
 export const pharmacistApi = createApi({
     reducerPath: 'pharmacistApi',
     tagTypes: ['Post'],
-    baseQuery: fetchBaseQuery({ baseUrl: 'https://4eb91834-c563-42d9-a020-25d3548eb851.mock.pstmn.io' }),
+    // baseQuery: fetchBaseQuery({ baseUrl: 'https://4eb91834-c563-42d9-a020-25d3548eb851.mock.pstmn.io' }),
+    // baseQuery: fetchBaseQuery({ baseUrl: 'https://apimocha.com/prescription/' }),
     // baseQuery: fetchBaseQuery({ baseUrl: 'https://tsm885rc-8888.asse.devtunnels.ms/api/v1' }),
+    baseQuery: fetchBaseQuery({ baseUrl: 'https://apimocha.com/prescription/' }),
     endpoints: build => ({
         getAppointment: build.query<Prescription[], void>({
-            query: () => '/prescription',
+            // query: () => '/prescription',
+            query: () => '/getAll',
 
             providesTags(result) {
                 if (result) {
@@ -49,10 +52,10 @@ export const pharmacistApi = createApi({
             }
         }),
         getPrescriptionById: build.query<Prescription, string>({
-            query: (id) => `/prescription/${id}`
+            query: (id) => `prescription/${id}`
         }),
         getAllAccount : build.query<Account[], void>({
-            query: () => "/account"
+            query: () => "account"
         })
     })
 })

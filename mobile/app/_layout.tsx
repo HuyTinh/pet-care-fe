@@ -57,7 +57,7 @@ export default function RootLayout() {
     await SecureStore.getItemAsync('token')
       .then((resp) => {
         if (resp) {
-          router.replace("./(tabs)/list")
+          router.navigate("./(tabs)/list")
         }
       })
       .finally(() => {
@@ -72,7 +72,7 @@ export default function RootLayout() {
         fetchToken
           ?
           <View className="flex flex-1 justify-center items-center h-screen bg-[#65d2f9]">
-            <View className="rounded-full bg-white pt-5">
+            <View className="rounded-full">
               <Image className="w-60 h-24" source={require("@/assets/images/loading.gif")} />
             </View>
             <Text className="text-white font-bold text-xl">Loading...</Text>

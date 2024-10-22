@@ -42,7 +42,7 @@ const Auth = () => {
         // dispatch(isRemember(true))
         await login(data).unwrap()
           .then(() => {
-            router.replace('./(tabs)/list');
+            router.navigate('./(tabs)/list');
           })
     }
     catch (error) {
@@ -153,16 +153,16 @@ const Auth = () => {
             </View>
           </View>
           <View style={styles.buttonContainer}>
-            {/* <Link href="./(tabs)/list"> */}
+            <Link href="./(tabs)/list">
             <Button
               mode="contained"
               style={styles.button}
               labelStyle={styles.buttonText}
-              onPress={handleSubmit(onSubmit)}
+              // onPress={handleSubmit(onSubmit)}
             >
               Login
             </Button>
-            {/* </Link> */}
+            </Link>
             {/* <Button onPress={requestPermissions}>Alow camera</Button> */}
           </View>
         </ScrollView>
