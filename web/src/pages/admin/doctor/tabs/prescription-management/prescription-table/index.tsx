@@ -4,7 +4,6 @@ import { motion } from "framer-motion"
 import { FcCalendar } from "react-icons/fc";
 import { FaEye } from "react-icons/fa";
 import { MdOutlineModeEdit } from "react-icons/md";
-import { SiGoogledocs } from "react-icons/si";
 
 
 type PrescriptionTableProps = {
@@ -21,6 +20,7 @@ export const PrescriptionTable = ({ setSelectedPrescription }: PrescriptionTable
 
     useEffect(() => {
         setPrescriptions(prescriptionsData?.data);
+
         return () => { };
     }, [prescriptionsData?.data]);
 
@@ -75,7 +75,10 @@ export const PrescriptionTable = ({ setSelectedPrescription }: PrescriptionTable
                                     </span>
                                 </td>
                                 <td className="space-x-2 text-center">
-                                    <button className="btn btn-info btn-outline">
+                                    <button className="btn btn-info btn-outline" onClick={() => {
+                                        (document.getElementById("view_prescription_modal") as any).showModal()
+                                        setSelectedPrescription(pre);
+                                    }}>
                                         <FaEye size={24} />
                                     </button>
                                     <button className="btn btn-neutral btn-outline" onClick={() => {
