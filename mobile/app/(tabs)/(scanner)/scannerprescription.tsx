@@ -6,8 +6,8 @@ import { useDispatch } from 'react-redux';
 // import { startEditPost } from '../Pharmacist/pharmacist.slice';
 import { Href, router } from 'expo-router';
 import { Overlay } from './orverlay';
-import { startEditPost } from '@/pharmacist/prescription';
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { startEditPost } from '@/app/prescription.slice';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const scannerprescription = () => {
     const qrLock = useRef(false)
@@ -40,11 +40,11 @@ const scannerprescription = () => {
             }
         }
         catch (error) {
-            console.log("lỗi cmnr");
+            console.log("lỗi");
         }
     }
     return (
-        <View style={{height: hp(100), width: wp(100), flex: 1}}>
+        <View style={{ height: hp(100), width: wp(100), flex: 1 }}>
             <CameraView
                 style={{ flex: 1 }}
                 // className='w-full h-48'

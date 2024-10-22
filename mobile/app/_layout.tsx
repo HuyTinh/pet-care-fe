@@ -2,13 +2,12 @@ import { DefaultTheme, ThemeProvider } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { router, Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { createContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { useColorScheme } from "@/hooks/useColorScheme";
-import { PaperProvider } from "react-native-paper";
 import { Provider } from "react-redux";
-import { store } from "@/pharmacist/store";
-import { Image, SafeAreaView, Text, View } from "react-native";
+import { store } from "@/store/store";
+import { Image, Text, View } from "react-native";
 import * as SecureStore from 'expo-secure-store';
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -67,7 +66,7 @@ export default function RootLayout() {
       })
   })()
   return (
-    <>
+    <React.Fragment>
       {
         fetchToken
           ?
@@ -101,6 +100,6 @@ export default function RootLayout() {
           </BottomSheetModalProvider>
 
       }
-    </>
+    </React.Fragment>
   );
 }

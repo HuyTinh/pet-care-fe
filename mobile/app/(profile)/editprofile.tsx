@@ -15,7 +15,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { useGetAllAccountQuery } from "@/pharmacist/pharmacist.service";
+import { useGetAllAccountQuery } from "@/app/pharmacist.service";
 
 const EditProfile = () => {
   const { data, isLoading, isFetching, isError } = useGetAllAccountQuery();

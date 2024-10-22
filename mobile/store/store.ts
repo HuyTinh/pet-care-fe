@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
-import prescriptionReducer from './prescription'
-import { pharmacistApi } from './pharmacist.service'
+import prescriptionReducer from '../app/prescription.slice'
+import { pharmacistApi } from '../app/pharmacist.service'
 // ...
 
 export const store = configureStore({
@@ -8,7 +8,9 @@ export const store = configureStore({
         prescription: prescriptionReducer,
         [pharmacistApi.reducerPath]: pharmacistApi.reducer
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(pharmacistApi.middleware)
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+        serializableCheck: false, // Disable the serializable check
+    }).concat(pharmacistApi.middleware)
 })
 // setupListeners(store.dispatch) 
 // Infer the `RootState` and `AppDispatch` types from the store itself

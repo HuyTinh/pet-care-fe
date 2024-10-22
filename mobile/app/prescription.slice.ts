@@ -20,12 +20,12 @@ const prescriptionSlice = createSlice({
         cancelEditPost: (state) => {
             state.id = ""
         },
-        isRemember: (state, action : PayloadAction<boolean>) =>{
+        isRemember: (state, action: PayloadAction<boolean>) => {
             state.remember = action.payload
-        } 
+        }
     }
 })
 
 const prescriptionReducer = prescriptionSlice.reducer
-export const {startEditPost, cancelEditPost, isRemember} = prescriptionSlice.actions
+export const { startEditPost, cancelEditPost, isRemember } = prescriptionSlice.actions
 export default prescriptionReducer
