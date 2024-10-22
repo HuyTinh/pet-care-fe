@@ -81,10 +81,10 @@ export const PrescriptionTable = ({ setSelectedPrescription }: PrescriptionTable
                                     <button className="btn btn-neutral btn-outline" onClick={() => {
                                         (
                                             document.getElementById(
-                                                "make_prescription_modal",
+                                                "edit_prescription_modal",
                                             ) as any
                                         ).showModal();
-                                        // setSelectedPrescription();
+                                        setSelectedPrescription(pre);
                                     }}>
                                         <MdOutlineModeEdit size={24} />
                                     </button>

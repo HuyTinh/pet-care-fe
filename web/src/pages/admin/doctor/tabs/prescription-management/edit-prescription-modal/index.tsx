@@ -18,6 +18,7 @@ export const EditPrescriptionModal = ({
   const {
     register,
     getValues,
+    reset
   } = useForm<any>({
     mode: "all",
   });
@@ -31,6 +32,8 @@ export const EditPrescriptionModal = ({
   const [_, setSelectedPet] = useState<any>()
 
   const [prescriptionDetails, setPrescriptionDetails] = useState<any[]>([])
+
+  const [petPrescription, setPetPrescription] = useState<any>()
 
   const {
     data: calculationUnitData
@@ -53,20 +56,33 @@ export const EditPrescriptionModal = ({
   useEffect(() => {
     if (prescription?.appointment.pets) {
       setSelectedPet((prescription.appointment as any).pets[0].id);
+
     }
 
     if (prescription?.appointment.services) {
       setServices((prescription.appointment as any).services)
     }
+
+    if (prescription?.details) {
+      setPrescriptionDetails(prescription?.details[0].medicines)
+      setPetPrescription(prescription?.details[0])
+    }
+
     return () => { };
   }, [prescription]);
+
+
+  useEffect(() => {
+    reset(petPrescription)
+  }, [petPrescription])
+  console.log(prescription);
 
 
   return (
     <dialog id="edit_prescription_modal" className="modal backdrop:!hidden">
       <div className="modal-box w-full max-w-3xl">
         <div className="my-1 text-center text-3xl font-bold">
-          Make Prescription
+          Edit Prescription
         </div>
         <div className="flex gap-x-3">
           <div className="space-y-2">
@@ -76,8 +92,8 @@ export const EditPrescriptionModal = ({
                 className="select select-bordered w-full"
                 onChange={(e) => setSelectedPet(e.target.value)}
               >
-                {prescription?.appointment?.pets?.map(({ val, index }: { val: any, index: number }) => (
-                  <option key={index + 10} value={val.id}>
+                {prescription?.appointment?.pets?.map((val: any, index: any) => (
+                  <option key={index}>
                     {val.name}
                   </option>
                 ))}
@@ -97,10 +113,10 @@ export const EditPrescriptionModal = ({
                 </thead>
                 <tbody>
                   {
-                    prescriptionDetails?.map((val, index) =>
+                    petPrescription?.medicines.map((val: any, index: any) =>
                       <tr key={index}>
                         <th>#{index + 1}</th>
-                        <td>{val.medicine}</td>
+                        <td>{val.name}</td>
                         <td>{val.quantity}</td>
                         <td>{val.calculate_unit}</td>
                         <td>
