@@ -19,13 +19,13 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { useGetAccountMutation } from "@/pharmacist/pharmacist.service";
-import { Account } from "@/pharmacist/user/User";
-import { LoginRequest } from "@/pharmacist/user/LoginRequest";
+import { useGetAccountMutation } from "@/app/pharmacist.service";
+import { Account } from "@/types/account.type";
+import { LoginRequest } from "@/types/login-request.type";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import * as SecureStore from 'expo-secure-store';
-import { isRemember } from "@/pharmacist/prescription";
+import { isRemember } from "@/app/prescription.slice";
 import { useDispatch, useSelector } from "react-redux";
 const Auth = () => {
   const [login, { isLoading }] = useGetAccountMutation();
@@ -39,11 +39,11 @@ const Auth = () => {
   const onSubmit: SubmitHandler<LoginRequest> = async (data: LoginRequest) => {
     try {
       // if (isSelected) {
-        // dispatch(isRemember(true))
-        await login(data).unwrap()
-          .then(() => {
-            router.replace('./(tabs)/list');
-          })
+      // dispatch(isRemember(true))
+      await login(data).unwrap()
+        .then(() => {
+          router.replace('./(tabs)/list');
+        })
     }
     catch (error) {
       setErrorMessage("Please check your account");
@@ -200,11 +200,11 @@ const styles = StyleSheet.create({
     fontFamily: "blod"
   },
   formContainer: {
-    marginTop: hp("10%"),
+    marginTop: hp("8%"),
     width: "100%",
   },
   inputContainer: {
-    marginBottom: hp("5%"),
+    marginBottom: hp("3%"),
   },
   input: {
     backgroundColor: "white",
@@ -228,10 +228,10 @@ const styles = StyleSheet.create({
   },
   forgotPassword: {
     color: "white",
-    fontSize: wp("3.5%"),
+    fontSize: wp("3.8%"),
     fontWeight: "500",
     fontFamily: "medium",
-    marginLeft: 250
+    marginLeft: wp("50%")
 
   },
   buttonContainer: {

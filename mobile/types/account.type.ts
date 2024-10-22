@@ -3,7 +3,6 @@ export interface Account {
     frist_name: string
     last_name: string
     email: string
-    password: string
     contact: string
     birthday: string
     image: string

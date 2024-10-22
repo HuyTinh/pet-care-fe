@@ -3,8 +3,8 @@ import React, { useState } from 'react'
 import { Button, Card } from 'react-native-paper';
 import Accordion from 'react-native-collapsible/Accordion'
 import { useSelector } from 'react-redux';
-import { useGetPrescriptionByIdQuery } from '@/pharmacist/pharmacist.service';
-import { RootState } from '@/pharmacist/store';
+import { useGetPrescriptionByAppointmentIdQuery } from '@/app/pharmacist.service';
+import { RootState } from '@/store/store';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const prescription = () => {
@@ -15,7 +15,8 @@ const prescription = () => {
         setActiveSections(activeSections)
     }
     const presrptionId = useSelector((state: RootState) => state.prescription.id);
-    const { data, isFetching, isLoading } = useGetPrescriptionByIdQuery(presrptionId, {
+
+    const { data, isFetching, isLoading } = useGetPrescriptionByAppointmentIdQuery(presrptionId, {
         skip: !presrptionId
     })
     const renderHeader = (session: any) => {
@@ -31,7 +32,7 @@ const prescription = () => {
                                     </View>
                                     <View className='ml-3'>
                                         <Text className='text-[#0D74B1] text-base font-medium ' style={{ fontFamily: "blod" }}>Tên: <Text className='!text-black' style={{ fontFamily: "medium" }}> {session.pet.name}</Text></Text>
-                                        <Text className='text-[#0D74B1] text-base font-medium ' style={{ fontFamily: "blod" }}>Bệnh: <Text className='!text-black' style={{ fontFamily: "medium" }}>{session.note}</Text></Text>
+                                        <Text className='text-[#0D74B1] text-base font-medium ' style={{ fontFamily: "blod" }}>Bệnh: <Text className='!text-black' style={{ fontFamily: "medium" }}>{session.diagnosis}</Text></Text>
                                     </View>
                                 </View>
                                 <View >
@@ -51,15 +52,14 @@ const prescription = () => {
             <>
                 <View className='bg-[#E7E7E8] rounded-2xl px-5 py-3'>
                     <View className='w-auto h-auto'>
-                        {session?.medicine.map((medicine: any) =>
-                            <View className='flex flex-row items-center justify-between mb-3'>
+                        {session?.medicines.map((medicine: any, index: number) =>
+                            <View className='flex flex-row items-center justify-between mb-3' key={index}>
                                 <View className='flex flex-row items-center'>
                                     <View>
                                         <Image source={require('@/assets/images/image.png')} />
                                     </View>
                                     <View className='ml-3'>
                                         <Text className='text-[#0D74B1] text-sm font-medium ' style={{ fontFamily: "blod" }}>{medicine.name}</Text>
-                                        <Text className='text-[#0D74B1] text-base font-medium ' style={{ fontFamily: "blod" }}>Mã sản phẩm: <Text className='!text-black font-bold' style={{ fontFamily: "medium" }}>{medicine.id}</Text></Text>
                                     </View>
                                 </View>
                                 <View>
@@ -78,7 +78,7 @@ const prescription = () => {
                 <View>
                     <View className='mt-20 ml-12'>
                         {/* <Text style={styles.text_code}>#PC{(data as any)?.data.appointmentId}</Text> */}
-                        <Text style={styles.text_code}>#PC012</Text>
+                        <Text style={styles.text_code}>#PC{(data as any).data?.id}</Text>
                     </View>
                     <View className='px-4 py-4'>
 
@@ -105,7 +105,7 @@ const prescription = () => {
                     <View >
                         <Text className='font-bold text-2xl text-[#0D74B1]' style={{ fontFamily: "blod" }}>Medical total</Text>
                         <Text className='text-base ml-4' style={{ fontFamily: "medium" }}>{Intl.NumberFormat('vi-VN', {
-                        }).format((data as any)?.data.total_price)} VND</Text>
+                        }).format((data as any)?.data.total_money)} VND</Text>
                     </View>
                     <View>
                         <Button mode="contained" className='w-40 h-14 flex justify-center !bg-[#0F74C1]'><Text className='text-base font-bold' style={{ fontFamily: "blod" }}>Approved</Text></Button>
