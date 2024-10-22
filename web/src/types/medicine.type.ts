@@ -20,15 +20,15 @@ export interface IMedicine {
 // }
 
 export interface ILocation {
-  id: number;
+  id: string;
   area: string;
   status: boolean;
-  row_location: number;
-  column_location: number;
+  row_location: string;
+  column_location: string;
 }
 
 export interface ICalculationUnit {
-  id: number;
+  id: string;
   name: string;
   status: boolean;
 }
