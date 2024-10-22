@@ -1,13 +1,17 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { MdOutlineErrorOutline } from "react-icons/md";
-import { IMedicine } from "../../../../../../types/medicine.type";
+import { IMedicine, ILocation, ICalculationUnit } from "../../../../../../types/medicine.type";
+import { LocationPicker } from "../picker-medicine/edit-pickup-medicine/location-picker";
+import { CaculationPicker } from "../picker-medicine/edit-pickup-medicine/caculation-picker";
 
 type EditMedicineModalProps = {
   medicine: IMedicine;
 };
 
 export const EditMedicineModal = ({ medicine }: EditMedicineModalProps) => {
+  const [location, setLocation] = useState<ILocation[]>([])
+  const [caculation, setCaculation] = useState<ICalculationUnit[]>([])
   const {
     register,
     // handleSubmit,
@@ -22,24 +26,26 @@ export const EditMedicineModal = ({ medicine }: EditMedicineModalProps) => {
       // setServices(medicine?.services || []);
       // setPets(medicine?.pets || []);
       reset(medicine);
+      setLocation((medicine as any)?.locations)
+      setCaculation((medicine as any)?.calculation_units)
     }
   }, [medicine]);
 
   return (
     <dialog id="edit_medicine_modal" className="modal backdrop:!hidden">
-      <div className="modal-box w-full max-w-3xl border-2 border-black">
+      <div className="modal-box w-full max-w-4xl border-2 border-black">
         <div className="text-center text-3xl ">
           Change Medicine Info
         </div>
         {/* onSubmit={handleSubmit(onSubmit)} */}
         <form action="" >
-          <div className="flex justify-around gap-x-5 mt-5 ml-5">
+          <div className="flex justify-evenly gap-x-10 mt-5 ml-5">
             <div className="avatar">
               <div className="w-40 rounded-xl">
                 <img src={`src/assets/images/${getValues("image")}`} />
               </div>
             </div>
-            <div className="flex flex-col w-2/3">
+            <div className="flex flex-col w-1/2">
               <label className="form-control w-full max-w-md">
                 <div className="label">
                   <span className="font-bold label-text">Name:</span>
@@ -59,7 +65,7 @@ export const EditMedicineModal = ({ medicine }: EditMedicineModalProps) => {
                   </span>
                 )}
               </label>
-              <div className="flex justify-center gap-x-5 w-[96%]">
+              <div className="flex justify-center gap-x-5 w-full">
                 <label className="form-control w-full max-w-md">
                   <div className="label">
                     <span className="label-text font-bold">Quantity:</span>
@@ -165,9 +171,13 @@ export const EditMedicineModal = ({ medicine }: EditMedicineModalProps) => {
               />
             </label>
           </div>
-          <div className="flex justify-center gap-x-10">
-
+          <div className="flex justify-center gap-x-10 mt-2">
+            <LocationPicker location={location} setLocation={setLocation} />
+            <CaculationPicker caculation={caculation} setCaculation={setCaculation} />
           </div>
+          {/* <div className="flex justify-center gap-x-10 mt-2">
+
+          </div> */}
           <div className="mt-5 flex justify-end">
             <button className="btn btn-outline font-bold">Save</button>
           </div>
