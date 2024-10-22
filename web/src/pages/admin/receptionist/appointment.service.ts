@@ -36,7 +36,7 @@ export const appointmentApi = createApi({
           params: {
             startDate,
             endDate,
-            statues: ["CHECKED_IN", "APPROVED"]
+            statues: ["CHECKED_IN", "SCHEDULED"]
           },
         };
       },

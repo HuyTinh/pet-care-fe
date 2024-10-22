@@ -2,9 +2,14 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { MdOutlineErrorOutline } from "react-icons/md";
+import { ICalculationUnit, ILocation } from "../../../../../../types/medicine.type";
+import { LocationPicker } from "../picker-medicine/edit-pickup-medicine/location-picker";
+import { CaculationPicker } from "../picker-medicine/edit-pickup-medicine/caculation-picker";
 
 
 export const AddMedicineModal = () => {
+  const [location, setLocation] = useState<ILocation[]>([])
+  const [caculation, setCaculation] = useState<ICalculationUnit[]>([])
   const {
     register,
     // handleSubmit,
@@ -25,24 +30,36 @@ export const AddMedicineModal = () => {
   };
   return (
     <dialog id="add_medicine_modal" className="modal backdrop:!hidden">
-      <div className="modal-box w-full max-w-3xl border-2 border-black">
+      <div className="modal-box w-full max-w-4xl border-2 border-black">
         <div className="text-center text-3xl ">
           Add Medicine
         </div>
         {/* onSubmit={handleSubmit(onSubmit)} */}
         <form action="" >
-          <div className="flex justify-around gap-x-5 mt-5 ml-5">
-            <div className="avatar">
-              <div className="w-40 rounded-xl">
-                <img src={image || `src/assets/images/${getValues("image")}`} />
+          <div className="flex justify-evenly gap-x-10 mt-5 ml-5">
+            <div className="avatar flex flex-col items-center justify-center border-solid">
+              <div>
+                {
+                  !image
+                    ?
+                    <div>
+                      <img src="src/assets/images/picture.png" />
+                    </div>
+                    :
+                    <div className="!w-40 rounded-xl">
+                      <img src={image || `src/assets/images/${getValues("image")}`} />
+                    </div>
+                }
               </div>
-              <input
-                type="file"
-                className="absolute inset-0 opacity-0 cursor-pointer"
-                onChange={handleImageChange}
-              />
+              <div>
+                <input
+                  type="file"
+                  className="absolute inset-0 opacity-0 cursor-pointer"
+                  onChange={handleImageChange}
+                />
+              </div>
             </div>
-            <div className="flex flex-col w-2/3">
+            <div className="flex flex-col w-1/2">
               <label className="form-control w-full max-w-md">
                 <div className="label">
                   <span className="font-bold label-text">Name:</span>
@@ -62,7 +79,7 @@ export const AddMedicineModal = () => {
                   </span>
                 )}
               </label>
-              <div className="flex justify-center gap-x-10 w-[96%]">
+              <div className="flex justify-center gap-x-10 w-full">
                 <label className="form-control w-full max-w-md">
                   <div className="label">
                     <span className="label-text font-bold">Quantity:</span>
@@ -169,8 +186,9 @@ export const AddMedicineModal = () => {
               />
             </label>
           </div>
-          <div className="flex justify-center gap-x-10">
-
+          <div className="flex justify-center gap-x-10 mt-3">
+            <LocationPicker location={location} setLocation={setLocation} />
+            <CaculationPicker caculation={caculation} setCaculation={setCaculation} />
           </div>
           <div className="mt-5 flex justify-end">
             <button className="btn btn-outline font-bold">Save</button>

@@ -12,6 +12,7 @@ import { useFilterAppointmentsQuery } from "../../prescription.service";
 import { PrescriptionTable } from "./prescription-table";
 import { AppointmentTable } from "./appointment-table";
 import { MakePrescriptionModal } from "./make-prescription-modal";
+import { ViewPrescriptionModal } from "./view-prescription-modal";
 
 export const PrescriptionManagement = () => {
   const initialDate = `${displayInputDate(new Date())}`;
@@ -123,6 +124,7 @@ export const PrescriptionManagement = () => {
         </div>
         <MakePrescriptionModal appointment={selectedAppointment} />
         <EditPrescriptionModal prescription={selectedPrescription} />
+        <ViewPrescriptionModal prescription={selectedPrescription} />
         <QRScanModal
           qrModalVisible={qrModalVisible}
           setQrModalVisible={setQrModalVisible}

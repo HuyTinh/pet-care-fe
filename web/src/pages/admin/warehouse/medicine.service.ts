@@ -8,7 +8,8 @@ export const medicineApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_BACKEND_URL }),
   endpoints: (build) => ({
     getAllMedicines: build.query<APIResponse, void>({
-      query: () => `${import.meta.env.VITE_MEDICINE_PATH}/warehouse`,
+      // query: () => `${import.meta.env.VITE_MEDICINE_PATH}/warehouse`,
+      query: () => "warehouse",
       providesTags(result) {
         if (result) {
           console.log("result: ",result);
@@ -25,6 +26,9 @@ export const medicineApi = createApi({
         const final = [{ type: "Medicines" as const, id: "LIST" }];
         return final;
       },
+    }),
+    getCaculationunit: build.query<APIResponse, void>({
+      query: () => "unit",
     }),
     createMedicine: build.mutation<APIResponse, any>({
       query(body) {
@@ -56,4 +60,5 @@ export const {
   useGetAllMedicinesQuery,
   useCreateMedicineMutation,
   useUpdateMedicineMutation,
+  useGetCaculationunitQuery
 } = medicineApi;
