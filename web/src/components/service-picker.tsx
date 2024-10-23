@@ -2,8 +2,6 @@ import { MdCancel } from "react-icons/md";
 import { FaAngleDown } from "react-icons/fa";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { useForm } from "react-hook-form";
-import { IHospitalService } from "../types/hospital-service.type";
 import { useGetHospitalServiceQuery } from "../pages/admin/receptionist/appointment.service";
 
 type ServicePickerProps = {
@@ -53,7 +51,7 @@ export const ServicePicker = ({
                     className="flex cursor-default items-center justify-around gap-x-1 rounded-badge bg-base-200 px-2 text-sm font-semibold"
                     key={index}
                   >
-                    <div>{s as string}</div>
+                    <div>{(s as any).name}</div>
                     <div
                       className="avatar cursor-pointer"
                       onClick={(e) => {
@@ -99,7 +97,7 @@ export const ServicePicker = ({
                     addServices(
                       hospitalServicesData?.data?.find(
                         (val: any) => val.name === e.target.value,
-                      ).name,
+                      ),
                     );
                     e.target.value = "";
                   }
@@ -109,7 +107,7 @@ export const ServicePicker = ({
 
                 {services?.length < 3 &&
                   (hospitalServicesData?.data as any[])
-                    ?.filter((val) => !services.includes(val.name))
+                    ?.filter((val) => !services.map(val => (val as any).name).includes(val.name))
                     .map((val, index) => (
                       <option key={index} value={val?.name}>
                         {val?.name}

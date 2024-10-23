@@ -29,7 +29,7 @@ export const ViewPrescriptionModal = ({ prescription }: ViewPrescriptionModalPro
                                 <div>Customer: <span className="font-bold">{appointment?.first_name + " " + appointment?.last_name}</span></div>
                                 <div>Email: <span className="font-bold">{appointment?.email}</span></div>
                                 <div>Phone number: <span className="font-bold">{appointment?.phone_number}</span></div>
-                                <div>Booking Date: <span className="font-bold">{displayCustomDate(new Date(appointment?.appointment_date))}</span></div>
+                                <div>Booking Date: <span className="font-bold">{displayCustomDate(new Date(appointment?.appointment_date))}, {appointment?.appointment_time}h</span></div>
                             </div>
                         </div>
                         <div>
@@ -53,7 +53,36 @@ export const ViewPrescriptionModal = ({ prescription }: ViewPrescriptionModalPro
                         </div>
                         <div>
                             <div className="divider divider-start font-bold underline">Services</div>
+                            <div className="px-2">
+                                <div className="overflow-x-auto  border rounded-xl">
+                                    <table className="table">
+                                        {/* head */}
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>Name</th>
+                                                <th>Price</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
 
+                                            {
+                                                appointment?.services?.map((val: any, index: number) =>
+                                                    <tr key={index}>
+                                                        <th>#{index + 1}</th>
+                                                        <td>{val.name}</td>
+                                                        <td>{val.price.toLocaleString()}</td>
+                                                    </tr>)
+                                            }
+                                            <tr >
+                                                <th>Toltal Money:</th>
+                                                <td></td>
+                                                <td>{appointment?.services?.reduce((sum, val) => (val as any).price + sum, 0).toLocaleString()}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                         <div>
                             <div className="divider divider-start font-bold underline">Medicines</div>
@@ -87,7 +116,7 @@ export const ViewPrescriptionModal = ({ prescription }: ViewPrescriptionModalPro
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
-                                                <td>{prescription.total_money.toLocaleString()}</td>
+                                                <td>{medicines?.reduce((sum, val) => sum + (val as any).total_money, 0).toLocaleString()}</td>
                                             </tr>
                                         </tbody>
                                     </table>

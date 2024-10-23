@@ -70,6 +70,7 @@ export const prescriptionApi = createApi({
       },
       invalidatesTags: () => [
         { type: "Appointments", id: "LIST" },
+        { type: "Prescriptions", id: "LIST" }
       ],
     })
   }),
