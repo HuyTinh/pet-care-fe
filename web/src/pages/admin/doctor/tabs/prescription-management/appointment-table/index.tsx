@@ -73,9 +73,9 @@ export const AppointmentTable = ({ startDate, endDate, setSelectedAppointment }:
                                 </td>
                                 <td>
                                     <span
-                                        className={`${ap.status === "CHECKED_IN" && "rounded-lg bg-blue-300 p-1"}`}
+                                        className={`${(ap as any).status === "CHECKED_IN" && "rounded-lg bg-blue-300 p-1"}`}
                                     >
-                                        {ap.status}
+                                        {(ap as any).status}
                                     </span>
                                 </td>
                                 <td className="space-x-2 text-center">

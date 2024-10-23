@@ -29,7 +29,7 @@ export const MakePrescriptionModal = ({
 
   const [medicines, setMedicines] = useState([]);
 
-  const [services, setServices] = useState<string[]>([]);
+  const [services, setServices] = useState<any>([]);
 
   const [selectedPet, setSelectedPet] = useState<any>()
 
@@ -200,7 +200,7 @@ export const MakePrescriptionModal = ({
               <button className="btn" onClick={() => {
                 createPrescription({
                   appointment_id: appointment.id,
-                  services: services,
+                  services: services.map((val: any) => val.name),
                   details: [{
                     pet_id: selectedPet,
                     medicines: [...prescriptionDetails].map(val => {
@@ -216,14 +216,14 @@ export const MakePrescriptionModal = ({
                   }],
                   total_money: [...prescriptionDetails].reduce((sum, val) => {
                     return sum + (val.price * val.quantity)
+                  }, 0) + [...services].reduce((sum, val) => {
+                    return sum + (val as any).price
                   }, 0)
                 }).then(() => {
                   toast.success("Create prescription successful", {
                     position: "top-right"
                   })
                 });
-                // console.log();
-
               }}>Save</button>
             </div>
           </div>
