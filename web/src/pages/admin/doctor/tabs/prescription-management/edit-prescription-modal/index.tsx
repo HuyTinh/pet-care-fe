@@ -75,8 +75,6 @@ export const EditPrescriptionModal = ({
   useEffect(() => {
     reset(petPrescription)
   }, [petPrescription])
-  console.log(prescription);
-
 
   return (
     <dialog id="edit_prescription_modal" className="modal backdrop:!hidden">
