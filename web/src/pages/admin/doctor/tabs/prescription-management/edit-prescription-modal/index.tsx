@@ -207,8 +207,7 @@ export const EditPrescriptionModal = ({
             <ServicePicker services={services} setServices={setServices} />
             <div>
               <button className="btn" onClick={() => {
-                // createPrescription({
-                //   appointment_id: appointment.id,
+                // updatePrescription({
                 //   services: services,
                 //   details: [{
                 //     pet_id: selectedPet,
@@ -231,7 +230,6 @@ export const EditPrescriptionModal = ({
                 //     position: "top-right"
                 //   })
                 // });
-                // console.log();
 
               }}>Save</button>
             </div>

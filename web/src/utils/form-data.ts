@@ -29,7 +29,7 @@ const options = {
    * don't include array notation in FormData keys for any Attributes excepted Files in arrays
    * defaults to false
    */
-  noAttributesWithArrayNotation: false,
+  noAttributesWithArrayNotation: true,
 
   /**
    * don't include array notation in FormData keys for Files in arrays
