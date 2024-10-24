@@ -1,34 +1,133 @@
 import { MdCancel } from "react-icons/md";
 import { FaAngleDown } from "react-icons/fa";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { ILocation } from "../../../../../../../types/medicine.type";
 
-
 type LocationPickerProps = {
   location: ILocation[];
   setLocation: React.Dispatch<React.SetStateAction<ILocation[]>>;
+  areas: string[];
+  rowLocations: string[];
+  columnLocations: string[];
+  allLocationsData: ILocation[]; // The complete location data
 };
 
-export const LocationPicker = ({ location, setLocation }: LocationPickerProps) => {
-  const { register, getValues, reset } = useForm<ILocation>();
-
+export const LocationPicker = ({
+  location,
+  setLocation,
+  areas,
+  allLocationsData, // Use the complete location data to transform
+}: LocationPickerProps) => {
+  const { register, reset, handleSubmit } = useForm<ILocation>();
   const [expand, setExpand] = useState(false);
+  const [rowLocationsMap, setRowLocationsMap] = useState<
+    Record<string, string[]>
+  >({});
+  const [columnLocationsMap, setColumnLocationsMap] = useState<
+    Record<string, Record<string, string[]>>
+  >({});
+
+  const [selectedArea, setSelectedArea] = useState("");
+  const [selectedRowLocations, setSelectedRowLocations] = useState<string[]>(
+    [],
+  );
+  const [selectedColumnLocations, setSelectedColumnLocations] = useState<
+    string[]
+  >([]);
+
+  useEffect(() => {
+    const rowMap: Record<string, Set<string>> = {};
+    const columnMap: Record<string, Record<string, Set<string>>> = {};
+
+    allLocationsData.forEach((location) => {
+      const { area, row_location, column_location } = location;
+
+      // Initialize row_map for each area
+      if (!rowMap[area]) {
+        rowMap[area] = new Set();
+      }
+      rowMap[area].add(row_location);
+
+      // Initialize column_map for each (area, row_location)
+      if (!columnMap[area]) {
+        columnMap[area] = {};
+      }
+      if (!columnMap[area][row_location]) {
+        columnMap[area][row_location] = new Set();
+      }
+      columnMap[area][row_location].add(column_location);
+    });
+
+    // Convert sets to arrays
+    setRowLocationsMap(
+      Object.fromEntries(
+        Object.entries(rowMap).map(([key, value]) => [key, Array.from(value)]),
+      ),
+    );
+    setColumnLocationsMap(
+      Object.fromEntries(
+        Object.entries(columnMap).map(([area, rows]) => [
+          area,
+          Object.fromEntries(
+            Object.entries(rows).map(([row, cols]) => [row, Array.from(cols)]),
+          ),
+        ]),
+      ),
+    );
+  }, [allLocationsData]);
+
+  const onSubmit = (data: ILocation) => {
+    addLocation(data);
+  };
+
   const addLocation = (data: ILocation) => {
-    setLocation((prevState) => [...prevState, data]);
+    const foundLocation = allLocationsData.find(
+      (loc) =>
+        loc.area === data.area &&
+        loc.row_location.toString() === data.row_location.toString() &&
+        loc.column_location.toString() === data.column_location.toString(),
+    );
+
+    // Kiểm tra nếu không tìm thấy vị trí
+    if (!foundLocation) {
+      console.error("Location not found");
+      return;
+    }
+
+    const newItem = {
+      ...data,
+      id: foundLocation.id, // Chắc chắn rằng id không undefined
+    };
+
+    setLocation((prevState) => [...prevState, newItem]);
     reset({
       id: "",
       area: "",
       status: true,
       row_location: "",
-      column_location: ""
+      column_location: "",
     });
+  };
+
+  const handleAreaChange = (area: string) => {
+    setSelectedArea(area);
+    setSelectedRowLocations(rowLocationsMap[area] || []);
+    setSelectedColumnLocations([]);
+    reset({ row_location: "", column_location: "" }); // Reset row and column selections
+  };
+
+  const handleRowChange = (row: string) => {
+    if (selectedArea) {
+      setSelectedColumnLocations(columnLocationsMap[selectedArea][row] || []);
+    }
+    reset({ column_location: "" }); // Reset column selection
   };
 
   return (
     <motion.div className="overflow-hidden">
-      <form action="" className="space-y-2">
+      <div className="space-y-2">
         <div className="flex w-full items-center rounded-lg border p-2">
           <div className="flex flex-1 flex-col">
             <span className="pb-2">Location:</span>
@@ -36,97 +135,68 @@ export const LocationPicker = ({ location, setLocation }: LocationPickerProps) =
               {!location?.length ? (
                 <span className="flex cursor-default items-center justify-around gap-x-1 rounded-badge bg-base-200 px-2 text-sm font-semibold">
                   Inbox
-                  <div
-                    className="avatar"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                    }}
-                  >
+                  <div className="avatar" onClick={(e) => e.stopPropagation()}>
                     <MdCancel />
                   </div>
                 </span>
               ) : (
                 location.map((p, index) => (
-                  <>
-                    <div className="flex">
-                      <div className="flex cursor-pointer items-center">
-                        <span>Area: </span>
-                        <span
-                          className="flex items-center gap-x-1 rounded-badge bg-base-200 px-2 text-sm font-semibold ml-1"
-                          key={index}
+                  <div className="flex" key={p.id}>
+                    <div className="flex cursor-pointer items-center">
+                      <span>Area: </span>
+                      <span className="ml-1 flex items-center gap-x-1 rounded-badge bg-base-200 px-2 text-sm font-semibold">
+                        <span>{p.area}</span>
+                        <div
+                          className="avatar"
                           onClick={() => {
-                            reset(p);
+                            setLocation((prevState) =>
+                              prevState.filter(
+                                (_, petIndex) => petIndex !== index,
+                              ),
+                            );
                           }}
                         >
-                          <span>
-                            {p.area}
-                          </span>
-
-                          <div
-                            className="avatar"
-                            onClick={() => {
-                              setLocation((prevState) =>
-                                prevState.filter((_, petIndex) => petIndex !== index),
-                              );
-                            }}
-                          >
-                            <MdCancel />
-                          </div>
-                        </span>
-                      </div>
-                      <div className="flex cursor-pointer items-center ml-5">
-                        <span>Row location: </span>
-                        <span
-                          className="flex cursor-pointer items-center justify-around gap-x-1 rounded-badge bg-base-200 px-2 text-sm font-semibold"
-                          key={index}
-                          onClick={() => {
-                            reset(p);
-                          }}
-                        >
-                          <span>
-                            {p.row_location}
-                          </span>
-
-                          <div
-                            className="avatar"
-                            onClick={() => {
-                              setLocation((prevState) =>
-                                prevState.filter((_, petIndex) => petIndex !== index),
-                              );
-                            }}
-                          >
-                            <MdCancel />
-                          </div>
-                        </span>
-                      </div>
-                      <div className="flex cursor-pointer items-center ml-5">
-                        <span>Column location: </span>
-                        <span
-                          className="flex cursor-pointer items-center justify-around gap-x-1 rounded-badge bg-base-200 px-2 text-sm font-semibold"
-                          key={index}
-                          onClick={() => {
-                            reset(p);
-                          }}
-                        >
-                          <span>
-                            {p.column_location}
-                          </span>
-
-                          <div
-                            className="avatar"
-                            onClick={() => {
-                              setLocation((prevState) =>
-                                prevState.filter((_, petIndex) => petIndex !== index),
-                              );
-                            }}
-                          >
-                            <MdCancel />
-                          </div>
-                        </span>
-                      </div>
+                          <MdCancel />
+                        </div>
+                      </span>
                     </div>
-
-                  </>
+                    <div className="ml-5 flex cursor-pointer items-center">
+                      <span>Row location: </span>
+                      <span className="flex cursor-pointer items-center justify-around gap-x-1 rounded-badge bg-base-200 px-2 text-sm font-semibold">
+                        <span>{p.row_location}</span>
+                        <div
+                          className="avatar"
+                          onClick={() => {
+                            setLocation((prevState) =>
+                              prevState.filter(
+                                (_, petIndex) => petIndex !== index,
+                              ),
+                            );
+                          }}
+                        >
+                          <MdCancel />
+                        </div>
+                      </span>
+                    </div>
+                    <div className="ml-5 flex cursor-pointer items-center">
+                      <span>Column location: </span>
+                      <span className="flex cursor-pointer items-center justify-around gap-x-1 rounded-badge bg-base-200 px-2 text-sm font-semibold">
+                        <span>{p.column_location}</span>
+                        <div
+                          className="avatar"
+                          onClick={() => {
+                            setLocation((prevState) =>
+                              prevState.filter(
+                                (_, petIndex) => petIndex !== index,
+                              ),
+                            );
+                          }}
+                        >
+                          <MdCancel />
+                        </div>
+                      </span>
+                    </div>
+                  </div>
                 ))
               )}
             </div>
@@ -154,47 +224,68 @@ export const LocationPicker = ({ location, setLocation }: LocationPickerProps) =
           }}
         >
           <div className="flex justify-between gap-x-2 px-2 py-1">
-            <label className="input input-bordered flex flex-1 items-center gap-2">
-              <input
-                type="text"
-                className="w-full text-sm"
-                placeholder="Area"
-                {...register("area")}
-              />
-            </label>
-            <label className="input input-bordered flex flex-1 items-center gap-2">
-              <input
-                type="text"
-                className="w-full text-sm"
-                placeholder="Row location"
-                {...register("row_location")}
-              />
-            </label>
-            <label className="input input-bordered flex flex-1 items-center gap-2">
-              <input
-                type="text"
-                className="w-full text-sm"
-                placeholder="Column location"
-                {...register("column_location")}
-              />
-            </label>
+            <div className="input input-bordered flex flex-1 items-center gap-2">
+              <select
+                className="w-full text-sm outline-none"
+                {...register("area", { required: "Area is required" })}
+                onChange={(e) => handleAreaChange(e.target.value)}
+              >
+                <option value="">Select an area</option>
+                {areas.map((area) => (
+                  <option key={area} value={area}>
+                    {area}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="input input-bordered flex flex-1 items-center gap-2">
+              <select
+                className="w-full text-sm outline-none"
+                {...register("row_location", {
+                  required: "Row location is required",
+                })}
+                onChange={(e) => handleRowChange(e.target.value)}
+              >
+                <option value="">Select a row location</option>
+                {selectedRowLocations.map((row) => (
+                  <option key={row} value={row}>
+                    {row}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="input input-bordered flex flex-1 items-center gap-2">
+              <select
+                className="w-full text-sm outline-none"
+                {...register("column_location", {
+                  required: "Column location is required",
+                })}
+              >
+                <option value="">Select a column location</option>
+                {selectedColumnLocations.map((col) => (
+                  <option key={col} value={col}>
+                    {col}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
           <div className="flex justify-end gap-x-2 px-2">
             <div className="space-x-2">
               <button
                 className="btn"
                 type="button"
-                onClick={() => addLocation(getValues())}
+                onClick={handleSubmit(onSubmit)} // Sử dụng handleSubmit
               >
                 Add
               </button>
-              <button className="btn" type="reset">
+              <button className="btn" type="reset" onClick={() => reset()}>
                 Clear
               </button>
             </div>
           </div>
         </motion.div>
-      </form>
+      </div>
     </motion.div>
   );
 };
