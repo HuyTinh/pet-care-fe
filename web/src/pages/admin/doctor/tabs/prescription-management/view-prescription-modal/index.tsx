@@ -12,17 +12,16 @@ export const ViewPrescriptionModal = ({ prescription }: ViewPrescriptionModalPro
     const contentRef = useRef<HTMLDivElement>(null);
     const reactToPrintFn = useReactToPrint({ contentRef, pageStyle: "p-10" });
 
-    let { appointment, details } = prescription || {}
+    const { appointment, details } = prescription || {}
 
-    let medicines = details?.map((val) => val.medicines).flat(Infinity)
-
+    const medicines = details?.map((val) => val.medicines).flat(Infinity)
 
     return (
         <dialog id="view_prescription_modal" className="modal">
             <div className="modal-box max-w-2xl">
                 <div ref={contentRef}>
                     <h3 className="font-bold text-xl text-center">Presctiption</h3>
-                    <p className="py-4">
+                    <div className="py-4">
                         <div>
                             <div className="divider divider-start font-bold underline">Appointment</div>
                             <div className="grid grid-cols-2 gap-1 px-2">
@@ -37,8 +36,8 @@ export const ViewPrescriptionModal = ({ prescription }: ViewPrescriptionModalPro
                             <div className="px-2">
                                 {
                                     details?.map((val: IDetail, index: number) =>
-                                        <div>
-                                            <div className="flex justify-between" key={index}>-
+                                        <div key={index}>
+                                            <div className="flex justify-between" >-
                                                 <span>Name: <span className="font-bold">{val.pet.name}</span></span>|
                                                 <span>Age: <span className="font-bold">{val.pet.age}</span></span>|
                                                 <span>Weight: <span className="font-bold">{val.pet.weight}</span></span>|
@@ -123,7 +122,7 @@ export const ViewPrescriptionModal = ({ prescription }: ViewPrescriptionModalPro
                                 </div>
                             </div>
                         </div>
-                    </p>
+                    </div>
                 </div>
                 <div className="flex justify-end">
                     <button className="btn" onClick={() => reactToPrintFn()}>Print</button>
