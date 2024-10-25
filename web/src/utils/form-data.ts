@@ -47,3 +47,16 @@ const options = {
 export function toFormData(obj: object) {
   return serialize(obj, options);
 }
+
+export function toFormDataGPT(data: any) {
+  const formData = new FormData();
+  for (const key in data) {
+    if (Array.isArray(data[key])) {
+      // Nếu là mảng, thêm từng phần tử
+      data[key].forEach((value) => formData.append(key + "[]", value));
+    } else {
+      formData.append(key, data[key]);
+    }
+  }
+  return formData;
+}

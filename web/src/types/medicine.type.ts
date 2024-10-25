@@ -2,10 +2,10 @@ export interface IMedicine {
   id: number;
   name: string;
   quantity: number;
-  image: string;
+  image_url: string;
   price: number;
   date_import: string;
-  manufactures: string;
+  manufacture: IManufacture;
   locations: ILocation[];
   status: string;
   manufacturing_date: number;
@@ -13,11 +13,11 @@ export interface IMedicine {
   calculation_units: ICalculationUnit[];
 }
 
-// export interface IManufacture {
-//   id: number;
-//   name: string;
-//   status: boolean;
-// }
+export interface IManufacture {
+  id: number;
+  name: string;
+  status: boolean;
+}
 
 export interface ILocation {
   id: string;
