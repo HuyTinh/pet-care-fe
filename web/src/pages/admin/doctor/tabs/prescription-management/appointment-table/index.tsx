@@ -4,6 +4,7 @@ import { useFilterAppointmentsQuery } from "../../../prescription.service";
 import { IAppointment } from "../../../../../../types/appoiment.type";
 import { SiGoogledocs } from "react-icons/si";
 import { motion } from "framer-motion"
+import { FcCalendar } from "react-icons/fc";
 
 
 type FilterDate = {
@@ -35,7 +36,7 @@ export const AppointmentTable = ({ startDate, endDate, setSelectedAppointment }:
     }, [filterAppointmentData?.data]);
     return (
         <div className="h-[32rem] overflow-auto">
-            <table className="table">
+            <table className="table h-full">
                 {/* head */}
                 <thead className="sticky top-0 bg-white">
                     <tr>
@@ -48,6 +49,11 @@ export const AppointmentTable = ({ startDate, endDate, setSelectedAppointment }:
                 </thead>
                 <tbody>
                     {!isFetchingFilterAppointmentData &&
+                        !(appointments as any) ?
+                        <div className="absolute top-0 z-50 flex h-full w-full flex-col items-center justify-center bg-red-400">
+                            <FcCalendar size={64} className="mb-10" />
+                            <div>You don't have any appointment</div>
+                        </div> :
                         (appointments as IAppointment[])?.map((ap, index) => (
                             <motion.tr key={index}>
                                 <th>#{ap.id}</th>
@@ -98,6 +104,28 @@ export const AppointmentTable = ({ startDate, endDate, setSelectedAppointment }:
                         ))}
                 </tbody>
             </table>
+            {isFetchingFilterAppointmentData && (
+                <motion.div
+                    animate={{ opacity: 1 }}
+                    exit={{
+                        opacity: 0,
+                    }}
+                    transition={{
+                        type: "spring",
+                        stiffness: 100,
+                    }}
+                    className="absolute top-0 z-50 flex h-full w-full flex-col items-center justify-center"
+                >
+                    <div className="w-64">
+                        <img
+                            src="/src/assets/images/loading.gif"
+                            className="object-cover"
+                            alt=""
+                        />
+                    </div>
+                    <div>Watting for few minute...</div>
+                </motion.div>
+            )}
         </div>
     )
 }

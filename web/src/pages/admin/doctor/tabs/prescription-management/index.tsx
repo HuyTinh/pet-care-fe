@@ -16,7 +16,7 @@ import { ViewPrescriptionModal } from "./view-prescription-modal";
 
 export const PrescriptionManagement = () => {
   const initialDate = `${displayInputDate(new Date())}`;
-  const [appointments, setAppointments] = useState<IAppointment[]>([]);
+  const [_appointments, setAppointments] = useState<IAppointment[]>([]);
   const [startDate, setStartDate] = useState<any>({
     value: initialDate,
     label: initialDate,
@@ -28,7 +28,7 @@ export const PrescriptionManagement = () => {
 
   const {
     data: filterAppointmentData,
-    isFetching: isFetchingFilterAppointmentData,
+    isFetching: _isFetchingFilterAppointmentData,
   } = useFilterAppointmentsQuery({
     startDate: startDate?.value,
     endDate: endDate?.value,
