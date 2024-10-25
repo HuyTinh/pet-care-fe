@@ -90,7 +90,7 @@ export const EditMedicineModal = ({ medicine }: EditMedicineModalProps) => {
       dateImport: data.date_import,
       expiryDate: data.expiry_date,
       locations: locationIds,
-      manufacture_id: data.manufacture_id,
+      manufacture_id: Number(data.manufacture_id),
       manufacturingDate: data.manufacturing_date,
       name: data.name,
       price: data.price,
@@ -103,7 +103,7 @@ export const EditMedicineModal = ({ medicine }: EditMedicineModalProps) => {
       combinedData.image_url = imageFile; // Chỉ gửi image_url nếu có hình ảnh mới
     }
 
-    console.log(combinedData); // Kiểm tra dữ liệu trước khi gửi
+    console.log("Data update", combinedData); // Kiểm tra dữ liệu trước khi gửi
 
     try {
       await updateMedicine({
@@ -113,11 +113,6 @@ export const EditMedicineModal = ({ medicine }: EditMedicineModalProps) => {
 
       // Reset the form and states after successful submission
       reset();
-      setLocation([]);
-      setCaculation([]);
-      setImage("");
-      setImageFile(null);
-
       // Close modal
       const modal: any = document.getElementById("edit_medicine_modal");
       modal.close();
