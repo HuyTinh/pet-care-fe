@@ -70,6 +70,19 @@ export const prescriptionApi = createApi({
       },
       invalidatesTags: () => [
         { type: "Appointments", id: "LIST" },
+        { type: "Prescriptions", id: "LIST" }
+      ],
+    }),
+    updatePrescription: build.mutation<APIResponse, any>({
+      query(body) {
+        return {
+          url: `${import.meta.env.VITE_MEDICAL_PRESCRIPTION_PATH}/prescription/${body.prescriptionId}`,
+          method: "PUT",
+          body: body.data,
+        };
+      },
+      invalidatesTags: () => [
+        { type: "Prescriptions", id: "LIST" }
       ],
     })
   }),

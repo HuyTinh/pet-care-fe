@@ -127,7 +127,7 @@ export const AppointmentTab = () => {
                             </div>
                             <div className="collapse-content">
                               {(val.services as any[])?.map((se, subIndex) => (
-                                <div key={subIndex}>- {se}</div>
+                                <div key={subIndex}>- {se.name}</div>
                               ))}
                             </div>
                           </div>
