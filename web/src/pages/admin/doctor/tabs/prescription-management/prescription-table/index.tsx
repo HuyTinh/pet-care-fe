@@ -26,13 +26,8 @@ export const PrescriptionTable = ({ setSelectedPrescription }: PrescriptionTable
 
     return (
         <div className="h-[32rem] overflow-auto">
-            {!isFetchingPrescriptionsData &&
-                !(prescriptions as any[])?.length ? (
-                <div className="absolute top-0 z-50 flex h-full w-full flex-col items-center justify-center">
-                    <FcCalendar size={64} className="mb-10" />
-                    <div>You don't have any appoiment</div>
-                </div>
-            ) : <table className="table">
+            <table className="table h-full">
+
                 {/* head */}
                 <thead className="sticky top-0 bg-white">
                     <tr>
@@ -43,8 +38,13 @@ export const PrescriptionTable = ({ setSelectedPrescription }: PrescriptionTable
                         <th className="text-center">Actions</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className="h-full">
                     {!isFetchingPrescriptionsData &&
+                        !(prescriptions as any) ?
+                        <div className="absolute top-0 z-50 flex h-full w-full flex-col items-center justify-center bg-red-400">
+                            <FcCalendar size={64} className="mb-10" />
+                            <div>You don't have any prescription</div>
+                        </div> :
                         (prescriptions as any[])?.map((pre, index) => (
                             <motion.tr key={index}>
                                 <th>#{pre.id}</th>
@@ -95,7 +95,7 @@ export const PrescriptionTable = ({ setSelectedPrescription }: PrescriptionTable
                             </motion.tr>
                         ))}
                 </tbody>
-            </table>}
+            </table>
             {isFetchingPrescriptionsData && (
                 <motion.div
                     animate={{ opacity: 1 }}
@@ -118,7 +118,6 @@ export const PrescriptionTable = ({ setSelectedPrescription }: PrescriptionTable
                     <div>Watting for few minute...</div>
                 </motion.div>
             )}
-
         </div>
     )
 }

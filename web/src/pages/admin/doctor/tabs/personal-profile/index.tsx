@@ -1,3 +1,3 @@
-export const index = () => {
-  return <div>index</div>;
+export const PersonalProfile = () => {
+  return <div>Personal Profile</div>;
 };

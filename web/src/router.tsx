@@ -1,7 +1,6 @@
 import {
   createBrowserRouter,
   RouteObject,
-  useNavigate,
 } from "react-router-dom";
 import { RootLayout } from "./components/root-layout";
 import { ReceptionistPage } from "./pages/admin/receptionist";
