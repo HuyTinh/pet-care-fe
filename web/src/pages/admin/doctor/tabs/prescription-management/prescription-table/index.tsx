@@ -25,7 +25,7 @@ export const PrescriptionTable = ({ setSelectedPrescription }: PrescriptionTable
     }, [prescriptionsData?.data]);
 
     return (
-        <div className="h-[32rem] overflow-auto">
+        <div className="h-[36rem] overflow-auto">
             <table className="table h-full">
 
                 {/* head */}
@@ -40,8 +40,8 @@ export const PrescriptionTable = ({ setSelectedPrescription }: PrescriptionTable
                 </thead>
                 <tbody className="h-full">
                     {!isFetchingPrescriptionsData &&
-                        !(prescriptions as any) ?
-                        <div className="absolute top-0 z-50 flex h-full w-full flex-col items-center justify-center bg-red-400">
+                        ((prescriptions as any)?.length <= 0) ?
+                        <div className="absolute top-0 z-50 flex h-full w-full flex-col items-center justify-center">
                             <FcCalendar size={64} className="mb-10" />
                             <div>You don't have any prescription</div>
                         </div> :

@@ -20,7 +20,7 @@ export const MedicinesManagement = () => {
   const [filterConditions, setFilterConditions] = useState<any>({});
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(0);
-  const [pageSize, setPageSize] = useState<number>(10);
+  const [pageSize, _] = useState<number>(10);
   const [sortField, setSortField] = useState<string>("id");
   const [sortOrder, setSortOrder] = useState<string>("asc");
 
@@ -76,6 +76,7 @@ export const MedicinesManagement = () => {
   const onFilterSubmit = (data: any) => {
     setFilterConditions(data); // Cập nhật điều kiện lọc
   };
+
   useEffect(() => {
     if (medicineData?.data) {
       setMedicines(medicineData.data);
