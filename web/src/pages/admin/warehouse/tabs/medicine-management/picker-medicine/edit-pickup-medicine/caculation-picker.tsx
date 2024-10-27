@@ -61,7 +61,7 @@ export const CaculationPicker = ({
   };
 
   return (
-    <motion.div className="overflow-hidden">
+    <motion.div className="overflow-hidden w-52">
       <div className="space-y-2">
         <div className="flex w-full items-center rounded-lg border p-2">
           <div className="flex flex-1 flex-col">
@@ -134,14 +134,6 @@ export const CaculationPicker = ({
           }}
         >
           <div className="flex justify-between gap-x-2 px-2 py-1">
-            {/* <label className="input input-bordered flex flex-1 items-center gap-2">
-              <input
-                type="text"
-                className="w-full text-sm"
-                placeholder="Name"
-                {...register("name")}
-              />
-            </label> */}
             <label className="flex flex-1 items-center">
               <select
                 className="select select-bordered w-full"
@@ -157,24 +149,8 @@ export const CaculationPicker = ({
                 ))}
               </select>
             </label>
-            {/* <label className="input input-bordered flex flex-1 items-center gap-2">
-              <input
-                type="text"
-                className="w-full text-sm"
-                placeholder="Row location"
-                {...register("row_location")}
-              />
-            </label>
-            <label className="input input-bordered flex flex-1 items-center gap-2">
-              <input
-                type="text"
-                className="w-full text-sm"
-                placeholder="Column location"
-                {...register("column_location")}
-              />
-            </label> */}
           </div>
-          <div className="flex justify-end gap-x-2 px-2">
+          <div className="flex gap-x-2 px-2 justify-end">
             <div className="space-x-2">
               <button
                 className="btn"

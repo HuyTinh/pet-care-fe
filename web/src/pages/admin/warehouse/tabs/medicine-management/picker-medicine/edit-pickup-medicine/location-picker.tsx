@@ -126,7 +126,7 @@ export const LocationPicker = ({
   };
 
   return (
-    <motion.div className="overflow-hidden">
+    <motion.div className="overflow-hidden w-5/6">
       <div className="space-y-2">
         <div className="flex w-full items-center rounded-lg border p-2">
           <div className="flex flex-1 flex-col">
@@ -246,7 +246,7 @@ export const LocationPicker = ({
                 })}
                 onChange={(e) => handleRowChange(e.target.value)}
               >
-                <option value="">Select a row location</option>
+                <option value="">Select row location</option>
                 {selectedRowLocations.map((row) => (
                   <option key={row} value={row}>
                     {row}
@@ -261,7 +261,7 @@ export const LocationPicker = ({
                   required: "Column location is required",
                 })}
               >
-                <option value="">Select a column location</option>
+                <option value="">Select column location</option>
                 {selectedColumnLocations.map((col) => (
                   <option key={col} value={col}>
                     {col}

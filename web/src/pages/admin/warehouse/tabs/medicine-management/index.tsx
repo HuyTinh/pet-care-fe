@@ -20,7 +20,7 @@ export const MedicinesManagement = () => {
   const [filterConditions, setFilterConditions] = useState<any>({});
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(0);
-  const [pageSize, setPageSize] = useState<number>(10);
+  const [pageSize, _] = useState<number>(10);
   const [sortField, setSortField] = useState<string>("id");
   const [sortOrder, setSortOrder] = useState<string>("asc");
 
@@ -29,12 +29,12 @@ export const MedicinesManagement = () => {
       const matchesManufacturingDate =
         !filterConditions.manufacturing_date ||
         new Date(medicine.manufacturing_date) >=
-          new Date(filterConditions.manufacturing_date);
+        new Date(filterConditions.manufacturing_date);
 
       const matchesExpiryDate =
         !filterConditions.expiry_date ||
         new Date(medicine.expiry_date) <=
-          new Date(filterConditions.expiry_date);
+        new Date(filterConditions.expiry_date);
 
       const matchesStatus =
         !filterConditions.status ||
@@ -76,6 +76,7 @@ export const MedicinesManagement = () => {
   const onFilterSubmit = (data: any) => {
     setFilterConditions(data); // Cập nhật điều kiện lọc
   };
+
   useEffect(() => {
     if (medicineData?.data) {
       setMedicines(medicineData.data);
@@ -109,6 +110,7 @@ export const MedicinesManagement = () => {
           </label>
         </div>
         <div className="flex items-center gap-2">
+          <img src="/src/assets/images/supply.png" className="w-12 h-12 cursor-pointer" onClick={() => setFilterConditions(medicineData)} />
           <button
             className="btn btn-info flex items-center gap-2"
             onClick={() =>
@@ -160,32 +162,36 @@ export const MedicinesManagement = () => {
             <thead className="sticky top-0 bg-white">
               <tr className="text-lg">
                 <th></th>
-                <th>
+                <th className="cursor-pointer"
+                  onClick={() => {
+                    setSortField("name");
+                    setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+                  }}
+                >
                   <span
-                    onClick={() => {
-                      setSortField("name");
-                      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-                    }}
                   >
                     Name
                   </span>
-                  <button>
+                  <button
+                  >
                     <img
                       src="/src/assets/images/sort.png"
                       className="h-[12px] w-[12px]"
                     />
                   </button>
                 </th>
-                <th>
+                <th className="cursor-pointer"
+                  onClick={() => {
+                    setSortField("quantity");
+                    setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+                  }}
+                >
                   <span
-                    onClick={() => {
-                      setSortField("quantity");
-                      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-                    }}
                   >
                     Quantity
                   </span>
-                  <button>
+                  <button
+                  >
                     <img
                       src="/src/assets/images/sort.png"
                       className="h-[12px] w-[12px]"
@@ -196,16 +202,18 @@ export const MedicinesManagement = () => {
                 <th>Manufacture Date</th>
                 <th>Date Import</th>
                 <th>Status</th>
-                <th>
+                <th className="cursor-pointer"
+                  onClick={() => {
+                    setSortField("price");
+                    setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+                  }}
+                >
                   <span
-                    onClick={() => {
-                      setSortField("price");
-                      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-                    }}
                   >
                     Price
                   </span>
-                  <button>
+                  <button
+                  >
                     <img
                       src="/src/assets/images/sort.png"
                       className="h-[12px] w-[12px]"
@@ -222,11 +230,7 @@ export const MedicinesManagement = () => {
                     <th>#{me.id}</th>
                     <td>
                       <div className="flex items-center gap-3">
-                        <div className="avatar">
-                          <div className="mask mask-squircle h-12 w-12">
-                            <img src={me.image_url} alt={me.name} />
-                          </div>
-                        </div>
+                        <img className="h-12 w-12" src={me.image_url} alt={me.name} />
                         <div>
                           <div className="text-base font-bold">{me.name}</div>
                         </div>
@@ -294,7 +298,7 @@ export const MedicinesManagement = () => {
                           setSelectedMedicine(me as IMedicine);
                         }}
                       >
-                        Edit
+                        <span className="text-white">Edit</span>
                       </button>
                     </td>
                   </motion.tr>
@@ -306,9 +310,9 @@ export const MedicinesManagement = () => {
             <button
               onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 0))}
               disabled={currentPage === 0}
-              className="btn"
+              className="btn btn-info"
             >
-              Previous
+              <span className="text-white">Previous</span>
             </button>
             <span>
               Page {currentPage + 1} of {Math.ceil(medicines.length / pageSize)}
@@ -318,9 +322,9 @@ export const MedicinesManagement = () => {
               disabled={
                 currentPage >= Math.ceil(medicines.length / pageSize) - 1
               }
-              className="btn"
+              className="btn btn-info"
             >
-              Next
+              <span className="text-white">Next</span>
             </button>
           </div>
         </div>
