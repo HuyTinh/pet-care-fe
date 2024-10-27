@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { useGetAllPresctiptionQuery } from "../../../prescription.service";
 import { motion } from "framer-motion"
 import { FcCalendar } from "react-icons/fc";
 import { FaEye } from "react-icons/fa";
 import { MdOutlineModeEdit } from "react-icons/md";
+import { useFilterPrescriptionsQuery } from "../../../prescription.service";
 
 
 type PrescriptionTableProps = {
@@ -14,18 +14,18 @@ export const PrescriptionTable = ({ setSelectedPrescription }: PrescriptionTable
 
     const [prescriptions, setPrescriptions] = useState<any[]>([]);
     const {
-        data: prescriptionsData,
-        isFetching: isFetchingPrescriptionsData,
-    } = useGetAllPresctiptionQuery();
+        data: filterPrescriptionsData,
+        isFetching: isFetchingFilterPrescriptionsData,
+    } = useFilterPrescriptionsQuery({ page: 0, startDate: `2024-10-01`, endDate: `2024-10-30` });
 
     useEffect(() => {
-        setPrescriptions(prescriptionsData?.data);
+        setPrescriptions(filterPrescriptionsData?.data?.content);
 
         return () => { };
-    }, [prescriptionsData?.data]);
+    }, [filterPrescriptionsData?.data]);
 
     return (
-        <div className="h-[36rem] overflow-auto">
+        <div className="h-[35rem] overflow-auto">
             <table className="table h-full">
 
                 {/* head */}
@@ -39,7 +39,7 @@ export const PrescriptionTable = ({ setSelectedPrescription }: PrescriptionTable
                     </tr>
                 </thead>
                 <tbody className="h-full">
-                    {!isFetchingPrescriptionsData &&
+                    {!isFetchingFilterPrescriptionsData &&
                         ((prescriptions as any)?.length <= 0) ?
                         <div className="absolute top-0 z-50 flex h-full w-full flex-col items-center justify-center">
                             <FcCalendar size={64} className="mb-10" />
@@ -52,18 +52,18 @@ export const PrescriptionTable = ({ setSelectedPrescription }: PrescriptionTable
                                     <div>
                                         <span>Name: </span>
                                         <span className="font-bold underline">
-                                            {pre.appointment.first_name + " " + pre.appointment.last_name}
+                                            {pre.appointment?.first_name + " " + pre.appointment?.last_name}
                                         </span>
                                     </div>
                                     <div>
                                         <span>Email: </span>
-                                        <span className="font-bold underline">{pre.appointment.email}</span>
+                                        <span className="font-bold underline">{pre.appointment?.email}</span>
                                     </div>
                                 </td>
                                 <td>
                                     <div className="truncate ">
                                         {
-                                            pre.appointment.services.map((val: any, index: any) => <div key={index}>- <div className="underline font-bold inline">{val.name}</div></div>)
+                                            pre.appointment?.services.map((val: any, index: any) => <div key={index}>- <div className="underline font-bold inline">{val.name}</div></div>)
                                         }
                                     </div>
                                 </td>
@@ -96,7 +96,7 @@ export const PrescriptionTable = ({ setSelectedPrescription }: PrescriptionTable
                         ))}
                 </tbody>
             </table>
-            {isFetchingPrescriptionsData && (
+            {isFetchingFilterPrescriptionsData && (
                 <motion.div
                     animate={{ opacity: 1 }}
                     exit={{
