@@ -3,11 +3,11 @@ import { useEffect, useState } from 'react';
 type FetchResult<T> = {
   loading: boolean;
   error: Error | null;
-  comment: T | null;
+  newData: T | null;
 };
 
-const commentFecth = <T extends unknown>(url: string): FetchResult<T> => {
-  const [comment, setComment] = useState<T | null>(null);
+const newFetch = <T extends unknown>(url: string): FetchResult<T> => {
+  const [newData, setNewData] = useState<T | null>(null);
   const [error, setError] = useState<Error | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -22,11 +22,11 @@ const commentFecth = <T extends unknown>(url: string): FetchResult<T> => {
         }
 
         const json = (await res.json()) as T;
-        setComment(json);
-        setError(null);  
+        setNewData(json);
+        setError(null);  // Clear any previous errors if the fetch is successful
       } catch (error) {
         setError(error as Error);
-        setComment(null); 
+        setNewData(null);  // Clear data in case of error
       } finally {
         setLoading(false);
       }
@@ -35,9 +35,7 @@ const commentFecth = <T extends unknown>(url: string): FetchResult<T> => {
     fetchData();
   }, [url]);
 
-  
-
-  return { loading, error, comment,};
+  return { loading, error, newData };
 };
 
-export default commentFecth;
+export default newFetch;

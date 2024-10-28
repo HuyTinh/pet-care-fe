@@ -22,6 +22,8 @@ import { Blog } from "./pages/site/blog/blog";
 import { useEffect } from "react";
 import { WareHousePage } from "./pages/admin/warehouse";
 import { AdminAuthPage } from "./pages/admin/auth";
+import { Event } from "./pages/site/blog/event";
+import { NewContent } from "./pages/site/blog/newContent"
 
 const ProtectedRoute: React.FC<{
   element: JSX.Element;
@@ -71,6 +73,8 @@ const userRoutes: RouteObject = {
     },
     { path: "booking", element: <BookingPage /> },
     { path: "blog", element: <Blog /> },
+    { path: "event", element: <Event /> },
+    { path: "new/:documentId", element: <NewContent /> },
     {
       path: "service",
       element: <ServicePage />,
