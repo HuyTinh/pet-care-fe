@@ -7,25 +7,23 @@ import { useFilterPrescriptionsQuery } from "../../../prescription.service";
 
 
 type PrescriptionTableProps = {
+    filterPrescriptionConditions: any
     setSelectedPrescription: React.Dispatch<React.SetStateAction<any>>
 }
 
-export const PrescriptionTable = ({ setSelectedPrescription }: PrescriptionTableProps) => {
+export const PrescriptionTable = ({ filterPrescriptionConditions, setSelectedPrescription }: PrescriptionTableProps) => {
     const [pageNumber, setPageNumber] = useState<number>(0)
     const [prescriptions, setPrescriptions] = useState<any[]>([]);
     const {
         data: filterPrescriptionsData,
         isFetching: isFetchingFilterPrescriptionsData,
-    } = useFilterPrescriptionsQuery({ page: pageNumber, startDate: `2024-10-01`, endDate: `2024-10-30` });
+    } = useFilterPrescriptionsQuery({ page: pageNumber, startDate: filterPrescriptionConditions['start_date'], endDate: filterPrescriptionConditions['end_date'] });
 
     useEffect(() => {
         setPrescriptions(filterPrescriptionsData?.data?.content);
 
         return () => { };
     }, [filterPrescriptionsData?.data]);
-
-
-    console.log(isFetchingFilterPrescriptionsData);
 
 
     return (
@@ -63,14 +61,22 @@ export const PrescriptionTable = ({ setSelectedPrescription }: PrescriptionTable
                     </div>
                 </div>
                 <div className="join">
-                    <button className="join-item btn btn-sm" onClick={() => setPageNumber(pageNumber - 1)}>«</button>
+                    <button className="join-item btn btn-sm" onClick={() => {
+                        if (pageNumber - 1 >= 0) {
+                            setPageNumber(pageNumber - 1)
+                        }
+                    }
+                    }>«</button>
                     <button className="join-item btn btn-sm">Page {pageNumber + 1}</button>
-                    <button className="join-item btn btn-sm" onClick={() => setPageNumber(pageNumber + 1)}>»</button>
+                    <button className="join-item btn btn-sm" onClick={() => {
+                        if (pageNumber + 1 < filterPrescriptionsData?.data?.total_pages) {
+                            setPageNumber(pageNumber + 1)
+                        }
+                    }}>»</button>
                 </div>
             </div>
-            <div className="h-[32rem] overflow-auto border rounded-lg">
-                <table className="table ">
-
+            <div className="h-[32rem] overflow-auto relative">
+                <table className="table h-full border rounded-lg">
                     {/* head */}
                     <thead className="sticky top-0 bg-white">
                         <tr>
@@ -81,13 +87,17 @@ export const PrescriptionTable = ({ setSelectedPrescription }: PrescriptionTable
                             <th className="text-center">Actions</th>
                         </tr>
                     </thead>
-                    {
-                        !isFetchingFilterPrescriptionsData && <tbody className="h-full">
-                            {((prescriptions as any)?.length <= 0) ?
-                                <div className="absolute top-0 z-50 flex h-full w-full flex-col items-center justify-center">
-                                    <FcCalendar size={64} className="mb-10" />
-                                    <div>You don't have any prescription</div>
-                                </div> :
+                    <tbody>
+                        {
+                            !isFetchingFilterPrescriptionsData &&
+                            ((prescriptions as any)?.length <= 0) &&
+                            <div className="absolute top-0 z-50 flex h-full w-full flex-col items-center justify-center">
+                                <FcCalendar size={64} className="mb-10" />
+                                <div>You don't have any prescription</div>
+                            </div>
+                        }
+                        {
+                            !isFetchingFilterPrescriptionsData && (
                                 (prescriptions as any[])?.map((pre, index) => (
                                     <motion.tr key={index}>
                                         <th>#{pre.id}</th>
@@ -136,9 +146,10 @@ export const PrescriptionTable = ({ setSelectedPrescription }: PrescriptionTable
                                             </button>
                                         </td>
                                     </motion.tr>
-                                ))}
-                        </tbody>
-                    }
+                                ))
+                            )
+                        }
+                    </tbody>
                 </table>
                 {isFetchingFilterPrescriptionsData && (
                     <motion.div

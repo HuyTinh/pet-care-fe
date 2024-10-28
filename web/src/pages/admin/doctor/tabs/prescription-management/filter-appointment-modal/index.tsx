@@ -49,39 +49,6 @@ export const FilterAppointmentModal = ({
               />
             </label>
           </div>
-
-          {/* <div className="mt-3">
-            <label className="label-text text-base font-bold">
-              Filter by product price:
-            </label>
-          </div>
-          <div className="flex gap-x-10 p-4 py-3">
-            <label className="form-control w-full max-w-md justify-between">
-              <div>
-                <span className="label-text font-semibold">Min price:</span>
-              </div>
-              <input
-                {...register("min_price")}
-                type="number"
-                className="input input-bordered w-full"
-                placeholder="Type here"
-                min={0}
-              />
-            </label>
-            <label className="form-control w-full max-w-md justify-between">
-              <div>
-                <span className="label-text font-semibold">Max price:</span>
-              </div>
-              <input
-                {...register("max_price")}
-                type="number"
-                className="input input-bordered w-full"
-                placeholder="Type here"
-                min={0}
-              />
-            </label>
-          </div> */}
-
           <div className="mt-5 flex justify-center">
             <button type="submit" className="btn btn-info font-bold text-white">
               Apply

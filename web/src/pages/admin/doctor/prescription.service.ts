@@ -45,7 +45,7 @@ export const prescriptionApi = createApi({
       providesTags(result) {
         if (result) {
           const final = [
-            ...(result.data as IAppointment[]).map(({ id }) => ({
+            ...(result.data.content as IAppointment[]).map(({ id }) => ({
               type: "Appointments" as const,
               id,
             })),
