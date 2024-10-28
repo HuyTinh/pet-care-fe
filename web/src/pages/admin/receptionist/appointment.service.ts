@@ -3,18 +3,21 @@ import { IAppointment } from "../../../types/appoiment.type";
 
 import { APIResponse } from "../../../types/api-response.type";
 import { getCookieValue } from "../../../utils/cookie";
+import { PageableResponse } from "../../../types/pageable-response";
+import { IHospitalService } from "../../../types/hospital-service.type";
+import { ISpecie } from "../../../types/specie.type";
 
 export const appointmentApi = createApi({
   reducerPath: "appointmentApi",
   tagTypes: ["Appointments", "AppointmentsCustomer"],
   baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_BACKEND_URL }),
   endpoints: (build) => ({
-    getAppointments: build.query<APIResponse, void>({
+    getAppointments: build.query<APIResponse<PageableResponse<IAppointment>>, void>({
       query: () => `${import.meta.env.VITE_APPOINTMENT_PATH}/appointment`,
       providesTags(result) {
         if (result) {
           const final = [
-            ...(result.data as IAppointment[]).map(({ id }) => ({
+            ...(result.data?.content as IAppointment[]).map(({ id }) => ({
               type: "Appointments" as const,
               id,
             })),
@@ -27,7 +30,7 @@ export const appointmentApi = createApi({
       },
     }),
     filterAppointments: build.query<
-      APIResponse,
+      APIResponse<PageableResponse<IAppointment>>,
       { startDate: string; endDate: string }
     >({
       query: ({ startDate, endDate }) => {
@@ -44,7 +47,7 @@ export const appointmentApi = createApi({
       providesTags(result) {
         if (result) {
           const final = [
-            ...(result.data as IAppointment[]).map(({ id }) => ({
+            ...(result.data.content as IAppointment[]).map(({ id }) => ({
               type: "Appointments" as const,
               id,
             })),
@@ -56,7 +59,7 @@ export const appointmentApi = createApi({
         return final;
       },
     }),
-    getAppointmentsByStatus: build.query<APIResponse, String>({
+    getAppointmentsByStatus: build.query<APIResponse<IAppointment>, String>({
       query: (body) => `/appointment-service/appointment/status/${body}`,
       providesTags(result) {
         if (result) {
@@ -73,11 +76,11 @@ export const appointmentApi = createApi({
         return final;
       },
     }),
-    isCheckin: build.query<APIResponse, string>({
+    isCheckin: build.query<APIResponse<IAppointment>, string>({
       query: (body) =>
         `${import.meta.env.VITE_APPOINTMENT_PATH}/appointment/isCheckin/${body}`,
     }),
-    createAppointment: build.mutation<IAppointment, any>({
+    createAppointment: build.mutation<APIResponse<IAppointment>, any>({
       query(body) {
         return {
           url: `${import.meta.env.VITE_APPOINTMENT_PATH}/appointment`,
@@ -96,7 +99,7 @@ export const appointmentApi = createApi({
       ],
     }),
     updateAppointment: build.mutation<
-      IAppointment,
+      APIResponse<IAppointment>,
       { appointmentId: string; updateAppointment: any }
     >({
       query(body) {
@@ -111,14 +114,14 @@ export const appointmentApi = createApi({
         { type: "AppointmentsCustomer" as const, id: "LIST" },
       ],
     }),
-    getHospitalService: build.query<APIResponse, void>({
+    getHospitalService: build.query<APIResponse<IHospitalService>, void>({
       query: () => `${import.meta.env.VITE_APPOINTMENT_PATH}/hospital-service`,
     }),
-    getSpecies: build.query<APIResponse, void>({
+    getSpecies: build.query<APIResponse<ISpecie>, void>({
       query: () => `${import.meta.env.VITE_APPOINTMENT_PATH}/specie`,
     }),
     getAppointmentByCustomerId: build.query<
-      APIResponse,
+      APIResponse<IAppointment>,
       { userId: string | number | null; params: {} }
     >({
       query: (body) => {
@@ -142,7 +145,7 @@ export const appointmentApi = createApi({
         return final;
       },
     }),
-    getAppointmentById: build.query<APIResponse, { appointmentId: any }>({
+    getAppointmentById: build.query<APIResponse<IAppointment>, { appointmentId: any }>({
       query: (body) => {
         return {
           url: `${import.meta.env.VITE_APPOINTMENT_PATH}/appointment/${body.appointmentId}`,

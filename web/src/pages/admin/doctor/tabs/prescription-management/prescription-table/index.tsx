@@ -53,7 +53,7 @@ export const PrescriptionTable = ({ setSelectedPrescription }: PrescriptionTable
                             className="btn btn-sm btn-info flex items-center gap-2 rounded-md"
                             onClick={() =>
                                 (
-                                    document.getElementById("filter_appointment_modal") as any
+                                    document.getElementById("filter_prescription_modal") as any
                                 ).showModal()
                             }
                         >

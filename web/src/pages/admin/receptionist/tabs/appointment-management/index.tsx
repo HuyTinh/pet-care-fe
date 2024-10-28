@@ -78,27 +78,6 @@ export const AppointmentManagement = () => {
 
         stompClient.subscribe("/topic/exportPDF/" + sessionId, (message) => {
           if (Number(message.body)) {
-            // genPDF({
-            //   appointment_number: 124,
-            //   appointment_id: message.body,
-            // }).then((res: any) => {
-            //   // Create a new link
-            //   const anchor = document.createElement("a");
-
-            //   anchor.href = res.data.response;
-            //   anchor.download = "baba";
-            //   anchor.target = "_blank";
-            //   anchor.rel = "noreferrer";
-
-            //   // Append to the DOM
-            //   document.body.appendChild(anchor);
-
-            //   // Trigger `click` event
-            //   anchor.click();
-
-            //   // Remove element from DOM
-            //   document.body.removeChild(anchor);
-            // });
             generatePDF(Number(message.body));
           }
         });
@@ -116,7 +95,7 @@ export const AppointmentManagement = () => {
   }, [stompClient]);
 
   useEffect(() => {
-    setAppointments(filterAppointmentData?.data);
+    setAppointments(filterAppointmentData?.data.content);
   }, [filterAppointmentData?.data]);
 
   const sendMessage = (appointmentId: string, status: string) => {
