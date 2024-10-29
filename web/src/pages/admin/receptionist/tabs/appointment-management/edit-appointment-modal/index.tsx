@@ -73,7 +73,7 @@ export const EditAppointmentModal = ({
 
   useEffect(() => {
     if (!_.isEmpty(appointment)) {
-      setServices(appointment?.services || []);
+      setServices((appointment?.services || []) as any);
       setPets(appointment?.pets || []);
       reset(appointment);
     } else {
