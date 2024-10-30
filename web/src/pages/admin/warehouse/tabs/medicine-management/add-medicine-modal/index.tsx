@@ -46,22 +46,34 @@ export const AddMedicineModal = () => {
   const columnLocations = [
     ...new Set(locations.map((location) => location.column_location)),
   ];
+  const [imageError, setImageError] = useState<string | null>(
+    "Vui lòng chọn một tệp hình ảnh!",
+  );
 
   const handleImageChange = (e: any) => {
     const file = e.target.files[0];
     setImageFile(file);
     if (file) {
+      setImageError(null);
       const reader = new FileReader();
       reader.onload = () => {
         setImage((reader as any)?.result);
       };
       reader.readAsDataURL(file);
+    } else {
+      setImageError("Vui lòng chọn một tệp hình ảnh!");
     }
   };
   const onSubmit = async (data: any) => {
     const locationIds = location.map((loc) => loc.id);
     const caculationIds = caculation.map((ca) => ca.id);
     // Gộp thêm thông tin từ state
+    console.log(imageFile);
+
+    if (!imageFile) {
+      setImageError("Vui lòng chọn một tệp hình ảnh!");
+      return;
+    }
     const combinedData = {
       ...data,
       locations: locationIds,
@@ -88,6 +100,7 @@ export const AddMedicineModal = () => {
       setLocation([]); // Xóa danh sách location
       setCaculation([]); // Xóa danh sách caculation
       setImageFile(null); // Xóa file hình ảnh
+      setImageError(null);
       toast.success("Add medicine successfull !");
     } catch (err) {
       console.error("Failed to create medicine:", err);
@@ -129,6 +142,12 @@ export const AddMedicineModal = () => {
                   {...register("image_url")} // Đăng ký trường này để gửi
                 />
               </div>
+              {imageError && (
+                <span className="badge badge-error mt-2 gap-2 text-white">
+                  <MdOutlineErrorOutline />
+                  {imageError}
+                </span>
+              )}
             </div>
             <div className="flex w-1/2 flex-col">
               <label className="form-control w-full max-w-md">
@@ -190,7 +209,7 @@ export const AddMedicineModal = () => {
                 </div>
                 <select
                   className="select select-bordered w-full max-w-md"
-                  {...register("manufacture_id", {
+                  {...register("manufactureId", {
                     required: "Manufactures is empty!",
                   })}
                 >
@@ -265,7 +284,7 @@ export const AddMedicineModal = () => {
               />
             </label>
           </div>
-          <div className="mt-3 flex justify-evenly gap-x-12 ">
+          <div className="mt-3 flex justify-evenly gap-x-12">
             <LocationPicker
               location={location}
               setLocation={setLocation}

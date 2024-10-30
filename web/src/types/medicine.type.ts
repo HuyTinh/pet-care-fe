@@ -32,3 +32,8 @@ export interface ICalculationUnit {
   name: string;
   status: boolean;
 }
+export interface MedicinePageResponse {
+  medicines: IMedicine[];
+  totalPages: number;
+  totalElements: number;
+}
