@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-
+import { toast } from "react-toastify";
 interface FilterMedicineModalProps {
   onFilterSubmit: (filters: any) => void; // Truyền prop onFilterSubmit
 }
@@ -10,9 +10,17 @@ export const FilterMedicineModal = ({
   const { register, handleSubmit, reset } = useForm<any>();
 
   const onSubmit = (data: any) => {
-    onFilterSubmit(data); // Gọi hàm onFilterSubmit và truyền dữ liệu lọc
-    (document.getElementById("filter_medicine_modal") as any).close(); // Đóng modal sau khi apply
-    reset();
+    const isEmpty = Object.values(data).every(value => value === "" || value === null || value === undefined);
+    if(isEmpty) {
+      toast.error("Filler is Empty", {
+        position: "top-right",
+      });
+    }
+    else{
+      onFilterSubmit(data); // Gọi hàm onFilterSubmit và truyền dữ liệu lọc
+      (document.getElementById("filter_medicine_modal") as any).close(); // Đóng modal sau khi apply
+      reset();
+    }
   };
 
   return (

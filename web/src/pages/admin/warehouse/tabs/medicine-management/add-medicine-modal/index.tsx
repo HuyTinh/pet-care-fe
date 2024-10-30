@@ -31,6 +31,8 @@ export const AddMedicineModal = () => {
     handleSubmit,
     reset,
     formState: { errors },
+    clearErrors ,
+    setValue
   } = useForm<any>({});
   const [image_url, setImage] = useState("");
   const [imageFile, setImageFile] = useState(null);
@@ -46,7 +48,6 @@ export const AddMedicineModal = () => {
   const columnLocations = [
     ...new Set(locations.map((location) => location.column_location)),
   ];
-
   const handleImageChange = (e: any) => {
     const file = e.target.files[0];
     setImageFile(file);
@@ -54,6 +55,8 @@ export const AddMedicineModal = () => {
       const reader = new FileReader();
       reader.onload = () => {
         setImage((reader as any)?.result);
+        setValue("image_url", (reader as any)?.result); 
+        clearErrors("image_url");
       };
       reader.readAsDataURL(file);
     }
@@ -61,6 +64,7 @@ export const AddMedicineModal = () => {
   const onSubmit = async (data: any) => {
     const locationIds = location.map((loc) => loc.id);
     const caculationIds = caculation.map((ca) => ca.id);
+
     // Gộp thêm thông tin từ state
     const combinedData = {
       ...data,
@@ -105,29 +109,35 @@ export const AddMedicineModal = () => {
           encType="multipart/form-data"
         >
           <div className="ml-5 mt-5 flex justify-evenly gap-x-10">
-            <div className="avatar flex flex-col items-center justify-center border-solid">
-              <div>
+            <div className="avatar flex flex-col items-center justify-center ">
+              <div className="w-52 border border-blue-400 rounded-xl flex h-[250px]">
                 {image_url ? (
-                  <div className="!w-40 rounded-xl">
-                    <img src={image_url} alt="Selected" />
+                  <div className="!w-full flex justify-center mt-5">
+                    <img className="" src={image_url} alt="Selected" />
                   </div>
                 ) : (
-                  <div>
-                    <img src="src/assets/images/picture.png" alt="Default" />
+                  <div className="!w-full flex justify-center items-center mt-24">
+                    <img className="!w-16" src="src/assets/images/picture.png" alt="Default" />
                   </div>
                 )}
               </div>
-              <div>
+              <div className="h-[30px] w-full ml-3">
                 <input
                   type="file"
                   className="absolute inset-0 cursor-pointer opacity-0"
-                  onChange={handleImageChange} // Giữ lại hàm này để xử lý tệp hình ảnh
+                  onChange={handleImageChange}
                 />
                 <input
                   type="hidden"
-                  value={image_url} // Gửi URL hình ảnh dưới dạng chuỗi
-                  {...register("image_url")} // Đăng ký trường này để gửi
+                  value={image_url}
+                  {...register("image_url", { required: "Please upload an image" })}
                 />
+                {errors?.image_url && (
+                  <span className="badge badge-error mt-2 text-white">
+                    <MdOutlineErrorOutline />
+                    {(errors?.image_url as any).message}
+                  </span>
+                )}
               </div>
             </div>
             <div className="flex w-1/2 flex-col">
@@ -146,7 +156,7 @@ export const AddMedicineModal = () => {
                 {errors?.name && (
                   <span className="badge badge-error mt-2 gap-2 text-white">
                     <MdOutlineErrorOutline />
-                    {(errors?.name as any).message}
+                    {(errors?.name as any).message || ""}
                   </span>
                 )}
               </label>
@@ -160,9 +170,18 @@ export const AddMedicineModal = () => {
                     defaultValue={0}
                     step={1}
                     className="input input-bordered w-full max-w-md"
-                    {...register("quantity")}
                     min={0}
+                    {...register("quantity",
+                      {
+                        validate: value => value != 0 || "Quantity can't be 0!"
+                      })}
                   />
+                  {errors.quantity && (
+                    <span className="badge badge-error mt-2 gap-2 text-white">
+                      <MdOutlineErrorOutline />
+                      {(errors?.quantity as any).message}
+                    </span>
+                  )}
                 </label>
                 <label className="form-control w-full max-w-md justify-between">
                   <div className="label">
@@ -191,27 +210,26 @@ export const AddMedicineModal = () => {
                 <select
                   className="select select-bordered w-full max-w-md"
                   {...register("manufacture_id", {
-                    required: "Manufactures is empty!",
+                    validate: value => value !== "first" || "Manufactures is empty!",
                   })}
                 >
-                  <option value="">Select a manufacturer</option>
+                  <option value="first">Select a manufacturer</option>
                   {manufacturers.map((manufacturer) => (
                     <option key={manufacturer.id} value={manufacturer.id}>
                       {manufacturer.name}
                     </option>
                   ))}
                 </select>
-                {errors?.manufactures && (
+                {errors?.manufacture_id && (
                   <span className="badge badge-error mt-2 gap-2 text-white">
                     <MdOutlineErrorOutline />
-                    {(errors.manufactures as any)?.message ||
-                      "An error occurred"}
+                    {(errors.manufacture_id as any)?.message}
                   </span>
                 )}
               </label>
             </div>
           </div>
-          <div className="flex gap-x-10">
+          <div className="flex gap-x-10 mt-3">
             <label className="form-control w-full max-w-md justify-between">
               <div className="label">
                 <span className="label-text font-bold">Status:</span>
@@ -250,8 +268,16 @@ export const AddMedicineModal = () => {
               <input
                 type="date"
                 className="input input-bordered w-full"
-                {...register("manufacturingDate")}
+                {...register("manufacturingDate",
+                  { required: "Manufacturing Date is empty!" }
+                )}
               />
+              {errors?.manufacturingDate && (
+                <span className="badge badge-error mt-2 gap-2 text-white">
+                  <MdOutlineErrorOutline />
+                  {(errors.manufacturingDate as any)?.message}
+                </span>
+              )}
             </label>
             <label className="form-control w-full max-w-md justify-between">
               <div>
@@ -261,8 +287,16 @@ export const AddMedicineModal = () => {
               <input
                 type="date"
                 className="input input-bordered w-full"
-                {...register("expiryDate")}
+                {...register("expiryDate",
+                  { required: "Expriry Date is empty!" }
+                )}
               />
+              {errors?.expiryDate && (
+                <span className="badge badge-error mt-2 gap-2 text-white">
+                  <MdOutlineErrorOutline />
+                  {(errors.expiryDate as any)?.message}
+                </span>
+              )}
             </label>
           </div>
           <div className="mt-3 flex justify-evenly gap-x-12 ">
