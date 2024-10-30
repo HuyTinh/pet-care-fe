@@ -1,4 +1,4 @@
-import { MdCancel } from "react-icons/md";
+import { MdCancel, MdOutlineErrorOutline } from "react-icons/md";
 import { FaAngleDown } from "react-icons/fa";
 import { useState } from "react";
 import { motion } from "framer-motion";
@@ -24,7 +24,7 @@ export const CaculationPicker = ({
   caculation,
   setCaculation,
 }: CaculationPickerProps) => {
-  const { register, getValues, reset } = useForm<ICalculationUnit>();
+  const { register, getValues, reset, formState: { errors } } = useForm<ICalculationUnit>();
   const [expand, setExpand] = useState(false);
   const { data: unitResponse } = useGetCaculationunitQuery<{
     data: IUnitApiResponse;
@@ -133,21 +133,25 @@ export const CaculationPicker = ({
             height: expand ? "auto" : "0",
           }}
         >
-          <div className="flex justify-between gap-x-2 px-2 py-1">
+          <div className="flex justify-between gap-x-2 px-2 py-1 relative">
             <label className="flex flex-1 items-center">
               <select
                 className="select select-bordered w-full"
-                {...register("name", {
-                  required: "Name is empty!",
-                })}
+                {...register("name", { validate: value => value !== "" || "Caculation is empty!" })}
               >
-                <option value={""}>Caculation unit?</option>
+                <option value="">Caculation unit?</option>
                 {(unitResponse?.data as any[])?.map((val) => (
                   <option key={val.id} value={val.name}>
                     {val.name}
                   </option>
                 ))}
               </select>
+              {errors?.name && (
+                <span className="badge badge-error absolute left-0 gap-2 text-white">
+                  <MdOutlineErrorOutline />
+                  {(errors.name as any)?.message}
+                </span>
+              )}
             </label>
           </div>
           <div className="flex gap-x-2 px-2 justify-end">

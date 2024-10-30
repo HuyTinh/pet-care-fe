@@ -1,4 +1,4 @@
-import { MdCancel } from "react-icons/md";
+import { MdCancel, MdOutlineErrorOutline } from "react-icons/md";
 import { FaAngleDown } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
@@ -20,7 +20,7 @@ export const LocationPicker = ({
   areas,
   allLocationsData, // Use the complete location data to transform
 }: LocationPickerProps) => {
-  const { register, reset, handleSubmit } = useForm<ILocation>();
+  const { register, reset, handleSubmit, formState: { errors } } = useForm<ILocation>();
   const [expand, setExpand] = useState(false);
   const [rowLocationsMap, setRowLocationsMap] = useState<
     Record<string, string[]>
@@ -224,10 +224,10 @@ export const LocationPicker = ({
           }}
         >
           <div className="flex justify-between gap-x-2 px-2 py-1">
-            <div className="input input-bordered flex flex-1 items-center gap-2">
+            <div className="input input-bordered flex flex-1 items-center gap-2 relative">
               <select
                 className="w-full text-sm outline-none"
-                {...register("area", { required: "Area is required" })}
+                {...register("area", { validate: value => value !== "" || "Area is empty!", })}
                 onChange={(e) => handleAreaChange(e.target.value)}
               >
                 <option value="">Select an area</option>
@@ -237,6 +237,13 @@ export const LocationPicker = ({
                   </option>
                 ))}
               </select>
+              {errors?.area && (
+                <span className="badge badge-error absolute bottom-[-30px] left-0 gap-2 text-white">
+                  <MdOutlineErrorOutline />
+                  {(errors.area as any)?.message}
+                </span>
+              )}
+
             </div>
             <div className="input input-bordered flex flex-1 items-center gap-2">
               <select
