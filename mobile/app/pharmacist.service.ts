@@ -8,7 +8,7 @@ import * as SecureStore from 'expo-secure-store';
 import { APIReponse } from '../types/api-response';
 export const pharmacistApi = createApi({
     reducerPath: 'pharmacistApi',
-    tagTypes: ['Post'],
+    tagTypes: ['Prescriptions'],
     baseQuery: fetchBaseQuery({ baseUrl: 'https://tsm885rc-8888.asse.devtunnels.ms/api/v1' }),
     // baseQuery: fetchBaseQuery({ baseUrl: 'https://tsm885rc-8888.asse.devtunnels.ms/api/v1' }),
     endpoints: build => ({
@@ -18,10 +18,10 @@ export const pharmacistApi = createApi({
             providesTags(result) {
 
                 if (result) {
-                    const final = [...((result as any)?.data as IPrescription[]).map(({ id }) => ({ type: 'Post' as const, id })), { type: 'Post' as const, appointmentId: 'LIST' }]
+                    const final = [...((result as any)?.data as IPrescription[]).map(({ id }) => ({ type: 'Prescriptions' as const, id })), { type: 'Prescriptions' as const, appointmentId: 'LIST' }]
                     return final;
                 }
-                const final = [{ type: 'Post' as const, appointmentId: 'LIST' }]
+                const final = [{ type: 'Prescriptions' as const, appointmentId: 'LIST' }]
                 return final;
             }
         }),
@@ -58,4 +58,10 @@ export const pharmacistApi = createApi({
         })
     })
 })
-export const { useGetPrescriptionQuery, useGetPrescriptionByIdQuery, useGetAccountMutation, useGetAllAccountQuery, useGetPrescriptionByAppointmentIdQuery } = pharmacistApi
+export const {
+    useGetPrescriptionQuery,
+    useGetPrescriptionByIdQuery,
+    useGetAccountMutation,
+    useGetAllAccountQuery,
+    useGetPrescriptionByAppointmentIdQuery
+} = pharmacistApi

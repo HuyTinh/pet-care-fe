@@ -27,7 +27,7 @@ import {
 import { IPrescription } from "@/types/prescription.type";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { startEditPost } from "@/app/prescription.slice";
+import { startEditPrescription } from "@/app/prescription.slice";
 import { router } from "expo-router";
 // import { useFonts } from "expo-font";
 const Home = () => {
@@ -41,7 +41,7 @@ const Home = () => {
     // callbacks
     const handlePresentModalPress = useCallback((id: any) => {
         bottomSheetModalRef.current?.present();
-        distpath(startEditPost(id))
+        distpath(startEditPrescription(id))
     }, []);
     const [activeSections, setActiveSections] = useState([]);
 
