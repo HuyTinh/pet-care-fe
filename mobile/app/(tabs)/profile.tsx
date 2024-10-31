@@ -37,7 +37,7 @@ const explore = () => {
           </Link>
         </Card>
         <Card style={styles.card} className='mt-7'>
-          <Link href={"../(changepassword)/confirm-email"}>
+          <Link href={"../(changepassword)/new-password"}>
             <Card.Content className=' h-20'>
               <Image className='absolute top-[23] left-[25px]' source={require('@/assets/images/Lock.png')} />
               <Text className='absolute top-8 left-[85px] text-[17px] text-white font-medium' style={{ fontFamily: "blod" }}>Change Password</Text>
