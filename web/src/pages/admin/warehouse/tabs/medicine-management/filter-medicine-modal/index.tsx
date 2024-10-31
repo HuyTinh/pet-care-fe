@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
+
 interface FilterMedicineModalProps {
   onFilterSubmit: (filters: any) => void; // Truyền prop onFilterSubmit
 }
@@ -10,17 +10,10 @@ export const FilterMedicineModal = ({
   const { register, handleSubmit, reset } = useForm<any>();
 
   const onSubmit = (data: any) => {
-    const isEmpty = Object.values(data).every(value => value === "" || value === null || value === undefined);
-    if(isEmpty) {
-      toast.error("Filler is Empty", {
-        position: "top-right",
-      });
-    }
-    else{
-      onFilterSubmit(data); // Gọi hàm onFilterSubmit và truyền dữ liệu lọc
-      (document.getElementById("filter_medicine_modal") as any).close(); // Đóng modal sau khi apply
-      reset();
-    }
+    onFilterSubmit(data); // Gọi hàm onFilterSubmit và truyền dữ liệu lọc
+    console.log("fillter data :", data);
+    (document.getElementById("filter_medicine_modal") as any).close(); // Đóng modal sau khi apply
+    reset();
   };
 
   return (
@@ -43,7 +36,7 @@ export const FilterMedicineModal = ({
               <input
                 type="date"
                 className="input input-bordered w-full"
-                {...register("manufacturing_date")}
+                {...register("manufacturingDate")}
               />
             </label>
             <label className="form-control w-full max-w-md justify-between">
@@ -53,7 +46,7 @@ export const FilterMedicineModal = ({
               <input
                 type="date"
                 className="input input-bordered w-full"
-                {...register("expiry_date")}
+                {...register("expiryDate")}
               />
             </label>
           </div>
@@ -70,7 +63,7 @@ export const FilterMedicineModal = ({
                   id="active"
                   type="radio"
                   className="radio-info radio"
-                  value="active"
+                  value="ACTIVE"
                   {...register("status")}
                 />
                 <label className="ml-5" htmlFor="active">
@@ -83,7 +76,7 @@ export const FilterMedicineModal = ({
                 <input
                   id="inactive"
                   type="radio"
-                  value="inactive"
+                  value="INACTIVE"
                   className="radio-info radio"
                   {...register("status")}
                 />
@@ -105,7 +98,7 @@ export const FilterMedicineModal = ({
                 <span className="label-text font-semibold">Min price:</span>
               </div>
               <input
-                {...register("min_price")}
+                {...register("minPrice")}
                 type="number"
                 className="input input-bordered w-full"
                 placeholder="Type here"
@@ -117,7 +110,7 @@ export const FilterMedicineModal = ({
                 <span className="label-text font-semibold">Max price:</span>
               </div>
               <input
-                {...register("max_price")}
+                {...register("maxPrice")}
                 type="number"
                 className="input input-bordered w-full"
                 placeholder="Type here"

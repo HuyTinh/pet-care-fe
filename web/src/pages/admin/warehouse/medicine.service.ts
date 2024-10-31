@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { APIResponse } from "../../../types/api-response.type";
-import { IMedicine } from "../../../types/medicine.type";
+import { IMedicine, MedicinePageResponse } from "../../../types/medicine.type";
 
 export const medicineApi = createApi({
   reducerPath: "medicineApi",
@@ -9,15 +9,52 @@ export const medicineApi = createApi({
     baseUrl: import.meta.env.VITE_BACKEND_URL_LOCAL_DEV4LIFE,
   }),
   endpoints: (build) => ({
-    getAllMedicines: build.query<APIResponse, void>({
-      query: () => `${import.meta.env.VITE_MEDICINE_PATH}/medicine`,
-      // query: () => "warehouse",
+    getAllMedicines: build.query<
+      APIResponse<MedicinePageResponse>,
+      {
+        pageNumber?: number;
+        pageSize?: number;
+        searchTerm?: string;
+        manufacturingDate?: string;
+        expiryDate?: string;
+        status?: string;
+        minPrice?: number;
+        maxPrice?: number;
+        sortBy?: string;
+        sortOrder?: string;
+      }
+    >({
+      query: ({
+        pageNumber = 0,
+        pageSize = 10,
+        searchTerm = "",
+        manufacturingDate,
+        expiryDate,
+        status,
+        minPrice,
+        maxPrice,
+        sortBy = "id",
+        sortOrder = "asc",
+      }) => {
+        let queryParams = `pageNumber=${pageNumber}&pageSize=${pageSize}`;
+
+        if (searchTerm)
+          queryParams += `&searchTerm=${encodeURIComponent(searchTerm)}`;
+        if (manufacturingDate)
+          queryParams += `&manufacturingDate=${manufacturingDate}`;
+        if (expiryDate) queryParams += `&expiryDate=${expiryDate}`;
+        if (status) queryParams += `&status=${status}`;
+        if (minPrice) queryParams += `&minPrice=${minPrice}`;
+        if (maxPrice) queryParams += `&maxPrice=${maxPrice}`;
+        queryParams += `&sortBy=${encodeURIComponent(sortBy)}`;
+        queryParams += `&sortOrder=${encodeURIComponent(sortOrder)}`;
+
+        return `${import.meta.env.VITE_MEDICINE_PATH}/medicine?${queryParams}`;
+      },
       providesTags(result) {
         if (result) {
-          console.log("result: ", result);
-
           const final = [
-            ...(result.data as IMedicine[]).map(({ id }) => ({
+            ...(result.data.medicines as IMedicine[]).map(({ id }) => ({
               type: "Medicines" as const,
               id,
             })),
@@ -25,10 +62,10 @@ export const medicineApi = createApi({
           ];
           return final;
         }
-        const final = [{ type: "Medicines" as const, id: "LIST" }];
-        return final;
+        return [{ type: "Medicines" as const, id: "LIST" }];
       },
     }),
+
     getCaculationunit: build.query<APIResponse, void>({
       query: () => `${import.meta.env.VITE_MEDICINE_PATH}/calculation-unit`,
       // query: () => "unit",
