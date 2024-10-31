@@ -43,14 +43,9 @@
     "react-native-reanimated": "~3.16.1",
     "react-native-responsive-screen": "^1.4.2",
     "react-native-vector-icons": "^10.2.0",
-<<<<<<< HEAD
     "react-native-web": "~0.19.10",
     "react-redux": "^9.1.2",
     "expo-image-picker": "~15.0.7"
-=======
-    "react-native-web": "~0.19.13",
-    "react-redux": "^9.1.2"
->>>>>>> 26835e54d225fb97872cf91b899fef4b19f0b47d
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
