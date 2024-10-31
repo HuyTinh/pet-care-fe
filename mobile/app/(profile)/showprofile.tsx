@@ -20,9 +20,9 @@ const neweditprofile = () => {
     function handleBack() {
         navigation.goBack();
     }
-    function handleEdit(id : any){
+    function handleEdit(id: any) {
         distpath(startEditPrescription(id))
-        router.replace("../(profile)/editprofile")   
+        router.replace("../(profile)/editprofile")
     }
     return (
         <>

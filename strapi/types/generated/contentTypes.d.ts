@@ -556,6 +556,64 @@ export interface ApiCommentPetcareCommentPetcare
   };
 }
 
+export interface ApiEventEvent extends Struct.CollectionTypeSchema {
+  collectionName: 'events';
+  info: {
+    singularName: 'event';
+    pluralName: 'events';
+    displayName: 'Event';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    titleEvent: Schema.Attribute.String;
+    imageEvent: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios'
+    >;
+    dateEvent: Schema.Attribute.Date;
+    contentEvent: Schema.Attribute.RichText;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::event.event'>;
+  };
+}
+
+export interface ApiNewNew extends Struct.CollectionTypeSchema {
+  collectionName: 'news';
+  info: {
+    singularName: 'new';
+    pluralName: 'news';
+    displayName: 'New';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    titleNew: Schema.Attribute.String;
+    imageNew: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    authorNew: Schema.Attribute.String;
+    contentNew: Schema.Attribute.RichText;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::new.new'>;
+  };
+}
+
 export interface AdminPermission extends Struct.CollectionTypeSchema {
   collectionName: 'admin_permissions';
   info: {
@@ -933,6 +991,8 @@ declare module '@strapi/strapi' {
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::blog-pet-care.blog-pet-care': ApiBlogPetCareBlogPetCare;
       'api::comment-petcare.comment-petcare': ApiCommentPetcareCommentPetcare;
+      'api::event.event': ApiEventEvent;
+      'api::new.new': ApiNewNew;
       'admin::permission': AdminPermission;
       'admin::user': AdminUser;
       'admin::role': AdminRole;

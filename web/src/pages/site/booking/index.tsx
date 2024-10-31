@@ -243,7 +243,7 @@ export const BookingPage = () => {
                         defaultValue={""}
                       >
                         <option value={""}>Species?</option>
-                        {(specieData?.data as any[]).map((val, index) => (
+                        {(specieData?.data as any)?.map((val: any, index: number) => (
                           <option key={index} value={val.name}>
                             {val.name}
                           </option>

@@ -16,7 +16,7 @@ export const pharmacistApi = createApi({
 >>>>>>> 26835e54d225fb97872cf91b899fef4b19f0b47d
     // baseQuery: fetchBaseQuery({ baseUrl: 'https://tsm885rc-8888.asse.devtunnels.ms/api/v1' }),
     baseQuery: fetchBaseQuery({ baseUrl: 'https://api.mockaron.com/mock/ze9ga5f7xf' }),
-    
+
     endpoints: build => ({
         getPrescription: build.query<any, void>({
             // query: () => '/medical-prescription-service/prescription',
@@ -65,7 +65,7 @@ export const pharmacistApi = createApi({
             query: () => "/medical_prescription_service/profile"
         }),
         getAccoutById: build.query<APIReponse<Account>, string>({
-             query: (id) => `/medical_prescription_service/profile/${id}`
+            query: (id) => `/medical_prescription_service/profile/${id}`
         })
     })
 })
