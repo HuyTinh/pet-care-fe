@@ -22,102 +22,33 @@ export const FilterPrescriptionModal = ({
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mt-5">
             <label className="label-text text-base font-bold">
-              Filter by product expiry date:
+              Filter by prescription date:
             </label>
           </div>
           <div className="flex gap-x-10 p-4 py-3">
             <label className="form-control w-full max-w-md justify-between">
               <div>
                 <span className="label-text font-semibold">
-                  Manufacture Date:
+                  From Date:
                 </span>
               </div>
               <input
                 type="date"
                 className="input input-bordered w-full"
-                {...register("manufacturing_date")}
+                {...register("start_date")}
               />
             </label>
             <label className="form-control w-full max-w-md justify-between">
               <div>
-                <span className="label-text font-semibold">Expiry Date:</span>
+                <span className="label-text font-semibold">To Date:</span>
               </div>
               <input
                 type="date"
                 className="input input-bordered w-full"
-                {...register("expiry_date")}
+                {...register("end_date")}
               />
             </label>
           </div>
-
-          <div className="mt-3">
-            <label className="label-text text-base font-bold">
-              Filter by product status:
-            </label>
-          </div>
-          <div className="flex gap-x-10 p-4 py-3">
-            <label className="form-control w-full max-w-md justify-between">
-              <div className="flex items-center">
-                <input
-                  id="active"
-                  type="radio"
-                  className="radio-info radio"
-                  value="active"
-                  {...register("status")}
-                />
-                <label className="ml-5" htmlFor="active">
-                  ACTIVE
-                </label>
-              </div>
-            </label>
-            <label className="form-control w-full max-w-md justify-between">
-              <div className="flex items-center">
-                <input
-                  id="inactive"
-                  type="radio"
-                  value="inactive"
-                  className="radio-info radio"
-                  {...register("status")}
-                />
-                <label className="ml-5" htmlFor="inactive">
-                  INACTIVE
-                </label>
-              </div>
-            </label>
-          </div>
-
-          <div className="mt-3">
-            <label className="label-text text-base font-bold">
-              Filter by product price:
-            </label>
-          </div>
-          <div className="flex gap-x-10 p-4 py-3">
-            <label className="form-control w-full max-w-md justify-between">
-              <div>
-                <span className="label-text font-semibold">Min price:</span>
-              </div>
-              <input
-                {...register("min_price")}
-                type="number"
-                className="input input-bordered w-full"
-                placeholder="Type here"
-                min={0}
-              />
-            </label>
-            <label className="form-control w-full max-w-md justify-between">
-              <div>
-                <span className="label-text font-semibold">Max price:</span>
-              </div>
-              <input
-                {...register("max_price")}
-                type="number"
-                className="input input-bordered w-full"
-                placeholder="Type here"
-                min={0}
-              />
-            </label>
-          </div>
-
           <div className="mt-5 flex justify-center">
             <button type="submit" className="btn btn-info font-bold text-white">
               Apply

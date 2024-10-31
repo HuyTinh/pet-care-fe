@@ -8,7 +8,12 @@ import * as SecureStore from 'expo-secure-store';
 import { APIReponse } from '../types/api-response';
 export const pharmacistApi = createApi({
     reducerPath: 'pharmacistApi',
+<<<<<<< HEAD
     tagTypes: ['Post'],
+=======
+    tagTypes: ['Prescriptions'],
+    baseQuery: fetchBaseQuery({ baseUrl: 'https://tsm885rc-8888.asse.devtunnels.ms/api/v1' }),
+>>>>>>> 26835e54d225fb97872cf91b899fef4b19f0b47d
     // baseQuery: fetchBaseQuery({ baseUrl: 'https://tsm885rc-8888.asse.devtunnels.ms/api/v1' }),
     baseQuery: fetchBaseQuery({ baseUrl: 'https://api.mockaron.com/mock/ze9ga5f7xf' }),
     
@@ -18,10 +23,10 @@ export const pharmacistApi = createApi({
             query: () => `/medical-prescription-service/getAll`,
             providesTags(result) {
                 if (result) {
-                    const final = [...((result as any)?.data as IPrescription[]).map(({ id }) => ({ type: 'Post' as const, id })), { type: 'Post' as const, appointmentId: 'LIST' }]
+                    const final = [...((result as any)?.data as IPrescription[]).map(({ id }) => ({ type: 'Prescriptions' as const, id })), { type: 'Prescriptions' as const, appointmentId: 'LIST' }]
                     return final;
                 }
-                const final = [{ type: 'Post' as const, appointmentId: 'LIST' }]
+                const final = [{ type: 'Prescriptions' as const, appointmentId: 'LIST' }]
                 return final;
             }
         }),
@@ -64,4 +69,14 @@ export const pharmacistApi = createApi({
         })
     })
 })
+<<<<<<< HEAD
 export const { useGetPrescriptionQuery, useGetPrescriptionByIdQuery, useGetAccountMutation, useGetAllAccountQuery, useGetPrescriptionByAppointmentIdQuery, useGetAccoutByIdQuery } = pharmacistApi
+=======
+export const {
+    useGetPrescriptionQuery,
+    useGetPrescriptionByIdQuery,
+    useGetAccountMutation,
+    useGetAllAccountQuery,
+    useGetPrescriptionByAppointmentIdQuery
+} = pharmacistApi
+>>>>>>> 26835e54d225fb97872cf91b899fef4b19f0b47d

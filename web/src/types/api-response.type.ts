@@ -1,7 +1,5 @@
-import { IAppointment } from "./appoiment.type";
-
-export interface APIResponse {
+export interface APIResponse<T> {
   code: number;
   message?: string;
-  data?: IAppointment[] | any;
+  data?: T[] | any;
 }

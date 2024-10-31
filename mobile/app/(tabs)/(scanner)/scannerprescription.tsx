@@ -5,7 +5,7 @@ import { BarCodeScanningResult } from 'expo-camera/build/legacy/Camera.types';
 import { useDispatch } from 'react-redux';
 import { Href, router } from 'expo-router';
 import { Overlay } from './orverlay';
-import { startEditPost } from '@/app/prescription.slice';
+import { startEditPrescription } from '@/app/prescription.slice';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const scannerprescription = () => {
@@ -31,7 +31,7 @@ const scannerprescription = () => {
             if (data && !qrLock.current) {
                 qrLock.current = true;
                 Vibration.vibrate();
-                distpath(startEditPost(data))
+                distpath(startEditPrescription(data))
                 Alert.alert('Success', "Quét thành công", [
                     { text: 'Ok', onPress: () => router.replace('/(medicine)/prescription' as Href<string | object>) },
                 ]);

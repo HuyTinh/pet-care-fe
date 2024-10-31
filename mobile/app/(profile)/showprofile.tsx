@@ -11,7 +11,7 @@ import {
     heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { TouchableOpacity } from '@gorhom/bottom-sheet';
-import { startEditPost } from '../prescription.slice';
+import { startEditPrescription } from '../prescription.slice';
 const neweditprofile = () => {
     const { data, isLoading, isFetching, isError } = useGetAllAccountQuery()
     const [user, setUser] = useState([])
@@ -21,7 +21,7 @@ const neweditprofile = () => {
         navigation.goBack();
     }
     function handleEdit(id : any){
-        distpath(startEditPost(id))
+        distpath(startEditPrescription(id))
         router.replace("../(profile)/editprofile")   
     }
     return (

@@ -93,7 +93,7 @@ export const EditMedicineModal = ({ medicine }: EditMedicineModalProps) => {
       dateImport: data.date_import,
       expiryDate: data.expiry_date,
       locations: locationIds,
-      manufacture_id: Number(data.manufacture_id),
+      manufactureId: Number(data.manufacture_id),
       manufacturingDate: data.manufacturing_date,
       name: data.name,
       price: data.price,

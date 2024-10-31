@@ -18,10 +18,13 @@ import { CiCalendar } from "react-icons/ci";
 import { LiaEditSolid } from "react-icons/lia";
 import { MdOutlineCancel } from "react-icons/md";
 import { FaPlus } from "react-icons/fa6";
+import { FaFilter } from "react-icons/fa";
+import { FilterAppointmentModal } from "./filter-appointment-modal";
 
 export const AppointmentManagement = () => {
   const initialDate = `${displayInputDate(new Date())}`;
   const [appointments, setAppointments] = useState<IAppointment[]>([]);
+  const [filterAppointmentConditions, setFilterAppointmentConditions] = useState<any>({});
   const [startDate, setStartDate] = useState<any>({
     value: initialDate,
     label: initialDate,
@@ -31,12 +34,16 @@ export const AppointmentManagement = () => {
     label: initialDate,
   });
 
+  const onFilterAppointmentSubmit = (data: any) => {
+    setFilterAppointmentConditions(data); // Cập nhật điều kiện lọc
+  };
+
   const {
     data: filterAppointmentData,
     isFetching: isFetchingFilterAppointmentData,
   } = useFilterAppointmentsQuery({
-    startDate: startDate?.value,
-    endDate: endDate?.value,
+    startDate: filterAppointmentConditions['start_date'],
+    endDate: filterAppointmentConditions['end_date'],
   });
 
   const [selectedAppointment, setSelectedAppointment] = useState<IAppointment>(
@@ -78,27 +85,6 @@ export const AppointmentManagement = () => {
 
         stompClient.subscribe("/topic/exportPDF/" + sessionId, (message) => {
           if (Number(message.body)) {
-            // genPDF({
-            //   appointment_number: 124,
-            //   appointment_id: message.body,
-            // }).then((res: any) => {
-            //   // Create a new link
-            //   const anchor = document.createElement("a");
-
-            //   anchor.href = res.data.response;
-            //   anchor.download = "baba";
-            //   anchor.target = "_blank";
-            //   anchor.rel = "noreferrer";
-
-            //   // Append to the DOM
-            //   document.body.appendChild(anchor);
-
-            //   // Trigger `click` event
-            //   anchor.click();
-
-            //   // Remove element from DOM
-            //   document.body.removeChild(anchor);
-            // });
             generatePDF(Number(message.body));
           }
         });
@@ -116,7 +102,7 @@ export const AppointmentManagement = () => {
   }, [stompClient]);
 
   useEffect(() => {
-    setAppointments(filterAppointmentData?.data);
+    setAppointments(filterAppointmentData?.data.content);
   }, [filterAppointmentData?.data]);
 
   const sendMessage = (appointmentId: string, status: string) => {
@@ -153,7 +139,7 @@ export const AppointmentManagement = () => {
           </label>
         </div>
         <div className="flex space-x-2">
-          <Select
+          {/* <Select
             defaultValue={startDate}
             options={getDaysArray(
               `${displayInputDate(new Date())}`,
@@ -174,7 +160,20 @@ export const AppointmentManagement = () => {
             })}
             className="flex w-40 *:!z-[999] *:flex-1"
             onChange={(singleValue) => setEndDate(singleValue)}
-          />
+          /> */}
+          <div className="flex space-x-2">
+            <button
+              className="btn btn-info flex items-center gap-2 rounded-md"
+              onClick={() =>
+                (
+                  document.getElementById("filter_appointment_modal") as any
+                ).showModal()
+              }
+            >
+              <FaFilter color="white" />
+              <span className="font-semibold text-white">Filter</span>
+            </button>
+          </div>
           <button
             className="btn btn-outline"
             onClick={() => {
@@ -359,6 +358,7 @@ export const AppointmentManagement = () => {
           </table>
         </div>
         <EditAppointmentModal appointment={selectedAppointment} />
+        <FilterAppointmentModal onFilterSubmit={onFilterAppointmentSubmit} />
         <QRScanModal
           qrModalVisible={qrModalVisible}
           setQrModalVisible={setQrModalVisible}

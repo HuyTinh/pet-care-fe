@@ -14,6 +14,7 @@ type AppointmentTableProps = {
 
 export const AppointmentTable = ({ filterAppointmentConditions, setSelectedAppointment }: AppointmentTableProps) => {
 
+    const [pageNumber, setPageNumber] = useState<number>(0)
     const [appointments, setAppointments] = useState<IAppointment[]>([]);
     const {
         data: filterAppointmentData,
@@ -25,55 +26,60 @@ export const AppointmentTable = ({ filterAppointmentConditions, setSelectedAppoi
     });
 
     useEffect(() => {
-        setAppointments(filterAppointmentData?.data);
+        setAppointments(filterAppointmentData?.data.content);
         return () => { };
     }, [filterAppointmentData?.data]);
     return (
-        <div className="h-[35rem]">
+        <div className="space-y-3">
             <div className="flex">
-                <label className="input input-bordered flex items-center gap-2">
-                    <input type="text" className="grow" placeholder="Search" />
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 16 16"
-                        fill="currentColor"
-                        className="h-4 w-4 opacity-70"
-                    >
-                        <path
-                            fillRule="evenodd"
-                            d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
-                            clipRule="evenodd"
-                        />
-                    </svg>
-                </label>
+                <div className="flex gap-x-2 flex-1">
+                    <label className="input input-sm input-bordered flex items-center gap-2">
+                        <input type="text" className="grow" placeholder="Search" />
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 16 16"
+                            fill="currentColor"
+                            className="h-4 w-4 opacity-70"
+                        >
+                            <path
+                                fillRule="evenodd"
+                                d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+                                clipRule="evenodd"
+                            />
+                        </svg>
+                    </label>
 
-                <div className="flex space-x-2">
-                    <button
-                        className="btn btn-info flex items-center gap-2 rounded-md"
-                        onClick={() =>
-                            (
-                                document.getElementById("filter_appointment_modal") as any
-                            ).showModal()
+                    <div className="flex space-x-2">
+                        <button
+                            className="btn btn-sm btn-info flex items-center gap-2 rounded-md"
+                            onClick={() =>
+                                (
+                                    document.getElementById("filter_appointment_modal") as any
+                                ).showModal()
+                            }
+                        >
+                            <FaFilter color="white" />
+                            <span className="font-semibold text-white">Filter</span>
+                        </button>
+                    </div>
+                </div>
+                <div className="join">
+                    <button className="join-item btn btn-sm" onClick={() => {
+                        if (pageNumber - 1 >= 0) {
+                            setPageNumber(pageNumber - 1)
                         }
-                    >
-                        <FaFilter color="white" />
-                        <span className="font-semibold text-white">Filter</span>
-                    </button>
-                    {/* <button
-                    className="btn btn-outline"
-                    onClick={() => {
-                        setQrModalVisible(true);
-                        (
-                            document.getElementById("qr_scan_appointment_modal") as any
-                        ).showModal();
-                    }}
-                >
-                    <IoQrCodeOutline />
-                </button> */}
+                    }
+                    }>«</button>
+                    <button className="join-item btn btn-sm">Page {pageNumber + 1}</button>
+                    <button className="join-item btn btn-sm" onClick={() => {
+                        if (pageNumber + 1 < filterAppointmentData?.data?.total_pages) {
+                            setPageNumber(pageNumber + 1)
+                        }
+                    }}>»</button>
                 </div>
             </div>
             <div className="h-[32rem] overflow-auto relative">
-                <table className="table overflow-auto h-full">
+                <table className="table border rounded-lg h-full">
                     {/* head */}
                     <thead className="sticky top-0 bg-white ">
                         <tr>
