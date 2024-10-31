@@ -68,27 +68,27 @@ const EditProfile = () => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ScrollView contentContainerStyle={styles.container}>
-          <ImageBackground
-            source={require("@/assets/images/back_ground_medicine.jpg")}
-            style={styles.header}
-            imageStyle={{ borderBottomLeftRadius: 20, borderBottomRightRadius: 20}} 
-          >
-          </ImageBackground>
-          <TouchableWithoutFeedback onPress={handleBack}>
-            <View style={styles.backButton}>
-              <Image
-                source={require("@/assets/images/back2.png")}
-                style={styles.backIcon}
-              />
-            </View>
-          </TouchableWithoutFeedback>
-          <View style={styles.avatarContainer}>
-            <Avatar.Image
-              size={110} // Bạn có thể điều chỉnh kích thước tùy ý
-              source={{ uri: (data as any)?.data?.image_url }}
-              style={styles.avatar}
+        <ImageBackground
+          source={require("@/assets/images/back_ground_medicine.jpg")}
+          style={styles.header}
+          imageStyle={{ borderBottomLeftRadius: 20, borderBottomRightRadius: 20 }}
+        >
+        </ImageBackground>
+        <TouchableWithoutFeedback onPress={handleBack}>
+          <View style={styles.backButton}>
+            <Image
+              source={require("@/assets/images/back2.png")}
+              style={styles.backIcon}
             />
-            {/* <TouchableWithoutFeedback onPress={pickImage}>
+          </View>
+        </TouchableWithoutFeedback>
+        <View style={styles.avatarContainer}>
+          <Avatar.Image
+            size={110} // Bạn có thể điều chỉnh kích thước tùy ý
+            source={{ uri: (data as any)?.data?.image_url }}
+            style={styles.avatar}
+          />
+          {/* <TouchableWithoutFeedback onPress={pickImage}>
               <View style={styles.addButton}>
                 <Image
                   source={require("@/assets/images/plus.png")}
@@ -96,7 +96,7 @@ const EditProfile = () => {
                 />
               </View>
             </TouchableWithoutFeedback> */}
-          </View>
+        </View>
         <View style={styles.formContainer}>
           <View style={styles.nameContainer}>
             <View style={styles.inputContainer}>

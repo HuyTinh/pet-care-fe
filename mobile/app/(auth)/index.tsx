@@ -153,14 +153,14 @@ const Auth = () => {
           </View>
           <View style={styles.buttonContainer}>
             <Link href="./(tabs)/list">
-            <Button
-              mode="contained"
-              style={styles.button}
-              labelStyle={styles.buttonText}
+              <Button
+                mode="contained"
+                style={styles.button}
+                labelStyle={styles.buttonText}
               // onPress={handleSubmit(onSubmit)}
-            >
-              Login
-            </Button>
+              >
+                Login
+              </Button>
             </Link>
             {/* <Button onPress={requestPermissions}>Alow camera</Button> */}
           </View>
