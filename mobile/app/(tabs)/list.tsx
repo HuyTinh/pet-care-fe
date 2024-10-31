@@ -21,7 +21,7 @@ import {
 } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import {
-    useGetPrescriptionByIdQuery,
+    useGetPrescriptionByAppointmentIdQuery,
     useGetPrescriptionQuery,
 } from "@/app/pharmacist.service";
 import { IPrescription } from "@/types/prescription.type";
@@ -52,16 +52,15 @@ const Home = () => {
     };
     const [listCustomer, setListCustomer] = useState([]);
     const presrptionId = useSelector((state: RootState) => state.prescription.id);
-    const { data: prescriptionData, isFetching: fetchingPrescriptionData, isLoading: loadingPrescription } = useGetPrescriptionByIdQuery(presrptionId, {
+    const { data: prescriptionData, isFetching: fetchingPrescriptionData, isLoading: loadingPrescription } = useGetPrescriptionByAppointmentIdQuery(presrptionId, {
         skip: !presrptionId,
     });
-
     const distpath = useDispatch()
     const filterCustomer = (value: any) => {
         return (data as any)?.data.filter((account: any) => {
             return (
                 value &&
-                account.customer.phone_number.includes(value)
+                account.appointment.phone_number.includes(value)
             )
         })
     }
@@ -108,8 +107,8 @@ const Home = () => {
         setIsFocus(false)
     };
     const [isFocus, setIsFocus] = useState(false)
+    
     const renderHeader = (session: any) => {
-
         return (
             <Card className="bg-[#E7E7E8] mt-5 p-1">
                 <Card.Content>

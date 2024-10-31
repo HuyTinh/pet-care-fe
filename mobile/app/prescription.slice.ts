@@ -23,7 +23,7 @@ const prescriptionSlice = createSlice({
         isRemember: (state, action: PayloadAction<boolean>) => {
             state.remember = action.payload
         }
-    }
+    }, 
 })
 
 const prescriptionReducer = prescriptionSlice.reducer

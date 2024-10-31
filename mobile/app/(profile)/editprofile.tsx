@@ -7,34 +7,73 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   ScrollView,
+  TouchableOpacity,
+  Alert,
+  ImageBackground,
 } from "react-native";
 import { Avatar, Button, TextInput } from "react-native-paper";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useNavigation } from "expo-router";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { useGetAllAccountQuery } from "@/app/pharmacist.service";
-
+import { useGetAccoutByIdQuery, useGetAllAccountQuery } from "@/app/pharmacist.service";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import { Account } from "@/types/account.type";
+import * as ImagePicker from "expo-image-picker";
 const EditProfile = () => {
-  const { data, isLoading, isFetching, isError } = useGetAllAccountQuery();
   const [imageUrl, setImage] = useState([]);
-  const { control, reset } = useForm<any>();
+  const { control, reset, handleSubmit } = useForm<any>();
   const navigation = useNavigation();
-
+  const profileId = useSelector((state: RootState) => state.prescription.id);
+  const { data, isFetching, isLoading } = useGetAccoutByIdQuery(profileId, {
+    skip: !profileId
+  })
+  const [imageUri, setImageUri] = useState((data as any)?.data?.image_url || null);
+  const [value, setValue] = React.useState('first');
   function handleBack() {
     navigation.goBack();
   }
+  // const pickImage = async () => {
+  //   // Yêu cầu quyền truy cập thư viện ảnh
+  //   const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+  //   if (permissionResult.granted === false) {
+  //     Alert.alert("Access denied", "Please grant access to photo library.");
+  //     return;
+  //   }
+  //   // Mở thư viện ảnh và cho phép người dùng chọn ảnh
+  //   const result = await ImagePicker.launchImageLibraryAsync({
+  //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
+  //     allowsEditing: true,
+  //     quality: 1,
+  //   });
+
+  //   if (!result.canceled) {
+  //     setImageUri(result.assets[0].uri);
+  //   }
+  // };
 
   useEffect(() => {
-    reset((data as any)?.data);
+    if (data) {
+      reset((data as any)?.data)
+    }
   }, [data]);
 
+  const onSubmit: SubmitHandler<Account> = async (data: Account) => {
+    // const formData = { ...data, image_url: imageUri};
+    console.log("data: ", data);
+  }
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ScrollView contentContainerStyle={styles.container}>
-        <View style={styles.header}>
+          <ImageBackground
+            source={require("@/assets/images/back_ground_medicine.jpg")}
+            style={styles.header}
+            imageStyle={{ borderBottomLeftRadius: 20, borderBottomRightRadius: 20}} 
+          >
+          </ImageBackground>
           <TouchableWithoutFeedback onPress={handleBack}>
             <View style={styles.backButton}>
               <Image
@@ -45,23 +84,19 @@ const EditProfile = () => {
           </TouchableWithoutFeedback>
           <View style={styles.avatarContainer}>
             <Avatar.Image
-              size={wp("25%")}
-              source={{ uri: (data as any)?.data.image }}
+              size={110} // Bạn có thể điều chỉnh kích thước tùy ý
+              source={{ uri: (data as any)?.data?.image_url }}
               style={styles.avatar}
             />
-            <TouchableWithoutFeedback
-              onPress={() => console.log("Change avatar")}
-            >
+            {/* <TouchableWithoutFeedback onPress={pickImage}>
               <View style={styles.addButton}>
                 <Image
                   source={require("@/assets/images/plus.png")}
                   style={styles.addIcon}
                 />
               </View>
-            </TouchableWithoutFeedback>
+            </TouchableWithoutFeedback> */}
           </View>
-        </View>
-
         <View style={styles.formContainer}>
           <View style={styles.nameContainer}>
             <View style={styles.inputContainer}>
@@ -106,38 +141,98 @@ const EditProfile = () => {
             </View>
           </View>
 
-          {["email", "contact", "birthday"].map((field) => (
-            <View key={field} style={styles.inputContainer}>
-              <Text style={styles.label}>
-                {field.charAt(0).toUpperCase() + field.slice(1)}
-              </Text>
-              <Controller
-                control={control}
-                rules={{ required: true }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <TextInput
-                    style={styles.input}
-                    className="rounded-xl"
-                    onBlur={onBlur}
-                    value={value}
-                    onChangeText={onChange}
-                    underlineColor="transparent"
-                    activeUnderlineColor="transparent"
-                    selectionColor="#0099CF"
-                  />
-                )}
-                name={field}
-              />
-            </View>
-          ))}
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Email</Text>
+            <Controller
+              control={control}
+              rules={{ required: true }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <TextInput
+                  style={styles.input}
+                  className="rounded-xl"
+                  onBlur={onBlur}
+                  value={value}
+                  onChangeText={onChange}
+                  underlineColor="transparent"
+                  activeUnderlineColor="transparent"
+                  selectionColor="#0099CF"
+                />
+              )}
+              name="email"
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Phone number</Text>
+            <Controller
+              control={control}
+              rules={{ required: true }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <TextInput
+                  style={styles.input}
+                  className="rounded-xl"
+                  onBlur={onBlur}
+                  value={value}
+                  onChangeText={onChange}
+                  underlineColor="transparent"
+                  activeUnderlineColor="transparent"
+                  selectionColor="#0099CF"
+                />
+              )}
+              name="phone_number"
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Gender</Text>
+            <Controller
+              control={control}
+              name="gender"
+              rules={{ required: 'Please select a gender' }}
+              render={({ field: { onChange, value } }) => (
+                <View className="flex flex-row justify-around">
+                  {["MALE", "FEMALE",].map((option) => (
+                    <TouchableOpacity
+                      key={option}
+                      onPress={() => onChange(option)}
+                      className="flex flex-row items-center"
+                    >
+                      <View
+                        style={{
+                          height: 20,
+                          width: 20,
+                          borderRadius: 10,
+                          borderWidth: 2,
+                          borderColor: '#0099CF',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          marginRight: 5,
+                        }}
+                      >
+                        {value === option && (
+                          <View
+                            style={{
+                              height: 10,
+                              width: 10,
+                              borderRadius: 5,
+                              backgroundColor: '#0099CF',
+                            }}
+                          />
+                        )}
+                      </View>
+                      <Text className="text-xl" style={{ fontFamily: "medium" }}>{option}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              )}
+            />
+          </View>
         </View>
 
         <View style={styles.buttonContainer}>
           <Button
             style={styles.updateButton}
-            onPress={() => console.log("Update profile")}
+            onPress={handleSubmit(onSubmit)}
           >
-            <Text style={styles.buttonText}>Update</Text>
+            <Text style={styles.buttonText} >Update</Text>
           </Button>
         </View>
       </ScrollView>
@@ -151,10 +246,12 @@ const styles = StyleSheet.create({
     width: wp("100%"),
   },
   header: {
-    backgroundColor: "#0099CF",
-    height: hp("30%"),
+    height: hp("25%"),
     justifyContent: "center",
     alignItems: "center",
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    overflow: "hidden",
   },
   backButton: {
     position: "absolute",
@@ -169,6 +266,7 @@ const styles = StyleSheet.create({
   },
   avatarContainer: {
     alignItems: "center",
+    marginTop: wp("-13%"),
   },
   avatar: {
     backgroundColor: "transparent",
@@ -186,6 +284,7 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     padding: wp("5%"),
+    marginTop: wp("1%"),
   },
   nameContainer: {
     flexDirection: "row",

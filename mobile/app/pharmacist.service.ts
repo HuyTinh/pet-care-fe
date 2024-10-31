@@ -9,14 +9,14 @@ import { APIReponse } from '../types/api-response';
 export const pharmacistApi = createApi({
     reducerPath: 'pharmacistApi',
     tagTypes: ['Post'],
-    baseQuery: fetchBaseQuery({ baseUrl: 'https://tsm885rc-8888.asse.devtunnels.ms/api/v1' }),
     // baseQuery: fetchBaseQuery({ baseUrl: 'https://tsm885rc-8888.asse.devtunnels.ms/api/v1' }),
+    baseQuery: fetchBaseQuery({ baseUrl: 'https://api.mockaron.com/mock/ze9ga5f7xf' }),
+    
     endpoints: build => ({
-        getPrescription: build.query<APIReponse<IPrescription[]>, void>({
-            query: () => '/medical-prescription-service/prescription',
-
+        getPrescription: build.query<any, void>({
+            // query: () => '/medical-prescription-service/prescription',
+            query: () => `/medical-prescription-service/getAll`,
             providesTags(result) {
-
                 if (result) {
                     const final = [...((result as any)?.data as IPrescription[]).map(({ id }) => ({ type: 'Post' as const, id })), { type: 'Post' as const, appointmentId: 'LIST' }]
                     return final;
@@ -27,7 +27,8 @@ export const pharmacistApi = createApi({
         }),
         getAccount: build.mutation<APIReponse<{ token: string, authenticated: boolean }>, LoginRequest>({
             query: (account) => ({
-                url: "/identity-service/auth/token",
+                // url: "/identity-service/auth/token",
+                url: "identity_service/auth/token",
                 method: "POST",
                 body: account
             }),
@@ -48,14 +49,19 @@ export const pharmacistApi = createApi({
             }
         }),
         getPrescriptionById: build.query<APIReponse<IPrescription>, string>({
-            query: (id) => `/medical-prescription-service/prescription/${id}`
+            // query: (id) => `/medical-prescription-service/prescription/${id}`
+            query: (id) => `/medical_prescription_service/prescription/${id}`
         }),
         getPrescriptionByAppointmentId: build.query<APIReponse<IPrescription>, string>({
-            query: (id) => `/medical-prescription-service/prescription/${id}/appointment`
+            query: (id) => `/medical_prescription_service/prescription/${id}/appointment`
         }),
         getAllAccount: build.query<Account[], void>({
-            query: () => "/account"
+            // query: () => "/medical-prescription-service/profile"
+            query: () => "/medical_prescription_service/profile"
+        }),
+        getAccoutById: build.query<APIReponse<Account>, string>({
+             query: (id) => `/medical_prescription_service/profile/${id}`
         })
     })
 })
-export const { useGetPrescriptionQuery, useGetPrescriptionByIdQuery, useGetAccountMutation, useGetAllAccountQuery, useGetPrescriptionByAppointmentIdQuery } = pharmacistApi
+export const { useGetPrescriptionQuery, useGetPrescriptionByIdQuery, useGetAccountMutation, useGetAllAccountQuery, useGetPrescriptionByAppointmentIdQuery, useGetAccoutByIdQuery } = pharmacistApi
