@@ -22,7 +22,6 @@ import { useGetAccoutByIdQuery, useGetAllAccountQuery } from "@/app/pharmacist.s
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { Account } from "@/types/account.type";
-import * as ImagePicker from "expo-image-picker";
 const EditProfile = () => {
   const [imageUrl, setImage] = useState([]);
   const { control, reset, handleSubmit } = useForm<any>();
