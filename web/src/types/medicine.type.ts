@@ -1,10 +1,39 @@
 export interface IMedicine {
   id: number;
   name: string;
-  manufacturingDate: string;
-  expiryDate: string;
   quantity: number;
+  image_url: string;
   price: number;
-  note: string;
+  date_import: string;
+  manufacture: IManufacture;
+  locations: ILocation[];
+  status: string;
+  manufacturing_date: number;
+  expiry_date: number;
+  calculation_units: ICalculationUnit[];
+}
+
+export interface IManufacture {
+  id: number;
+  name: string;
   status: boolean;
+}
+
+export interface ILocation {
+  id: string;
+  area: string;
+  status: boolean;
+  row_location: string;
+  column_location: string;
+}
+
+export interface ICalculationUnit {
+  id: string;
+  name: string;
+  status: boolean;
+}
+export interface MedicinePageResponse {
+  medicines: IMedicine[];
+  totalPages: number;
+  totalElements: number;
 }

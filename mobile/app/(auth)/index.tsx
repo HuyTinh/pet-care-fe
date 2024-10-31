@@ -8,120 +8,165 @@ import {
   TouchableWithoutFeedback,
   Dimensions,
   ScrollView,
+  Modal
 } from "react-native";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, set, SubmitHandler, useForm } from "react-hook-form";
 import { Button, TextInput } from "react-native-paper";
 import { CheckBox } from "react-native-elements";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { useCameraPermissions } from "expo-camera";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { useGetAccountQuery } from "@/pharmacist/pharmacist.service";
-import { Account } from "@/pharmacist/user/User";
-
-const { width, height } = Dimensions.get("window");
-
+import { useGetAccountMutation } from "@/app/pharmacist.service";
+import { LoginRequest } from "@/types/login-request.type";
+import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
+import * as SecureStore from 'expo-secure-store';
+import { isRemember } from "@/app/prescription.slice";
+import { useDispatch, useSelector } from "react-redux";
 const Auth = () => {
-  const { data, isLoading, isFetching, isError } = useGetAccountQuery();
-  const [isSelected, setSelection] = useState(false);
+  const [login, { isLoading }] = useGetAccountMutation();
+  // const [isSelected, setSelection] = useState(false);
   const [permission, requestPermissions] = useCameraPermissions();
-  const { control, reset } = useForm<Account>();
-
+  const { control, reset, handleSubmit } = useForm<LoginRequest>();
+  const [modalVisible, setModalVisible] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const mystate = useSelector((state) => (state as any)?.change);
+  const dispatch = useDispatch();
+  const onSubmit: SubmitHandler<LoginRequest> = async (data: LoginRequest) => {
+    try {
+      // if (isSelected) {
+      // dispatch(isRemember(true))
+      await login(data).unwrap()
+        .then(() => {
+          router.replace('/(tabs)/list');
+        })
+    }
+    catch (error) {
+      setErrorMessage("Please check your account");
+      setModalVisible(true);
+    }
+  }
+  const [loaded] = useFonts({
+    blod: require("../../assets/fonts/Kodchasan-SemiBold.ttf"),
+    medium: require('../../assets/fonts/Kodchasan-ExtraLightItalic.ttf')
+  });
   useEffect(() => {
-    reset((data as any)?.data);
-  }, [data]);
+    if (loaded) {
+      SplashScreen.hideAsync();
+    }
+  }, [loaded]);
 
+  if (!loaded) {
+    return null;
+  }
+  const { width, height } = Dimensions.get("window");
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <ScrollView contentContainerStyle={styles.container}>
-        <View style={styles.topSection}>
-          <View style={styles.logoContainer}>
-            <View style={styles.circle1} />
-            <Image
-              style={styles.logo}
-              source={require("@/assets/images/Logo2.png")}
-              resizeMode="contain"
-            />
+    <>
+      {/* Model popup */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }} className="flex-1 justify-center items-center">
+          <View style={{ width: 380, height: 320, padding: 50, backgroundColor: 'white', borderRadius: 10 }} className="flex justify-center items-center">
+            <View className="justify-center items-center">
+              <Image className="w-36 h-32" source={require("@/assets/images/error.gif")} />
+              <Text className="mt-3 mb-3 font-bold text-3xl text-center">{errorMessage}</Text>
+              <Button className="bg-[#0099CF] mt-5 w-56" onPress={() => setModalVisible(false)} >
+                <Text className="font-bold text-base text-white text-center">OK</Text>
+              </Button>
+            </View>
           </View>
-          <Text style={styles.title}>Pet care</Text>
         </View>
-
-        <View style={styles.formContainer}>
-          <View style={styles.circle2} />
-          <View style={styles.inputContainer}>
-            <Controller
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <TextInput
-                  style={styles.input}
-                  className="rounded-3xl"
-                  label="Email"
-                  onBlur={onBlur}
-                  value={value}
-                  onChangeText={onChange}
-                  left={<TextInput.Icon icon="email" />}
-                  underlineColor="transparent"
-                  activeUnderlineColor="#0099CF"
-                />
-              )}
-              name="email"
-            />
+      </Modal>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ScrollView contentContainerStyle={styles.container}>
+          <View style={styles.topSection}>
+            <View style={styles.logoContainer}>
+              <View style={styles.circle1} />
+              <Image
+                style={styles.logo}
+                source={require("@/assets/images/Logo2.png")}
+                resizeMode="contain"
+              />
+            </View>
+            <Text style={styles.title}>Pet care</Text>
           </View>
-          <View style={styles.inputContainer}>
-            <Controller
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <TextInput
-                  style={styles.input}
-                  className="rounded-3xl"
-                  label="Password"
-                  onBlur={onBlur}
-                  value={value}
-                  onChangeText={onChange}
-                  left={<TextInput.Icon icon="key" />}
-                  secureTextEntry
-                  underlineColor="transparent"
-                  activeUnderlineColor="#0099CF"
-                />
-              )}
-              name="password"
-            />
+          <View style={styles.formContainer}>
+            <View style={styles.circle2} />
+            <View style={styles.inputContainer}>
+              <Controller
+                control={control}
+                rules={{ required: true }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    style={styles.input}
+                    className="rounded-3xl"
+                    label="Email"
+                    onBlur={onBlur}
+                    value={value}
+                    onChangeText={onChange}
+                    left={<TextInput.Icon icon="email" />}
+                    underlineColor="transparent"
+                    activeUnderlineColor="#0099CF"
+                  />
+                )}
+                name="email"
+              />
+            </View>
+            <View style={styles.inputContainer}>
+              <Controller
+                control={control}
+                rules={{ required: true }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    style={styles.input}
+                    className="rounded-3xl"
+                    label="Password"
+                    onBlur={onBlur}
+                    value={value}
+                    onChangeText={onChange}
+                    left={<TextInput.Icon icon="key" />}
+                    secureTextEntry
+                    underlineColor="transparent"
+                    activeUnderlineColor="#0099CF"
+                  />
+                )}
+                name="password"
+              />
+            </View>
+            <View style={styles.checkboxContainer}>
+              <Link
+                href="../(forgotpassword)/forgot-confirm-email"
+                style={styles.forgotPassword}
+              >
+                Forgot Password!
+              </Link>
+            </View>
           </View>
-          <View style={styles.checkboxContainer}>
-            <CheckBox
-              title="Remember Me?"
-              checked={isSelected}
-              onPress={() => setSelection(!isSelected)}
-              containerStyle={styles.checkbox}
-              textStyle={styles.checkboxText}
-              checkedColor="white"
-            />
-            <Link
-              href="../(forgotpassword)/forgot-confirm-email"
-              style={styles.forgotPassword}
-            >
-              Forgot Password!
+          <View style={styles.buttonContainer}>
+            <Link href="./(tabs)/list">
+              <Button
+                mode="contained"
+                style={styles.button}
+                labelStyle={styles.buttonText}
+              // onPress={handleSubmit(onSubmit)}
+              >
+                Login
+              </Button>
             </Link>
+            {/* <Button onPress={requestPermissions}>Alow camera</Button> */}
           </View>
-        </View>
-        <View style={styles.buttonContainer}>
-          <Link href="./(tabs)/list">
-            <Button
-              mode="contained"
-              style={styles.button}
-              labelStyle={styles.buttonText}
-            >
-              Login
-            </Button>
-          </Link>
-          {/* <Button onPress={requestPermissions}>Alow camera</Button> */}
-        </View>
-      </ScrollView>
-    </TouchableWithoutFeedback>
+        </ScrollView>
+      </TouchableWithoutFeedback>
+    </>
   );
 };
 
@@ -151,13 +196,14 @@ const styles = StyleSheet.create({
     color: "white",
     marginTop: hp("2%"),
     zIndex: 1,
+    fontFamily: "blod"
   },
   formContainer: {
-    marginTop: hp("10%"),
+    marginTop: hp("8%"),
     width: "100%",
   },
   inputContainer: {
-    marginBottom: hp("5%"),
+    marginBottom: hp("3%"),
   },
   input: {
     backgroundColor: "white",
@@ -177,11 +223,15 @@ const styles = StyleSheet.create({
   checkboxText: {
     color: "white",
     fontSize: wp("3.5%"),
+    fontFamily: "medium",
   },
   forgotPassword: {
     color: "white",
-    fontSize: wp("3.5%"),
+    fontSize: wp("3.8%"),
     fontWeight: "500",
+    fontFamily: "medium",
+    marginLeft: wp("50%")
+
   },
   buttonContainer: {
     alignItems: "center",
@@ -197,6 +247,7 @@ const styles = StyleSheet.create({
     fontSize: wp("5%"),
     fontWeight: "600",
     alignItems: "center",
+    fontFamily: "blod"
   },
   circle1: {
     width: wp("150%"),

@@ -1,7 +1,9 @@
 import { motion } from "framer-motion";
 import { NavLink } from "react-router-dom";
 import { CiCalendar, CiCircleInfo } from "react-icons/ci";
-import { ReactElement } from "react";
+import { ReactElement, useState } from "react";
+// import { FaBars } from "react-icons/fa6";
+
 
 interface MenuItem {
   title: string;
@@ -22,21 +24,39 @@ const menuItems: MenuItem[] = [
   },
 ];
 
+
+
 export const SideMenu = () => {
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const ToggleContent = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
-    <div className="p-4 pb-2">
+    <div className="p-4 pb-2 pr-0">
       <motion.div
         className="h-full overflow-hidden rounded-lg"
         initial={{
           width: 0,
         }}
         animate={{
-          width: 256,
+          width: isOpen ? '88px' : 235,
+          opacity: isOpen ? '0px' : 100,
         }}
         transition={{
           duration: 1,
         }}
       >
+        <div className="">
+          <button className="w-[30px] h-[30px] mx-5" onClick={ToggleContent}>
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" >
+              <g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
+              <g id="SVGRepo_iconCarrier"> <path d="M3 12H21M3 6H21M3 18H21" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path> </g>
+            </svg>
+          </button>
+        </div>
         <div className="ps-2">
           <div className="flex flex-col">
             <div className="flex p-2">
@@ -49,7 +69,7 @@ export const SideMenu = () => {
                 className="flex flex-col justify-center pl-4 text-white"
                 initial={{ opacity: 0, display: "none" }}
                 animate={{
-                  opacity: 1,
+                  opacity: isOpen ? 0 : 1,
                   display: "",
                 }}
                 transition={{
@@ -62,7 +82,8 @@ export const SideMenu = () => {
             </div>
             <div className="flex w-full flex-col">
               <div className="flex flex-1">
-                <div className="absolute left-8 z-10 space-y-5 ps-2 pt-5">
+
+                <div className="absolute left-2 z-10 space-y-5 ps-2 pt-5">
                   {menuItems.map((item, index) => (
                     <NavLink
                       to={item.path}
@@ -78,7 +99,10 @@ export const SideMenu = () => {
                           }}
                         >
                           {item.icon}
-                          <span className="pt-[0.2rem]">{item.title}</span>
+                          <motion.span className="pt-[0.2rem]" animate={{
+                            opacity: isOpen ? 0 : 1,
+                            display: "",
+                          }}>{item.title}</motion.span>
                         </motion.div>
                       )}
                     />

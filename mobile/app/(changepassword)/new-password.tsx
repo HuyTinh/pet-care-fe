@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -15,6 +15,8 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
 
 const NewPassword = () => {
   const { control } = useForm<any>();
@@ -23,7 +25,7 @@ const NewPassword = () => {
   function handleBack() {
     navigation.goBack();
   }
-
+ 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ScrollView contentContainerStyle={styles.container}>
@@ -143,18 +145,19 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     alignItems: "center",
-    marginTop: hp("5%"),
     paddingHorizontal: wp("5%"),
   },
   title: {
     fontSize: wp("6%"),
     fontWeight: "bold",
     marginBottom: hp("2%"),
+    fontFamily: "blod"
   },
   subtitle: {
     fontSize: wp("4%"),
     textAlign: "center",
     opacity: 0.5,
+    fontFamily: "medium"
   },
   formContainer: {
     marginTop: hp("3%"),
@@ -165,6 +168,7 @@ const styles = StyleSheet.create({
     color: "#4F4F4F",
     opacity: 0.5,
     marginBottom: hp("1%"),
+    fontFamily: "blod"
   },
   input: {
     backgroundColor: "white",
@@ -172,6 +176,7 @@ const styles = StyleSheet.create({
     borderColor: "#606060",
     height: hp("7%"),
     fontSize: wp("4%"),
+    fontFamily: "medium"
   },
   buttonContainer: {
     alignItems: "center",
@@ -188,6 +193,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: wp("4.5%"),
     fontWeight: "600",
+    fontFamily: "blod"
   },
 });
 

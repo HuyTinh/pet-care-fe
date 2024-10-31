@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
 import { NavLink } from "react-router-dom";
-import { CiCalendar, CiCircleInfo } from "react-icons/ci";
+import { CiUser } from "react-icons/ci";
 import { ReactElement } from "react";
+import { IoDocumentText } from "react-icons/io5";
 
 interface MenuItem {
   title: string;
@@ -11,14 +12,14 @@ interface MenuItem {
 
 const menuItems: MenuItem[] = [
   {
-    title: "Appointment",
-    icon: <CiCalendar size={32} />,
-    path: "/receptionist",
+    title: "Prescription",
+    icon: <IoDocumentText size={32} />,
+    path: "/doctor",
   },
   {
-    title: "Guide",
-    icon: <CiCircleInfo size={32} />,
-    path: "/guide",
+    title: "Profile",
+    icon: <CiUser size={32} />,
+    path: "/doctor/profile",
   },
 ];
 

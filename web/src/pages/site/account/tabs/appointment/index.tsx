@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { useGetAppointmentByCustomerIdQuery } from "../../../../admin/receptionist/appointment.service";
 import { RootState } from "../../../../../store/store";
-import { displayInputDate } from "../../../../../utils/date";
+import { displayCustomDate } from "../../../../../utils/date";
 import { AnimatePresence, motion } from "framer-motion";
 import { FcCalendar } from "react-icons/fc";
 import { useState } from "react";
@@ -134,8 +134,8 @@ export const AppointmentTab = () => {
                         </td>
                         <td>
                           <span className="underline">
-                            {displayInputDate(new Date(val.appointment_date))},{" "}
-                            {val.appointment_time}
+                            {displayCustomDate(new Date(val.appointment_date))},{" "}
+                            {val.appointment_time.substring(0, 5) + "h"}
                           </span>
                         </td>
                         <td>

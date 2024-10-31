@@ -14,10 +14,17 @@ import { EditAppointmentModal } from "./edit-appointment-modal";
 import WebSocketManager from "../../../../../config/web-socket-manager";
 import { QRScanModal } from "./qr-scan";
 import { IoQrCodeOutline } from "react-icons/io5";
+import { CiCalendar } from "react-icons/ci";
+import { LiaEditSolid } from "react-icons/lia";
+import { MdOutlineCancel } from "react-icons/md";
+import { FaPlus } from "react-icons/fa6";
+import { FaFilter } from "react-icons/fa";
+import { FilterAppointmentModal } from "./filter-appointment-modal";
 
 export const AppointmentManagement = () => {
   const initialDate = `${displayInputDate(new Date())}`;
   const [appointments, setAppointments] = useState<IAppointment[]>([]);
+  const [filterAppointmentConditions, setFilterAppointmentConditions] = useState<any>({});
   const [startDate, setStartDate] = useState<any>({
     value: initialDate,
     label: initialDate,
@@ -27,12 +34,16 @@ export const AppointmentManagement = () => {
     label: initialDate,
   });
 
+  const onFilterAppointmentSubmit = (data: any) => {
+    setFilterAppointmentConditions(data); // Cập nhật điều kiện lọc
+  };
+
   const {
     data: filterAppointmentData,
     isFetching: isFetchingFilterAppointmentData,
   } = useFilterAppointmentsQuery({
-    startDate: startDate?.value,
-    endDate: endDate?.value,
+    startDate: filterAppointmentConditions['start_date'],
+    endDate: filterAppointmentConditions['end_date'],
   });
 
   const [selectedAppointment, setSelectedAppointment] = useState<IAppointment>(
@@ -42,10 +53,7 @@ export const AppointmentManagement = () => {
   const [sessionId, _] = useState(new Date().getTime());
   const stompClient = WebSocketManager.getInstance().getClient();
   const { generatePDF } = usePdfGenerator();
-  useEffect(() => {
-    setAppointments(filterAppointmentData?.data);
-    return () => {};
-  }, [filterAppointmentData?.data]);
+
 
   useEffect(() => {
     if (stompClient) {
@@ -77,27 +85,6 @@ export const AppointmentManagement = () => {
 
         stompClient.subscribe("/topic/exportPDF/" + sessionId, (message) => {
           if (Number(message.body)) {
-            // genPDF({
-            //   appointment_number: 124,
-            //   appointment_id: message.body,
-            // }).then((res: any) => {
-            //   // Create a new link
-            //   const anchor = document.createElement("a");
-
-            //   anchor.href = res.data.response;
-            //   anchor.download = "baba";
-            //   anchor.target = "_blank";
-            //   anchor.rel = "noreferrer";
-
-            //   // Append to the DOM
-            //   document.body.appendChild(anchor);
-
-            //   // Trigger `click` event
-            //   anchor.click();
-
-            //   // Remove element from DOM
-            //   document.body.removeChild(anchor);
-            // });
             generatePDF(Number(message.body));
           }
         });
@@ -114,6 +101,10 @@ export const AppointmentManagement = () => {
     };
   }, [stompClient]);
 
+  useEffect(() => {
+    setAppointments(filterAppointmentData?.data.content);
+  }, [filterAppointmentData?.data]);
+
   const sendMessage = (appointmentId: string, status: string) => {
     if (stompClient) {
       stompClient.publish({
@@ -129,6 +120,7 @@ export const AppointmentManagement = () => {
   return (
     <>
       <div className="flex gap-x-2 p-2">
+
         <div className="flex-1">
           <label className="input input-bordered flex items-center gap-2">
             <input type="text" className="grow" placeholder="Search" />
@@ -147,7 +139,7 @@ export const AppointmentManagement = () => {
           </label>
         </div>
         <div className="flex space-x-2">
-          <Select
+          {/* <Select
             defaultValue={startDate}
             options={getDaysArray(
               `${displayInputDate(new Date())}`,
@@ -168,7 +160,45 @@ export const AppointmentManagement = () => {
             })}
             className="flex w-40 *:!z-[999] *:flex-1"
             onChange={(singleValue) => setEndDate(singleValue)}
-          />
+          /> */}
+          <div className="flex space-x-2">
+            <button
+              className="btn btn-info flex items-center gap-2 rounded-md"
+              onClick={() =>
+                (
+                  document.getElementById("filter_appointment_modal") as any
+                ).showModal()
+              }
+            >
+              <FaFilter color="white" />
+              <span className="font-semibold text-white">Filter</span>
+            </button>
+          </div>
+          <button
+            className="btn btn-outline"
+            onClick={() => {
+              (
+                document.getElementById(
+                  "edit_appointment_modal",
+                ) as any
+              ).showModal();
+              setSelectedAppointment({
+                account_id: "",
+                appointment_date: "",
+                appointment_time: "",
+                email: "",
+                first_name: "",
+                id: "",
+                last_name: "",
+                pets: [],
+                phone_number: "",
+                status: "CHECKED_IN",
+                services: []
+              })
+            }}
+          >
+            <FaPlus />
+          </button>
           <button
             className="btn btn-outline"
             onClick={() => {
@@ -181,14 +211,14 @@ export const AppointmentManagement = () => {
             <IoQrCodeOutline />
           </button>
         </div>
-      </div>
+      </div >
       <div className="flex-1 p-2">
         <div className="relative h-[36rem] overflow-auto rounded-xl border">
           {!isFetchingFilterAppointmentData &&
             !(appointments as any[])?.length && (
               <div className="absolute top-0 z-50 flex h-full w-full flex-col items-center justify-center">
                 <FcCalendar size={64} className="mb-10" />
-                <div>You don't have any appoiment</div>
+                <div>You don't have any appointment</div>
               </div>
             )}
           {isFetchingFilterAppointmentData && (
@@ -213,14 +243,17 @@ export const AppointmentManagement = () => {
               <div>Watting for few minute...</div>
             </motion.div>
           )}
-          <table className="table">
+          <table className="table ">
             {/* head */}
             <thead className="sticky top-0 bg-white">
-              <tr className="text-lg">
+              <tr>
                 <th></th>
-                <th>Details</th>
+                <th>Customer</th>
+                <th>Pets</th>
+                <th>Appointment Date</th>
                 <th>Status</th>
-                <th></th>
+                <th>Action</th>
+                <th>Edit</th>
               </tr>
             </thead>
             <tbody>
@@ -228,30 +261,54 @@ export const AppointmentManagement = () => {
                 (appointments as IAppointment[])?.map((ap, index) => (
                   <motion.tr
                     key={index}
-                    className={`${["CHECKED_IN", "CANCELLED"].includes(ap.status) && "rounded-lg bg-zinc-400 p-1"}`}
+                    className={`${["CHECKED_IN", "CANCELLED"].includes(ap.status) && "rounded-lg bg-zinc-300 p-1"}`}
                   >
                     <th>#{ap.id}</th>
                     <td>
                       <div>
-                        <span>Customer: </span>
-                        <span className="font-bold">
+                        <span>Name: </span>
+                        <span className="font-bold underline">
                           {ap.first_name + " " + ap.last_name}
                         </span>
                       </div>
                       <div>
                         <span>Email: </span>
-                        <span className="font-bold">{ap.email}</span>
+                        <span className="font-bold underline">{ap.email}</span>
                       </div>
-                      <div className="truncate">
-                        <span>Date: </span>
-                        <span className="underline">
-                          {displayCustomDate(new Date(ap.appointment_date))}
-                        </span>
+                      <div>
+                        <span>Phone: </span>
+                        <span className="font-bold underline">{ap.phone_number}</span>
                       </div>
+
+                    </td>
+                    <td>
+                      {
+                        ap.pets?.map((val, index) =>
+                          <div className="flex gap-x-2" key={index}>
+                            <span>#{index + 1}</span>
+                            <div >
+                              <span>Name: </span>
+                              <span className="font-bold underline">
+                                {val.name}
+                              </span>
+                            </div>
+                            |
+                            <div>
+                              <span>Species: </span>
+                              <span className="font-bold underline">
+                                {val.species}
+                              </span>
+                            </div>
+                          </div>)
+                      }
+
+                    </td>
+                    <td>
                       <div className="truncate">
-                        <span>Time: </span>
-                        <span className="underline">
-                          {ap.appointment_time.substring(0, 5)}
+                        <span className="underline font-bold">
+                          {displayCustomDate(new Date(ap.appointment_date))}, <span>
+                            {ap.appointment_time.substring(0, 5)}h
+                          </span>
                         </span>
                       </div>
                     </td>
@@ -265,23 +322,25 @@ export const AppointmentManagement = () => {
                     <td className="space-x-2">
                       {ap.status === "SCHEDULED" && (
                         <button
-                          className="btn btn-success btn-sm"
+                          className="btn btn-outline btn-neutral"
                           onClick={() => sendMessage(ap.id, "CHECKED_IN")}
                         >
-                          Check in
+                          <CiCalendar size={24} />
                         </button>
                       )}
                       {ap.status === "CHECKED_IN" && (
                         <button
-                          className="btn btn-error btn-sm"
+                          className="btn btn-outline btn-neutral btn-error"
                           onClick={() => sendMessage(ap.id, "CANCELLED")}
                         >
-                          Cancel
+                          <MdOutlineCancel size={24} />
                         </button>
                       )}
+
+                    </td>
+                    <td>
                       <button
-                        className="btn btn-info btn-sm"
-                        onClick={() => {
+                        className="btn btn-outline btn-neutral" onClick={() => {
                           (
                             document.getElementById(
                               "edit_appointment_modal",
@@ -290,7 +349,7 @@ export const AppointmentManagement = () => {
                           setSelectedAppointment(ap as any);
                         }}
                       >
-                        Edit
+                        <LiaEditSolid size={24} />
                       </button>
                     </td>
                   </motion.tr>
@@ -299,6 +358,7 @@ export const AppointmentManagement = () => {
           </table>
         </div>
         <EditAppointmentModal appointment={selectedAppointment} />
+        <FilterAppointmentModal onFilterSubmit={onFilterAppointmentSubmit} />
         <QRScanModal
           qrModalVisible={qrModalVisible}
           setQrModalVisible={setQrModalVisible}
