@@ -20,7 +20,6 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { useGetAccountMutation } from "@/app/pharmacist.service";
-import { Account } from "@/types/account.type";
 import { LoginRequest } from "@/types/login-request.type";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
@@ -31,7 +30,7 @@ const Auth = () => {
   const [login, { isLoading }] = useGetAccountMutation();
   // const [isSelected, setSelection] = useState(false);
   const [permission, requestPermissions] = useCameraPermissions();
-  const { control, reset, handleSubmit } = useForm<Account>();
+  const { control, reset, handleSubmit } = useForm<LoginRequest>();
   const [modalVisible, setModalVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const mystate = useSelector((state) => (state as any)?.change);
@@ -42,7 +41,7 @@ const Auth = () => {
       // dispatch(isRemember(true))
       await login(data).unwrap()
         .then(() => {
-          router.replace('./(tabs)/list');
+          router.replace('/(tabs)/list');
         })
     }
     catch (error) {
@@ -153,16 +152,16 @@ const Auth = () => {
             </View>
           </View>
           <View style={styles.buttonContainer}>
-            {/* <Link href="./(tabs)/list"> */}
+            <Link href="./(tabs)/list">
             <Button
               mode="contained"
               style={styles.button}
               labelStyle={styles.buttonText}
-              onPress={handleSubmit(onSubmit)}
+              // onPress={handleSubmit(onSubmit)}
             >
               Login
             </Button>
-            {/* </Link> */}
+            </Link>
             {/* <Button onPress={requestPermissions}>Alow camera</Button> */}
           </View>
         </ScrollView>

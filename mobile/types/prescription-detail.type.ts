@@ -4,6 +4,7 @@ import { IPet } from "./pet.type"
 export interface IPrescriptionDetail {
         id: number
         pet: IPet
-        medicines: IMedicine[]
         note: string
+        diagnosis: string
+        medicines: IMedicine[]
 }

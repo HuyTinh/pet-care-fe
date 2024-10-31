@@ -4,4 +4,5 @@ export interface IPet {
   name: string
   age: string
   weight: number
+  species: string
 }

@@ -56,7 +56,7 @@ export default function RootLayout() {
     await SecureStore.getItemAsync('token')
       .then((resp) => {
         if (resp) {
-          router.navigate("./(tabs)/list")
+          router.replace("./(tabs)/list")
         }
       })
       .finally(() => {
