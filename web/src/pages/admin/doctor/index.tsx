@@ -1,10 +1,10 @@
 import { SideMenu } from "./side-menu";
 import { AnimatePresence } from "framer-motion";
 import { PrescriptionManagement } from "./tabs/prescription-management";
-import { useHandleLogout } from "../../../utils/handleLogout";
+// import { useHandleLogout } from "../../../utils/handleLogout";
 
 export const DoctorPage = () => {
-  const handleLogout = useHandleLogout();
+  // const _handleLogout = useHandleLogout();
   return (
     <AnimatePresence initial={false}>
       <div className="h-screen bg-blue-400">

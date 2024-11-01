@@ -59,7 +59,7 @@ export const appointmentApi = createApi({
         return final;
       },
     }),
-    getAppointmentsByStatus: build.query<APIResponse<IAppointment>, String>({
+    getAppointmentsByStatus: build.query<APIResponse<IAppointment>, string>({
       query: (body) => `/appointment-service/appointment/status/${body}`,
       providesTags(result) {
         if (result) {
@@ -122,7 +122,7 @@ export const appointmentApi = createApi({
     }),
     getAppointmentByCustomerId: build.query<
       APIResponse<IAppointment>,
-      { userId: string | number | null; params: {} }
+      { userId: string | number | null; params: object }
     >({
       query: (body) => {
         return {
