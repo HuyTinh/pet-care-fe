@@ -1,11 +1,8 @@
 import { useState, useEffect } from "react";
 import { useFilterAppointmentsQuery } from "../../appointment.service";
 import { IAppointment } from "../../../../../types/appoiment.type";
-import Select from "react-select";
 import {
-  displayCustomDate,
-  displayInputDate,
-  getDaysArray,
+  displayCustomDate
 } from "../../../../../utils/date";
 import { usePdfGenerator } from "../../../../../hooks/pdf-generator";
 import { FcCalendar } from "react-icons/fc";
@@ -22,17 +19,8 @@ import { FaFilter } from "react-icons/fa";
 import { FilterAppointmentModal } from "./filter-appointment-modal";
 
 export const AppointmentManagement = () => {
-  const initialDate = `${displayInputDate(new Date())}`;
   const [appointments, setAppointments] = useState<IAppointment[]>([]);
   const [filterAppointmentConditions, setFilterAppointmentConditions] = useState<any>({});
-  const [startDate, setStartDate] = useState<any>({
-    value: initialDate,
-    label: initialDate,
-  });
-  const [endDate, setEndDate] = useState<any>({
-    value: initialDate,
-    label: initialDate,
-  });
 
   const onFilterAppointmentSubmit = (data: any) => {
     setFilterAppointmentConditions(data); // Cập nhật điều kiện lọc
@@ -50,8 +38,9 @@ export const AppointmentManagement = () => {
     {} as IAppointment,
   );
   const [qrModalVisible, setQrModalVisible] = useState<boolean>(false);
-  const [sessionId, _] = useState(new Date().getTime());
+  const [sessionId, setSessionId] = useState(new Date().getTime());
   const stompClient = WebSocketManager.getInstance().getClient();
+  const [pageNumber, setPageNumber] = useState<number>(0)
   const { generatePDF } = usePdfGenerator();
 
 
@@ -62,10 +51,10 @@ export const AppointmentManagement = () => {
         // Gửi yêu cầu kết nối
         stompClient.publish({ destination: "/app/connect" });
         stompClient.subscribe("/topic/updateAppointment", (message) => {
-          let receiveData = JSON.parse(message.body);
+          const receiveData = JSON.parse(message.body);
 
           setAppointments((prev) => {
-            let arr = [...prev];
+            const arr = [...prev];
 
             return arr.map((ap) => {
               if (ap.id == receiveData.appointmentId) {
@@ -101,6 +90,8 @@ export const AppointmentManagement = () => {
     };
   }, [stompClient]);
 
+
+
   useEffect(() => {
     setAppointments(filterAppointmentData?.data.content);
   }, [filterAppointmentData?.data]);
@@ -122,7 +113,7 @@ export const AppointmentManagement = () => {
       <div className="flex gap-x-2 p-2">
 
         <div className="flex-1">
-          <label className="input input-bordered flex items-center gap-2">
+          <label className="input input-sm input-bordered flex items-center gap-2">
             <input type="text" className="grow" placeholder="Search" />
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -139,31 +130,9 @@ export const AppointmentManagement = () => {
           </label>
         </div>
         <div className="flex space-x-2">
-          {/* <Select
-            defaultValue={startDate}
-            options={getDaysArray(
-              `${displayInputDate(new Date())}`,
-              `${new Date().getFullYear() + 1}-01-01`,
-            ).map((val) => {
-              return { value: val, label: val };
-            })}
-            className="flex w-40 *:!z-[999] *:flex-1"
-            onChange={(singleValue) => setStartDate(singleValue)}
-          />
-          <Select
-            defaultValue={endDate}
-            options={getDaysArray(
-              `${displayInputDate(new Date())}`,
-              `${new Date().getFullYear() + 1}-01-01`,
-            ).map((val) => {
-              return { value: val, label: val };
-            })}
-            className="flex w-40 *:!z-[999] *:flex-1"
-            onChange={(singleValue) => setEndDate(singleValue)}
-          /> */}
           <div className="flex space-x-2">
             <button
-              className="btn btn-info flex items-center gap-2 rounded-md"
+              className="btn btn-sm btn-info flex items-center gap-2 rounded-md"
               onClick={() =>
                 (
                   document.getElementById("filter_appointment_modal") as any
@@ -175,7 +144,7 @@ export const AppointmentManagement = () => {
             </button>
           </div>
           <button
-            className="btn btn-outline"
+            className="btn btn-outline btn-sm"
             onClick={() => {
               (
                 document.getElementById(
@@ -200,7 +169,7 @@ export const AppointmentManagement = () => {
             <FaPlus />
           </button>
           <button
-            className="btn btn-outline"
+            className="btn btn-outline btn-sm"
             onClick={() => {
               setQrModalVisible(true);
               (
@@ -210,6 +179,20 @@ export const AppointmentManagement = () => {
           >
             <IoQrCodeOutline />
           </button>
+          < div className="join" >
+            <button className="join-item btn btn-sm" onClick={() => {
+              if (pageNumber - 1 >= 0) {
+                setPageNumber(pageNumber - 1)
+              }
+            }
+            }>«</button>
+            <button className="join-item btn btn-sm">Page {pageNumber + 1}</button>
+            <button className="join-item btn btn-sm" onClick={() => {
+              if (pageNumber + 1 < filterAppointmentData?.data?.total_pages) {
+                setPageNumber(pageNumber + 1)
+              }
+            }}>»</button>
+          </ div>
         </div>
       </div >
       <div className="flex-1 p-2">
