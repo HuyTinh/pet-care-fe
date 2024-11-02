@@ -34,5 +34,7 @@ export const customerApi = createApi({
   }),
 });
 
-export const { useGetCustomerProfileQuery, useUpdateCustomerProfileMutation } =
-  customerApi;
+export const {
+  useGetCustomerProfileQuery,
+  useUpdateCustomerProfileMutation
+} = customerApi;

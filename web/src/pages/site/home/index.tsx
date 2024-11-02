@@ -46,7 +46,7 @@ export const HomePage = () => {
             </AnimateSection>
           </motion.div>
         </header>
-        
+
         <section
           className="About bg-gray-100 bg-cover bg-center px-8 py-16"
           style={{
