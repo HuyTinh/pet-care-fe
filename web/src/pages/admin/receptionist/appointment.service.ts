@@ -213,6 +213,7 @@ export const {
   useGetAppointmentsQuery,
   useGetAppointmentsByStatusQuery,
   useIsCheckinQuery,
+  useGetUpcomingAppointmentsQuery,
   useGetHospitalServiceQuery,
   useCreateAppointmentMutation,
   useUpdateAppointmentMutation,

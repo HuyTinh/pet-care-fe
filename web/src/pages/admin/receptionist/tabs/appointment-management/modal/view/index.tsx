@@ -1,29 +1,26 @@
 import { useEffect, useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { IHospitalService } from "../../../../../../types/hospital-service.type";
-import { IPet } from "../../../../../../types/pet.type";
-import { IAppointment } from "../../../../../../types/appoiment.type";
-import { PetPicker } from "../../../../../../components/pet-picker";
-import { time } from "../../../../../../constant/time";
+import { useForm } from "react-hook-form";
+import { IHospitalService } from "../../../../../../../types/hospital-service.type";
+import { IPet } from "../../../../../../../types/pet.type";
+import { IAppointment } from "../../../../../../../types/appoiment.type";
+import { PetPicker } from "../../../../../../../components/pet-picker";
+import { time } from "../../../../../../../constant/time";
 import {
   displayInputDate,
   displayPlusDate,
-} from "../../../../../../utils/date";
-import { toast } from "react-toastify";
+} from "../../../../../../../utils/date";
 import { MdOutlineErrorOutline } from "react-icons/md";
-import { useUpdateAppointmentMutation } from "../../../appointment.service";
 import _ from "lodash"
 
-type EditAppointmentModalProps = {
+type ViewAppointmentModalProps = {
   appointment: IAppointment;
 };
 
-export const EditAppointmentModal = ({
+export const ViewAppointmentModal = ({
   appointment,
-}: EditAppointmentModalProps) => {
+}: ViewAppointmentModalProps) => {
   const {
     register,
-    handleSubmit,
     reset,
     formState: { errors },
   } = useForm<any>({
@@ -33,42 +30,21 @@ export const EditAppointmentModal = ({
 
   const [pets, setPets] = useState<IPet[]>([]);
 
-  const [services, setServices] = useState<IHospitalService[]>([]);
-
-  const [updateAppointment] = useUpdateAppointmentMutation();
-
-  const onSubmit: SubmitHandler<any> = (data) => {
-    updateAppointment({
-      appointmentId: appointment.id,
-      updateAppointment: {
-        ...data,
-        pets: pets,
-        services: services,
-      },
-    }).then(() => {
-      toast.success("Change appointment info successful", {
-        position: "top-right",
-      });
-    });
-  }
+  const [_services, setServices] = useState<IHospitalService[]>([]);
 
   useEffect(() => {
-    if (!_.isEmpty(appointment)) {
-      setServices((appointment?.services || []) as any);
-      setPets(appointment?.pets || []);
-      reset(appointment);
-    } else {
-      reset(appointment)
-    }
+    setServices((appointment?.services || []) as any);
+    setPets(appointment?.pets || []);
+    reset(appointment);
   }, [appointment]);
 
   return (
-    <dialog id="edit_appointment_modal" className="modal backdrop:!hidden">
+    <dialog id="view_appointment_modal" className="modal backdrop:!hidden">
       <div className="modal-box w-full max-w-xl border-2 border-black">
         <div className="text-center text-3xl font-bold">
           Change Appointment Info
         </div>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form>
           <div className="flex justify-center gap-x-5">
             <label className="form-control w-full max-w-xs">
               <div className="label">
