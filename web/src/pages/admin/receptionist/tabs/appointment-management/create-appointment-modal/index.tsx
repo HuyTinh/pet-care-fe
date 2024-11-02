@@ -1,8 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { IHospitalService } from "../../../../../../types/hospital-service.type";
 import { IPet } from "../../../../../../types/pet.type";
-import { IAppointment } from "../../../../../../types/appoiment.type";
 import { PetPicker } from "../../../../../../components/pet-picker";
 import { time } from "../../../../../../constant/time";
 import {
@@ -11,20 +9,14 @@ import {
 } from "../../../../../../utils/date";
 import { toast } from "react-toastify";
 import { MdOutlineErrorOutline } from "react-icons/md";
-import { useUpdateAppointmentMutation } from "../../../appointment.service";
+import { useCreateAppointmentMutation } from "../../../appointment.service";
 import _ from "lodash"
+import { usePdfGenerator } from "../../../../../../hooks/pdf-generator";
 
-type EditAppointmentModalProps = {
-  appointment: IAppointment;
-};
-
-export const EditAppointmentModal = ({
-  appointment,
-}: EditAppointmentModalProps) => {
+export const CreateAppointmentModal = () => {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm<any>({
     mode: "all",
@@ -33,40 +25,28 @@ export const EditAppointmentModal = ({
 
   const [pets, setPets] = useState<IPet[]>([]);
 
-  const [services, setServices] = useState<IHospitalService[]>([]);
+  const [createAppointment] = useCreateAppointmentMutation();
 
-  const [updateAppointment] = useUpdateAppointmentMutation();
+  const { generatePDF } = usePdfGenerator();
 
   const onSubmit: SubmitHandler<any> = (data) => {
-    updateAppointment({
-      appointmentId: appointment.id,
-      updateAppointment: {
-        ...data,
-        pets: pets,
-        services: services,
-      },
-    }).then(() => {
-      toast.success("Change appointment info successful", {
+    createAppointment(_.omit({
+      ...data,
+      pets: pets,
+      services: ["Diagnosis."],
+    }, ["id"])).then((res) => {
+      toast.success("Create appointment successful", {
         position: "top-right",
       });
+      generatePDF((res as any)?.data.id);
     });
   }
 
-  useEffect(() => {
-    if (!_.isEmpty(appointment)) {
-      setServices((appointment?.services || []) as any);
-      setPets(appointment?.pets || []);
-      reset(appointment);
-    } else {
-      reset(appointment)
-    }
-  }, [appointment]);
-
   return (
-    <dialog id="edit_appointment_modal" className="modal backdrop:!hidden">
+    <dialog id="create_appointment_modal" className="modal backdrop:!hidden">
       <div className="modal-box w-full max-w-xl border-2 border-black">
         <div className="text-center text-3xl font-bold">
-          Change Appointment Info
+          Create Appointment
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex justify-center gap-x-5">

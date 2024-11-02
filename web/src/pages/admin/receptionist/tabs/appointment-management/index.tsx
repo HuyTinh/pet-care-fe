@@ -17,6 +17,7 @@ import { MdOutlineCancel } from "react-icons/md";
 import { FaPlus } from "react-icons/fa6";
 import { FaFilter } from "react-icons/fa";
 import { FilterAppointmentModal } from "./filter-appointment-modal";
+import { CreateAppointmentModal } from "./create-appointment-modal";
 
 export const AppointmentManagement = () => {
   const [appointments, setAppointments] = useState<IAppointment[]>([]);
@@ -38,7 +39,7 @@ export const AppointmentManagement = () => {
     {} as IAppointment,
   );
   const [qrModalVisible, setQrModalVisible] = useState<boolean>(false);
-  const [sessionId, setSessionId] = useState(new Date().getTime());
+  const [sessionId, _setSessionId] = useState(new Date().getTime());
   const stompClient = WebSocketManager.getInstance().getClient();
   const [pageNumber, setPageNumber] = useState<number>(0)
   const { generatePDF } = usePdfGenerator();
@@ -89,7 +90,6 @@ export const AppointmentManagement = () => {
       // stompClient?.deactivate;
     };
   }, [stompClient]);
-
 
 
   useEffect(() => {
@@ -148,7 +148,7 @@ export const AppointmentManagement = () => {
             onClick={() => {
               (
                 document.getElementById(
-                  "edit_appointment_modal",
+                  "create_appointment_modal",
                 ) as any
               ).showModal();
               setSelectedAppointment({
@@ -196,7 +196,7 @@ export const AppointmentManagement = () => {
         </div>
       </div >
       <div className="flex-1 p-2">
-        <div className="relative h-[36rem] overflow-auto rounded-xl border">
+        <div className="relative h-[38rem] overflow-auto rounded-xl border">
           {!isFetchingFilterAppointmentData &&
             !(appointments as any[])?.length && (
               <div className="absolute top-0 z-50 flex h-full w-full flex-col items-center justify-center">
@@ -236,7 +236,6 @@ export const AppointmentManagement = () => {
                 <th>Appointment Date</th>
                 <th>Status</th>
                 <th>Action</th>
-                <th>Edit</th>
               </tr>
             </thead>
             <tbody>
@@ -313,17 +312,14 @@ export const AppointmentManagement = () => {
                       )}
                       {ap.status === "CHECKED_IN" && (
                         <button
-                          className="btn btn-outline btn-neutral btn-error"
+                          className="btn btn-outline btn-sm btn-neutral btn-error"
                           onClick={() => sendMessage(ap.id, "CANCELLED")}
                         >
-                          <MdOutlineCancel size={24} />
+                          <MdOutlineCancel size={20} />
                         </button>
                       )}
-
-                    </td>
-                    <td>
                       <button
-                        className="btn btn-outline btn-neutral" onClick={() => {
+                        className="btn btn-outline btn-sm btn-neutral" onClick={() => {
                           (
                             document.getElementById(
                               "edit_appointment_modal",
@@ -332,7 +328,7 @@ export const AppointmentManagement = () => {
                           setSelectedAppointment(ap as any);
                         }}
                       >
-                        <LiaEditSolid size={24} />
+                        <LiaEditSolid size={20} />
                       </button>
                     </td>
                   </motion.tr>
@@ -341,6 +337,7 @@ export const AppointmentManagement = () => {
           </table>
         </div>
         <EditAppointmentModal appointment={selectedAppointment} />
+        <CreateAppointmentModal />
         <FilterAppointmentModal onFilterSubmit={onFilterAppointmentSubmit} />
         <QRScanModal
           qrModalVisible={qrModalVisible}

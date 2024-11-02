@@ -133,7 +133,7 @@ export const EditMedicineModal = ({ medicine }: EditMedicineModalProps) => {
         <div className="text-center text-3xl">Change Medicine Info</div>
         <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
           <div className="ml-5 mt-5 flex justify-evenly gap-x-10">
-            <div className="avatar flex flex-col items-center justify-center border-solid">
+            <div className="avatar flex flex-col items-center justify-center border-solid ">
               <div className="w-52 border border-blue-400 rounded-xl flex h-[250px]">
                 {image_url ? (
                   <div className="!w-full flex justify-center mt-5">
@@ -154,8 +154,15 @@ export const EditMedicineModal = ({ medicine }: EditMedicineModalProps) => {
                 <input
                   type="hidden"
                   value={image_url}
-                  {...register("image_url")}
+                  {...register("image_url",
+                    { required: "Image is empty!",})}
                 />
+                {errors.image_url && (
+                  <span className="badge badge-error mt-2 gap-2 text-white">
+                    <MdOutlineErrorOutline />
+                    {(errors?.image_url as any).message}
+                  </span>
+                )}
               </div>
             </div>
             <div className="flex w-1/2 flex-col">
