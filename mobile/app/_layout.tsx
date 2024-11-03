@@ -82,9 +82,9 @@ export default function RootLayout() {
               <Provider store={store}>
                 <Stack>
                   <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-                  <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                  <Stack.Screen name="(tabs)" options={{ headerShown: false}}/>
                   <Stack.Screen name="(medicine)" options={{ headerShown: false }} />
-                  <Stack.Screen name="(profile)" options={{ headerShown: false }} />
+                  <Stack.Screen name="(profile)" options={{ headerShown: false  }} />
                   <Stack.Screen
                     name="(changepassword)"
                     options={{ headerShown: false }}
