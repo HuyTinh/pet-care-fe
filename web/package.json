@@ -20,6 +20,8 @@
     "@stomp/stompjs": "^7.0.0",
     "@yudiel/react-qr-scanner": "^2.0.8",
     "axios": "^1.7.7",
+    "file-saver": "^2.0.5",
+    "flowbite": "^2.5.2",
     "framer-motion": "^11.5.4",
     "gapi-script": "^1.2.0",
     "jspdf": "^2.5.2",
@@ -40,6 +42,7 @@
     "react-social-login-buttons": "^4.1.0",
     "react-toastify": "^10.0.5",
     "sass": "^1.79.4",
+    "simple-datatables": "^9.2.1",
     "sockjs-client": "^1.6.1",
     "swiper": "^11.1.14"
   },

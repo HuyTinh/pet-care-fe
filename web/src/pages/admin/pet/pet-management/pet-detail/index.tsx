@@ -9,17 +9,18 @@ const PetDetails: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const petId = location.state?.petId;
+  console.log(petId);
   const [pet, setPet] = useState<Pet>();
   const [prescription, setPrescription] = useState<PrescriptionResponse>();
   const [showPrescription, setShowPrescription] = useState(false);
 
-  const getPetByPetId = axios.get(`http://localhost:8080/api/v1/management/${petId}`);
+  const getPetByPetId = axios.get(`http://localhost:8080/api/v1/management/getById/${petId}`);
 
   useEffect(() => {
     getPetByPetId
       .then(resp => {
-        setPet(resp.data);
-        setPrescription(resp.data.prescriptionResponses);
+        setPet(resp.data.data);
+        setPrescription(resp.data.data.prescriptionResponses);
         console.log(resp.data);
       })
       .catch(error => console.log(error));
