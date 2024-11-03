@@ -8,14 +8,10 @@ import * as SecureStore from 'expo-secure-store';
 import { APIReponse } from '../types/api-response';
 export const pharmacistApi = createApi({
     reducerPath: 'pharmacistApi',
-<<<<<<< HEAD
-    tagTypes: ['Post'],
-=======
+
     tagTypes: ['Prescriptions'],
-    baseQuery: fetchBaseQuery({ baseUrl: 'https://tsm885rc-8888.asse.devtunnels.ms/api/v1' }),
->>>>>>> 26835e54d225fb97872cf91b899fef4b19f0b47d
     // baseQuery: fetchBaseQuery({ baseUrl: 'https://tsm885rc-8888.asse.devtunnels.ms/api/v1' }),
-    baseQuery: fetchBaseQuery({ baseUrl: 'https://api.mockaron.com/mock/ze9ga5f7xf' }),
+    baseQuery: fetchBaseQuery({ baseUrl: 'https://api.mockaron.com/mock/ze9ga5f7xf/' }),
 
     endpoints: build => ({
         getPrescription: build.query<any, void>({
@@ -69,14 +65,12 @@ export const pharmacistApi = createApi({
         })
     })
 })
-<<<<<<< HEAD
-export const { useGetPrescriptionQuery, useGetPrescriptionByIdQuery, useGetAccountMutation, useGetAllAccountQuery, useGetPrescriptionByAppointmentIdQuery, useGetAccoutByIdQuery } = pharmacistApi
-=======
+
 export const {
     useGetPrescriptionQuery,
     useGetPrescriptionByIdQuery,
     useGetAccountMutation,
     useGetAllAccountQuery,
-    useGetPrescriptionByAppointmentIdQuery
+    useGetPrescriptionByAppointmentIdQuery,
+    useGetAccoutByIdQuery
 } = pharmacistApi
->>>>>>> 26835e54d225fb97872cf91b899fef4b19f0b47d
