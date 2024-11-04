@@ -37,8 +37,6 @@ const Auth = () => {
   const dispatch = useDispatch();
   const onSubmit: SubmitHandler<LoginRequest> = async (data: LoginRequest) => {
     try {
-      // if (isSelected) {
-      // dispatch(isRemember(true))
       await login(data).unwrap()
         .then(() => {
           router.replace('/(tabs)/list');
