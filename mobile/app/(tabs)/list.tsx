@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import  { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Button, Card, Searchbar } from "react-native-paper";
 import { Avatar } from "react-native-paper";
 import Accordion from "react-native-collapsible/Accordion";
@@ -32,6 +32,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { startEditPrescription } from "@/app/prescription.slice";
 import { router, useFocusEffect } from "expo-router";
+import React from "react";
 // import { useFonts } from "expo-font";
 const Home = () => {
     const getDateInfo = (): { day: number; month: string; year: number; dayName: string } => {

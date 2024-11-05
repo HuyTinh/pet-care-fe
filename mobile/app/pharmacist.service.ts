@@ -70,5 +70,6 @@ export const {
     useGetPrescriptionByIdQuery,
     useGetAccountMutation,
     useGetAllAccountQuery,
-    useGetPrescriptionByAppointmentIdQuery
+    useGetPrescriptionByAppointmentIdQuery,
+    useGetAccoutByIdQuery
 } = pharmacistApi

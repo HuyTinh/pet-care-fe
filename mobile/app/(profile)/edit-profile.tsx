@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -18,10 +18,11 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { useGetAccoutByIdQuery, useGetAllAccountQuery } from "@/app/pharmacist.service";
+import { useGetAccoutByIdQuery} from "@/app/pharmacist.service";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { Account } from "@/types/account.type";
+import React from "react";
 const EditProfile = () => {
   const [imageUrl, setImage] = useState([]);
   const { control, reset, handleSubmit } = useForm<any>();
