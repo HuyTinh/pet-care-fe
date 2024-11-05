@@ -4,7 +4,6 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { FcCalendar } from "react-icons/fc";
 import { FaFilter } from "react-icons/fa";
-import { MdFilterAltOff } from "react-icons/md";
 import { useGetAllMedicinesQuery } from "../../medicine.service";
 import { IMedicine } from "../../../../../types/medicine.type";
 import { EditMedicineModal } from "./edit-medicine-modal";

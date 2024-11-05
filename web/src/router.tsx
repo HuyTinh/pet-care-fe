@@ -24,6 +24,10 @@ import { WareHousePage } from "./pages/admin/warehouse";
 import { AdminAuthPage } from "./pages/admin/auth";
 import { Event } from "./pages/site/blog/event";
 import { NewContent } from "./pages/site/blog/newContent"
+import { ManagerPage } from "./pages/admin/manager";
+import { ManagerLayout } from "./pages/admin/manager/layout";
+import { HomeManager } from "./pages/admin/manager/home";
+import { Emloyee } from "./pages/admin/manager/emloyee";
 
 const ProtectedRoute: React.FC<{
   element: JSX.Element;
@@ -112,12 +116,47 @@ const adminRoutes: RouteObject[] = [
       />
     ),
   },
+  {
+    path: "/manager",
+    // element: <ManagerLayout />,
+    element: (
+      <ProtectedRoute
+        element={<ManagerLayout />}
+        allowedRoles={["MANAGER"]}
+      />
+    ),
+    children: [
+      { index: true, element: <HomeManager /> },
+    //   {
+    //     path: "account",
+    //     element: <ProfilePage />,
+    //     children: [
+    //       { index: true, element: <ProfileTab /> },
+    //       { path: "appointment", element: <AppointmentTab /> },
+    //     ],
+    //   },
+      { path: "emloyee", element: <Emloyee /> },
+    //   { path: "blog", element: <Blog /> },
+    //   { path: "event", element: <Event /> },
+    //   { path: "new/:documentId", element: <NewContent /> },
+    //   {
+    //     path: "service",
+    //     element: <ServicePage />,
+    //     children: [
+    //       { index: true, element: <AllService /> },
+    //       { path: "diagnostics", element: <DiagnosticsService /> },
+    //     ],
+    //   },
+    //   { path: "contact", element: <ContactPage /> },
+    ],
+  }
 ];
 
 const defaultRoute: RouteObject = {
   path: "/admin",
   element: <RootLayout />,
   children: [{ index: true, element: <AdminAuthPage /> }],
+  // children: [{ index: true, element: <ManagerPage /> }],
 };
 
 export const RouterHooks = () => {
