@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 
 export const PrescriptionModal = () => {
     const {
-        register,
+        // register,
         // reset
     } = useForm<any>({});
     return (
