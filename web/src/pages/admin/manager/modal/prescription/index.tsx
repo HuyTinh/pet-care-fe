@@ -1,15 +1,15 @@
 import { useForm } from "react-hook-form";
 
 
-export const AppointmentModal = () => {
+export const PrescriptionModal = () => {
     const {
         register,
         // reset
     } = useForm<any>({});
     return (
-        <dialog id="appointment_modal" className="modal backdrop:!hidden">
+        <dialog id="prescription_modal" className="modal backdrop:!hidden">
             <div className="modal-box w-full max-w-4xl border-2 border-black">
-                <div className="text-center text-3xl font-bold">Appointment <span className="!text-[#0099CF]">#10</span></div>
+                <div className="text-center text-3xl font-bold">Prescription <span className="!text-[#0099CF]">#10</span></div>
                 {/* <div className="ml-5 mt-5 gap-x-10 ">
                     <div className="flex gap-x-10 justify-center">
                         <label className="form-control w-full max-w-md">

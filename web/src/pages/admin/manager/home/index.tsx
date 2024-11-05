@@ -8,6 +8,9 @@ import {
     Legend,
     ResponsiveContainer,
 } from 'recharts';
+import { PetInformationModal } from '../modal/pet';
+import { AppointmentModal } from '../modal/appointment';
+import { PrescriptionModal } from '../modal/prescription';
 
 export const HomeManager = () => {
     const appointmentData = [
@@ -137,8 +140,8 @@ export const HomeManager = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="mt-7 w-full px-5 ">
-                        <div className="flex flex-row w-full space-x-5 ">
+                    <div className="mt-7 w-full px-5 h-96">
+                        <div className="flex flex-row w-full space-x-5 h-full">
                             <div className="w-1/2 bg-white px-7 py-7 rounded-lg">
                                 <ResponsiveContainer width="100%" height="100%">
                                     <BarChart
@@ -217,10 +220,27 @@ export const HomeManager = () => {
                                         <td className="text-base font-bold">9:00:00</td>
                                         <td className="text-base font-bold">Success</td>
                                         <td>
-                                            <img className='items-center' src="/src/assets/images/Rectangle 100.png" />
+                                            <button
+                                                onClick={() =>
+                                                    (
+                                                        document.getElementById("pet_infomation_modal") as any
+                                                    ).showModal()
+                                                }
+                                            >
+                                                <img className='items-center' src="/src/assets/images/Rectangle 100.png" />
+                                            </button>
                                         </td>
                                         <td>
-                                            <img className='items-center' src="/src/assets/images/Rectangle 86.png" />
+                                            <button
+                                                onClick={() =>
+                                                    (
+                                                        document.getElementById("appointment_modal") as any
+                                                    ).showModal()
+                                                }
+                                            >
+                                                <img className='items-center' src="/src/assets/images/Rectangle 86.png" />
+                                            </button>
+
                                         </td>
                                     </tr>
                                     {/* row 2 */}
@@ -242,7 +262,9 @@ export const HomeManager = () => {
                                         <td className="text-base font-bold">9:00:00</td>
                                         <td className="text-base font-bold">Success</td>
                                         <td>
-                                            <img className='items-center' src="/src/assets/images/Rectangle 100.png" />
+                                            <button>
+                                                <img className='items-center' src="/src/assets/images/Rectangle 100.png" />
+                                            </button>
                                         </td>
                                         <td>
                                             <img className='items-center' src="/src/assets/images/Rectangle 86.png" />
@@ -348,6 +370,7 @@ export const HomeManager = () => {
                             </table>
                         </div>
                     </div>
+
                 </div>
                 <div className="w-1/2 px-5 ">
                     <div className='bg-white h-[81%] w-full px-5 mt-7 py-7 !rounded-xl'>
@@ -360,7 +383,13 @@ export const HomeManager = () => {
                         <div className=' max-h-[90%] overflow-auto'>
                             <div className='cursor-pointer'>
                                 <div className='w-full mt-10 justify-center flex'>
-                                    <div className="card w-96 shadow-xl bg-gray-100">
+                                    <div className="card w-96 shadow-xl bg-gray-100"
+                                        onClick={() =>
+                                            (
+                                                document.getElementById("prescription_modal") as any
+                                            ).showModal()
+                                        }
+                                    >
                                         <div className="card-body text-[#0099CF] ">
                                             <h2 className="card-title text-xl font-bold"># PC001</h2>
                                             <div className="flex flex-row justify-between border-b-2 border-slate-950">
@@ -496,6 +525,9 @@ export const HomeManager = () => {
                         </div>
                     </div>
                 </div>
+                <PetInformationModal />
+                <AppointmentModal />
+                <PrescriptionModal />
             </div>
         </div>
     )
