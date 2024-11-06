@@ -65,7 +65,7 @@ const Home = () => {
     const [searchResult, setSearchResult] = React.useState();
     const bottomSheetModalRef = useRef<BottomSheetModal>(null);
     // variables
-    const snapPoints = useMemo(() => ["75%", "75%", "75%", "75%"], []);
+    const snapPoints = useMemo(() => ["75%"], []);
 
     // callbacks
     const handlePresentModalPress = useCallback((id: any) => {
@@ -88,7 +88,7 @@ const Home = () => {
     const presrptionId = useSelector((state: RootState) => state.prescription.id);
 
 
-    const { data: prescriptionData, isFetching: fetchingPrescriptionData, isLoading: loadingPrescription } = useGetPrescriptionByIdQuery(presrptionId, {
+    const { data: prescriptionData, isFetching: fetchingPrescriptionData, isLoading: loadingPrescription } = useGetPrescriptionByAppointmentIdQuery(presrptionId, {
         skip: !presrptionId,
     });
 
@@ -156,6 +156,8 @@ const Home = () => {
         }
         return () => clearTimeout(timer);
     }, [modalVisible]);
+    const minutes = Math.floor(countdown / 60);
+    const seconds = countdown % 60;
     const hanldCancel = () => {
         setModalVisible(false)
         setCountdown(300)
@@ -163,7 +165,7 @@ const Home = () => {
     const renderHeader = (session: any) => {
 
         return (
-            <Card className="p-1">
+            <Card className="p-1 ">
                 <Card.Content>
                     <View className="flex flex-row items-center justify-between">
                         <View className="flex flex-row items-center">
@@ -193,7 +195,7 @@ const Home = () => {
     };
     const renderContent = (session: any) => {
         return (
-            <View className="bg-slate-50 rounded-2xl px-5 pt-3">
+            <View className="bg-slate-100 rounded-2xl px-5 pt-3">
                 <View className="w-auto h-auto">
                     {session?.medicines?.map((medicine: any, index: number) => (
                         <View className="flex flex-row items-center justify-between mb-3" key={index}>
@@ -239,7 +241,7 @@ const Home = () => {
                             <Image className="w-36 h-32" source={{ uri: qrPayment }} />
                             <Text className="text-sm mt-2" style={{ fontFamily: "medium" }}>QR will expire after {Math.floor(countdown / 60)} minute</Text>
                             <Text className="items-center text-base mt-5" style={{ fontFamily: "blod" }}>Petcare thanks you for your favor!</Text>
-                            <Button className="bg-[#0099CF] mt-5 w-56" onPress={hanldCancel} >
+                            <Button style={styles.buttonModal} onPress={hanldCancel} >
                                 <Text className="font-bold text-base text-white text-center">Cancel</Text>
                             </Button>
                         </View>
@@ -587,4 +589,9 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 2,
     },
+    buttonModal: {
+        backgroundColor: "#0099CF",
+        marginTop: 20,
+        width: wp("50%")
+    }
 });

@@ -8,6 +8,7 @@ export interface IMedicine {
   manufacture: IManufacture;
   locations: ILocation[];
   status: string;
+  types: string;
   manufacturing_date: number;
   expiry_date: number;
   calculation_units: ICalculationUnit[];
@@ -33,7 +34,7 @@ export interface ICalculationUnit {
   status: boolean;
 }
 export interface MedicinePageResponse {
-  medicines: IMedicine[];
+  content: IMedicine[];
   totalPages: number;
   totalElements: number;
 }
