@@ -15,7 +15,6 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Button, Card, Searchbar } from "react-native-paper";
-import { Avatar } from "react-native-paper";
 import Accordion from "react-native-collapsible/Accordion";
 import {
     BottomSheetModal,
@@ -24,7 +23,7 @@ import {
 } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import {
-    useGetPrescriptionByAppointmentIdQuery,
+    useGetPrescriptionByIdQuery,
     useGetPrescriptionQuery,
 } from "@/app/pharmacist.service";
 import { IPrescription } from "@/types/prescription.type";
@@ -69,15 +68,16 @@ const Home = () => {
 
     // callbacks
     const handlePresentModalPress = useCallback((id: any) => {
-
         bottomSheetModalRef.current?.present();
         distpath(startEditPrescription(id))
     }, []);
+
     useFocusEffect(
         React.useCallback(() => {
             return () => bottomSheetModalRef.current?.close()
         }, [])
     );
+
     const [activeSections, setActiveSections] = useState([]);
 
     const updateSections = (activeSections: any) => {
@@ -85,9 +85,12 @@ const Home = () => {
     };
     const [listCustomer, setListCustomer] = useState([]);
     const presrptionId = useSelector((state: RootState) => state.prescription.id);
-    const { data: prescriptionData, isFetching: fetchingPrescriptionData, isLoading: loadingPrescription } = useGetPrescriptionByAppointmentIdQuery(presrptionId, {
+
+
+    const { data: prescriptionData, isFetching: fetchingPrescriptionData, isLoading: loadingPrescription } = useGetPrescriptionByIdQuery(presrptionId, {
         skip: !presrptionId,
     });
+
     const distpath = useDispatch()
     const filterCustomer = (value: any) => {
         return (data as any)?.data.filter((account: any) => {
@@ -147,11 +150,11 @@ const Home = () => {
         setCountdown(300)
     }
     const renderHeader = (session: any) => {
+
         return (
             <Card className="p-1">
                 <Card.Content>
                     <View className="flex flex-row items-center justify-between">
-
                         <View className="flex flex-row items-center">
                             <View>
                                 <Image source={require("@/assets/images/pets 4.png")} />
@@ -162,7 +165,7 @@ const Home = () => {
                                     <Text className="!text-black" style={{ fontFamily: "medium" }}> {session.pet.name}</Text>
                                 </Text>
                                 <Text className="text-[#0D74B1] text-base font-medium " style={{ fontFamily: "blod" }}>
-                                    Bệnh: <Text className="!text-black" style={{ fontFamily: "medium" }}>{session.note}</Text>
+                                    Bệnh: <Text className="!text-black" style={{ fontFamily: "medium" }}>{session.diagnosis}</Text>
                                 </Text>
                             </View>
                         </View>
@@ -314,7 +317,7 @@ const Home = () => {
                                             </View>
                                         </View>
                                     }
-                                    <View className="p-5 flex gap-5">
+                                    <View className="p-5 flex gap-5 mb-24">
                                         {
                                             isFocus
                                                 &&
@@ -422,6 +425,11 @@ const Home = () => {
                                                                 <Text className="text-xl font-bold ml-4" style={{ fontFamily: "blod" }}>#PC{(prescriptionData as any)?.data.id}</Text>
                                                                 <View className="px-4 py-4">
                                                                     <Accordion
+                                                                        sectionContainerStyle={{
+                                                                            display: "flex",
+                                                                            gap: 10
+
+                                                                        }}
                                                                         sections={(prescriptionData as any)?.data.details || []}
                                                                         activeSections={activeSections}
                                                                         underlayColor="transparent"
