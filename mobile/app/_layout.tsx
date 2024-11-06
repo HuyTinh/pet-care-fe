@@ -82,7 +82,7 @@ export default function RootLayout() {
             </View>
             :
             <BottomSheetModalProvider>
-              <ThemeProvider value={DefaultTheme}>
+              <ThemeProvider value={DefaultTheme as any}>
                 <Provider store={store}>
                   <Stack>
                     <Stack.Screen name="(auth)" options={{ headerShown: false }} />

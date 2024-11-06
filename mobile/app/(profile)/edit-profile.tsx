@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import { Avatar, Button, TextInput } from "react-native-paper";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { useNavigation } from "expo-router";
+import { useNavigation, router } from "expo-router";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -33,6 +33,7 @@ const EditProfile = () => {
   const [imageUri, setImageUri] = useState((data as any)?.data?.image_url || null);
   const [value, setValue] = React.useState('first');
   function handleBack() {
+    // router.replace("../(profile)/show-profile")
     navigation.goBack();
   }
   // const pickImage = async () => {
