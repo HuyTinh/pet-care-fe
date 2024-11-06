@@ -6,7 +6,7 @@ export const medicineApi = createApi({
   reducerPath: "medicineApi",
   tagTypes: ["Medicines"],
   baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_BACKEND_URL_LOCAL_DEV4LIFE,
+    baseUrl: import.meta.env.VITE_BACKEND_URL,
   }),
   endpoints: (build) => ({
     getAllMedicines: build.query<
@@ -22,6 +22,7 @@ export const medicineApi = createApi({
         maxPrice?: number;
         sortBy?: string;
         sortOrder?: string;
+        types: string;
       }
     >({
       query: ({
@@ -35,8 +36,9 @@ export const medicineApi = createApi({
         maxPrice,
         sortBy = "id",
         sortOrder = "asc",
+        types = "MEDICINE",
       }) => {
-        let queryParams = `pageNumber=${pageNumber}&pageSize=${pageSize}`;
+        let queryParams = `pageNumber=${pageNumber}&pageSize=${pageSize}&types=${types}`;
 
         if (searchTerm)
           queryParams += `&searchTerm=${encodeURIComponent(searchTerm)}`;
@@ -54,7 +56,7 @@ export const medicineApi = createApi({
       providesTags(result) {
         if (result) {
           const final = [
-            ...(result.data.medicines as IMedicine[]).map(({ id }) => ({
+            ...(result.data.content as IMedicine[]).map(({ id }) => ({
               type: "Medicines" as const,
               id,
             })),
