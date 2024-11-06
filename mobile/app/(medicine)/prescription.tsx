@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Button, Card } from 'react-native-paper';
 import Accordion from 'react-native-collapsible/Accordion'
 import { useSelector } from 'react-redux';
-import { useGetPrescriptionByAppointmentIdQuery } from '@/app/pharmacist.service';
+import { useGetPrescriptionByAppointmentIdQuery, useGetPrescriptionByIdQuery } from '@/app/pharmacist.service';
 import { RootState } from '@/store/store';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
@@ -16,7 +16,7 @@ const prescription = () => {
     }
     const presrptionId = useSelector((state: RootState) => state.prescription.id);
 
-    const { data, isFetching, isLoading } = useGetPrescriptionByAppointmentIdQuery(presrptionId, {
+    const { data, isFetching, isLoading } = useGetPrescriptionByIdQuery(presrptionId, {
         skip: !presrptionId
     })
     const renderHeader = (session: any) => {
