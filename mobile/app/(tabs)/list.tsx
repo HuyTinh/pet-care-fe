@@ -148,7 +148,7 @@ const Home = () => {
     }
     const renderHeader = (session: any) => {
         return (
-            <Card className="bg-slate-50 mt-5 p-1">
+            <Card className="p-1">
                 <Card.Content>
                     <View className="flex flex-row items-center justify-between">
 
@@ -247,7 +247,7 @@ const Home = () => {
                                     {
                                         !isFocus
                                             ?
-                                            <View className="w-[95%] px-5">
+                                            <View className="w-full px-5">
                                                 <Searchbar
                                                     ref={inputRef}
                                                     style={styles.searchbar}
@@ -314,7 +314,7 @@ const Home = () => {
                                             </View>
                                         </View>
                                     }
-                                    <View className=" p-5 pb-64 ">
+                                    <View className="p-5 flex gap-5">
                                         {
                                             isFocus
                                                 &&
@@ -328,7 +328,7 @@ const Home = () => {
                                                 :
                                                 (searchResult as any)?.map((search: any, index: number) => (
                                                     <Card
-                                                        className="bg-[#E7E7E8] mb-5"
+                                                        className="bg-red-500"
                                                         onPress={() => handlePresentModalPress(search.id)}
                                                         key={index}
                                                     >
@@ -370,7 +370,7 @@ const Home = () => {
                                                 !isFocus && !isFetching && ((data as any)?.data as IPrescription[])?.map(
                                                     (prescription: any, index: number) => (
                                                         <Card
-                                                            className="bg-[#E7E7E8] mb-5"
+                                                            className="bg-[#E7E7E8]"
                                                             onPress={() => handlePresentModalPress(prescription.id)}
                                                             key={index}
                                                         >
