@@ -23,6 +23,7 @@ import {
 } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import {
+    useCreateBillMutation,
     useGetPrescriptionByIdQuery,
     useGetPrescriptionQuery,
 } from "@/app/pharmacist.service";
@@ -118,10 +119,20 @@ const Home = () => {
     const options = ['Cash', 'Banking'];
     const [modalVisible, setModalVisible] = useState(false);
     const [countdown, setCountdown] = useState(300);
+    const [craeteBill] = useCreateBillMutation();
+    const [qrPayment, setQrPayment] = useState();
+
     const [selectedOption, setSelectedOption] = useState<any>("Cash");
     const handlApproved = () => {
         if (selectedOption === 'Banking') {
-            console.log("Banking");
+            craeteBill({
+                "prescription_id": (prescriptionData?.data as any)?.id,
+                "payment_method": "BANKING",
+                "status": "PENDING",
+                "total_money": (prescriptionData?.data as any)?.total_money
+            }).then(res => {
+                setQrPayment((res?.data?.data as any).checkout_response.qrCode);
+            })
             setModalVisible(true);
             setCountdown(300);
         }
@@ -157,7 +168,7 @@ const Home = () => {
                     <View className="flex flex-row items-center justify-between">
                         <View className="flex flex-row items-center">
                             <View>
-                                <Image source={require("@/assets/images/pets 4.png")} />
+                                {/* <Image source={require("@/assets/images/pets 4.png")} /> */}
                             </View>
                             <View className="ml-3">
                                 <Text className="text-[#0D74B1] text-base font-medium " style={{ fontFamily: "blod" }}>
@@ -225,7 +236,7 @@ const Home = () => {
                 <View style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }} className="flex-1 justify-center items-center">
                     <View style={{ width: 380, height: 320, padding: 50, backgroundColor: 'white', borderRadius: 10 }} className="flex justify-center items-center">
                         <View className="justify-center items-center">
-                            <Image className="w-36 h-32" source={require("@/assets/images/QR.png")} />
+                            <Image className="w-36 h-32" source={{ uri: qrPayment }} />
                             <Text className="text-sm mt-2" style={{ fontFamily: "medium" }}>QR will expire after {Math.floor(countdown / 60)} minute</Text>
                             <Text className="items-center text-base mt-5" style={{ fontFamily: "blod" }}>Petcare thanks you for your favor!</Text>
                             <Button className="bg-[#0099CF] mt-5 w-56" onPress={hanldCancel} >

@@ -61,12 +61,22 @@ export const pharmacistApi = createApi({
         }),
         getAccoutById: build.query<APIReponse<Account>, string>({
             query: (id) => `/medical_prescription_service/profile/${id}`
+        }),
+        createBill: build.mutation<APIReponse<any>, any>({
+            query(body) {
+                return {
+                    url: `/bill-service/invoice`,
+                    method: "POST",
+                    body
+                }
+            }
         })
     })
 })
 
 export const {
     useGetPrescriptionQuery,
+    useCreateBillMutation,
     useGetPrescriptionByIdQuery,
     useGetAccountMutation,
     useGetAllAccountQuery,
