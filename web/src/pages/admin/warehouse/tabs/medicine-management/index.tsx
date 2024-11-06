@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { FcCalendar } from "react-icons/fc";
 import { FaFilter } from "react-icons/fa";
+import { MdFilterAltOff } from "react-icons/md";
 import { useGetAllMedicinesQuery } from "../../medicine.service";
 import { IMedicine } from "../../../../../types/medicine.type";
 import { EditMedicineModal } from "./edit-medicine-modal";
@@ -11,6 +12,7 @@ import { AddMedicineModal } from "./add-medicine-modal";
 import { FilterMedicineModal } from "./filter-medicine-modal";
 import { displayCustomDate } from "../../../../../utils/date";
 import { toCurrency } from "../../../../../utils/number-format";
+import { TbFilterX } from "react-icons/tb";
 
 export default function MedicinesManagement() {
   const [selectedMedicine, setSelectedMedicine] = useState<IMedicine | null>(
@@ -23,6 +25,9 @@ export default function MedicinesManagement() {
     minPrice?: number;
     maxPrice?: number;
   }>({});
+  const handleClearFilters = () => {
+    setFilterConditions({}); // Đặt lại tất cả các tiêu chí lọc
+  };
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [pageSize] = useState<number>(10);
@@ -105,6 +110,12 @@ export default function MedicinesManagement() {
             <FaFilter color="white" />
             <span className="font-semibold text-white">Filter</span>
           </button>
+          <button
+            className="btn btn-outline"
+            onClick={handleClearFilters}>
+            <TbFilterX />
+          </button>
+
         </div>
       </div>
       <div className="flex-1 p-2">

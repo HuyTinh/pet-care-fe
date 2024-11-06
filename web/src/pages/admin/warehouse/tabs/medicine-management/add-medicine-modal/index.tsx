@@ -30,6 +30,8 @@ export const AddMedicineModal = () => {
     register,
     handleSubmit,
     reset,
+    setValue,
+    clearErrors,
     formState: { errors },
   } = useForm<any>({});
   const [image_url, setImage] = useState("");
@@ -46,22 +48,25 @@ export const AddMedicineModal = () => {
   const columnLocations = [
     ...new Set(locations.map((location) => location.column_location)),
   ];
-  const [imageError, setImageError] = useState<string | null>(
-    "Vui lòng chọn một tệp hình ảnh!",
-  );
+  // const [imageError, setImageError] = useState<string | null>(
+  //   "Vui lòng chọn một tệp hình ảnh!",
+  // );
 
   const handleImageChange = (e: any) => {
     const file = e.target.files[0];
     setImageFile(file);
     if (file) {
-      setImageError(null);
+      // setImageError(null);
       const reader = new FileReader();
       reader.onload = () => {
         setImage((reader as any)?.result);
+        setImageFile(file); // Cập nhật file ảnh mới
+        setValue("image_url", (reader as any)?.result);
+        clearErrors("image_url");
       };
       reader.readAsDataURL(file);
     } else {
-      setImageError("Vui lòng chọn một tệp hình ảnh!");
+      // setImageError("Vui lòng chọn một tệp hình ảnh!");
     }
   };
   const onSubmit = async (data: any) => {
@@ -70,10 +75,10 @@ export const AddMedicineModal = () => {
     // Gộp thêm thông tin từ state
     console.log(imageFile);
 
-    if (!imageFile) {
-      setImageError("Vui lòng chọn một tệp hình ảnh!");
-      return;
-    }
+    // if (!imageFile) {
+    //   setImageError("Vui lòng chọn một tệp hình ảnh!");
+    //   return;
+    // }
     const combinedData = {
       ...data,
       locations: locationIds,
@@ -100,7 +105,7 @@ export const AddMedicineModal = () => {
       setLocation([]); // Xóa danh sách location
       setCaculation([]); // Xóa danh sách caculation
       setImageFile(null); // Xóa file hình ảnh
-      setImageError(null);
+      // setImageError(null);
       toast.success("Add medicine successfull !");
     } catch (err) {
       console.error("Failed to create medicine:", err);
@@ -111,43 +116,43 @@ export const AddMedicineModal = () => {
     <dialog id="add_medicine_modal" className="modal backdrop:!hidden">
       <div className="modal-box w-full max-w-4xl border-2 border-black">
         <div className="text-center text-3xl">Add Medicine</div>
-
         <form
           method="post"
           onSubmit={handleSubmit(onSubmit)}
           encType="multipart/form-data"
         >
           <div className="ml-5 mt-5 flex justify-evenly gap-x-10">
-            <div className="avatar flex flex-col items-center justify-center border-solid">
-              <div>
+            <div className="avatar flex flex-col items-center justify-center border-solid w-max max-h-max">
+              <div className="w-52   border border-blue-400 rounded-xl h-[250px]">
                 {image_url ? (
-                  <div className="!w-40 rounded-xl">
-                    <img src={image_url} alt="Selected" />
+                  <div className="!w-full flex justify-center mt-5">
+                    <img className="" src={image_url} alt="Selected" />
                   </div>
                 ) : (
-                  <div>
-                    <img src="src/assets/images/picture.png" alt="Default" />
+                  <div className="flex justify-center items-center mt-24">
+                    <img className="!w-16" src="src/assets/images/picture.png" alt="Default" />
                   </div>
                 )}
               </div>
-              <div>
+              <div className="w-40">
                 <input
                   type="file"
                   className="absolute inset-0 cursor-pointer opacity-0"
-                  onChange={handleImageChange} // Giữ lại hàm này để xử lý tệp hình ảnh
+                  onChange={handleImageChange}
                 />
                 <input
                   type="hidden"
-                  value={image_url} // Gửi URL hình ảnh dưới dạng chuỗi
-                  {...register("image_url")} // Đăng ký trường này để gửi
+                  value={image_url}
+                  {...register("image_url",
+                    { required: "Image is empty!"})}
                 />
+                {errors.image_url && (
+                  <span className="badge badge-error mt-2 gap-2 text-white">
+                    <MdOutlineErrorOutline />
+                    {(errors?.image_url as any).message}
+                  </span>
+                )}
               </div>
-              {imageError && (
-                <span className="badge badge-error mt-2 gap-2 text-white">
-                  <MdOutlineErrorOutline />
-                  {imageError}
-                </span>
-              )}
             </div>
             <div className="flex w-1/2 flex-col">
               <label className="form-control w-full max-w-md">
@@ -179,9 +184,18 @@ export const AddMedicineModal = () => {
                     defaultValue={0}
                     step={1}
                     className="input input-bordered w-full max-w-md"
-                    {...register("quantity")}
+                    {...register("quantity",
+                      {
+                        validate: value => value != 0 || "Quantity can't be 0!"
+                      })}
                     min={0}
                   />
+                  {errors.quantity && (
+                    <span className="badge badge-error mt-2 gap-2 text-white">
+                      <MdOutlineErrorOutline />
+                      {(errors?.quantity as any).message}
+                    </span>
+                  )}
                 </label>
                 <label className="form-control w-full max-w-md justify-between">
                   <div className="label">
@@ -209,8 +223,8 @@ export const AddMedicineModal = () => {
                 </div>
                 <select
                   className="select select-bordered w-full max-w-md"
-                  {...register("manufactureId", {
-                    required: "Manufactures is empty!",
+                  {...register("manufacture_id", {
+                    validate: value => value !== "" || "Manufactures is empty!",
                   })}
                 >
                   <option value="">Select a manufacturer</option>
@@ -220,11 +234,10 @@ export const AddMedicineModal = () => {
                     </option>
                   ))}
                 </select>
-                {errors?.manufactures && (
+                {errors?.manufacture_id && (
                   <span className="badge badge-error mt-2 gap-2 text-white">
                     <MdOutlineErrorOutline />
-                    {(errors.manufactures as any)?.message ||
-                      "An error occurred"}
+                    {(errors.manufacture_id as any)?.message}
                   </span>
                 )}
               </label>
@@ -269,8 +282,16 @@ export const AddMedicineModal = () => {
               <input
                 type="date"
                 className="input input-bordered w-full"
-                {...register("manufacturingDate")}
+                {...register("manufacturingDate",
+                  { required: "Manufacturing Date is empty!" }
+                )}
               />
+              {errors?.manufacturingDate && (
+                <span className="badge badge-error mt-2 gap-2 text-white">
+                  <MdOutlineErrorOutline />
+                  {(errors.manufacturingDate as any)?.message}
+                </span>
+              )}
             </label>
             <label className="form-control w-full max-w-md justify-between">
               <div>
@@ -280,8 +301,16 @@ export const AddMedicineModal = () => {
               <input
                 type="date"
                 className="input input-bordered w-full"
-                {...register("expiryDate")}
+                {...register("expiryDate",
+                  { required: "Expiry Date is empty!" }
+                )}
               />
+              {errors?.expiryDate && (
+                <span className="badge badge-error mt-2 gap-2 text-white">
+                  <MdOutlineErrorOutline />
+                  {(errors.expiryDate as any)?.message}
+                </span>
+              )}
             </label>
           </div>
           <div className="mt-3 flex justify-evenly gap-x-12">

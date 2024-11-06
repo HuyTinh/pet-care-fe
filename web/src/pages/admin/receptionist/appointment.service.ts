@@ -6,10 +6,11 @@ import { getCookieValue } from "../../../utils/cookie";
 import { PageableResponse } from "../../../types/pageable-response";
 import { IHospitalService } from "../../../types/hospital-service.type";
 import { ISpecie } from "../../../types/specie.type";
+import { displayInputDate, displayPlusDate } from "../../../utils/date";
 
 export const appointmentApi = createApi({
   reducerPath: "appointmentApi",
-  tagTypes: ["Appointments", "AppointmentsCustomer"],
+  tagTypes: ["Appointments", "AppointmentsCustomer", "UpcomingAppointments"],
   baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_BACKEND_URL }),
   endpoints: (build) => ({
     getAppointments: build.query<APIResponse<PageableResponse<IAppointment>>, void>({
@@ -59,7 +60,36 @@ export const appointmentApi = createApi({
         return final;
       },
     }),
-    getAppointmentsByStatus: build.query<APIResponse<IAppointment>, String>({
+    getUpcomingAppointments: build.query<
+      APIResponse<PageableResponse<IAppointment>>,
+      void
+    >({
+      query: () => {
+        return {
+          url: `${import.meta.env.VITE_APPOINTMENT_PATH}/appointment/filter`,
+          params: {
+            start_date: displayInputDate(new Date()),
+            endDate: displayInputDate(displayPlusDate(new Date(), 2)),
+            statues: ["SCHEDULED"]
+          },
+        };
+      },
+      providesTags(result) {
+        if (result) {
+          const final = [
+            ...(result.data.content as IAppointment[]).map(({ id }) => ({
+              type: "UpcomingAppointments" as const,
+              id,
+            })),
+            { type: "UpcomingAppointments" as const, id: "LIST" },
+          ];
+          return final;
+        }
+        const final = [{ type: "UpcomingAppointments" as const, id: "LIST" }];
+        return final;
+      },
+    }),
+    getAppointmentsByStatus: build.query<APIResponse<IAppointment>, string>({
       query: (body) => `/appointment-service/appointment/status/${body}`,
       providesTags(result) {
         if (result) {
@@ -96,6 +126,7 @@ export const appointmentApi = createApi({
       invalidatesTags: () => [
         { type: "Appointments", id: "LIST" },
         { type: "AppointmentsCustomer" as const, id: "LIST" },
+        { type: "UpcomingAppointments" as const, id: "LIST" },
       ],
     }),
     updateAppointment: build.mutation<
@@ -112,6 +143,7 @@ export const appointmentApi = createApi({
       invalidatesTags: () => [
         { type: "Appointments", id: "LIST" },
         { type: "AppointmentsCustomer" as const, id: "LIST" },
+        { type: "UpcomingAppointments" as const, id: "LIST" },
       ],
     }),
     getHospitalService: build.query<APIResponse<IHospitalService>, void>({
@@ -122,7 +154,7 @@ export const appointmentApi = createApi({
     }),
     getAppointmentByCustomerId: build.query<
       APIResponse<IAppointment>,
-      { userId: string | number | null; params: {} }
+      { userId: string | number | null; params: object }
     >({
       query: (body) => {
         return {
@@ -181,6 +213,7 @@ export const {
   useGetAppointmentsQuery,
   useGetAppointmentsByStatusQuery,
   useIsCheckinQuery,
+  useGetUpcomingAppointmentsQuery,
   useGetHospitalServiceQuery,
   useCreateAppointmentMutation,
   useUpdateAppointmentMutation,
