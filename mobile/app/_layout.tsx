@@ -9,6 +9,8 @@ import { Provider } from "react-redux";
 import { store } from "@/store/store";
 import { Image, Text, View } from "react-native";
 import * as SecureStore from 'expo-secure-store';
+import "../global.css"
+
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
@@ -82,9 +84,9 @@ export default function RootLayout() {
               <Provider store={store}>
                 <Stack>
                   <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-                  <Stack.Screen name="(tabs)" options={{ headerShown: false}}/>
+                  <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
                   <Stack.Screen name="(medicine)" options={{ headerShown: false }} />
-                  <Stack.Screen name="(profile)" options={{ headerShown: false  }} />
+                  <Stack.Screen name="(profile)" options={{ headerShown: false }} />
                   <Stack.Screen
                     name="(changepassword)"
                     options={{ headerShown: false }}

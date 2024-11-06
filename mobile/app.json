@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "mobile",
+    "name": "mobile_2",
     "slug": "petcare",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -28,13 +28,7 @@
     },
     "plugins": [
       "expo-router",
-      "expo-font",
-      [
-        "expo-secure-store",
-        {
-          "faceIDPermission": "Allow to access your Face ID biometric data."
-        }
-      ]
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true
@@ -42,9 +36,6 @@
     "extra": {
       "eas": {
         "projectId": "a0625775-8454-46df-9cc4-9a4197f92992"
-      },
-      "router": {
-        "origin": false
       }
     },
     "owner": "tinhnth"
