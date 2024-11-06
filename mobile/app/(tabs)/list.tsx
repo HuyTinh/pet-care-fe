@@ -240,6 +240,7 @@ const Home = () => {
                         <View className="justify-center items-center">
                             <Image className="w-36 h-32" source={{ uri: qrPayment }} />
                             <Text className="text-sm mt-2" style={{ fontFamily: "medium" }}>QR will expire after {Math.floor(countdown / 60)} minute</Text>
+
                             <Text className="items-center text-base mt-5" style={{ fontFamily: "blod" }}>Petcare thanks you for your favor!</Text>
                             <Button style={styles.buttonModal} onPress={hanldCancel} >
                                 <Text className="font-bold text-base text-white text-center">Cancel</Text>

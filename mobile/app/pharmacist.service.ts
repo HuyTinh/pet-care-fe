@@ -69,6 +69,7 @@ export const pharmacistApi = createApi({
                     body
                 }
             }
+
         })
     })
 })
