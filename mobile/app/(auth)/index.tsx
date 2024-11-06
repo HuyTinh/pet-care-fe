@@ -24,9 +24,16 @@ import { LoginRequest } from "@/types/login-request.type";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import * as SecureStore from 'expo-secure-store';
-import { isRemember } from "@/app/prescription.slice";
+import { isRemember, startEditPrescription } from "@/app/prescription.slice";
 import { useDispatch, useSelector } from "react-redux";
+import { jwtDecode, JwtPayload } from "jwt-decode";
 const Auth = () => {
+  interface JwtPayload {
+    userId: string;
+    sub: string;
+    email: string;
+    exp: number;
+  }
   const [login, { isLoading }] = useGetAccountMutation();
   // const [isSelected, setSelection] = useState(false);
   const [permission, requestPermissions] = useCameraPermissions();
@@ -34,12 +41,33 @@ const Auth = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const mystate = useSelector((state) => (state as any)?.change);
+  const [idToken, setIdToken] = useState<string | null>(null);
   const dispatch = useDispatch();
+
+  // 
+  useEffect(() => {
+    // Trực tiếp lấy token trong useEffect
+    SecureStore.getItemAsync('token')
+      .then((retrievedToken) => {
+        if (retrievedToken) {
+          const decodedPayload = jwtDecode<JwtPayload>(retrievedToken);
+          dispatch(startEditPrescription(decodedPayload.userId))
+        } else {
+          console.log('No token found');
+        }
+      })
+      .catch((error) => {
+        console.error('Error retrieving token:', error);
+      });
+  }, []);
+
   const onSubmit: SubmitHandler<LoginRequest> = async (data: LoginRequest) => {
     try {
       await login(data).unwrap()
         .then(() => {
+          // dispatch(startEditPrescription(decodedPayload.userId))
           router.replace('/(tabs)/list');
+
         })
     }
     catch (error) {
@@ -51,15 +79,7 @@ const Auth = () => {
     blod: require("../../assets/fonts/Kodchasan-SemiBold.ttf"),
     medium: require('../../assets/fonts/Kodchasan-ExtraLightItalic.ttf')
   });
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
 
-  if (!loaded) {
-    return null;
-  }
   const { width, height } = Dimensions.get("window");
   return (
     <>
@@ -77,7 +97,7 @@ const Auth = () => {
             <View className="justify-center items-center">
               <Image className="w-36 h-32" source={require("@/assets/images/error.gif")} />
               <Text className="mt-3 mb-3 font-bold text-3xl text-center">{errorMessage}</Text>
-              <Button className="bg-[#0099CF] mt-5 w-56" onPress={() => setModalVisible(false)} >
+              <Button style={styles.buttonModal} onPress={() => setModalVisible(false)} >
                 <Text className="font-bold text-base text-white text-center">OK</Text>
               </Button>
             </View>
@@ -85,7 +105,7 @@ const Auth = () => {
         </View>
       </Modal>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.container}>
           <View style={styles.topSection}>
             <View style={styles.logoContainer}>
               <View style={styles.circle1} />
@@ -106,7 +126,7 @@ const Auth = () => {
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInput
                     style={styles.input}
-                    className="rounded-3xl"
+                    className="!rounded-full"
                     label="Email"
                     onBlur={onBlur}
                     value={value}
@@ -150,19 +170,21 @@ const Auth = () => {
             </View>
           </View>
           <View style={styles.buttonContainer}>
-            <Link href="./(tabs)/list">
-              <Button
-                mode="contained"
-                style={styles.button}
-                labelStyle={styles.buttonText}
-              // onPress={handleSubmit(onSubmit)}
-              >
-                Login
-              </Button>
-            </Link>
+            {/* <Link href="./(tabs)/list"> */}
+            <Button
+              mode="contained"
+              style={styles.button}
+              labelStyle={styles.buttonText}
+              onPress={handleSubmit(onSubmit)}
+            >
+              Login
+            </Button>
+            {/* </Link> */}
             {/* <Button onPress={requestPermissions}>Alow camera</Button> */}
           </View>
-        </ScrollView>
+        </View>
+        {/* <ScrollView contentContainerStyle={styles.container}>
+        </ScrollView> */}
       </TouchableWithoutFeedback>
     </>
   );
@@ -206,7 +228,9 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: "white",
     height: hp("7%"),
-    // borderRadius: 25,
+    borderTopEndRadius: 25,
+    borderRadius: 25,
+    borderTopLeftRadius: 25,
   },
   checkboxContainer: {
     flexDirection: "row",
@@ -277,6 +301,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 0.25,
   },
+  buttonModal: {
+    backgroundColor: "#0099CF",
+    marginTop: 20,
+    width: wp("50%")
+  }
 });
 
 export default Auth;
