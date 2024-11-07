@@ -48,7 +48,8 @@ export const EditPrescriptionModal = ({
   }, [calculationUnitData?.data]);
 
   useEffect(() => {
-    setMedicines(medicinesData?.data);
+    setMedicines(medicinesData?.data.content);
+
     return () => { };
   }, [medicinesData?.data]);
 
