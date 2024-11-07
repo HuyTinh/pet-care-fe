@@ -7,13 +7,12 @@ interface FilterMedicineModalProps {
 export const FilterMedicineModal = ({
   onFilterSubmit,
 }: FilterMedicineModalProps) => {
-  const { register, handleSubmit, reset } = useForm<any>();
+  const { register, handleSubmit } = useForm<any>();
 
   const onSubmit = (data: any) => {
     onFilterSubmit(data); // Gọi hàm onFilterSubmit và truyền dữ liệu lọc
     console.log("fillter data :", data);
     (document.getElementById("filter_medicine_modal") as any).close(); // Đóng modal sau khi apply
-    reset();
   };
 
   return (

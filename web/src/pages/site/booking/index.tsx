@@ -249,14 +249,6 @@ export const BookingPage = () => {
                           </option>
                         ))}
                       </select>
-                      {/* <input
-                          type="text"
-                          className="grow"
-                          placeholder="Species"
-                          {...register("pets.species", {
-                            required: "Spieces is empty!",
-                          })}
-                        /> */}
                     </div>
                   </div>
                 </div>
