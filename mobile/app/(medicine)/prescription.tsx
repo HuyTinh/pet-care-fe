@@ -17,7 +17,7 @@ const prescription = () => {
     }
     const presrptionId = useSelector((state: RootState) => state.prescription.id);
 
-    const { data, isFetching, isLoading } = useGetPrescriptionByAppointmentIdQuery(presrptionId, {
+    const { data, isFetching, isLoading } = useGetPrescriptionByIdQuery(presrptionId, {
         skip: !presrptionId
     })
     const options = ['Cash', 'Banking'];

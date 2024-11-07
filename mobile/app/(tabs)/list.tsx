@@ -31,7 +31,7 @@ import { IPrescription } from "@/types/prescription.type";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { startEditPrescription } from "@/app/prescription.slice";
-import { router, useFocusEffect } from "expo-router";
+import { Link, router, useFocusEffect } from "expo-router";
 // import { useFonts } from "expo-font";
 const Home = () => {
     const getDateInfo = (): { day: number; month: string; year: number; dayName: string } => {
@@ -84,11 +84,10 @@ const Home = () => {
     const updateSections = (activeSections: any) => {
         setActiveSections(activeSections);
     };
-    const [listCustomer, setListCustomer] = useState([]);
     const presrptionId = useSelector((state: RootState) => state.prescription.id);
 
 
-    const { data: prescriptionData, isFetching: fetchingPrescriptionData, isLoading: loadingPrescription } = useGetPrescriptionByAppointmentIdQuery(presrptionId, {
+    const { data: prescriptionData, isFetching: fetchingPrescriptionData, isLoading: loadingPrescription } = useGetPrescriptionByIdQuery(presrptionId, {
         skip: !presrptionId,
     });
 
@@ -174,7 +173,7 @@ const Home = () => {
                             </View>
                             <View className="ml-3">
                                 <Text className="text-[#0D74B1] text-base font-medium " style={{ fontFamily: "blod" }}>
-                                    Tên:{" "}
+                                    Tên thú cưng:{" "}
                                     <Text className="!text-black" style={{ fontFamily: "medium" }}> {session.pet.name}</Text>
                                 </Text>
                                 <Text className="text-[#0D74B1] text-base font-medium " style={{ fontFamily: "blod" }}>
@@ -238,7 +237,10 @@ const Home = () => {
                 <View style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }} className="flex-1 justify-center items-center">
                     <View style={{ width: 380, height: 320, padding: 50, backgroundColor: 'white', borderRadius: 10 }} className="flex justify-center items-center">
                         <View className="justify-center items-center">
-                            <Image className="w-36 h-32" source={{ uri: qrPayment }} />
+                            <Text>
+                                <Link href="https://dl.vietqr.io/pay?app=icb&"><Image className="w-36 h-32" source={{ uri: qrPayment }} /></Link>
+                            </Text>
+
                             <Text className="text-sm mt-2" style={{ fontFamily: "medium" }}>QR will expire after {Math.floor(countdown / 60)} minute</Text>
 
                             <Text className="items-center text-base mt-5" style={{ fontFamily: "blod" }}>Petcare thanks you for your favor!</Text>
