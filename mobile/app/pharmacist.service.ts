@@ -9,9 +9,9 @@ import { APIReponse } from '../types/api-response';
 export const pharmacistApi = createApi({
     reducerPath: 'pharmacistApi',
     tagTypes: ['Prescriptions'],
-    // baseQuery: fetchBaseQuery({ baseUrl: 'https://tsm885rc-8888.asse.devtunnels.ms/api/v1' }),
+    baseQuery: fetchBaseQuery({ baseUrl: 'https://tsm885rc-8888.asse.devtunnels.ms/api/v1' }),
     // baseQuery: fetchBaseQuery({ baseUrl: 'https://api.mockaron.com/mock/ze9ga5f7xf' }),
-    baseQuery: fetchBaseQuery({ baseUrl: 'https://4eb91834-c563-42d9-a020-25d3548eb851.mock.pstmn.io/' }),
+    // baseQuery: fetchBaseQuery({ baseUrl: 'https://4eb91834-c563-42d9-a020-25d3548eb851.mock.pstmn.io/' }),
 
     endpoints: build => ({
         getPrescription: build.query<any, void>({
@@ -28,8 +28,8 @@ export const pharmacistApi = createApi({
         }),
         getAccount: build.mutation<APIReponse<{ token: any, authenticated: boolean }>, LoginRequest>({
             query: (account) => ({
-                // url: "/identity-service/auth/token",
-                url: "identity_service/auth/token",
+                url: "/identity-service/auth/token",
+                // url: "identity_service/auth/token",
                 method: "POST",
                 body: account
             }),
