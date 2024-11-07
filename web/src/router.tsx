@@ -27,7 +27,7 @@ import { NewContent } from "./pages/site/blog/newContent"
 import { ManagerPage } from "./pages/admin/manager";
 import { ManagerLayout } from "./pages/admin/manager/layout";
 import { HomeManager } from "./pages/admin/manager/home";
-import { Emloyee } from "./pages/admin/manager/emloyee";
+import { Services } from "./pages/admin/manager/services";
 
 const ProtectedRoute: React.FC<{
   element: JSX.Element;
@@ -135,7 +135,7 @@ const adminRoutes: RouteObject[] = [
     //       { path: "appointment", element: <AppointmentTab /> },
     //     ],
     //   },
-      { path: "emloyee", element: <Emloyee /> },
+      { path: "serivces", element: <Services /> },
     //   { path: "blog", element: <Blog /> },
     //   { path: "event", element: <Event /> },
     //   { path: "new/:documentId", element: <NewContent /> },
