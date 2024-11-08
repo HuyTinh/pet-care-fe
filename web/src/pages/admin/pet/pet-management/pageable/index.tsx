@@ -1,15 +1,20 @@
 import React from 'react';
 
 const PageAble = ({ currentPage, totalPages, onPageChange }) => {
+
+  // check prev page
   const hasPreviousPage = currentPage > 1;
+  // check next page
   const hasNextPage = currentPage < totalPages;
 
+  // handle func call api when click prev page
   const handlePrevious = () => {
     if (hasPreviousPage) {
       onPageChange(currentPage - 1);
     }
   };
 
+  // handle func call api when click next page
   const handleNext = () => {
     if (hasNextPage) {
       onPageChange(currentPage + 1);
