@@ -3,8 +3,8 @@ import React, { useEffect, useRef } from 'react'
 import { CameraView } from 'expo-camera'
 import { BarCodeScanningResult } from 'expo-camera/build/legacy/Camera.types';
 import { useDispatch } from 'react-redux';
-import { Href, router } from 'expo-router';
 import { Overlay } from './orverlay';
+import { Href, router } from 'expo-router';
 import { startEditPrescription } from '@/app/prescription.slice';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 

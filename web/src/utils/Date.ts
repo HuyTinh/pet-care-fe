@@ -6,12 +6,12 @@ export function displayInputDate(date: Date) {
 }
 
 export function displayPlusDate(date: Date, plusNumber: number) {
-  let futureDate = date;
+  const futureDate = date;
   futureDate.setDate(futureDate.getDate() + plusNumber);
   return futureDate;
 }
 
-export function displayCustomDate(date: Date, time?: Boolean) {
+export function displayCustomDate(date: Date, time?: boolean) {
   const minutes = date.getMinutes().toString().padStart(2, "0");
   const hours = date.getHours().toString().padStart(2, "0");
   const day = date.getDate().toString().padStart(2, "0");

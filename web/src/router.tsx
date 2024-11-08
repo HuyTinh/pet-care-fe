@@ -24,6 +24,8 @@ import { WareHousePage } from "./pages/admin/warehouse";
 import { AdminAuthPage } from "./pages/admin/auth";
 import { Event } from "./pages/site/blog/event";
 import { NewContent } from "./pages/site/blog/newContent"
+
+// import { ManagerPage } from "./pages/admin/manager";
 import { ManagerLayout } from "./pages/admin/manager/layout";
 import { HomeManager } from "./pages/admin/manager/home";
 import { Services } from "./pages/admin/manager/services";
@@ -33,7 +35,7 @@ import Report_service from "./pages/admin/manager/report/service";
 const ProtectedRoute: React.FC<{
   element: JSX.Element;
   allowedRoles: string[];
-}> = ({ element, allowedRoles }) => {
+}> = ({ element }) => {
   // const { isAuth, role } = useSelector(
   //   (state: RootState) => state.authentication,
   // );
@@ -60,7 +62,7 @@ const ProtectedRoute: React.FC<{
   // }, [isAuth, role, allowedRoles, navigate]);
   // return allowedRoles.includes(role!) ? element : null;
 
-  return true ? element : null;
+  return element;
 };
 
 const userRoutes: RouteObject = {
@@ -164,7 +166,7 @@ const defaultRoute: RouteObject = {
 };
 
 export const RouterHooks = () => {
-  const { isAuth, userId } = useSelector(
+  const { userId } = useSelector(
     (state: RootState) => state.authentication,
   );
   const [cookies, setCookies] = useCookies<any>();

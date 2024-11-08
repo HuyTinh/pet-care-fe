@@ -24,7 +24,7 @@ export default function TabLayout() {
             <MaterialCommunityIcons
               name={focused ? "qrcode-scan" : "scan-helper"}
               size={24}
-              color={color}
+              color={"#0099CF"}
             />
           ),
         }}
@@ -34,7 +34,7 @@ export default function TabLayout() {
         options={{
           title: "List",
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons name="list" size={24} color={color} />
+            <Ionicons name={focused ? "list-circle-sharp" : "list"} size={24} color={"#0099CF"} />   
           ),
         }}
       />
@@ -46,7 +46,7 @@ export default function TabLayout() {
             <FontAwesome5
               name={focused ? "user-alt" : "user"}
               size={24}
-              color={color}
+              color={"#0099CF"}
             />
           ),
         }}
