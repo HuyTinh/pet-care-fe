@@ -96,8 +96,7 @@ export const Header = () => {
               {/* <NavLink to={"/blog"}>Appointments</NavLink> */}
             </li>
             <li>
-              <p>Serivces</p>
-              {/* <NavLink to={"/event"}>Serivces</NavLink> */}
+              <NavLink to={"/manager/serivces"}>Serivces</NavLink>
             </li>
             <li>
               <div className="dropdown dropdown-end">
@@ -106,10 +105,10 @@ export const Header = () => {
                   tabIndex={0}
                   className="menu dropdown-content rounded-box -z-10 mt-52 w-52 p-2 bg-white border border-gray-950 ">
                   <li>
-                    <a className="text-black">Appointment</a>
+                    <NavLink to={"/manager/report/appointment"} className="text-black">Appointment</NavLink>
                   </li>
                   <li>
-                    <a className="text-black">Service</a>
+                    <NavLink to={"/manager/report/service"} className="text-black">Service</NavLink>
                   </li>
                   <li>
                     <a className="text-black">Revenue</a>
