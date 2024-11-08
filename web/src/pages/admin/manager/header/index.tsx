@@ -96,8 +96,7 @@ export const Header = () => {
               {/* <NavLink to={"/blog"}>Appointments</NavLink> */}
             </li>
             <li>
-              <p>Serivces</p>
-              {/* <NavLink to={"/event"}>Serivces</NavLink> */}
+              <NavLink to={"/manager/serivces"}>Serivces</NavLink>
             </li>
             <li>
               <div className="dropdown dropdown-end">

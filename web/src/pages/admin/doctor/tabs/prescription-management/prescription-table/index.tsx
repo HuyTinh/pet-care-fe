@@ -130,6 +130,8 @@ export const PrescriptionTable = ({ filterPrescriptionConditions, setSelectedPre
                                         <td className="space-x-2 text-center">
                                             <button className="btn btn-info btn-outline" onClick={() => {
                                                 (document.getElementById("view_prescription_modal") as any).showModal()
+                                                console.log("Toa thuốc: ", pre);
+
                                                 setSelectedPrescription(pre);
                                             }}>
                                                 <FaEye size={24} />

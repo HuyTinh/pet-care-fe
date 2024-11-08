@@ -57,7 +57,7 @@ export const PrescriptionManagement = () => {
           </div>
         </div>
         <MakePrescriptionModal appointment={selectedAppointment} />
-        <EditPrescriptionModal prescription={selectedPrescription} />
+        {/* <EditPrescriptionModal prescription={selectedPrescription} /> */}
         <ViewPrescriptionModal prescription={selectedPrescription} />
         <FilterPrescriptionModal onFilterSubmit={onFilterPrescriptionSubmit} />
         <FilterAppointmentModal onFilterSubmit={onFilterAppointmentSubmit} />

@@ -50,7 +50,7 @@ export const MakePrescriptionModal = ({
   }, [calculationUnitData?.data]);
 
   useEffect(() => {
-    setMedicines(medicinesData?.data);
+    setMedicines(medicinesData?.data.content);
     return () => { };
   }, [medicinesData?.data]);
 
@@ -69,7 +69,7 @@ export const MakePrescriptionModal = ({
 
   return (
     <dialog id="make_prescription_modal" className="modal backdrop:!hidden">
-      <div className="modal-box w-full max-w-3xl">
+      <div className="modal-box w-full max-w-5xl">
         <div className="my-1 text-center text-3xl font-bold">
           Make Prescription
         </div>
@@ -176,7 +176,7 @@ export const MakePrescriptionModal = ({
             </div>
             <div>
               <button className="w-full btn btn-sm" onClick={() => {
-                let prescription_detail = { ...getValues("prescription_detail") }
+                const prescription_detail = { ...getValues("prescription_detail") }
 
                 setPrescriptionDetails([...prescriptionDetails, {
                   ...prescription_detail,

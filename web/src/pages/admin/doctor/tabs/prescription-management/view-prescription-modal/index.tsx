@@ -9,6 +9,10 @@ type ViewPrescriptionModalProps = {
 
 
 export const ViewPrescriptionModal = ({ prescription }: ViewPrescriptionModalProps) => {
+
+    console.log(prescription);
+
+
     const contentRef = useRef<HTMLDivElement>(null);
     const reactToPrintFn = useReactToPrint({ contentRef, pageStyle: "p-10" });
 
