@@ -13,28 +13,28 @@ import { AppointmentModal } from '../modal/appointment';
 import { PrescriptionModal } from '../modal/prescription';
 
 export const HomeManager = () => {
-    const appointmentData = [
-        {
-            name: '9:00:00',
-            appointment: 40,
+        const appointmentData = [
+            {
+                name: '9:00:00',
+                appointment: 40,
 
-        },
-        {
-            name: '11:00:00',
-            appointment: 30,
+            },
+            {
+                name: '11:00:00',
+                appointment: 30,
 
-        },
-        {
-            name: '13:00:00',
-            appointment: 20,
+            },
+            {
+                name: '13:00:00',
+                appointment: 20,
 
-        },
-        {
-            name: '15:00:00',
-            appointment: 10,
+            },
+            {
+                name: '15:00:00',
+                appointment: 10,
 
-        },
-    ];
+            },
+        ];
     const managerData = [
         {
             name: 'Customers',
