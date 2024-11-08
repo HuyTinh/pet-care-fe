@@ -24,10 +24,13 @@ import { WareHousePage } from "./pages/admin/warehouse";
 import { AdminAuthPage } from "./pages/admin/auth";
 import { Event } from "./pages/site/blog/event";
 import { NewContent } from "./pages/site/blog/newContent"
+
 // import { ManagerPage } from "./pages/admin/manager";
 import { ManagerLayout } from "./pages/admin/manager/layout";
 import { HomeManager } from "./pages/admin/manager/home";
 import { Services } from "./pages/admin/manager/services";
+import Report_appointment from "./pages/admin/manager/report/appointment";
+import Report_service from "./pages/admin/manager/report/service";
 
 const ProtectedRoute: React.FC<{
   element: JSX.Element;
@@ -136,6 +139,9 @@ const adminRoutes: RouteObject[] = [
     //     ],
     //   },
       { path: "serivces", element: <Services /> },
+      { path: "report/appointment", element: <Report_appointment /> },
+      { path: "report/service", element: <Report_service /> },
+
     //   { path: "blog", element: <Blog /> },
     //   { path: "event", element: <Event /> },
     //   { path: "new/:documentId", element: <NewContent /> },

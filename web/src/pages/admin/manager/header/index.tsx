@@ -105,10 +105,10 @@ export const Header = () => {
                   tabIndex={0}
                   className="menu dropdown-content rounded-box -z-10 mt-52 w-52 p-2 bg-white border border-gray-950 ">
                   <li>
-                    <a className="text-black">Appointment</a>
+                    <NavLink to={"/manager/report/appointment"} className="text-black">Appointment</NavLink>
                   </li>
                   <li>
-                    <a className="text-black">Service</a>
+                    <NavLink to={"/manager/report/service"} className="text-black">Service</NavLink>
                   </li>
                   <li>
                     <a className="text-black">Revenue</a>
