@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 export const useHandleLogout = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [cookies, setCookies, removeCookie] = useCookies<any>();
+  const [_cookies, _setCookies, removeCookie] = useCookies<any>();
   const userId = useSelector((state: RootState) => state.authentication.userId);
   const handleLogout = async () => {
     try {

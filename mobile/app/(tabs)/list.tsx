@@ -13,9 +13,8 @@ import {
 } from "react-native";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import  { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Button, Card, Searchbar } from "react-native-paper";
-import { Avatar } from "react-native-paper";
 import Accordion from "react-native-collapsible/Accordion";
 import {
     BottomSheetModal,
@@ -24,15 +23,15 @@ import {
 } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import {
-    useGetPrescriptionByAppointmentIdQuery,
+    useCreateBillMutation,
+    useGetPrescriptionByIdQuery,
     useGetPrescriptionQuery,
 } from "@/app/pharmacist.service";
 import { IPrescription } from "@/types/prescription.type";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { startEditPrescription } from "@/app/prescription.slice";
-import { router, useFocusEffect } from "expo-router";
-import React from "react";
+import { Link, router, useFocusEffect } from "expo-router";
 // import { useFonts } from "expo-font";
 const Home = () => {
     const getDateInfo = (): { day: number; month: string; year: number; dayName: string } => {
@@ -66,29 +65,32 @@ const Home = () => {
     const [searchResult, setSearchResult] = React.useState();
     const bottomSheetModalRef = useRef<BottomSheetModal>(null);
     // variables
-    const snapPoints = useMemo(() => ["75%", "75%", "75%", "75%"], []);
+    const snapPoints = useMemo(() => ["75%"], []);
 
     // callbacks
     const handlePresentModalPress = useCallback((id: any) => {
-
         bottomSheetModalRef.current?.present();
         distpath(startEditPrescription(id))
     }, []);
+
     useFocusEffect(
         React.useCallback(() => {
             return () => bottomSheetModalRef.current?.close()
         }, [])
     );
+
     const [activeSections, setActiveSections] = useState([]);
 
     const updateSections = (activeSections: any) => {
         setActiveSections(activeSections);
     };
-    const [listCustomer, setListCustomer] = useState([]);
     const presrptionId = useSelector((state: RootState) => state.prescription.id);
-    const { data: prescriptionData, isFetching: fetchingPrescriptionData, isLoading: loadingPrescription } = useGetPrescriptionByAppointmentIdQuery(presrptionId, {
+
+
+    const { data: prescriptionData, isFetching: fetchingPrescriptionData, isLoading: loadingPrescription } = useGetPrescriptionByIdQuery(presrptionId, {
         skip: !presrptionId,
     });
+
     const distpath = useDispatch()
     const filterCustomer = (value: any) => {
         return (data as any)?.data.filter((account: any) => {
@@ -116,10 +118,20 @@ const Home = () => {
     const options = ['Cash', 'Banking'];
     const [modalVisible, setModalVisible] = useState(false);
     const [countdown, setCountdown] = useState(300);
+    const [craeteBill] = useCreateBillMutation();
+    const [qrPayment, setQrPayment] = useState();
+
     const [selectedOption, setSelectedOption] = useState<any>("Cash");
     const handlApproved = () => {
         if (selectedOption === 'Banking') {
-            console.log("Banking");
+            craeteBill({
+                "prescription_id": (prescriptionData?.data as any)?.id,
+                "payment_method": "BANKING",
+                "status": "PENDING",
+                "total_money": (prescriptionData?.data as any)?.total_money
+            }).then(res => {
+                setQrPayment((res?.data?.data as any).checkout_response.qrCode);
+            })
             setModalVisible(true);
             setCountdown(300);
         }
@@ -143,27 +155,29 @@ const Home = () => {
         }
         return () => clearTimeout(timer);
     }, [modalVisible]);
+    const minutes = Math.floor(countdown / 60);
+    const seconds = countdown % 60;
     const hanldCancel = () => {
         setModalVisible(false)
         setCountdown(300)
     }
     const renderHeader = (session: any) => {
+
         return (
-            <Card className="bg-slate-50 mt-5 p-1">
+            <Card className="p-1 ">
                 <Card.Content>
                     <View className="flex flex-row items-center justify-between">
-
                         <View className="flex flex-row items-center">
                             <View>
-                                <Image source={require("@/assets/images/pets 4.png")} />
+                                {/* <Image source={require("@/assets/images/pets 4.png")} /> */}
                             </View>
                             <View className="ml-3">
                                 <Text className="text-[#0D74B1] text-base font-medium " style={{ fontFamily: "blod" }}>
-                                    Tên:{" "}
+                                    Tên thú cưng:{" "}
                                     <Text className="!text-black" style={{ fontFamily: "medium" }}> {session.pet.name}</Text>
                                 </Text>
                                 <Text className="text-[#0D74B1] text-base font-medium " style={{ fontFamily: "blod" }}>
-                                    Bệnh: <Text className="!text-black" style={{ fontFamily: "medium" }}>{session.note}</Text>
+                                    Bệnh: <Text className="!text-black" style={{ fontFamily: "medium" }}>{session.diagnosis}</Text>
                                 </Text>
                             </View>
                         </View>
@@ -180,7 +194,7 @@ const Home = () => {
     };
     const renderContent = (session: any) => {
         return (
-            <View className="bg-slate-50 rounded-2xl px-5 pt-3">
+            <View className="bg-slate-100 rounded-2xl px-5 pt-3">
                 <View className="w-auto h-auto">
                     {session?.medicines?.map((medicine: any, index: number) => (
                         <View className="flex flex-row items-center justify-between mb-3" key={index}>
@@ -223,10 +237,14 @@ const Home = () => {
                 <View style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }} className="flex-1 justify-center items-center">
                     <View style={{ width: 380, height: 320, padding: 50, backgroundColor: 'white', borderRadius: 10 }} className="flex justify-center items-center">
                         <View className="justify-center items-center">
-                            <Image className="w-36 h-32" source={require("@/assets/images/QR.png")} />
+                            <Text>
+                                <Link href="https://dl.vietqr.io/pay?app=icb&"><Image className="w-36 h-32" source={{ uri: qrPayment }} /></Link>
+                            </Text>
+
                             <Text className="text-sm mt-2" style={{ fontFamily: "medium" }}>QR will expire after {Math.floor(countdown / 60)} minute</Text>
+
                             <Text className="items-center text-base mt-5" style={{ fontFamily: "blod" }}>Petcare thanks you for your favor!</Text>
-                            <Button className="bg-[#0099CF] mt-5 w-56" onPress={hanldCancel} >
+                            <Button style={styles.buttonModal} onPress={hanldCancel} >
                                 <Text className="font-bold text-base text-white text-center">Cancel</Text>
                             </Button>
                         </View>
@@ -248,7 +266,7 @@ const Home = () => {
                                     {
                                         !isFocus
                                             ?
-                                            <View className="w-[95%] px-5">
+                                            <View className="w-full px-5">
                                                 <Searchbar
                                                     ref={inputRef}
                                                     style={styles.searchbar}
@@ -315,7 +333,7 @@ const Home = () => {
                                             </View>
                                         </View>
                                     }
-                                    <View className=" p-5 pb-64 ">
+                                    <View className="p-5 flex gap-5 mb-24">
                                         {
                                             isFocus
                                                 &&
@@ -329,7 +347,7 @@ const Home = () => {
                                                 :
                                                 (searchResult as any)?.map((search: any, index: number) => (
                                                     <Card
-                                                        className="bg-[#E7E7E8] mb-5"
+                                                        className="bg-red-500"
                                                         onPress={() => handlePresentModalPress(search.id)}
                                                         key={index}
                                                     >
@@ -371,7 +389,7 @@ const Home = () => {
                                                 !isFocus && !isFetching && ((data as any)?.data as IPrescription[])?.map(
                                                     (prescription: any, index: number) => (
                                                         <Card
-                                                            className="bg-[#E7E7E8] mb-5"
+                                                            className="bg-[#E7E7E8]"
                                                             onPress={() => handlePresentModalPress(prescription.id)}
                                                             key={index}
                                                         >
@@ -423,6 +441,11 @@ const Home = () => {
                                                                 <Text className="text-xl font-bold ml-4" style={{ fontFamily: "blod" }}>#PC{(prescriptionData as any)?.data.id}</Text>
                                                                 <View className="px-4 py-4">
                                                                     <Accordion
+                                                                        sectionContainerStyle={{
+                                                                            display: "flex",
+                                                                            gap: 10
+
+                                                                        }}
                                                                         sections={(prescriptionData as any)?.data.details || []}
                                                                         activeSections={activeSections}
                                                                         underlayColor="transparent"
@@ -569,4 +592,9 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 2,
     },
+    buttonModal: {
+        backgroundColor: "#0099CF",
+        marginTop: 20,
+        width: wp("50%")
+    }
 });

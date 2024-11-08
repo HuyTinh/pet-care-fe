@@ -32,6 +32,7 @@ export default function MedicinesManagement() {
   const [pageSize] = useState<number>(10);
   const [sortBy, setSortBy] = useState<string>("id");
   const [sortOrder, setSortOrder] = useState<string>("asc");
+  const [selectedType, setSelectedType] = useState<string>("MEDICINE");
 
   const { data: medicineData, isFetching: isFetchingMedicineData } =
     useGetAllMedicinesQuery({
@@ -41,6 +42,7 @@ export default function MedicinesManagement() {
       ...filterConditions,
       sortBy,
       sortOrder,
+      types: selectedType,
     });
 
   const onFilterSubmit = (data: any) => {
@@ -57,7 +59,17 @@ export default function MedicinesManagement() {
     }
   };
 
-  const totalPages = medicineData?.data.totalPages || 0;
+  const totalPages = medicineData?.data.total_pages || 0;
+
+  const getPageNumbers = () => {
+    let start = Math.max(1, Math.min(currentPage + 1 - 1, totalPages - 2));
+    let end = Math.min(start + 2, totalPages);
+    start = Math.max(1, end - 2);
+
+    return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+  };
+
+  const pageNumbers = getPageNumbers();
 
   return (
     <>
@@ -87,6 +99,22 @@ export default function MedicinesManagement() {
               />
             </svg>
           </label>
+          <div className="ml-3">
+            <select
+              value={selectedType}
+              onChange={(e) => {
+                setSelectedType(e.target.value);
+                setFilterConditions({});
+                setCurrentPage(0);
+              }}
+              className="select select-bordered"
+            >
+              <option value="MEDICINE">Medicine</option>
+              <option value="SURGICAL_INSTRUMENTS">Surgical Instruments</option>
+              <option value="CONSUMABLES">Consumables</option>
+              <option value="TREATMENT_TOOLS">Treatment Tools</option>
+            </select>
+          </div>
         </div>
         <div className="flex items-center gap-2">
           <button
@@ -109,18 +137,56 @@ export default function MedicinesManagement() {
             <FaFilter color="white" />
             <span className="font-semibold text-white">Filter</span>
           </button>
-          <button
-            className="btn btn-outline"
-            onClick={handleClearFilters}>
+          <button className="btn btn-outline" onClick={handleClearFilters}>
             <TbFilterX />
           </button>
+          {totalPages > 0 && (
+            <div className="mt-4 flex justify-center">
+              <ul className="join">
+                <li>
+                  <button
+                    onClick={() => setCurrentPage(Math.max(0, currentPage - 1))}
+                    disabled={currentPage === 0}
+                    className="btn join-item btn-sm"
+                  >
+                    «
+                  </button>
+                </li>
 
+                {pageNumbers.map((number) => (
+                  <li key={number}>
+                    <button
+                      onClick={() => setCurrentPage(number - 1)}
+                      className={`btn join-item btn-sm ${
+                        currentPage === number - 1 ? "btn-active" : ""
+                      }`}
+                    >
+                      {number}
+                    </button>
+                  </li>
+                ))}
+
+                <li>
+                  <button
+                    onClick={() =>
+                      setCurrentPage(Math.min(totalPages - 1, currentPage + 1))
+                    }
+                    disabled={currentPage === totalPages - 1}
+                    className="btn join-item btn-sm"
+                  >
+                    »
+                  </button>
+                </li>
+              </ul>
+            </div>
+          )}
         </div>
       </div>
+
       <div className="flex-1 p-2">
         <div className="relative h-[36rem] overflow-auto rounded-xl border">
           {!isFetchingMedicineData &&
-            medicineData?.data.medicines.length === 0 && (
+            medicineData?.data.content.length === 0 && (
               <div className="absolute top-0 z-50 flex h-full w-full flex-col items-center justify-center">
                 <FcCalendar size={64} className="mb-10" />
                 <div>No medicines found</div>
@@ -192,7 +258,7 @@ export default function MedicinesManagement() {
             </thead>
             <tbody>
               {!isFetchingMedicineData &&
-                medicineData?.data.medicines.map(
+                medicineData?.data.content.map(
                   (me: IMedicine, index: number) => (
                     <motion.tr key={index}>
                       <th>#{me.id}</th>
@@ -279,25 +345,6 @@ export default function MedicinesManagement() {
             </tbody>
           </table>
           {/* Pagination Controls */}
-          <div className="flex items-center justify-between p-2">
-            <button
-              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 0))}
-              disabled={currentPage === 0}
-              className="btn btn-info"
-            >
-              <span className="text-white">Previous</span>
-            </button>
-            <span>
-              Page {currentPage + 1} of {totalPages}
-            </span>
-            <button
-              onClick={() => setCurrentPage((prev) => prev + 1)}
-              disabled={currentPage >= totalPages - 1}
-              className="btn btn-info"
-            >
-              <span className="text-white">Next</span>
-            </button>
-          </div>
         </div>
         <EditMedicineModal medicine={selectedMedicine!} />
         <AddMedicineModal />

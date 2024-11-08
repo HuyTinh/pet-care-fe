@@ -9,14 +9,15 @@ import { APIReponse } from '../types/api-response';
 export const pharmacistApi = createApi({
     reducerPath: 'pharmacistApi',
     tagTypes: ['Prescriptions'],
-    // baseQuery: fetchBaseQuery({ baseUrl: 'https://tsm885rc-8888.asse.devtunnels.ms/api/v1' }),
-    baseQuery: fetchBaseQuery({ baseUrl: 'https://api.mockaron.com/mock/ze9ga5f7xf' }),
-    
+    baseQuery: fetchBaseQuery({ baseUrl: 'https://tsm885rc-8888.asse.devtunnels.ms/api/v1' }),
+    // baseQuery: fetchBaseQuery({ baseUrl: 'https://api.mockaron.com/mock/ze9ga5f7xf' }),
+    // baseQuery: fetchBaseQuery({ baseUrl: 'https://4eb91834-c563-42d9-a020-25d3548eb851.mock.pstmn.io/' }),
+
     endpoints: build => ({
         getPrescription: build.query<any, void>({
             // query: () => '/medical-prescription-service/prescription',
-            query: () => `/medical-prescription-service/getAll`,
-            providesTags(result : any) {
+            query: () => `/medical-prescription-service/prescription`,
+            providesTags(result: any) {
                 if (result) {
                     const final = [...((result as any)?.data as IPrescription[]).map(({ id }) => ({ type: 'Prescriptions' as const, id })), { type: 'Prescriptions' as const, appointmentId: 'LIST' }]
                     return final;
@@ -25,10 +26,10 @@ export const pharmacistApi = createApi({
                 return final;
             }
         }),
-        getAccount: build.mutation<APIReponse<{ token: string, authenticated: boolean }>, LoginRequest>({
+        getAccount: build.mutation<APIReponse<{ token: any, authenticated: boolean }>, LoginRequest>({
             query: (account) => ({
-                // url: "/identity-service/auth/token",
-                url: "identity_service/auth/token",
+                url: "/identity-service/auth/token",
+                // url: "identity_service/auth/token",
                 method: "POST",
                 body: account
             }),
@@ -37,8 +38,6 @@ export const pharmacistApi = createApi({
                     const { data } = await queryFulfilled
                     try {
                         await SecureStore.setItemAsync('token', JSON.stringify((data as any)?.data.token));
-                        const token = await SecureStore.getItemAsync('token');
-                        console.log(token);
                     } catch (error) {
                         console.log('Error saving token:', error);
                     }
@@ -49,8 +48,8 @@ export const pharmacistApi = createApi({
             }
         }),
         getPrescriptionById: build.query<APIReponse<IPrescription>, string>({
-            // query: (id) => `/medical-prescription-service/prescription/${id}`
-            query: (id) => `/medical_prescription_service/prescription/${id}`
+            query: (id) => `/medical-prescription-service/prescription/${id}`
+            // query: (id) => `/medical_prescription_service/prescription/${id}`
         }),
         getPrescriptionByAppointmentId: build.query<APIReponse<IPrescription>, string>({
             query: (id) => `/medical_prescription_service/prescription/${id}/appointment`
@@ -60,16 +59,27 @@ export const pharmacistApi = createApi({
             query: () => "/medical_prescription_service/profile"
         }),
         getAccoutById: build.query<APIReponse<Account>, string>({
-             query: (id) => `/medical_prescription_service/profile/${id}`
+            query: (id) => `/medical_prescription_service/profile/${id}`
+        }),
+        createBill: build.mutation<APIReponse<any>, any>({
+            query(body) {
+                return {
+                    url: `/bill-service/invoice`,
+                    method: "POST",
+                    body
+                }
+            }
+
         })
     })
 })
 
 export const {
     useGetPrescriptionQuery,
+    useCreateBillMutation,
     useGetPrescriptionByIdQuery,
     useGetAccountMutation,
     useGetAllAccountQuery,
-    useGetPrescriptionByAppointmentIdQuery,
-    useGetAccoutByIdQuery
+    useGetAccoutByIdQuery,
+    useGetPrescriptionByAppointmentIdQuery
 } = pharmacistApi

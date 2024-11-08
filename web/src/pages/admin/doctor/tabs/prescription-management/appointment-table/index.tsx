@@ -78,8 +78,8 @@ export const AppointmentTable = ({ filterAppointmentConditions, setSelectedAppoi
                     }}>»</button>
                 </div>
             </div>
-            <div className="h-[32rem] overflow-auto relative">
-                <table className="table border rounded-lg h-full">
+            <div className="h-[32rem] border rounded-lg overflow-auto relative">
+                <table className="table">
                     {/* head */}
                     <thead className="sticky top-0 bg-white ">
                         <tr>
