@@ -64,7 +64,7 @@ export const Event = () => {
                                     </div>
                                 </div>
                             ))}
-                            <dialog id="my_modal_event" className="modal *:text-black">
+                            <dialog id="my_modal_event" className="modal">
                                 <div className="modal-box h-full max-w-6xl">
                                     <div className="flex flex-col lg:flex-row">
                                         <div className="w-full">
@@ -97,7 +97,7 @@ export const Event = () => {
                                         </div>
                                         <div className="flex justify-between">
                                             <p></p>
-                                            <Link to="/booking" className="btn bg-[#0d74b1] mt-3 ">Booking now</Link>
+                                            <Link to="/booking" className="btn bg-[#0d74b1] mt-3 text-white">Booking now</Link>
                                         </div>
                                     </div>
                                 </div>
@@ -143,11 +143,6 @@ export const Event = () => {
                             </div>
                         ))}
                     </div>
-
-                    {/* <input type="radio" name="my_tabs_2" role="tab" className="tab" aria-label="Tab3" />
-                    <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6">
-                        Tab content 3
-                    </div> */}
                 </div>
             </div>
 

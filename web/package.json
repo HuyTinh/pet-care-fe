@@ -38,6 +38,7 @@
     "react-select": "^5.8.1",
     "react-social-login-buttons": "^4.1.0",
     "react-toastify": "^10.0.5",
+    "recharts": "^2.13.3",
     "sass": "^1.79.4",
     "sockjs-client": "^1.6.1",
     "swiper": "^11.1.14"

@@ -13,7 +13,7 @@ export const Blog = () => {
     const [blog, setBlog] = useState<IBlog>();
     const user_id = 2;
 
-    const [content, setContent] = useState();
+    const [content, setContent] = useState<string>("");
     const [rating, setRating] = useState(0);
     const [hover, setHover] = useState<number | null>(null);
 
@@ -31,6 +31,7 @@ export const Blog = () => {
     }
 
     function eidtComments(comment: IComment) {
+
         fetch(`http://localhost:1337/api/blogs/${blog?.documentId}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
@@ -161,6 +162,8 @@ export const Blog = () => {
                                     type="text"
                                     placeholder="Viết bình luận..."
                                     className="w-full p-2 rounded-md bg-gray-800 text-white focus:outline-none"
+                                    value={content}
+                                    onChange={(e) => setContent(e.target.value)}
                                 />
                                 <div className="flex items-center mt-3">
                                     {[...Array(5)].map((_, index) => (
@@ -171,7 +174,7 @@ export const Blog = () => {
                                             viewBox="0 0 24 24"
                                             className={`w-4 h-4 cursor-pointer ${(hover || rating) > index
                                                 ? 'text-yellow-500'
-                                                : 'text-gray-400'
+                                                 : 'text-gray-400'
                                                 }`}
                                             onClick={() => setRating(index + 1)}
                                             onMouseEnter={() => setHover(index + 1)}
@@ -185,15 +188,24 @@ export const Blog = () => {
                                     <p></p>
                                     <button
                                         className="border w-[100px] rounded shadow text-[18px] hover:bg-slate-300 hover:border hover:border-gray-600 mt-3"
-                                        onClick={() => postComments({
-                                            avatar: "a",
-                                            content: "test put",
-                                            time: "2024-10-13",
-                                            user: "dua",
-                                            user_id: user_id,
-                                            id: self.crypto.randomUUID() as any,
-                                            rating: rating
-                                        })} >Comment</button>
+                                        onClick={() => {
+                                            if (!content || content.trim() === "") {
+                                                alert("Comments cannot be empty!");
+                                                return;
+                                            }
+                                            postComments({
+                                                avatar: "a",
+                                                content: content as any,
+                                                time: "2024-10-13",
+                                                user: "dua",
+                                                user_id: user_id,
+                                                id: self.crypto.randomUUID() as any,
+                                                rating: rating,
+                                            });
+                                        }}
+                                    >
+                                        Comment
+                                    </button>
                                 </div>
                             </div>
 
@@ -211,9 +223,9 @@ export const Blog = () => {
                                             </div>
                                             <div >
                                                 <div>
-                                                    <textarea 
-                                                    className="whitespace-pre-line mt-2 w-[800px] h-[auto] mb-2" 
-                                                    disabled={(comment as any)?.user_id != user_id} onChange={(e) => setContent(e.target.value as any)} >{comment.content}
+                                                    <textarea
+                                                        className="whitespace-pre-line mt-2 w-[800px] h-[auto] mb-2"
+                                                        disabled={(comment as any)?.user_id != user_id} onChange={(e) => setContent(e.target.value as any)} >{comment.content}
                                                     </textarea>
                                                 </div>
                                                 <div className="mb-2">
@@ -243,14 +255,7 @@ export const Blog = () => {
                                                         id: comment.id,
                                                         rating: 5
                                                     })}>Edit</button>
-                                            </div>  
-
-                                            {/* <div className="flex items-center space-x-4 mt-2 text-sm text-gray-400">
-                                                <button className="hover:text-white">👍 {comment.likes || 0} lượt thích</button>
-                                                {comment.replies > 0 && (
-                                                    <button className="hover:text-white">{comment.replies} phản hồi</button>
-                                                )}
-                                            </div> */}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

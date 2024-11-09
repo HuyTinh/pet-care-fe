@@ -70,6 +70,7 @@ const userRoutes: RouteObject = {
       children: [
         { index: true, element: <ProfileTab /> },
         { path: "appointment", element: <AppointmentTab /> },
+
       ],
     },
     { path: "booking", element: <BookingPage /> },
