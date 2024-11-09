@@ -12,7 +12,6 @@ import {
 } from "react-native";
 import { Controller, set, SubmitHandler, useForm } from "react-hook-form";
 import { Button, TextInput } from "react-native-paper";
-import { CheckBox } from "react-native-elements";
 import { Link, router } from "expo-router";
 import { useCameraPermissions } from "expo-camera";
 import {
@@ -22,7 +21,6 @@ import {
 import { useGetAccountMutation } from "@/app/pharmacist.service";
 import { LoginRequest } from "@/types/login-request.type";
 import { useFonts } from "expo-font";
-import * as SplashScreen from "expo-splash-screen";
 import * as SecureStore from 'expo-secure-store';
 import { isRemember, startEditPrescription } from "@/app/prescription.slice";
 import { useDispatch, useSelector } from "react-redux";
@@ -35,7 +33,6 @@ const Auth = () => {
     exp: number;
   }
   const [login, { isLoading }] = useGetAccountMutation();
-  // const [isSelected, setSelection] = useState(false);
   const [permission, requestPermissions] = useCameraPermissions();
   const { control, reset, handleSubmit } = useForm<LoginRequest>();
   const [modalVisible, setModalVisible] = useState(false);
@@ -46,7 +43,6 @@ const Auth = () => {
 
   // 
   useEffect(() => {
-    // Trực tiếp lấy token trong useEffect
     SecureStore.getItemAsync('token')
       .then((retrievedToken) => {
         if (retrievedToken) {
@@ -65,9 +61,7 @@ const Auth = () => {
     try {
       await login(data).unwrap()
         .then(() => {
-          // dispatch(startEditPrescription(decodedPayload.userId))
           router.replace('/(tabs)/list');
-
         })
     }
     catch (error) {
@@ -83,7 +77,6 @@ const Auth = () => {
   const { width, height } = Dimensions.get("window");
   return (
     <>
-      {/* Model popup */}
       <Modal
         animationType="slide"
         transparent={true}
@@ -170,7 +163,6 @@ const Auth = () => {
             </View>
           </View>
           <View style={styles.buttonContainer}>
-            {/* <Link href="./(tabs)/list"> */}
             <Button
               mode="contained"
               style={styles.button}
@@ -179,12 +171,9 @@ const Auth = () => {
             >
               Login
             </Button>
-            {/* </Link> */}
             {/* <Button onPress={requestPermissions}>Alow camera</Button> */}
           </View>
         </View>
-        {/* <ScrollView contentContainerStyle={styles.container}>
-        </ScrollView> */}
       </TouchableWithoutFeedback>
     </>
   );
