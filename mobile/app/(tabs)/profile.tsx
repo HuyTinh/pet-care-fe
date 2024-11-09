@@ -1,13 +1,12 @@
 import { StyleSheet, View, Image, Text, StatusBar } from 'react-native'
 import React from 'react'
-import { Avatar, Button, Card } from 'react-native-paper';
+import { Avatar, Card } from 'react-native-paper';
 import { Link, router } from 'expo-router';
-import { useGetAccoutByIdQuery, useGetAllAccountQuery } from '@/app/pharmacist.service';
+import { useGetAccoutByIdQuery } from '@/app/pharmacist.service';
 import * as SecureStore from 'expo-secure-store';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 const explore = () => {
-  const { data, isLoading, isFetching, isError } = useGetAllAccountQuery()
   const handlDeleteTonken = async () => {
     await SecureStore.deleteItemAsync("token")
     router.replace("/(auth)")
@@ -22,10 +21,10 @@ const explore = () => {
       <View style={styles.square}>
         <View >
           <View className='items-center mt-28 static'>
-            <Avatar.Image size={100} source={{ uri: (data as any)?.data.image_url }} />
+            <Avatar.Image size={100} source={{ uri: (profileData as any)?.data.image_url }} />
             <View>
-              <Text className='text-2xl font-bold mt-2 text-white' style={{ fontFamily: "blod" }}>{(data as any)?.data.first_name} {(data as any)?.data.last_name}</Text>
-              <Text className='text-lg font-medium opacity-70 text-white ml-[15px]' style={{ fontFamily: "blod" }}>ID:<Text style={{ fontFamily: "medium" }}> #PC{(data as any)?.data.id}</Text> </Text>
+              <Text className='text-2xl font-bold mt-2 text-white' style={{ fontFamily: "blod" }}>{(profileData as any)?.data.first_name} {(profileData as any)?.data.last_name}</Text>
+              <Text className='text-lg font-medium opacity-70 text-white ml-[15px]' style={{ fontFamily: "blod" }}>ID:<Text style={{ fontFamily: "medium" }}> #PC{(profileData as any)?.data.id}</Text> </Text>
             </View>
           </View>
         </View>
@@ -73,7 +72,7 @@ const styles = StyleSheet.create({
     borderColor: '#0099CF',
   },
   card: {
-    backgroundColor: '#0099CF', //rgba(0, 153,207,0.1)
+    backgroundColor: '#0099CF',
     marginTop: 28
   }
 

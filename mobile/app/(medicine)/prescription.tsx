@@ -84,7 +84,6 @@ const prescription = () => {
         );
     };
     const renderContent = (session: any) => {
-        // console.log(session);
         return (
             <>
                 <View className='bg-slate-100 rounded-2xl px-5 py-3'>
@@ -137,7 +136,6 @@ const prescription = () => {
                     <StatusBar barStyle="dark-content" />
                     <View>
                         <View className='mt-20 ml-12'>
-                            {/* <Text style={styles.text_code}>#PC{(data as any)?.data.appointmentId}</Text> */}
                             <Text style={styles.text_code}>#PC{(data as any)?.data?.id}</Text>
                         </View>
                         <View className='px-4 py-4'>
@@ -222,7 +220,6 @@ const prescription = () => {
                 </View>
             </ScrollView>
         </>
-
     )
 }
 
