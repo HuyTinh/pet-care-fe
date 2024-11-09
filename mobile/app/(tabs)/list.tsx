@@ -32,29 +32,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { startEditPrescription } from "@/app/prescription.slice";
 import { Link, router, useFocusEffect } from "expo-router";
-// import { useFonts } from "expo-font";
 const Home = () => {
     const getDateInfo = (): { day: number; month: string; year: number; dayName: string } => {
-        const today = new Date(); // Lấy ngày hiện tại
-
-        // Lấy ngày (1-31)
+        const today = new Date(); 
         const day: number = today.getDate();
-        // Lấy chỉ số tháng (0-11)
         const monthIndex: number = today.getMonth();
-        // Lấy tháng (0-11). Cần cộng thêm 1 nếu muốn từ 1-12.
         const months: string[] = [
             'January', 'February', 'March', 'April',
             'May', 'June', 'July', 'August',
             'September', 'October', 'November', 'December'
         ];
         const month: string = months[monthIndex];
-        // Lấy năm (ví dụ: 2024)
         const year: number = today.getFullYear();
-
-        // Lấy ngày trong tuần (0-6)
         const dayOfWeek: number = today.getDay();
-
-        // Map các số 0-6 thành tên các thứ
         const days: string[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         const dayName: string = days[dayOfWeek];
 
@@ -64,10 +54,7 @@ const Home = () => {
     const [searchQuery, setSearchQuery] = React.useState("");
     const [searchResult, setSearchResult] = React.useState();
     const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-    // variables
     const snapPoints = useMemo(() => ["75%"], []);
-
-    // callbacks
     const handlePresentModalPress = useCallback((id: any) => {
         bottomSheetModalRef.current?.present();
         distpath(startEditPrescription(id))
@@ -105,9 +92,6 @@ const Home = () => {
         setSearchResult(filterCustomer(searchQuery))
     }, [searchQuery])
 
-    const hanldListSearch = () => {
-        router.replace('./(tabs)/list');
-    }
     const inputRef = useRef<TextInput>(null);
     const handleButtonPress = () => {
         inputRef.current?.blur();
@@ -169,7 +153,6 @@ const Home = () => {
                     <View className="flex flex-row items-center justify-between">
                         <View className="flex flex-row items-center">
                             <View>
-                                {/* <Image source={require("@/assets/images/pets 4.png")} /> */}
                             </View>
                             <View className="ml-3">
                                 <Text className="text-[#0D74B1] text-base font-medium " style={{ fontFamily: "blod" }}>
@@ -271,7 +254,6 @@ const Home = () => {
                                                     ref={inputRef}
                                                     style={styles.searchbar}
                                                     placeholder="Search list customer"
-                                                    // onChangeText={(query) => setSearchQuery(query)}
                                                     value={searchQuery}
                                                     onFocus={() => setIsFocus(true)}
                                                 />
@@ -425,7 +407,6 @@ const Home = () => {
                                             ref={bottomSheetModalRef}
                                             index={1}
                                             snapPoints={snapPoints}
-                                        // handleIndicatorStyle={{ display: "none" }}
                                         >
                                             <BottomSheetView>
                                                 <View className='flex flex-col justify-between h-full' style={{ width: wp(100) }}>
@@ -525,7 +506,6 @@ const Home = () => {
                 </TouchableWithoutFeedback>
             </TouchableWithoutFeedback>
         </>
-
     );
 };
 
