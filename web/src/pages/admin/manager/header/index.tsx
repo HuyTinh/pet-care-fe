@@ -73,8 +73,7 @@ export const Header = () => {
             className="menu menu-horizontal space-x-5 px-1 text-xl"
           >
             <li>
-              {/* <NavLink to={"/"}>Home</NavLink> */}
-              <p>Home</p>
+              <NavLink end to={"/manager"}>Home</NavLink>
             </li>
             <li>
               <p>Customers</p>
@@ -83,10 +82,6 @@ export const Header = () => {
             {/* <li>
               <a>Link</a>
             </li> */}
-            <li>
-              <p>Pets</p>
-              {/* <NavLink to={"/contact"}>Pets</NavLink> */}
-            </li>
             <li>
               <p>Employees</p>
               {/* <NavLink to={"/booking"}>Employees</NavLink> */}
@@ -111,7 +106,7 @@ export const Header = () => {
                     <NavLink to={"/manager/report/service"} className="text-black">Service</NavLink>
                   </li>
                   <li>
-                    <a className="text-black">Revenue</a>
+                    <NavLink to={"/manager/report/revenue"} className="text-black">Revenue</NavLink>
                   </li>
                   <li>
                     <a className="text-black">Medicine</a>
@@ -119,7 +114,6 @@ export const Header = () => {
                 </ul>
               </div>
             </li>
-
             <li>
               <span
                 onClick={() =>
