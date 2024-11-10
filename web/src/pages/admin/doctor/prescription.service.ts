@@ -8,7 +8,7 @@ import { ICalculationUnit } from "../../../types/medicine.type";
 export const prescriptionApi = createApi({
   reducerPath: "prescriptionApi",
   tagTypes: ["Prescriptions", "Appointments"],
-  baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_BACKEND_URL }),
+  baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_API_URL }),
   endpoints: (build) => ({
     getAllPresctiption: build.query<APIResponse<IPrescription>, void>({
       query: () => `${import.meta.env.VITE_MEDICAL_PRESCRIPTION_PATH}/prescription`,

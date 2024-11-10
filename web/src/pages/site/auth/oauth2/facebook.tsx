@@ -16,23 +16,18 @@ export const PetCareFacebookLoginButton = () => {
       scope: "public_profile,email,user_gender",
     })
       .then((res) => {
-        let { authResponse } = res;
+        const { authResponse } = res;
         loginFacebookRequest((authResponse as any).accessToken).then(
           (result) => {
-            // if ("error" in result) {
-            //   toast.error((result.error as any).data.message, {
-            //     position: "top-right",
-            //   });
-            // }
             if ("data" in result) {
-              let { data } = result;
+              const { data } = result;
               toast.success("Login successful", {
                 position: "top-right",
               });
               const loginResponse: {
                 token: string;
                 authenticated: boolean;
-              } = data.result;
+              } = data.data;
               localStorage.setItem("token", loginResponse.token);
               dispatch(setAuthenticated(loginResponse.token));
               (document.getElementById("authentication_modal") as any).close();
@@ -40,7 +35,7 @@ export const PetCareFacebookLoginButton = () => {
           },
         );
       })
-      .catch(() => {});
+      .catch(() => { });
   }
   return (
     <FacebookLoginButton

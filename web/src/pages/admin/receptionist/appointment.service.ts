@@ -11,7 +11,7 @@ import { displayInputDate, displayPlusDate } from "../../../utils/date";
 export const appointmentApi = createApi({
   reducerPath: "appointmentApi",
   tagTypes: ["Appointments", "AppointmentsCustomer", "UpcomingAppointments"],
-  baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_BACKEND_URL }),
+  baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_API_URL }),
   endpoints: (build) => ({
     getAppointments: build.query<APIResponse<PageableResponse<IAppointment>>, void>({
       query: () => `${import.meta.env.VITE_APPOINTMENT_PATH}/appointment`,
