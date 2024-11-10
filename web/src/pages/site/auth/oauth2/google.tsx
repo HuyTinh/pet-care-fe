@@ -14,7 +14,7 @@ export const PetCareGoogleLoginButton = () => {
       loginWithGoogleRequest((tokenResponse as any).access_token).then(
         (result) => {
           if ("data" in result) {
-            let { data } = result;
+            const { data } = result;
             toast.success("Login successful", {
               position: "top-right",
             });
