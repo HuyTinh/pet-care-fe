@@ -8,52 +8,63 @@ import {
   TouchableWithoutFeedback,
   ScrollView,
   TouchableOpacity,
-  Alert,
   ImageBackground,
 } from "react-native";
 import { Avatar, Button, TextInput } from "react-native-paper";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { useNavigation, router } from "expo-router";
+import { useNavigation } from "expo-router";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { useGetAccountByIdQuery } from "@/app/pharmacist.service";
+import { useGetEmployeeByAccountIdQuery } from "@/app/pharmacist.service";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { Account } from "@/types/account.type";
+
 const EditProfile = () => {
-  const [imageUrl, setImage] = useState([]);
-  const { control, reset, handleSubmit } = useForm<any>();
-  const navigation = useNavigation();
-  const profileId = useSelector((state: RootState) => state.prescription.id);
-  const { data, isFetching, isLoading } = useGetAccountByIdQuery(profileId, {
-    skip: !profileId
+  const [imageUrl, setImage] = useState([]); // State to store the selected image URL
+  const { control, reset, handleSubmit } = useForm<any>(); // Initialize react-hook-form
+  const navigation = useNavigation(); // Used for navigation
+  const profileId = useSelector((state: RootState) => state.prescription.id); // Get profile ID from Redux store
+  const { data, isFetching, isLoading } = useGetEmployeeByAccountIdQuery(profileId, {
+    skip: !profileId // Skip the query if no profileId
   })
-  const [imageUri, setImageUri] = useState((data as any)?.data?.image_url || null);
-  const [value, setValue] = React.useState('first');
+  const [imageUri, setImageUri] = useState((data as any)?.data?.image_url || null); // Initialize imageUri state with profile image URL from fetched data
+  const [value, setValue] = React.useState('first'); // State for gender selection (initial value 'first')
+
+  // Function to handle back button press and navigate to the previous screen
   function handleBack() {
     navigation.goBack();
   }
+
+  // Effect hook to reset form data when profile data is fetched
   useEffect(() => {
     if (data) {
-      reset((data as any)?.data)
+      reset((data as any)?.data); // Reset the form fields with the fetched data
     }
   }, [data]);
 
+  // Function to handle form submission
   const onSubmit: SubmitHandler<Account> = async (data: Account) => {
-    // const formData = { ...data, image_url: imageUri};
+    // Here you can add logic to handle profile update
+    // For now, it just logs the data
     console.log("data: ", data);
   }
+
   return (
+    // Dismiss keyboard when clicking outside input fields
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ScrollView contentContainerStyle={styles.container}>
+        {/* Background image for the header */}
         <ImageBackground
           source={require("@/assets/images/back_ground_medicine.jpg")}
           style={styles.header}
           imageStyle={{ borderBottomLeftRadius: 20, borderBottomRightRadius: 20 }}
         >
         </ImageBackground>
+
+        {/* Back button */}
         <TouchableWithoutFeedback onPress={handleBack}>
           <View style={styles.backButton}>
             <Image
@@ -62,28 +73,34 @@ const EditProfile = () => {
             />
           </View>
         </TouchableWithoutFeedback>
+
+        {/* Avatar Container */}
         <View style={styles.avatarContainer}>
           <Avatar.Image
-            size={110} // Bạn có thể điều chỉnh kích thước tùy ý
-            source={{ uri: (data as any)?.data?.image_url }}
+            size={110} // Size of the avatar
+            source={{ uri: (data as any)?.data?.image_url }} // Avatar image source from fetched data
             style={styles.avatar}
           />
+          {/* Uncomment to add image picker functionality for updating avatar */}
           {/* <TouchableWithoutFeedback onPress={pickImage}>
-              <View style={styles.addButton}>
-                <Image
-                  source={require("@/assets/images/plus.png")}
-                  style={styles.addIcon}
-                />
-              </View>
-            </TouchableWithoutFeedback> */}
+            <View style={styles.addButton}>
+              <Image
+                source={require("@/assets/images/plus.png")}
+                style={styles.addIcon}
+              />
+            </View>
+          </TouchableWithoutFeedback> */}
         </View>
+
+        {/* Form container */}
         <View style={styles.formContainer}>
+          {/* Name Fields (Last name, First name) */}
           <View style={styles.nameContainer}>
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Last name</Text>
               <Controller
                 control={control}
-                rules={{ required: true }}
+                rules={{ required: true }} // Validation for required field
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInput
                     style={styles.input}
@@ -96,14 +113,14 @@ const EditProfile = () => {
                     selectionColor="#0099CF"
                   />
                 )}
-                name="last_name"
+                name="last_name" // Form field name for last name
               />
             </View>
             <View style={styles.inputContainer}>
               <Text style={styles.label}>First name</Text>
               <Controller
                 control={control}
-                rules={{ required: true }}
+                rules={{ required: true }} // Validation for required field
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInput
                     style={styles.input}
@@ -116,16 +133,17 @@ const EditProfile = () => {
                     selectionColor="#0099CF"
                   />
                 )}
-                name="first_name"
+                name="first_name" // Form field name for first name
               />
             </View>
           </View>
 
+          {/* Email Input */}
           <View style={styles.inputContainer}>
             <Text style={styles.label}>Email</Text>
             <Controller
               control={control}
-              rules={{ required: true }}
+              rules={{ required: true }} // Validation for required field
               render={({ field: { onChange, onBlur, value } }) => (
                 <TextInput
                   style={styles.input}
@@ -138,14 +156,16 @@ const EditProfile = () => {
                   selectionColor="#0099CF"
                 />
               )}
-              name="email"
+              name="email" // Form field name for email
             />
           </View>
+
+          {/* Phone number input */}
           <View style={styles.inputContainer}>
             <Text style={styles.label}>Phone number</Text>
             <Controller
               control={control}
-              rules={{ required: true }}
+              rules={{ required: true }} // Validation for required field
               render={({ field: { onChange, onBlur, value } }) => (
                 <TextInput
                   style={styles.input}
@@ -158,21 +178,23 @@ const EditProfile = () => {
                   selectionColor="#0099CF"
                 />
               )}
-              name="phone_number"
+              name="phone_number" // Form field name for phone number
             />
           </View>
+
+          {/* Gender selection */}
           <View style={styles.inputContainer}>
             <Text style={styles.label}>Gender</Text>
             <Controller
               control={control}
-              name="gender"
-              rules={{ required: 'Please select a gender' }}
+              name="gender" // Form field name for gender
+              rules={{ required: 'Please select a gender' }} // Validation for required field
               render={({ field: { onChange, value } }) => (
                 <View className="flex flex-row justify-around">
-                  {["MALE", "FEMALE",].map((option) => (
+                  {["MALE", "FEMALE"].map((option) => (
                     <TouchableOpacity
                       key={option}
-                      onPress={() => onChange(option)}
+                      onPress={() => onChange(option)} // Update gender value
                       className="flex flex-row items-center"
                     >
                       <View
@@ -207,12 +229,13 @@ const EditProfile = () => {
           </View>
         </View>
 
+        {/* Update Button */}
         <View style={styles.buttonContainer}>
           <Button
             style={styles.updateButton}
-            onPress={handleSubmit(onSubmit)}
+            onPress={handleSubmit(onSubmit)} // Submit form data
           >
-            <Text style={styles.buttonText} >Update</Text>
+            <Text style={styles.buttonText}>Update</Text>
           </Button>
         </View>
       </ScrollView>
