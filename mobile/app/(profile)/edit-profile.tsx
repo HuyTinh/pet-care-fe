@@ -33,28 +33,8 @@ const EditProfile = () => {
   const [imageUri, setImageUri] = useState((data as any)?.data?.image_url || null);
   const [value, setValue] = React.useState('first');
   function handleBack() {
-    // router.replace("../(profile)/show-profile")
     navigation.goBack();
   }
-  // const pickImage = async () => {
-  //   // Yêu cầu quyền truy cập thư viện ảnh
-  //   const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-  //   if (permissionResult.granted === false) {
-  //     Alert.alert("Access denied", "Please grant access to photo library.");
-  //     return;
-  //   }
-  //   // Mở thư viện ảnh và cho phép người dùng chọn ảnh
-  //   const result = await ImagePicker.launchImageLibraryAsync({
-  //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
-  //     allowsEditing: true,
-  //     quality: 1,
-  //   });
-
-  //   if (!result.canceled) {
-  //     setImageUri(result.assets[0].uri);
-  //   }
-  // };
-
   useEffect(() => {
     if (data) {
       reset((data as any)?.data)

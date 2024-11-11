@@ -1,5 +1,5 @@
 import { Image, Keyboard, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Avatar, Button, Card, IconButton } from 'react-native-paper'
 import { Link, router, useNavigation } from 'expo-router';
 import { useGetAccoutByIdQuery, useGetAllAccountQuery } from '@/app/pharmacist.service';
@@ -20,9 +20,9 @@ const neweditprofile = () => {
         skip: !profileId
     })
     const navigation = useNavigation();
-    function handleBack() {
+    const handleBack = useCallback(() => {
         navigation.goBack();
-    }
+    },[navigation])
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

@@ -1,5 +1,5 @@
 import { StyleSheet, View, Image, Text, StatusBar } from 'react-native'
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Avatar, Card } from 'react-native-paper';
 import { Link, router } from 'expo-router';
 import { useGetAccoutByIdQuery } from '@/app/pharmacist.service';
@@ -7,10 +7,10 @@ import * as SecureStore from 'expo-secure-store';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 const explore = () => {
-  const handlDeleteTonken = async () => {
+  const handlDeleteTonken = useCallback(async () => {
     await SecureStore.deleteItemAsync("token")
     router.replace("/(auth)")
-  }
+  },[router]) 
   const profileId = useSelector((state: RootState) => state.prescription.id);
   const { data : profileData, isLoading : profileLoading } = useGetAccoutByIdQuery(profileId, {
     skip: !profileId

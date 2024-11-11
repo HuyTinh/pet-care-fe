@@ -9,13 +9,12 @@ import { APIReponse } from '../types/api-response';
 export const pharmacistApi = createApi({
     reducerPath: 'pharmacistApi',
     tagTypes: ['Prescriptions'],
-    baseQuery: fetchBaseQuery({ baseUrl: 'https://tsm885rc-8888.asse.devtunnels.ms/api/v1' }),
-    // baseQuery: fetchBaseQuery({ baseUrl: 'https://api.mockaron.com/mock/ze9ga5f7xf' }),
+    // baseQuery: fetchBaseQuery({ baseUrl: 'https://tsm885rc-8888.asse.devtunnels.ms/api/v1' }),
+    baseQuery: fetchBaseQuery({ baseUrl: 'https://api.mockaron.com/mock/ze9ga5f7xf' }),
     // baseQuery: fetchBaseQuery({ baseUrl: 'https://4eb91834-c563-42d9-a020-25d3548eb851.mock.pstmn.io/' }),
 
     endpoints: build => ({
         getPrescription: build.query<any, void>({
-            // query: () => '/medical-prescription-service/prescription',
             query: () => `/medical-prescription-service/prescription`,
             providesTags(result: any) {
                 if (result) {
