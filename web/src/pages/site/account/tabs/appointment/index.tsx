@@ -10,7 +10,7 @@ import { IAppointment } from "../../../../../types/appoiment.type";
 import { toast } from "react-toastify";
 
 export const AppointmentTab = () => {
-  const userId = useSelector((state: RootState) => state.authentication.userId);
+  const user_id = useSelector((state: RootState) => state.authentication.user_id);
   const [selectedAppointment, setSelectedAppointment] = useState<IAppointment>(
     {} as IAppointment,
   );
@@ -34,12 +34,12 @@ export const AppointmentTab = () => {
   const { data: appoimentsHistoryResponse, isFetching } =
     useGetAppointmentByCustomerIdQuery(
       {
-        userId,
+        user_id,
         params: {
           status: appointmentStatus,
         },
       },
-      { skip: !userId },
+      { skip: !user_id },
     );
 
   return (

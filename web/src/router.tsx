@@ -123,7 +123,7 @@ const adminRoutes: RouteObject[] = [
   },
   {
     path: "/manager",
-   
+
     // element: <ManagerLayout />,
     element: (
       <ProtectedRoute
@@ -149,16 +149,16 @@ const defaultRoute: RouteObject = {
 };
 
 export const RouterHooks = () => {
-  const { userId } = useSelector(
+  const { user_id } = useSelector(
     (state: RootState) => state.authentication,
   );
   const [cookies, setCookies] = useCookies<any>();
 
   useEffect(() => {
-    if (userId && cookies[`email-notification-${userId}`] === undefined) {
-      setCookies(`email-notification-${userId}`, true);
+    if (user_id && cookies[`email-notification-${user_id}`] === undefined) {
+      setCookies(`email-notification-${user_id}`, true);
     }
-  }, [userId, cookies, setCookies]);
+  }, [user_id, cookies, setCookies]);
 
   const router = createBrowserRouter([
     defaultRoute,

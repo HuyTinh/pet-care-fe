@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Button, Card } from 'react-native-paper';
 import Accordion from 'react-native-collapsible/Accordion'
 import { useSelector } from 'react-redux';
-import { useGetPrescriptionByAppointmentIdQuery, useGetPrescriptionByIdQuery } from '@/app/pharmacist.service';
+import { useGetPrescriptionByIdQuery } from '@/app/pharmacist.service';
 import { RootState } from '@/store/store';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { FontAwesome } from '@expo/vector-icons';
