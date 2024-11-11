@@ -5,10 +5,10 @@ export const customerApi = createApi({
   tagTypes: ["Customer"],
   baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_API_URL }),
   endpoints: (build) => ({
-    getCustomerProfile: build.query<any, { userId: string | null }>({
+    getCustomerProfile: build.query<any, { user_id: string | null }>({
       query(body) {
         return {
-          url: `${import.meta.env.VITE_CUSTOMER_PATH}/customer/account/${body.userId}`,
+          url: `${import.meta.env.VITE_CUSTOMER_PATH}/customer/account/${body.user_id}`,
           method: "GET",
         };
       },
@@ -18,11 +18,11 @@ export const customerApi = createApi({
     }),
     updateCustomerProfile: build.mutation<
       any,
-      { userId: string | null; data: any }
+      { user_id: string | null; data: any }
     >({
       query(body) {
         return {
-          url: `${import.meta.env.VITE_CUSTOMER_PATH}/customer/account/${body.userId}`,
+          url: `${import.meta.env.VITE_CUSTOMER_PATH}/customer/account/${body.user_id}`,
           method: "PUT",
           body: body.data,
         };

@@ -9,13 +9,13 @@ export const useHandleLogout = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [_cookies, _setCookies, removeCookie] = useCookies<any>();
-  const userId = useSelector((state: RootState) => state.authentication.userId);
+  const user_id = useSelector((state: RootState) => state.authentication.user_id);
   const handleLogout = async () => {
     try {
       // Gọi API logout từ server
       // await logoutRequest().unwrap();
-      if (userId) {
-        removeCookie(`email-notification-${userId}`); // Xóa cookie email notification
+      if (user_id) {
+        removeCookie(`email-notification-${user_id}`); // Xóa cookie email notification
       }
       // Xóa thông tin người dùng từ localStorage
       localStorage.removeItem("token");
