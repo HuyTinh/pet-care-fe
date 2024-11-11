@@ -157,9 +157,8 @@ export default function MedicinesManagement() {
                   <li key={number}>
                     <button
                       onClick={() => setCurrentPage(number - 1)}
-                      className={`btn join-item btn-sm ${
-                        currentPage === number - 1 ? "btn-active" : ""
-                      }`}
+                      className={`btn join-item btn-sm ${currentPage === number - 1 ? "btn-active" : ""
+                        }`}
                     >
                       {number}
                     </button>

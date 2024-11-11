@@ -34,19 +34,16 @@ export const time = [
     gmt_time: "06:00:00",
     label: "14h",
   },
-  ,
   {
     time: "15:00:00",
     gmt_time: "07:00:00",
     label: "15h",
   },
-  ,
   {
     time: "16:00:00",
     gmt_time: "08:00:00",
     label: "16h",
   },
-  ,
   {
     time: "17:00:00",
     gmt_time: "09:00:00",

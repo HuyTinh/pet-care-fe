@@ -23,7 +23,7 @@ export const ClientLoginForm = ({
   });
   const dispatch = useDispatch();
 
-  const [loginRequest] = useLoginRequestMutation();
+  const [loginRequest, { isLoading }] = useLoginRequestMutation();
 
   const GG_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
@@ -37,7 +37,7 @@ export const ClientLoginForm = ({
         });
       }
       if ("data" in res) {
-        let { data } = res;
+        const { data } = res;
         toast.success("Login successful", {
           position: "top-right",
         });
@@ -56,8 +56,21 @@ export const ClientLoginForm = ({
     });
   };
 
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
+      {isLoading &&
+        <div className="absolute left-0 top-0 flex h-full w-full justify-center items-center bg-black/35">
+          <div className="w-64 relative">
+            <img
+              src="/src/assets/images/loading.gif"
+              className="object-cover"
+              alt=""
+            />
+            <div className="text-white bg-black rounded-full absolute bottom-5 text-center w-full">Waiting for login...</div>
+          </div>
+        </div>
+      }
       <div className="mb-5 space-y-2">
         <div className="text-3xl font-bold">Join with us</div>
         <div className="text-lg">

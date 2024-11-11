@@ -6,7 +6,7 @@ import { getCookieValue } from "../../../utils/cookie";
 import { PageableResponse } from "../../../types/pageable-response";
 import { IHospitalService } from "../../../types/hospital-service.type";
 import { ISpecie } from "../../../types/specie.type";
-import { displayInputDate, displayPlusDate } from "../../../utils/date";
+import { displayInputDate, displayPlusDate } from "../../../utils/Date";
 
 export const appointmentApi = createApi({
   reducerPath: "appointmentApi",
@@ -109,6 +109,19 @@ export const appointmentApi = createApi({
     isCheckin: build.query<APIResponse<IAppointment>, string>({
       query: (body) =>
         `${import.meta.env.VITE_APPOINTMENT_PATH}/appointment/isCheckin/${body}`,
+    }),
+    cancelAppointment: build.mutation<any, number>({
+      query(appointmentId) {
+        return {
+          url: `${import.meta.env.VITE_APPOINTMENT_PATH}/appointment/cancel/${appointmentId}`,
+          method: "POST",
+        };
+      },
+      invalidatesTags: () => [
+        { type: "Appointments", id: "LIST" },
+        { type: "AppointmentsCustomer" as const, id: "LIST" },
+        { type: "UpcomingAppointments" as const, id: "LIST" },
+      ],
     }),
     createAppointment: build.mutation<APIResponse<IAppointment>, any>({
       query(body) {
@@ -219,6 +232,7 @@ export const {
   useUpdateAppointmentMutation,
   useGetAppointmentByCustomerIdQuery,
   useGetSpeciesQuery,
+  useCancelAppointmentMutation,
   useFilterAppointmentsQuery,
   useGenerateApointmentPDFMutation,
   useGetAppointmentByIdQuery,

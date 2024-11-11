@@ -8,7 +8,6 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { PetPicker } from "../../../../../../components/pet-picker";
 import { IPet } from "../../../../../../types/pet.type";
-import { ServicePicker } from "../../../../../../components/service-picker";
 import { useUpdateAppointmentMutation } from "../../../../../admin/receptionist/appointment.service";
 import { toast } from "react-toastify";
 import _ from "lodash";
@@ -28,6 +27,7 @@ export const EditAppointmentModal = ({
   const [updateAppointment, { isSuccess }] = useUpdateAppointmentMutation();
 
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     isSuccess &&
       toast.success("Change detail appointment successful", {
         position: "top-right",

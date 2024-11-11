@@ -9,11 +9,11 @@ import { useLogin } from "react-facebook";
 export const PetCareFacebookLoginButton = () => {
   const dispatch = useDispatch();
   const { login } = useLogin();
-  const [loginFacebookRequest] = useLoginWithFacebookRequestMutation();
+  const [loginFacebookRequest, { isLoading }] = useLoginWithFacebookRequestMutation();
 
   function handleLoginFacebook() {
     login({
-      scope: "public_profile,email,user_gender",
+      scope: "public_profile, email, user_gender",
     })
       .then((res) => {
         const { authResponse } = res;
@@ -38,12 +38,26 @@ export const PetCareFacebookLoginButton = () => {
       .catch(() => { });
   }
   return (
-    <FacebookLoginButton
-      onClick={() => {
-        handleLoginFacebook();
-      }}
-      text="Login with Facebook"
-      className="!h-10 !text-sm"
-    />
+    <>
+      {
+        isLoading && <div className="absolute left-0 top-0 flex h-full w-full justify-center items-center bg-black/35">
+          <div className="w-64 relative">
+            <img
+              src="/src/assets/images/loading.gif"
+              className="object-cover"
+              alt=""
+            />
+            <div className="text-white bg-black rounded-full absolute bottom-5 text-center w-full">Waiting for login...</div>
+          </div>
+        </div>
+      }
+      <FacebookLoginButton
+        onClick={() => {
+          handleLoginFacebook();
+        }}
+        text="Login with Facebook"
+        className="!h-10 !text-sm"
+      />
+    </>
   );
 };

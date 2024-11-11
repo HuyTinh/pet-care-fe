@@ -174,7 +174,7 @@ export const Blog = () => {
                                             viewBox="0 0 24 24"
                                             className={`w-4 h-4 cursor-pointer ${(hover || rating) > index
                                                 ? 'text-yellow-500'
-                                                 : 'text-gray-400'
+                                                : 'text-gray-400'
                                                 }`}
                                             onClick={() => setRating(index + 1)}
                                             onMouseEnter={() => setHover(index + 1)}
