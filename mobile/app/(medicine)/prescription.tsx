@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Image, ScrollView, StatusBar, TouchableOpacity, Modal } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Button, Card } from 'react-native-paper';
 import Accordion from 'react-native-collapsible/Accordion'
 import { useSelector } from 'react-redux';
@@ -34,28 +34,32 @@ const prescription = () => {
             console.log("cash");
         }
     }
+    const startCountdown = useCallback(() => {
+        const timer = setInterval(() => {
+            setCountdown(prev => {
+                if (prev === 1) {
+                    setModalVisible(false);
+                    clearInterval(timer);
+                    return 300;
+                }
+                return prev - 1;
+            });
+        }, 1000);
+        return timer;
+    }, []);
     useEffect(() => {
         let timer: any;
         if (modalVisible) {
-            timer = setInterval(() => {
-                setCountdown(prev => {
-                    if (prev === 1) {
-                        setModalVisible(false);
-                        clearInterval(timer);
-                        return 300;
-                    }
-                    return prev - 1;
-                });
-            }, 1000);
+            timer = startCountdown();
         }
-        return () => clearTimeout(timer);
-    }, [modalVisible]);
-    const minutes = Math.floor(countdown / 60);
-    const seconds = countdown % 60;
-    const hanldCancel = () => {
-        setModalVisible(false)
-        setCountdown(300)
-    }
+        return () => clearInterval(timer);
+    }, [modalVisible, startCountdown]);
+    const minutes = useMemo(() => Math.floor(countdown / 60), [countdown]);
+    const seconds = useMemo(() => countdown % 60, [countdown]);
+    const handleCancel = useCallback(() => {
+        setModalVisible(false);
+        setCountdown(300);
+    }, []);
     const renderHeader = (session: any) => {
         return (
             <>
@@ -124,7 +128,7 @@ const prescription = () => {
                             <Image className="w-36 h-32" source={require("@/assets/images/QR.png")} />
                             <Text className="text-sm mt-2" style={{ fontFamily: "medium" }}>QR will expire after {`${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`}</Text>
                             <Text className="items-center text-base mt-5" style={{ fontFamily: "blod" }}>Petcare thanks you for your favor!</Text>
-                            <Button style={styles.buttonModal} onPress={hanldCancel} >
+                            <Button style={styles.buttonModal} onPress={handleCancel} >
                                 <Text className="font-bold text-base text-white text-center">Cancel</Text>
                             </Button>
                         </View>

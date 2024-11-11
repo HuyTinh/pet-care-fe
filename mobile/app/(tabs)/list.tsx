@@ -34,21 +34,23 @@ import { startEditPrescription } from "@/app/prescription.slice";
 import { Link, router, useFocusEffect } from "expo-router";
 const Home = () => {
     const getDateInfo = (): { day: number; month: string; year: number; dayName: string } => {
-        const today = new Date(); 
-        const day: number = today.getDate();
-        const monthIndex: number = today.getMonth();
-        const months: string[] = [
-            'January', 'February', 'March', 'April',
-            'May', 'June', 'July', 'August',
-            'September', 'October', 'November', 'December'
-        ];
-        const month: string = months[monthIndex];
-        const year: number = today.getFullYear();
-        const dayOfWeek: number = today.getDay();
-        const days: string[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        const dayName: string = days[dayOfWeek];
-
-        return { day, month, year, dayName };
+        const dateInfo = useMemo(() => {
+            const today = new Date();
+            const day: number = today.getDate();
+            const monthIndex: number = today.getMonth();
+            const months: string[] = [
+                'January', 'February', 'March', 'April',
+                'May', 'June', 'July', 'August',
+                'September', 'October', 'November', 'December'
+            ];
+            const month: string = months[monthIndex];
+            const year: number = today.getFullYear();
+            const dayOfWeek: number = today.getDay();
+            const days: string[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const dayName: string = days[dayOfWeek];
+            return { day, month, year, dayName };
+        },[])
+        return dateInfo;
     };
     const { data, isLoading, isFetching, isError } = useGetPrescriptionQuery();
     const [searchQuery, setSearchQuery] = React.useState("");
@@ -65,19 +67,14 @@ const Home = () => {
             return () => bottomSheetModalRef.current?.close()
         }, [])
     );
-
     const [activeSections, setActiveSections] = useState([]);
-
     const updateSections = (activeSections: any) => {
         setActiveSections(activeSections);
     };
     const presrptionId = useSelector((state: RootState) => state.prescription.id);
-
-
     const { data: prescriptionData, isFetching: fetchingPrescriptionData, isLoading: loadingPrescription } = useGetPrescriptionByIdQuery(presrptionId, {
         skip: !presrptionId,
     });
-
     const distpath = useDispatch()
     const filterCustomer = (value: any) => {
         return (data as any)?.data.filter((account: any) => {
@@ -91,7 +88,6 @@ const Home = () => {
     useEffect(() => {
         setSearchResult(filterCustomer(searchQuery))
     }, [searchQuery])
-
     const inputRef = useRef<TextInput>(null);
     const handleButtonPress = () => {
         inputRef.current?.blur();
@@ -104,7 +100,6 @@ const Home = () => {
     const [countdown, setCountdown] = useState(300);
     const [craeteBill] = useCreateBillMutation();
     const [qrPayment, setQrPayment] = useState();
-
     const [selectedOption, setSelectedOption] = useState<any>("Cash");
     const handlApproved = () => {
         if (selectedOption === 'Banking') {
@@ -123,30 +118,33 @@ const Home = () => {
             console.log("cash");
         }
     }
+    const startCountdown = useCallback(() => {
+        const timer = setInterval(() => {
+            setCountdown(prev => {
+                if (prev === 1) {
+                    setModalVisible(false);
+                    clearInterval(timer);
+                    return 300;
+                }
+                return prev - 1;
+            });
+        }, 1000);
+        return timer;
+    }, []);
     useEffect(() => {
         let timer: any;
         if (modalVisible) {
-            timer = setInterval(() => {
-                setCountdown(prev => {
-                    if (prev === 1) {
-                        setModalVisible(false);
-                        clearInterval(timer);
-                        return 300;
-                    }
-                    return prev - 1;
-                });
-            }, 1000);
+            timer = startCountdown();
         }
-        return () => clearTimeout(timer);
-    }, [modalVisible]);
-    const minutes = Math.floor(countdown / 60);
-    const seconds = countdown % 60;
-    const hanldCancel = () => {
-        setModalVisible(false)
-        setCountdown(300)
-    }
+        return () => clearInterval(timer);
+    }, [modalVisible, startCountdown]);
+    const minutes = useMemo(() => Math.floor(countdown / 60), [countdown]);
+    const seconds = useMemo(() => countdown % 60, [countdown]);
+    const handleCancel = useCallback(() => {
+        setModalVisible(false);
+        setCountdown(300);
+    }, []);
     const renderHeader = (session: any) => {
-
         return (
             <Card className="p-1 ">
                 <Card.Content>
@@ -223,18 +221,15 @@ const Home = () => {
                             <Text>
                                 <Link href="https://dl.vietqr.io/pay?app=icb&"><Image className="w-36 h-32" source={{ uri: qrPayment }} /></Link>
                             </Text>
-
-                            <Text className="text-sm mt-2" style={{ fontFamily: "medium" }}>QR will expire after {Math.floor(countdown / 60)} minute</Text>
-
+                            <Text className="text-sm mt-2" style={{ fontFamily: "medium" }}>QR will expire after {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}</Text>
                             <Text className="items-center text-base mt-5" style={{ fontFamily: "blod" }}>Petcare thanks you for your favor!</Text>
-                            <Button style={styles.buttonModal} onPress={hanldCancel} >
+                            <Button style={styles.buttonModal} onPress={handleCancel} >
                                 <Text className="font-bold text-base text-white text-center">Cancel</Text>
                             </Button>
                         </View>
                     </View>
                 </View>
             </Modal>
-
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <TouchableWithoutFeedback
                     onPress={() => {
@@ -508,7 +503,6 @@ const Home = () => {
         </>
     );
 };
-
 export default Home;
 const styles = StyleSheet.create({
     searchbar: {
