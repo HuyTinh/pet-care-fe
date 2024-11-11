@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   Alert,
   ImageBackground,
+  Modal,
 } from "react-native";
 import { Avatar, Button, TextInput } from "react-native-paper";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
@@ -32,191 +33,212 @@ const EditProfile = () => {
   })
   const [imageUri, setImageUri] = useState((data as any)?.data?.image_url || null);
   const [value, setValue] = React.useState('first');
+  const [modalVisible, setModalVisible] = useState(false);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
   function handleBack() {
     navigation.goBack();
   }
   useEffect(() => {
     if (data) {
       reset((data as any)?.data)
+    
     }
   }, [data]);
 
   const onSubmit: SubmitHandler<Account> = async (data: Account) => {
-    // const formData = { ...data, image_url: imageUri};
-    console.log("data: ", data);
+    if (data) {
+      //update
+      setSuccessMessage("Update sucessfully!");
+      setModalVisible(true);
+    }
   }
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <ScrollView contentContainerStyle={styles.container}>
-        <ImageBackground
-          source={require("@/assets/images/back_ground_medicine.jpg")}
-          style={styles.header}
-          imageStyle={{ borderBottomLeftRadius: 20, borderBottomRightRadius: 20 }}
-        >
-        </ImageBackground>
-        <TouchableWithoutFeedback onPress={handleBack}>
-          <View style={styles.backButton}>
-            <Image
-              source={require("@/assets/images/back2.png")}
-              style={styles.backIcon}
+    <>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }} className="flex-1 justify-center items-center">
+          <View style={{ width: 380, height: 320, padding: 50, backgroundColor: 'white', borderRadius: 10 }} className="flex justify-center items-center">
+            <View className="justify-center items-center">
+              <Image className="w-36 h-32" source={require("@/assets/images/error.gif")} />
+              <Text className="mt-3 mb-3 font-bold text-3xl text-center">{successMessage}</Text>
+              <Button style={styles.buttonModal} onPress={() => setModalVisible(false)} >
+                <Text className="font-bold text-base text-white text-center">OK</Text>
+              </Button>
+            </View>
+          </View>
+        </View>
+      </Modal>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ScrollView contentContainerStyle={styles.container}>
+          <ImageBackground
+            source={require("@/assets/images/back_ground_medicine.jpg")}
+            style={styles.header}
+            imageStyle={{ borderBottomLeftRadius: 20, borderBottomRightRadius: 20 }}
+          >
+          </ImageBackground>
+          <TouchableWithoutFeedback onPress={handleBack}>
+            <View style={styles.backButton}>
+              <Image
+                source={require("@/assets/images/back2.png")}
+                style={styles.backIcon}
+              />
+            </View>
+          </TouchableWithoutFeedback>
+          <View style={styles.avatarContainer}>
+            <Avatar.Image
+              size={110}
+              source={{ uri: (data as any)?.data?.image_url }}
+              style={styles.avatar}
             />
           </View>
-        </TouchableWithoutFeedback>
-        <View style={styles.avatarContainer}>
-          <Avatar.Image
-            size={110} // Bạn có thể điều chỉnh kích thước tùy ý
-            source={{ uri: (data as any)?.data?.image_url }}
-            style={styles.avatar}
-          />
-          {/* <TouchableWithoutFeedback onPress={pickImage}>
-              <View style={styles.addButton}>
-                <Image
-                  source={require("@/assets/images/plus.png")}
-                  style={styles.addIcon}
+          <View style={styles.formContainer}>
+            <View style={styles.nameContainer}>
+              <View style={styles.inputContainer}>
+                <Text style={styles.label}>Last name</Text>
+                <Controller
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <TextInput
+                      style={styles.input}
+                      className="rounded-xl"
+                      onBlur={onBlur}
+                      value={value}
+                      onChangeText={onChange}
+                      underlineColor="transparent"
+                      activeUnderlineColor="transparent"
+                      selectionColor="#0099CF"
+                    />
+                  )}
+                  name="last_name"
                 />
               </View>
-            </TouchableWithoutFeedback> */}
-        </View>
-        <View style={styles.formContainer}>
-          <View style={styles.nameContainer}>
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>Last name</Text>
-              <Controller
-                control={control}
-                rules={{ required: true }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <TextInput
-                    style={styles.input}
-                    className="rounded-xl"
-                    onBlur={onBlur}
-                    value={value}
-                    onChangeText={onChange}
-                    underlineColor="transparent"
-                    activeUnderlineColor="transparent"
-                    selectionColor="#0099CF"
-                  />
-                )}
-                name="last_name"
-              />
+              <View style={styles.inputContainer}>
+                <Text style={styles.label}>First name</Text>
+                <Controller
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <TextInput
+                      style={styles.input}
+                      className="rounded-xl"
+                      onBlur={onBlur}
+                      value={value}
+                      onChangeText={onChange}
+                      underlineColor="transparent"
+                      activeUnderlineColor="transparent"
+                      selectionColor="#0099CF"
+                    />
+                  )}
+                  name="first_name"
+                />
+              </View>
             </View>
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>First name</Text>
-              <Controller
-                control={control}
-                rules={{ required: true }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <TextInput
-                    style={styles.input}
-                    className="rounded-xl"
-                    onBlur={onBlur}
-                    value={value}
-                    onChangeText={onChange}
-                    underlineColor="transparent"
-                    activeUnderlineColor="transparent"
-                    selectionColor="#0099CF"
-                  />
-                )}
-                name="first_name"
-              />
-            </View>
-          </View>
 
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Email</Text>
-            <Controller
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <TextInput
-                  style={styles.input}
-                  className="rounded-xl"
-                  onBlur={onBlur}
-                  value={value}
-                  onChangeText={onChange}
-                  underlineColor="transparent"
-                  activeUnderlineColor="transparent"
-                  selectionColor="#0099CF"
-                />
-              )}
-              name="email"
-            />
-          </View>
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Phone number</Text>
-            <Controller
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <TextInput
-                  style={styles.input}
-                  className="rounded-xl"
-                  onBlur={onBlur}
-                  value={value}
-                  onChangeText={onChange}
-                  underlineColor="transparent"
-                  activeUnderlineColor="transparent"
-                  selectionColor="#0099CF"
-                />
-              )}
-              name="phone_number"
-            />
-          </View>
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Gender</Text>
-            <Controller
-              control={control}
-              name="gender"
-              rules={{ required: 'Please select a gender' }}
-              render={({ field: { onChange, value } }) => (
-                <View className="flex flex-row justify-around">
-                  {["MALE", "FEMALE",].map((option) => (
-                    <TouchableOpacity
-                      key={option}
-                      onPress={() => onChange(option)}
-                      className="flex flex-row items-center"
-                    >
-                      <View
-                        style={{
-                          height: 20,
-                          width: 20,
-                          borderRadius: 10,
-                          borderWidth: 2,
-                          borderColor: '#0099CF',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          marginRight: 5,
-                        }}
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>Email</Text>
+              <Controller
+                control={control}
+                rules={{ required: true }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    style={styles.input}
+                    className="rounded-xl"
+                    onBlur={onBlur}
+                    value={value}
+                    onChangeText={onChange}
+                    underlineColor="transparent"
+                    activeUnderlineColor="transparent"
+                    selectionColor="#0099CF"
+                  />
+                )}
+                name="email"
+              />
+            </View>
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>Phone number</Text>
+              <Controller
+                control={control}
+                rules={{ required: true }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    style={styles.input}
+                    className="rounded-xl"
+                    onBlur={onBlur}
+                    value={value}
+                    onChangeText={onChange}
+                    underlineColor="transparent"
+                    activeUnderlineColor="transparent"
+                    selectionColor="#0099CF"
+                  />
+                )}
+                name="phone_number"
+              />
+            </View>
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>Gender</Text>
+              <Controller
+                control={control}
+                name="gender"
+                rules={{ required: 'Please select a gender' }}
+                render={({ field: { onChange, value } }) => (
+                  <View className="flex flex-row justify-around">
+                    {["MALE", "FEMALE",].map((option) => (
+                      <TouchableOpacity
+                        key={option}
+                        onPress={() => onChange(option)}
+                        className="flex flex-row items-center"
                       >
-                        {value === option && (
-                          <View
-                            style={{
-                              height: 10,
-                              width: 10,
-                              borderRadius: 5,
-                              backgroundColor: '#0099CF',
-                            }}
-                          />
-                        )}
-                      </View>
-                      <Text className="text-xl" style={{ fontFamily: "medium" }}>{option}</Text>
-                    </TouchableOpacity>
-                  ))}
-                </View>
-              )}
-            />
+                        <View
+                          style={{
+                            height: 20,
+                            width: 20,
+                            borderRadius: 10,
+                            borderWidth: 2,
+                            borderColor: '#0099CF',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            marginRight: 5,
+                          }}
+                        >
+                          {value === option && (
+                            <View
+                              style={{
+                                height: 10,
+                                width: 10,
+                                borderRadius: 5,
+                                backgroundColor: '#0099CF',
+                              }}
+                            />
+                          )}
+                        </View>
+                        <Text className="text-xl" style={{ fontFamily: "medium" }}>{option}</Text>
+                      </TouchableOpacity>
+                    ))}
+                  </View>
+                )}
+              />
+            </View>
           </View>
-        </View>
 
-        <View style={styles.buttonContainer}>
-          <Button
-            style={styles.updateButton}
-            onPress={handleSubmit(onSubmit)}
-          >
-            <Text style={styles.buttonText} >Update</Text>
-          </Button>
-        </View>
-      </ScrollView>
-    </TouchableWithoutFeedback>
+          <View style={styles.buttonContainer}>
+            <Button
+              style={styles.updateButton}
+              onPress={handleSubmit(onSubmit)}
+            >
+              <Text style={styles.buttonText} >Update</Text>
+            </Button>
+          </View>
+        </ScrollView>
+      </TouchableWithoutFeedback>
+    </>
+
   );
 };
 
@@ -308,6 +330,11 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     fontFamily: "blod"
   },
+  buttonModal: {
+    backgroundColor: "#0099CF",
+    marginTop: 20,
+    width: wp("50%")
+  }
 });
 
 export default EditProfile;
