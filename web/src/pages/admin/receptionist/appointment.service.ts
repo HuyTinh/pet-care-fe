@@ -6,12 +6,12 @@ import { getCookieValue } from "../../../utils/cookie";
 import { PageableResponse } from "../../../types/pageable-response";
 import { IHospitalService } from "../../../types/hospital-service.type";
 import { ISpecie } from "../../../types/specie.type";
-import { displayInputDate, displayPlusDate } from "../../../utils/date";
+import { displayInputDate, displayPlusDate } from "../../../utils/Date";
 
 export const appointmentApi = createApi({
   reducerPath: "appointmentApi",
   tagTypes: ["Appointments", "AppointmentsCustomer", "UpcomingAppointments"],
-  baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_BACKEND_URL }),
+  baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_API_URL }),
   endpoints: (build) => ({
     getAppointments: build.query<APIResponse<PageableResponse<IAppointment>>, void>({
       query: () => `${import.meta.env.VITE_APPOINTMENT_PATH}/appointment`,
@@ -110,6 +110,19 @@ export const appointmentApi = createApi({
       query: (body) =>
         `${import.meta.env.VITE_APPOINTMENT_PATH}/appointment/isCheckin/${body}`,
     }),
+    cancelAppointment: build.mutation<any, number>({
+      query(appointmentId) {
+        return {
+          url: `${import.meta.env.VITE_APPOINTMENT_PATH}/appointment/cancel/${appointmentId}`,
+          method: "POST",
+        };
+      },
+      invalidatesTags: () => [
+        { type: "Appointments", id: "LIST" },
+        { type: "AppointmentsCustomer" as const, id: "LIST" },
+        { type: "UpcomingAppointments" as const, id: "LIST" },
+      ],
+    }),
     createAppointment: build.mutation<APIResponse<IAppointment>, any>({
       query(body) {
         return {
@@ -154,11 +167,11 @@ export const appointmentApi = createApi({
     }),
     getAppointmentByCustomerId: build.query<
       APIResponse<IAppointment>,
-      { userId: string | number | null; params: object }
+      { user_id: string | number | null; params: object }
     >({
       query: (body) => {
         return {
-          url: `${import.meta.env.VITE_APPOINTMENT_PATH}/appointment/account/${body.userId}`,
+          url: `${import.meta.env.VITE_APPOINTMENT_PATH}/appointment/account/${body.user_id}`,
           params: body.params,
         };
       },
@@ -219,6 +232,7 @@ export const {
   useUpdateAppointmentMutation,
   useGetAppointmentByCustomerIdQuery,
   useGetSpeciesQuery,
+  useCancelAppointmentMutation,
   useFilterAppointmentsQuery,
   useGenerateApointmentPDFMutation,
   useGetAppointmentByIdQuery,

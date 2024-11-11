@@ -30,7 +30,7 @@ import {
 import { IPrescription } from "@/types/prescription.type";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { startEditPrescription } from "@/app/prescription.slice";
+import { pharmacistProfileId } from "@/app/pharmacist.slice";
 import { Link, router, useFocusEffect } from "expo-router";
 const Home = () => {
     const getDateInfo = (): { day: number; month: string; year: number; dayName: string } => {
@@ -49,7 +49,7 @@ const Home = () => {
             const days: string[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
             const dayName: string = days[dayOfWeek];
             return { day, month, year, dayName };
-        },[])
+        }, [])
         return dateInfo;
     };
     const { data, isLoading, isFetching, isError } = useGetPrescriptionQuery();
@@ -59,7 +59,7 @@ const Home = () => {
     const snapPoints = useMemo(() => ["75%"], []);
     const handlePresentModalPress = useCallback((id: any) => {
         bottomSheetModalRef.current?.present();
-        distpath(startEditPrescription(id))
+        distpath(pharmacistProfileId(id))
     }, []);
 
     useFocusEffect(

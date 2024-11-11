@@ -31,6 +31,7 @@ import { HomeManager } from "./pages/admin/manager/home";
 import { Services } from "./pages/admin/manager/services";
 import Report_appointment from "./pages/admin/manager/report/appointment";
 import Report_service from "./pages/admin/manager/report/service";
+import Report_revenue from "./pages/admin/manager/report/revenue";
 
 const ProtectedRoute: React.FC<{
   element: JSX.Element;
@@ -76,6 +77,7 @@ const userRoutes: RouteObject = {
       children: [
         { index: true, element: <ProfileTab /> },
         { path: "appointment", element: <AppointmentTab /> },
+
       ],
     },
     { path: "booking", element: <BookingPage /> },
@@ -121,6 +123,7 @@ const adminRoutes: RouteObject[] = [
   },
   {
     path: "/manager",
+
     // element: <ManagerLayout />,
     element: (
       <ProtectedRoute
@@ -130,30 +133,10 @@ const adminRoutes: RouteObject[] = [
     ),
     children: [
       { index: true, element: <HomeManager /> },
-    //   {
-    //     path: "account",
-    //     element: <ProfilePage />,
-    //     children: [
-    //       { index: true, element: <ProfileTab /> },
-    //       { path: "appointment", element: <AppointmentTab /> },
-    //     ],
-    //   },
       { path: "serivces", element: <Services /> },
       { path: "report/appointment", element: <Report_appointment /> },
       { path: "report/service", element: <Report_service /> },
-
-    //   { path: "blog", element: <Blog /> },
-    //   { path: "event", element: <Event /> },
-    //   { path: "new/:documentId", element: <NewContent /> },
-    //   {
-    //     path: "service",
-    //     element: <ServicePage />,
-    //     children: [
-    //       { index: true, element: <AllService /> },
-    //       { path: "diagnostics", element: <DiagnosticsService /> },
-    //     ],
-    //   },
-    //   { path: "contact", element: <ContactPage /> },
+      { path: "report/revenue", element: <Report_revenue /> },
     ],
   }
 ];
@@ -166,16 +149,16 @@ const defaultRoute: RouteObject = {
 };
 
 export const RouterHooks = () => {
-  const { userId } = useSelector(
+  const { user_id } = useSelector(
     (state: RootState) => state.authentication,
   );
   const [cookies, setCookies] = useCookies<any>();
 
   useEffect(() => {
-    if (userId && cookies[`email-notification-${userId}`] === undefined) {
-      setCookies(`email-notification-${userId}`, true);
+    if (user_id && cookies[`email-notification-${user_id}`] === undefined) {
+      setCookies(`email-notification-${user_id}`, true);
     }
-  }, [userId, cookies, setCookies]);
+  }, [user_id, cookies, setCookies]);
 
   const router = createBrowserRouter([
     defaultRoute,

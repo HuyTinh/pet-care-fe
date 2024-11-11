@@ -1,11 +1,13 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
-import { Stack } from "expo-router";
+import React from 'react'; // Import React
+import { Stack } from 'expo-router'; // Import Stack component from expo-router for navigation
 
-const Layout = () => {
-  return <Stack screenOptions={{ headerShown: false }} />;
+// _layout component defines the layout for the screen
+const _layout = () => {
+  return (
+    // Stack component allows stacking of screens in navigation
+    // `screenOptions={{ headerShown: false }}` hides the header for all screens
+    <Stack screenOptions={{ headerShown: false }} />
+  );
 };
 
-export default Layout;
-
-const styles = StyleSheet.create({});
+export default _layout; // Export the layout component for use in the app

@@ -8,50 +8,55 @@ import {
   TouchableWithoutFeedback,
   ScrollView,
   TouchableOpacity,
-  Alert,
   ImageBackground,
   Modal,
 } from "react-native";
 import { Avatar, Button, TextInput } from "react-native-paper";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { useNavigation, router } from "expo-router";
+import { useNavigation } from "expo-router";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { useGetAccoutByIdQuery, useGetAllAccountQuery } from "@/app/pharmacist.service";
+import { useGetEmployeeByAccountIdQuery } from "@/app/pharmacist.service";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { Account } from "@/types/account.type";
+
 const EditProfile = () => {
-  const [imageUrl, setImage] = useState([]);
-  const { control, reset, handleSubmit } = useForm<any>();
-  const navigation = useNavigation();
-  const profileId = useSelector((state: RootState) => state.prescription.id);
-  const { data, isFetching, isLoading } = useGetAccoutByIdQuery(profileId, {
-    skip: !profileId
+  const [imageUrl, setImage] = useState([]); // State to store the selected image URL
+  const { control, reset, handleSubmit } = useForm<any>(); // Initialize react-hook-form
+  const navigation = useNavigation(); // Used for navigation
+  const profileId = useSelector((state: RootState) => state.prescription.id); // Get profile ID from Redux store
+  const { data, isFetching, isLoading } = useGetEmployeeByAccountIdQuery(profileId, {
+    skip: !profileId // Skip the query if no profileId
   })
   const [imageUri, setImageUri] = useState((data as any)?.data?.image_url || null);
   const [value, setValue] = React.useState('first');
   const [modalVisible, setModalVisible] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
   function handleBack() {
     navigation.goBack();
   }
+
+  // Effect hook to reset form data when profile data is fetched
   useEffect(() => {
     if (data) {
-      reset((data as any)?.data)
-    
+      reset((data as any)?.data); // Reset the form fields with the fetched data
     }
   }, [data]);
 
+  // Function to handle form submission
   const onSubmit: SubmitHandler<Account> = async (data: Account) => {
     if (data) {
       //update
       setSuccessMessage("Update sucessfully!");
       setModalVisible(true);
     }
+
   }
+
   return (
     <>
       <Modal
@@ -140,12 +145,11 @@ const EditProfile = () => {
                 />
               </View>
             </View>
-
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Email</Text>
               <Controller
                 control={control}
-                rules={{ required: true }}
+                rules={{ required: true }} // Validation for required field
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInput
                     style={styles.input}
@@ -165,7 +169,7 @@ const EditProfile = () => {
               <Text style={styles.label}>Phone number</Text>
               <Controller
                 control={control}
-                rules={{ required: true }}
+                rules={{ required: true }} // Validation for required field
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInput
                     style={styles.input}
@@ -226,7 +230,6 @@ const EditProfile = () => {
               />
             </View>
           </View>
-
           <View style={styles.buttonContainer}>
             <Button
               style={styles.updateButton}
@@ -238,7 +241,6 @@ const EditProfile = () => {
         </ScrollView>
       </TouchableWithoutFeedback>
     </>
-
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react"; // Import React and hooks
 import {
   Image,
   Text,
@@ -6,83 +6,69 @@ import {
   StyleSheet,
   Keyboard,
   TouchableWithoutFeedback,
-  Dimensions,
-  ScrollView,
   Modal
-} from "react-native";
-import { Controller, set, SubmitHandler, useForm } from "react-hook-form";
-import { Button, TextInput } from "react-native-paper";
-import { Link, router } from "expo-router";
-import { useCameraPermissions } from "expo-camera";
+} from "react-native"; // Import components from react-native
+import { Controller, SubmitHandler, useForm } from "react-hook-form"; // Import form handling from react-hook-form
+import { Button, TextInput } from "react-native-paper"; // Import UI components from react-native-paper
+import { Link, router } from "expo-router"; // Import router and Link component for navigation
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
-import { useGetAccountMutation } from "@/app/pharmacist.service";
-import { LoginRequest } from "@/types/login-request.type";
-import { useFonts } from "expo-font";
-import * as SecureStore from 'expo-secure-store';
-import { isRemember, startEditPrescription } from "@/app/prescription.slice";
-import { useDispatch, useSelector } from "react-redux";
-import { jwtDecode, JwtPayload } from "jwt-decode";
-const Auth = () => {
-  interface JwtPayload {
-    userId: string;
-    sub: string;
-    email: string;
-    exp: number;
-  }
-  const [login, { isLoading }] = useGetAccountMutation();
-  const [permission, requestPermissions] = useCameraPermissions();
-  const { control, reset, handleSubmit } = useForm<LoginRequest>();
-  const [modalVisible, setModalVisible] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const mystate = useSelector((state) => (state as any)?.change);
-  const [idToken, setIdToken] = useState<string | null>(null);
-  const dispatch = useDispatch();
+} from "react-native-responsive-screen"; // For responsive screen design
+import { useLoginRequestMutation } from "@/app/pharmacist.service"; // Import mutation hook for login
+import { LoginRequest } from "@/types/login-request.type"; // Import LoginRequest type
+import * as SecureStore from 'expo-secure-store'; // For storing secure data like tokens
+import { useDispatch } from "react-redux"; // For dispatching actions to the Redux store
+import { jwtDecode } from "jwt-decode"; // To decode JWT token
+import { IJwtPayload } from "@/types/jwt-payload.type"; // Import JWT payload type
+import { pharmacistProfileId } from "../pharmacist.slice"; // Redux action to update pharmacist profile ID
 
-  // 
+const Auth = () => {
+  const [login] = useLoginRequestMutation(); // Mutation hook for logging in
+  const { control, handleSubmit } = useForm<LoginRequest>(); // useForm hook for form handling
+  const [modalVisible, setModalVisible] = useState(false); // State for controlling modal visibility
+  const [errorMessage, setErrorMessage] = useState<string | null>(null); // State for error message
+  const dispatch = useDispatch(); // Dispatch function to update the Redux store
+
+  // useEffect to retrieve and decode the token, and dispatch the user ID to Redux store
   useEffect(() => {
     SecureStore.getItemAsync('token')
       .then((retrievedToken) => {
         if (retrievedToken) {
-          const decodedPayload = jwtDecode<JwtPayload>(retrievedToken);
-          dispatch(startEditPrescription(decodedPayload.userId))
+          const decodedPayload = jwtDecode<IJwtPayload>(retrievedToken); // Decode the token
+          dispatch(pharmacistProfileId(decodedPayload.user_id)); // Dispatch user_id to Redux store
         } else {
-          console.log('No token found');
+          console.log('No token found'); // Log if no token is found
         }
       })
       .catch((error) => {
-        console.error('Error retrieving token:', error);
+        console.error('Error retrieving token:', error); // Log error if retrieval fails
       });
   }, []);
 
+  // onSubmit handler for login
   const onSubmit: SubmitHandler<LoginRequest> = async (data: LoginRequest) => {
     try {
-      await login(data).unwrap()
+      await login(data).unwrap() // Call login mutation
         .then(() => {
-          router.replace('/(tabs)/list');
+          router.replace('/(tabs)/list'); // Redirect to list page on successful login
         })
     }
     catch (error) {
-      setErrorMessage("Please check your account");
-      setModalVisible(true);
+      setErrorMessage("Please check your account"); // Set error message if login fails
+      setModalVisible(true); // Show error modal
     }
-  }
-  const [loaded] = useFonts({
-    blod: require("../../assets/fonts/Kodchasan-SemiBold.ttf"),
-    medium: require('../../assets/fonts/Kodchasan-ExtraLightItalic.ttf')
-  });
+  };
 
-  const { width, height } = Dimensions.get("window");
   return (
     <>
+      {/* Modal to display error messages */}
       <Modal
         animationType="slide"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          setModalVisible(!modalVisible);
+          setModalVisible(!modalVisible); // Close modal on request
         }}
       >
         <View style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }} className="flex-1 justify-center items-center">
@@ -97,6 +83,8 @@ const Auth = () => {
           </View>
         </View>
       </Modal>
+
+      {/* Dismissing the keyboard when tapping outside the input fields */}
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
           <View style={styles.topSection}>
@@ -110,12 +98,15 @@ const Auth = () => {
             </View>
             <Text style={styles.title}>Pet care</Text>
           </View>
+
+          {/* Form for login credentials */}
           <View style={styles.formContainer}>
             <View style={styles.circle2} />
             <View style={styles.inputContainer}>
+              {/* Email input field */}
               <Controller
                 control={control}
-                rules={{ required: true }}
+                rules={{ required: true }} // Required field
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInput
                     style={styles.input}
@@ -132,10 +123,12 @@ const Auth = () => {
                 name="email"
               />
             </View>
+
             <View style={styles.inputContainer}>
+              {/* Password input field */}
               <Controller
                 control={control}
-                rules={{ required: true }}
+                rules={{ required: true }} // Required field
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInput
                     style={styles.input}
@@ -153,6 +146,8 @@ const Auth = () => {
                 name="password"
               />
             </View>
+
+            {/* Forgot password link */}
             <View style={styles.checkboxContainer}>
               <Link
                 href="../(forgotpassword)/forgot-confirm-email"
@@ -162,16 +157,17 @@ const Auth = () => {
               </Link>
             </View>
           </View>
+
+          {/* Login button */}
           <View style={styles.buttonContainer}>
             <Button
               mode="contained"
               style={styles.button}
               labelStyle={styles.buttonText}
-              onPress={handleSubmit(onSubmit)}
+              onPress={handleSubmit(onSubmit)} // Trigger form submit
             >
               Login
             </Button>
-            {/* <Button onPress={requestPermissions}>Alow camera</Button> */}
           </View>
         </View>
       </TouchableWithoutFeedback>

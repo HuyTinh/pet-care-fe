@@ -6,7 +6,7 @@ export const medicineApi = createApi({
   reducerPath: "medicineApi",
   tagTypes: ["Medicines"],
   baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_BACKEND_URL,
+    baseUrl: import.meta.env.VITE_API_URL,
   }),
   endpoints: (build) => ({
     getAllMedicines: build.query<

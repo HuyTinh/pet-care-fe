@@ -26,12 +26,12 @@ export const BookingPage = () => {
 
   const [createAppointment, { isError }] = useCreateAppointmentMutation();
   const isAuth = useSelector((state: RootState) => state.authentication.isAuth);
-  const userId = useSelector((state: RootState) => state.authentication.userId);
+  const user_id = useSelector((state: RootState) => state.authentication.user_id);
   const { data: customerProfileData } = useGetCustomerProfileQuery(
     {
-      userId,
+      user_id,
     },
-    { skip: !userId },
+    { skip: !user_id },
   );
 
   const bookingAgain = () => {
@@ -121,7 +121,7 @@ export const BookingPage = () => {
                 <div className="space-y-2">
                   <div className="flex justify-between">
                     <span>Customer:</span>
-                    {isAuth && userId && (
+                    {isAuth && user_id && (
                       <label>
                         <input
                           type="checkbox"
@@ -320,7 +320,7 @@ export const BookingPage = () => {
                     last_name: getValues("last_name"),
                     email: getValues("email"),
                     phone_number: getValues("phone_number"),
-                    account_id: userId,
+                    account_id: user_id,
                     status: "SCHEDULED",
                     appointment_date: displayInputDate(
                       new Date(getValues("date")),
