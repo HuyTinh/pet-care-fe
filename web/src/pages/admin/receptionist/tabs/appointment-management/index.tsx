@@ -13,9 +13,11 @@ import { CreateAppointmentModal } from "./modal/create";
 import { ManageAppointmentTable } from "./tabs/manage";
 import { ViewAppointmentModal } from "./modal/view";
 import { UpcomingAppointmentTable } from "./tabs/upcoming";
+import { FcCalendar } from "react-icons/fc";
+import { motion } from 'framer-motion'
 
 export const AppointmentManagement = () => {
-  const [_appointments, setAppointments] = useState<IAppointment[]>([]);
+  const [appointments, setAppointments] = useState<IAppointment[]>([]);
   const [filterAppointmentConditions, setFilterAppointmentConditions] = useState<any>({});
 
   const onFilterAppointmentSubmit = (data: any) => {
@@ -24,7 +26,7 @@ export const AppointmentManagement = () => {
 
   const {
     data: filterAppointmentData,
-    isFetching: _isFetchingFilterAppointmentData,
+    isFetching: isFetchingFilterAppointmentData,
   } = useFilterAppointmentsQuery({
     startDate: filterAppointmentConditions['start_date'],
     endDate: filterAppointmentConditions['end_date'],
@@ -70,6 +72,15 @@ export const AppointmentManagement = () => {
 
         stompClient.subscribe("/topic/exportPDF/" + sessionId, (message) => {
           if (Number(message.body)) {
+            setAppointments((prev) => prev.map(val => {
+              if (val.id == message.body) {
+                return {
+                  ...val,
+                  status: "CHECKED_IN"
+                }
+              }
+              return val;
+            }));
             generatePDF(Number(message.body));
           }
         });
@@ -85,7 +96,6 @@ export const AppointmentManagement = () => {
       // stompClient?.deactivate;
     };
   }, [stompClient]);
-
 
   useEffect(() => {
     setAppointments(filterAppointmentData?.data.content);
@@ -191,7 +201,38 @@ export const AppointmentManagement = () => {
       </div >
       <div className="flex-1 p-2">
         <div className="relative h-[38rem] overflow-auto rounded-xl border">
-          <ManageAppointmentTable filterAppointmentConditions={filterAppointmentConditions} sendMessage={sendMessage} setSelectedAppointment={setSelectedAppointment} />
+
+          {!isFetchingFilterAppointmentData &&
+            !(appointments as any[])?.length && (
+              <div className="absolute top-0 z-50 flex h-full w-full flex-col items-center justify-center">
+                <FcCalendar size={64} className="mb-10" />
+                <div>You don't have any appointment</div>
+              </div>
+            )}
+          {isFetchingFilterAppointmentData && (
+            <motion.div
+              animate={{ opacity: 1 }}
+              exit={{
+                opacity: 0,
+              }}
+              transition={{
+                type: "spring",
+                stiffness: 100,
+              }}
+              className="absolute top-0 z-50 flex h-full w-full flex-col items-center justify-center"
+            >
+              <div className="w-64">
+                <img
+                  src="/src/assets/images/loading.gif"
+                  className="object-cover"
+                  alt=""
+                />
+              </div>
+              <div>Watting for few minute...</div>
+            </motion.div>
+          )}
+          {!isFetchingFilterAppointmentData && <ManageAppointmentTable appointments={appointments} sendMessage={sendMessage} setSelectedAppointment={setSelectedAppointment} />}
+
           <div className="hidden">
             <UpcomingAppointmentTable setSelectedAppointment={setSelectedAppointment} />
           </div>

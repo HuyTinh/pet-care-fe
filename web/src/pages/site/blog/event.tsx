@@ -18,7 +18,7 @@ export const Event = () => {
     const news = (newData as any)?.data || [];
 
     const navigate = useNavigate()
-    function handleNew(documentId : any) {
+    function handleNew(documentId: any) {
         navigate(`/new/${documentId}`)
     }
     return (
@@ -135,11 +135,11 @@ export const Event = () => {
                                     <p className="text-gray-700 mt-2 line-clamp-3">
                                         {newSet?.contentNew}
                                     </p>
-                                    <button  className="text-blue-500 font-semibold mt-2 inline-block" onClick={() => handleNew(newSet.documentId)}>
+                                    <button className="text-blue-500 font-semibold mt-2 inline-block" onClick={() => handleNew(newSet.documentId)}>
                                         Read More »
                                     </button>
                                 </div>
-                                <hr className="border-2"/>
+                                <hr className="border-2" />
                             </div>
                         ))}
                     </div>

@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { useGetAppointmentByCustomerIdQuery } from "../../../../admin/receptionist/appointment.service";
+import { useCancelAppointmentMutation, useGetAppointmentByCustomerIdQuery } from "../../../../admin/receptionist/appointment.service";
 import { RootState } from "../../../../../store/store";
 import { displayCustomDate } from "../../../../../utils/date";
 import { AnimatePresence, motion } from "framer-motion";
@@ -7,6 +7,7 @@ import { FcCalendar } from "react-icons/fc";
 import { useState } from "react";
 import { EditAppointmentModal } from "./edit-appointment-modal";
 import { IAppointment } from "../../../../../types/appoiment.type";
+import { toast } from "react-toastify";
 
 export const AppointmentTab = () => {
   const userId = useSelector((state: RootState) => state.authentication.userId);
@@ -15,10 +16,20 @@ export const AppointmentTab = () => {
   );
   const [appointmentStatus, setAppointmentStatus] = useState("SCHEDULED");
 
+  const [cancelAppointment] = useCancelAppointmentMutation()
+
   const editAppointmentHandle = (appointment: IAppointment) => {
     (document.getElementById("edit_appointment_modal") as any).showModal();
     setSelectedAppointment(appointment);
   };
+
+  const cancelAppointmentHandle = (appoimentId: number) => {
+    cancelAppointment(appoimentId).then(() => {
+      toast.success("Cancel appointment successful", {
+        position: "top-right",
+      });
+    })
+  }
 
   const { data: appoimentsHistoryResponse, isFetching } =
     useGetAppointmentByCustomerIdQuery(
@@ -40,7 +51,7 @@ export const AppointmentTab = () => {
           defaultValue={"SCHEDULED"}
         >
           <option value={"SCHEDULED"}>Up comming</option>
-          <option value={"APPROVED"}>Old appointment</option>
+          <option value={"CANCELLED"}>Old appointment</option>
         </select>
         <div>
           <div className="relative h-[32rem] overflow-auto rounded-lg border border-black">
@@ -140,13 +151,13 @@ export const AppointmentTab = () => {
                         </td>
                         <td>
                           <span
-                            className={`rounded-lg ${val.status === "SCHEDULED" && "bg-yellow-300"} ${val.status === "APPROVED" && "bg-green-300"} p-2`}
+                            className={`rounded-lg ${val.status === "SCHEDULED" && "bg-yellow-300"} ${val.status === "APPROVED" && "bg-green-300"} ${val.status === "CANCELLED" && "bg-red-300"} p-2`}
                           >
                             {val.status}
                           </span>
                         </td>
                         <td>
-                          {val.status !== "APPROVED" ? (
+                          {val.status !== "APPROVED" && val.status !== "CANCELLED" ? (
                             <div className="flex flex-col gap-y-2">
                               <button
                                 className="btn btn-sm"
@@ -154,11 +165,13 @@ export const AppointmentTab = () => {
                               >
                                 Edit
                               </button>
-                              <button className="btn btn-sm">Cancel</button>
+                              <button className="btn btn-sm"
+                                onClick={() => cancelAppointmentHandle(val.id)}
+                              >Cancel</button>
                             </div>
                           ) : (
                             <div className="flex flex-col gap-y-2">
-                              <button className="btn btn-sm">Detail</button>
+                              <button className="btn btn-sm">View</button>
                             </div>
                           )}
                         </td>
