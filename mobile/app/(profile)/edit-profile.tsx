@@ -24,18 +24,20 @@ import { RootState } from "@/store/store";
 import { Account } from "@/types/account.type";
 
 const EditProfile = () => {
-  const [imageUrl, setImage] = useState([]); // State to store the selected image URL
-  const { control, reset, handleSubmit } = useForm<any>(); // Initialize react-hook-form
+  // State to store the selected image URL
+  const [imageUrl, setImage] = useState([]);
+  const { control, reset, handleSubmit } = useForm<any>(); // Initialize react-hook-form for form handling
   const navigation = useNavigation(); // Used for navigation
   const profileId = useSelector((state: RootState) => state.prescription.id); // Get profile ID from Redux store
   const { data, isFetching, isLoading } = useGetEmployeeByAccountIdQuery(profileId, {
     skip: !profileId // Skip the query if no profileId
   })
-  const [imageUri, setImageUri] = useState((data as any)?.data?.image_url || null);
-  const [value, setValue] = React.useState('first');
-  const [modalVisible, setModalVisible] = useState(false);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [imageUri, setImageUri] = useState((data as any)?.data?.image_url || null); // Store the image URL
+  const [value, setValue] = React.useState('first'); // Placeholder state for gender value
+  const [modalVisible, setModalVisible] = useState(false); // State for modal visibility
+  const [successMessage, setSuccessMessage] = useState<string | null>(null); // State for success message
 
+  // Function to navigate back to the previous screen
   function handleBack() {
     navigation.goBack();
   }
@@ -50,27 +52,27 @@ const EditProfile = () => {
   // Function to handle form submission
   const onSubmit: SubmitHandler<Account> = async (data: Account) => {
     if (data) {
-      //update
-      setSuccessMessage("Update sucessfully!");
-      setModalVisible(true);
+      // On successful update
+      setSuccessMessage("Update successfully!");
+      setModalVisible(true); // Show modal with success message
     }
-
   }
 
   return (
     <>
+      {/* Modal to show success message after update */}
       <Modal
         animationType="slide"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          setModalVisible(!modalVisible);
+          setModalVisible(!modalVisible); // Close the modal when requested
         }}
       >
         <View style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }} className="flex-1 justify-center items-center">
           <View style={{ width: 380, height: 320, padding: 50, backgroundColor: 'white', borderRadius: 10 }} className="flex justify-center items-center">
             <View className="justify-center items-center">
-              <Image className="w-36 h-32" source={require("@/assets/images/error.gif")} />
+              <Image className="w-36 h-32" source={require("@/assets/images/error.gif")} /> {/* Success GIF */}
               <Text className="mt-3 mb-3 font-bold text-3xl text-center">{successMessage}</Text>
               <Button style={styles.buttonModal} onPress={() => setModalVisible(false)} >
                 <Text className="font-bold text-base text-white text-center">OK</Text>
@@ -79,6 +81,8 @@ const EditProfile = () => {
           </View>
         </View>
       </Modal>
+
+      {/* Dismissing keyboard when tapping outside the input fields */}
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView contentContainerStyle={styles.container}>
           <ImageBackground
@@ -87,6 +91,7 @@ const EditProfile = () => {
             imageStyle={{ borderBottomLeftRadius: 20, borderBottomRightRadius: 20 }}
           >
           </ImageBackground>
+          {/* Back Button */}
           <TouchableWithoutFeedback onPress={handleBack}>
             <View style={styles.backButton}>
               <Image
@@ -95,14 +100,19 @@ const EditProfile = () => {
               />
             </View>
           </TouchableWithoutFeedback>
+
+          {/* Avatar Container */}
           <View style={styles.avatarContainer}>
             <Avatar.Image
               size={110}
-              source={{ uri: (data as any)?.data?.image_url }}
+              source={{ uri: (data as any)?.data?.image_url }} // Display the user's avatar image
               style={styles.avatar}
             />
           </View>
+
+          {/* Form Container */}
           <View style={styles.formContainer}>
+            {/* Last name and First name inputs */}
             <View style={styles.nameContainer}>
               <View style={styles.inputContainer}>
                 <Text style={styles.label}>Last name</Text>
@@ -145,11 +155,13 @@ const EditProfile = () => {
                 />
               </View>
             </View>
+
+            {/* Email input */}
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Email</Text>
               <Controller
                 control={control}
-                rules={{ required: true }} // Validation for required field
+                rules={{ required: true }} // Email is required
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInput
                     style={styles.input}
@@ -165,11 +177,13 @@ const EditProfile = () => {
                 name="email"
               />
             </View>
+
+            {/* Phone number input */}
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Phone number</Text>
               <Controller
                 control={control}
-                rules={{ required: true }} // Validation for required field
+                rules={{ required: true }} // Phone number is required
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInput
                     style={styles.input}
@@ -185,6 +199,8 @@ const EditProfile = () => {
                 name="phone_number"
               />
             </View>
+
+            {/* Gender selection */}
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Gender</Text>
               <Controller
@@ -193,10 +209,10 @@ const EditProfile = () => {
                 rules={{ required: 'Please select a gender' }}
                 render={({ field: { onChange, value } }) => (
                   <View className="flex flex-row justify-around">
-                    {["MALE", "FEMALE",].map((option) => (
+                    {["MALE", "FEMALE"].map((option) => (
                       <TouchableOpacity
                         key={option}
-                        onPress={() => onChange(option)}
+                        onPress={() => onChange(option)} // Set the gender value
                         className="flex flex-row items-center"
                       >
                         <View
@@ -230,12 +246,14 @@ const EditProfile = () => {
               />
             </View>
           </View>
+
+          {/* Update Button */}
           <View style={styles.buttonContainer}>
             <Button
               style={styles.updateButton}
-              onPress={handleSubmit(onSubmit)}
+              onPress={handleSubmit(onSubmit)} // Submit the form data
             >
-              <Text style={styles.buttonText} >Update</Text>
+              <Text style={styles.buttonText}>Update</Text>
             </Button>
           </View>
         </ScrollView>
@@ -244,6 +262,7 @@ const EditProfile = () => {
   );
 };
 
+// Style definitions for the components
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
