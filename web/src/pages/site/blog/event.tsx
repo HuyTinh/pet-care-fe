@@ -18,7 +18,7 @@ export const Event = () => {
     const news = (newData as any)?.data || [];
 
     const navigate = useNavigate()
-    function handleNew(documentId : any) {
+    function handleNew(documentId: any) {
         navigate(`/new/${documentId}`)
     }
     return (
@@ -64,7 +64,7 @@ export const Event = () => {
                                     </div>
                                 </div>
                             ))}
-                            <dialog id="my_modal_event" className="modal *:text-black">
+                            <dialog id="my_modal_event" className="modal">
                                 <div className="modal-box h-full max-w-6xl">
                                     <div className="flex flex-col lg:flex-row">
                                         <div className="w-full">
@@ -97,7 +97,7 @@ export const Event = () => {
                                         </div>
                                         <div className="flex justify-between">
                                             <p></p>
-                                            <Link to="/booking" className="btn bg-[#0d74b1] mt-3 ">Booking now</Link>
+                                            <Link to="/booking" className="btn bg-[#0d74b1] mt-3 text-white">Booking now</Link>
                                         </div>
                                     </div>
                                 </div>
@@ -135,19 +135,14 @@ export const Event = () => {
                                     <p className="text-gray-700 mt-2 line-clamp-3">
                                         {newSet?.contentNew}
                                     </p>
-                                    <button  className="text-blue-500 font-semibold mt-2 inline-block" onClick={() => handleNew(newSet.documentId)}>
+                                    <button className="text-blue-500 font-semibold mt-2 inline-block" onClick={() => handleNew(newSet.documentId)}>
                                         Read More »
                                     </button>
                                 </div>
-                                <hr className="border-2"/>
+                                <hr className="border-2" />
                             </div>
                         ))}
                     </div>
-
-                    {/* <input type="radio" name="my_tabs_2" role="tab" className="tab" aria-label="Tab3" />
-                    <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6">
-                        Tab content 3
-                    </div> */}
                 </div>
             </div>
 

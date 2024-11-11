@@ -2,7 +2,7 @@ import { StyleSheet, View, Image, Text, StatusBar } from 'react-native'
 import React, { useCallback } from 'react'
 import { Avatar, Card } from 'react-native-paper';
 import { Link, router } from 'expo-router';
-import { useGetAccoutByIdQuery } from '@/app/pharmacist.service';
+import { useGetAccountByIdQuery } from '@/app/pharmacist.service';
 import * as SecureStore from 'expo-secure-store';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
@@ -12,10 +12,10 @@ const explore = () => {
     router.replace("/(auth)")
   },[router]) 
   const profileId = useSelector((state: RootState) => state.prescription.id);
-  const { data : profileData, isLoading : profileLoading } = useGetAccoutByIdQuery(profileId, {
+  const { data: profileData, isLoading: profileLoading } = useGetAccountByIdQuery(profileId, {
     skip: !profileId
   })
-  
+
   return (
     <View className='h-full w-full'>
       <View style={styles.square}>

@@ -18,7 +18,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { useGetAccoutByIdQuery, useGetAllAccountQuery } from "@/app/pharmacist.service";
+import { useGetAccountByIdQuery } from "@/app/pharmacist.service";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { Account } from "@/types/account.type";
@@ -27,7 +27,7 @@ const EditProfile = () => {
   const { control, reset, handleSubmit } = useForm<any>();
   const navigation = useNavigation();
   const profileId = useSelector((state: RootState) => state.prescription.id);
-  const { data, isFetching, isLoading } = useGetAccoutByIdQuery(profileId, {
+  const { data, isFetching, isLoading } = useGetAccountByIdQuery(profileId, {
     skip: !profileId
   })
   const [imageUri, setImageUri] = useState((data as any)?.data?.image_url || null);

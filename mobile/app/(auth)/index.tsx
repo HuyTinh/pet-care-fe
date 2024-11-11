@@ -18,7 +18,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { useGetAccountMutation } from "@/app/pharmacist.service";
+import { useLoginRequestMutation } from "@/app/pharmacist.service";
 import { LoginRequest } from "@/types/login-request.type";
 import { useFonts } from "expo-font";
 import * as SecureStore from 'expo-secure-store';
@@ -32,7 +32,7 @@ const Auth = () => {
     email: string;
     exp: number;
   }
-  const [login, { isLoading }] = useGetAccountMutation();
+  const [login, { isLoading }] = useLoginRequestMutation();
   const [permission, requestPermissions] = useCameraPermissions();
   const { control, reset, handleSubmit } = useForm<LoginRequest>();
   const [modalVisible, setModalVisible] = useState(false);

@@ -1,22 +1,21 @@
 import { Image, Keyboard, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native'
 import React, { useCallback, useEffect, useState } from 'react'
+
 import { Avatar, Button, Card, IconButton } from 'react-native-paper'
 import { Link, router, useNavigation } from 'expo-router';
-import { useGetAccoutByIdQuery, useGetAllAccountQuery } from '@/app/pharmacist.service';
+import { useGetAccountByIdQuery } from '@/app/pharmacist.service';
 import { AntDesign, FontAwesome, FontAwesome5, MaterialIcons } from '@expo/vector-icons';
-import { Account } from '@/types/account.type';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { TouchableOpacity } from '@gorhom/bottom-sheet';
-import { startEditPrescription } from '../prescription.slice';
 import { RootState } from '@/store/store';
 const neweditprofile = () => {
 
     const profileId = useSelector((state: RootState) => state.prescription.id);
-    const { data: profileData, isLoading: profileLoading } = useGetAccoutByIdQuery(profileId, {
+    const { data: profileData, isLoading: _ } = useGetAccountByIdQuery(profileId, {
         skip: !profileId
     })
     const navigation = useNavigation();
