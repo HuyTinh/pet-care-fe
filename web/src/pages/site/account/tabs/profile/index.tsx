@@ -25,12 +25,12 @@ export const ProfileTab = () => {
   });
   const [tab, setTab] = useState(0);
   const [cookies, setCookie] = useCookies<any>();
-  const user_id = useSelector((state: RootState) => state.authentication.user_id);
+  const userId = useSelector((state: RootState) => state.authentication.userId);
   const { data: customerProfileResponse } = useGetCustomerProfileQuery(
     {
-      user_id,
+      userId,
     },
-    { skip: !user_id },
+    { skip: !userId },
   );
   const [updateProfileRequest, { isLoading }] =
     useUpdateCustomerProfileMutation();
@@ -46,7 +46,7 @@ export const ProfileTab = () => {
 
   const onSubmit: SubmitHandler<any> = (data) => {
     updateProfileRequest({
-      user_id: user_id,
+      userId: userId,
       data: toFormData(_.omit(data, ["id"])),
     }).then((res) => {
       if ("error" in res) {
@@ -63,7 +63,7 @@ export const ProfileTab = () => {
   };
 
   const emailNotification = (e: any) => {
-    let cookieName = `email-notification-${user_id}`;
+    const cookieName = `email-notification-${userId}`;
     setCookie(cookieName, e.target.checked, {
       path: "/",
     });
@@ -227,7 +227,7 @@ export const ProfileTab = () => {
                     type="checkbox"
                     className="toggle toggle-primary"
                     onChange={(e) => emailNotification(e)}
-                    checked={cookies[`email-notification-${user_id}`]}
+                    checked={cookies[`email-notification-${userId}`]}
                   />
                 </label>
               </div>

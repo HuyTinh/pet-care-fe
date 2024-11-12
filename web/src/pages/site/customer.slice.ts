@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { jwtDecode } from "jwt-decode";
 
 interface AuthenticationState {
-  user_id: string | null;
+  userId: string | null;
   email: string;
   isAuth: boolean;
   token: string | null;
@@ -11,7 +11,7 @@ interface AuthenticationState {
 }
 
 const initialState: AuthenticationState = {
-  user_id: null,
+  userId: null,
   email: "",
   isAuth: false,
   token: null,
@@ -33,13 +33,13 @@ const authenticationSlice = createSlice({
       } = jwtDecode(action.payload);
       state.email = decodedToken.sub;
       state.role = decodedToken.scope.replace("ROLE_", "");
-      state.user_id = decodedToken.user_id;
+      state.userId = decodedToken.user_id;
     },
     setUnauthenticated(state) {
       state.isAuth = false;
       state.token = null;
       state.email = "";
-      state.user_id = null;
+      state.userId = null;
       localStorage.removeItem("token");
     },
     openAuthModal(state) {
@@ -49,7 +49,7 @@ const authenticationSlice = createSlice({
       state.isOpenAuthModal = false;
     },
     logout(state) {
-      state.user_id = null;
+      state.userId = null;
       state.email = "";
       state.isAuth = false;
     },

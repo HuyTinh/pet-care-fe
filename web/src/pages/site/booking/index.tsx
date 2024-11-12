@@ -1,6 +1,6 @@
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import { displayInputDate, displayPlusDate } from "../../../utils/date";
+import { displayInputDate, displayPlusDate } from "../../../utils/Date";
 import Select from "react-select";
 import { useForm } from "react-hook-form";
 import { FcApproval } from "react-icons/fc";
@@ -26,12 +26,12 @@ export const BookingPage = () => {
 
   const [createAppointment, { isError }] = useCreateAppointmentMutation();
   const isAuth = useSelector((state: RootState) => state.authentication.isAuth);
-  const user_id = useSelector((state: RootState) => state.authentication.user_id);
+  const userId = useSelector((state: RootState) => state.authentication.userId);
   const { data: customerProfileData } = useGetCustomerProfileQuery(
     {
-      user_id,
+      userId,
     },
-    { skip: !user_id },
+    { skip: !userId },
   );
 
   const bookingAgain = () => {
@@ -121,7 +121,7 @@ export const BookingPage = () => {
                 <div className="space-y-2">
                   <div className="flex justify-between">
                     <span>Customer:</span>
-                    {isAuth && user_id && (
+                    {isAuth && userId && (
                       <label>
                         <input
                           type="checkbox"
@@ -320,7 +320,7 @@ export const BookingPage = () => {
                     last_name: getValues("last_name"),
                     email: getValues("email"),
                     phone_number: getValues("phone_number"),
-                    account_id: user_id,
+                    account_id: userId,
                     status: "SCHEDULED",
                     appointment_date: displayInputDate(
                       new Date(getValues("date")),

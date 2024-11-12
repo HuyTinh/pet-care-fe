@@ -149,16 +149,16 @@ const defaultRoute: RouteObject = {
 };
 
 export const RouterHooks = () => {
-  const { user_id } = useSelector(
+  const { userId } = useSelector(
     (state: RootState) => state.authentication,
   );
   const [cookies, setCookies] = useCookies<any>();
 
   useEffect(() => {
-    if (user_id && cookies[`email-notification-${user_id}`] === undefined) {
-      setCookies(`email-notification-${user_id}`, true);
+    if (userId && cookies[`email-notification-${userId}`] === undefined) {
+      setCookies(`email-notification-${userId}`, true);
     }
-  }, [user_id, cookies, setCookies]);
+  }, [userId, cookies, setCookies]);
 
   const router = createBrowserRouter([
     defaultRoute,

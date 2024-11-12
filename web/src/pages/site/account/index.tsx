@@ -9,12 +9,12 @@ import { motion } from "framer-motion";
 export const ProfilePage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user_id = useSelector((state: RootState) => state.authentication.user_id);
+  const userId = useSelector((state: RootState) => state.authentication.userId);
   const { data: customerProfileResponse } = useGetCustomerProfileQuery(
     {
-      user_id,
+      userId,
     },
-    { skip: !user_id },
+    { skip: !userId },
   );
   const logout = () => {
     dispatch(setUnauthenticated());
