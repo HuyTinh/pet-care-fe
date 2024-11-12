@@ -1,170 +1,174 @@
+// Importing necessary components and hooks for routing and state management
 import {
   createBrowserRouter,
   RouteObject,
+  useNavigate,
 } from "react-router-dom";
-import { RootLayout } from "./components/root-layout";
-import { ReceptionistPage } from "./pages/admin/receptionist";
-import { DoctorPage } from "./pages/admin/doctor";
-import { ClientLayout } from "./pages/site";
-import { HomePage } from "./pages/site/home";
-import { BookingPage } from "./pages/site/booking";
-import { useSelector } from "react-redux";
-import { RootState } from "./store/store";
-import { ProfilePage } from "./pages/site/account";
-import { ContactPage } from "./pages/site/contact";
-import { AppointmentTab } from "./pages/site/account/tabs/appointment";
-import { ProfileTab } from "./pages/site/account/tabs/profile";
-import { ServicePage } from "./pages/site/service";
-import { AllService } from "./pages/site/service/all-service";
-import { DiagnosticsService } from "./pages/site/service/diagnostics";
-import { useCookies } from "react-cookie";
-import { Blog } from "./pages/site/blog/blog";
-import { useEffect } from "react";
-import { WareHousePage } from "./pages/admin/warehouse";
-import { AdminAuthPage } from "./pages/admin/auth";
-import { Event } from "./pages/site/blog/event";
-import { NewContent } from "./pages/site/blog/newContent"
+import { RootLayout } from "./components/root-layout"; // Root layout for the app
+import { ReceptionistPage } from "./pages/admin/receptionist"; // Receptionist page
+import { DoctorPage } from "./pages/admin/doctor"; // Doctor page
+import { ClientLayout } from "./pages/site"; // Layout for client-side pages
+import { HomePage } from "./pages/site/home"; // Homepage for the site
+import { BookingPage } from "./pages/site/booking"; // Booking page
+import { useSelector } from "react-redux"; // Redux hook to access global state
+import { RootState } from "./store/store"; // RootState type for Redux store
+import { ProfilePage } from "./pages/site/account"; // Profile page
+import { ContactPage } from "./pages/site/contact"; // Contact page
+import { AppointmentTab } from "./pages/site/account/tabs/appointment"; // Appointment tab inside profile
+import { ProfileTab } from "./pages/site/account/tabs/profile"; // Profile tab inside profile
+import { ServicePage } from "./pages/site/service"; // Service page
+import { AllService } from "./pages/site/service/all-service"; // All services
+import { DiagnosticsService } from "./pages/site/service/diagnostics"; // Diagnostics service
+import { useCookies } from "react-cookie"; // Cookie hook to manage cookies
+import { Blog } from "./pages/site/blog/blog"; // Blog page
+import { useEffect } from "react"; // Effect hook for side effects
+import { WareHousePage } from "./pages/admin/warehouse"; // Warehouse page
+import { AdminAuthPage } from "./pages/admin/auth"; // Admin authentication page
+import { Event } from "./pages/site/blog/event"; // Event page in the blog
+import { NewContent } from "./pages/site/blog/newContent" // New content in the blog
 
-// import { ManagerPage } from "./pages/admin/manager";
-import { ManagerLayout } from "./pages/admin/manager/layout";
-import { HomeManager } from "./pages/admin/manager/home";
-import { Services } from "./pages/admin/manager/services";
-import Report_appointment from "./pages/admin/manager/report/appointment";
-import Report_service from "./pages/admin/manager/report/service";
-import Report_revenue from "./pages/admin/manager/report/revenue";
+// Admin manager layout and related pages
+import { ManagerLayout } from "./pages/admin/manager/layout"; // Manager layout
+import { HomeManager } from "./pages/admin/manager/home"; // Manager home page
+import { Services } from "./pages/admin/manager/services"; // Manager services page
+import Report_appointment from "./pages/admin/manager/report/appointment"; // Appointment report
+import Report_service from "./pages/admin/manager/report/service"; // Service report
+import Report_revenue from "./pages/admin/manager/report/revenue"; // Revenue report
 
+// ProtectedRoute component ensures that only users with valid roles can access the route
 const ProtectedRoute: React.FC<{
-  element: JSX.Element;
-  allowedRoles: string[];
-}> = ({ element }) => {
-  // const { isAuth, role } = useSelector(
-  //   (state: RootState) => state.authentication,
-  // );
-  // const navigate = useNavigate();
-  // useEffect(() => {
-  //   if (!isAuth) {
-  //     navigate("/admin"); // Điều hướng tới trang đăng nhập nếu chưa đăng nhập
-  //   } else if (!allowedRoles.includes(role!)) {
-  //     // Điều hướng tới trang đúng với vai trò của họ nếu vai trò không hợp lệ
-  //     switch (role) {
-  //       case "DOCTOR":
-  //         navigate("/doctor");
-  //         break;
-  //       case "RECEPTIONIST":
-  //         navigate("/receptionist");
-  //         break;
-  //       case "WAREHOUSE_MANAGER":
-  //         navigate("/warehouse");
-  //         break;
-  //       default:
-  //         navigate("/admin"); // Điều hướng về trang admin nếu không có vai trò hợp lệ
-  //     }
-  //   }
-  // }, [isAuth, role, allowedRoles, navigate]);
-  // return allowedRoles.includes(role!) ? element : null;
+  element: JSX.Element; // The element to be rendered if authorized
+  allowedRoles: string[]; // List of roles allowed to access the route
+}> = ({ element, allowedRoles }) => {
+  const { isAuth, role } = useSelector(
+    (state: RootState) => state.authentication, // Getting authentication status and role from Redux
+  );
+  const navigate = useNavigate(); // Hook to navigate to different pages
 
-  return element;
+  useEffect(() => {
+    if (!isAuth) {
+      navigate("/admin"); // Redirect to login if not authenticated
+    } else if (!allowedRoles.includes(role!)) {
+      // Redirect based on user role if not authorized
+      switch (role) {
+        case "DOCTOR":
+          navigate("/doctor");
+          break;
+        case "RECEPTIONIST":
+          navigate("/receptionist");
+          break;
+        case "WAREHOUSE_MANAGER":
+          navigate("/warehouse");
+          break;
+        default:
+          navigate("/admin"); // Default to admin if no valid role
+      }
+    }
+  }, [isAuth, role, allowedRoles, navigate]);
+
+  return allowedRoles.includes(role!) ? element : null; // Render element if role is allowed
 };
 
+// User routes for the client-side (public) pages
 const userRoutes: RouteObject = {
   path: "/",
-  element: <ClientLayout />,
+  element: <ClientLayout />, // Layout for the site
   children: [
-    { index: true, element: <HomePage /> },
+    { index: true, element: <HomePage /> }, // Homepage
     {
       path: "account",
-      element: <ProfilePage />,
+      element: <ProfilePage />, // Profile page
       children: [
-        { index: true, element: <ProfileTab /> },
-        { path: "appointment", element: <AppointmentTab /> },
-
+        { index: true, element: <ProfileTab /> }, // Profile tab
+        { path: "appointment", element: <AppointmentTab /> }, // Appointment tab
       ],
     },
-    { path: "booking", element: <BookingPage /> },
-    { path: "blog", element: <Blog /> },
-    { path: "event", element: <Event /> },
-    { path: "new/:documentId", element: <NewContent /> },
+    { path: "booking", element: <BookingPage /> }, // Booking page
+    { path: "blog", element: <Blog /> }, // Blog page
+    { path: "event", element: <Event /> }, // Event page in the blog
+    { path: "new/:documentId", element: <NewContent /> }, // New content page for specific document
     {
       path: "service",
-      element: <ServicePage />,
+      element: <ServicePage />, // Service page
       children: [
-        { index: true, element: <AllService /> },
-        { path: "diagnostics", element: <DiagnosticsService /> },
+        { index: true, element: <AllService /> }, // All services
+        { path: "diagnostics", element: <DiagnosticsService /> }, // Diagnostics service
       ],
     },
-    { path: "contact", element: <ContactPage /> },
+    { path: "contact", element: <ContactPage /> }, // Contact page
   ],
 };
 
+// Admin routes for protected pages
 const adminRoutes: RouteObject[] = [
   {
     path: "/receptionist",
     element: (
       <ProtectedRoute
-        element={<ReceptionistPage />}
-        allowedRoles={["RECEPTIONIST"]}
+        element={<ReceptionistPage />} // Receptionist page (protected)
+        allowedRoles={["RECEPTIONIST"]} // Only allowed for receptionists
       />
     ),
   },
   {
     path: "/doctor",
     element: (
-      <ProtectedRoute element={<DoctorPage />} allowedRoles={["DOCTOR"]} />
+      <ProtectedRoute element={<DoctorPage />} allowedRoles={["DOCTOR"]} /> // Doctor page (protected)
     ),
   },
   {
     path: "/warehouse",
     element: (
       <ProtectedRoute
-        element={<WareHousePage />}
-        allowedRoles={["WAREHOUSE_MANAGER"]}
+        element={<WareHousePage />} // Warehouse page (protected)
+        allowedRoles={["WAREHOUSE_MANAGER"]} // Only allowed for warehouse managers
       />
     ),
   },
   {
     path: "/manager",
-
-    // element: <ManagerLayout />,
     element: (
       <ProtectedRoute
-        element={<ManagerLayout />}
-        allowedRoles={["MANAGER"]}
+        element={<ManagerLayout />} // Manager layout (protected)
+        allowedRoles={["MANAGER"]} // Only allowed for managers
       />
     ),
     children: [
-      { index: true, element: <HomeManager /> },
-      { path: "serivces", element: <Services /> },
-      { path: "report/appointment", element: <Report_appointment /> },
-      { path: "report/service", element: <Report_service /> },
-      { path: "report/revenue", element: <Report_revenue /> },
+      { index: true, element: <HomeManager /> }, // Manager home page
+      { path: "serivces", element: <Services /> }, // Manager services page
+      { path: "report/appointment", element: <Report_appointment /> }, // Appointment report
+      { path: "report/service", element: <Report_service /> }, // Service report
+      { path: "report/revenue", element: <Report_revenue /> }, // Revenue report
     ],
-  }
+  },
 ];
 
+// Default route for admin (auth page)
 const defaultRoute: RouteObject = {
   path: "/admin",
-  element: <RootLayout />,
-  children: [{ index: true, element: <AdminAuthPage /> }],
-  // children: [{ index: true, element: <ManagerPage /> }],
+  element: <RootLayout />, // Admin root layout
+  children: [{ index: true, element: <AdminAuthPage /> }], // Admin authentication page
 };
 
+// Main router component with user, admin, and default routes
 export const RouterHooks = () => {
   const { userId } = useSelector(
-    (state: RootState) => state.authentication,
+    (state: RootState) => state.authentication, // Get user ID from Redux
   );
-  const [cookies, setCookies] = useCookies<any>();
+  const [cookies, setCookies] = useCookies<any>(); // Use cookies for notification settings
 
   useEffect(() => {
     if (userId && cookies[`email-notification-${userId}`] === undefined) {
-      setCookies(`email-notification-${userId}`, true);
+      setCookies(`email-notification-${userId}`, true); // Set a cookie for email notifications
     }
   }, [userId, cookies, setCookies]);
 
+  // Create a browser router with all defined routes
   const router = createBrowserRouter([
     defaultRoute,
     userRoutes,
-    ...adminRoutes,
+    ...adminRoutes, // Add admin routes dynamically
   ]);
 
-  return { router };
+  return { router }; // Return the router object
 };

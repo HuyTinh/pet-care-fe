@@ -31,7 +31,7 @@ export const AdminLoginForm = () => {
         });
       }
       if ("data" in res) {
-        let { data } = res;
+        const { data } = res;
         toast.success("Login successful", {
           position: "top-right",
         });
