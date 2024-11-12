@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { useCancelAppointmentMutation, useGetAppointmentByCustomerIdQuery } from "../../../../admin/receptionist/appointment.service";
 import { RootState } from "../../../../../store/store";
-import { displayCustomDate } from "../../../../../utils/date";
+import { displayCustomDate } from "../../../../../utils/Date";
 import { AnimatePresence, motion } from "framer-motion";
 import { FcCalendar } from "react-icons/fc";
 import { useState } from "react";
@@ -10,7 +10,7 @@ import { IAppointment } from "../../../../../types/appoiment.type";
 import { toast } from "react-toastify";
 
 export const AppointmentTab = () => {
-  const user_id = useSelector((state: RootState) => state.authentication.user_id);
+  const userId = useSelector((state: RootState) => state.authentication.userId);
   const [selectedAppointment, setSelectedAppointment] = useState<IAppointment>(
     {} as IAppointment,
   );
@@ -34,12 +34,12 @@ export const AppointmentTab = () => {
   const { data: appoimentsHistoryResponse, isFetching } =
     useGetAppointmentByCustomerIdQuery(
       {
-        user_id,
+        userId,
         params: {
           status: appointmentStatus,
         },
       },
-      { skip: !user_id },
+      { skip: !userId },
     );
 
   return (

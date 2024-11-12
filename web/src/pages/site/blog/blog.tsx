@@ -4,14 +4,14 @@ import { IBlog } from "../../../types/blog.type"
 
 import { IComment } from "../../../types/comment.type"
 import ReactMarkdown from 'react-markdown';
-import { displayCustomDate } from "../../../utils/date";
+import { displayCustomDate } from "../../../utils/Date";
 
 export const Blog = () => {
 
     const { data } = useFetch('http://localhost:1337/api/blogs?populate=*')
     const blogs = (data as any)?.data || [];
     const [blog, setBlog] = useState<IBlog>();
-    const user_id = 2;
+    const userId = 2;
 
     const [content, setContent] = useState<string>("");
     const [rating, setRating] = useState(0);
@@ -37,6 +37,7 @@ export const Blog = () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 data: {
+                    // eslint-disable-next-line no-unsafe-optional-chaining
                     comments: [...(blog as any)?.comments.map((c: any) => {
                         if (c.id == comment.id) {
                             return comment
@@ -198,7 +199,7 @@ export const Blog = () => {
                                                 content: content as any,
                                                 time: "2024-10-13",
                                                 user: "dua",
-                                                user_id: user_id,
+                                                userId: userId,
                                                 id: self.crypto.randomUUID() as any,
                                                 rating: rating,
                                             });
@@ -225,7 +226,7 @@ export const Blog = () => {
                                                 <div>
                                                     <textarea
                                                         className="whitespace-pre-line mt-2 w-[800px] h-[auto] mb-2"
-                                                        disabled={(comment as any)?.user_id != user_id} onChange={(e) => setContent(e.target.value as any)} >{comment.content}
+                                                        disabled={(comment as any)?.userId != userId} onChange={(e) => setContent(e.target.value as any)} >{comment.content}
                                                     </textarea>
                                                 </div>
                                                 <div className="mb-2">
@@ -251,7 +252,7 @@ export const Blog = () => {
                                                         content: content as any,
                                                         time: "2024-10-13",
                                                         user: "dua",
-                                                        user_id: (comment as any)?.user_id,
+                                                        userId: (comment as any)?.userId,
                                                         id: comment.id,
                                                         rating: 5
                                                     })}>Edit</button>

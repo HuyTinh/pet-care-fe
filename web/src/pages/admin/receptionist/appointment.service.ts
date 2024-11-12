@@ -167,11 +167,11 @@ export const appointmentApi = createApi({
     }),
     getAppointmentByCustomerId: build.query<
       APIResponse<IAppointment>,
-      { user_id: string | number | null; params: object }
+      { userId: string | number | null; params: object }
     >({
       query: (body) => {
         return {
-          url: `${import.meta.env.VITE_APPOINTMENT_PATH}/appointment/account/${body.user_id}`,
+          url: `${import.meta.env.VITE_APPOINTMENT_PATH}/appointment/account/${body.userId}`,
           params: body.params,
         };
       },
