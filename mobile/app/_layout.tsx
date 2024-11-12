@@ -24,9 +24,6 @@ export default function RootLayout() {
   });
   const [fetchToken, setFetchToken] = useState(true);
 
-  console.log(loaded);
-
-
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync(); // Hide splash screen once fonts are loaded
@@ -44,18 +41,6 @@ export default function RootLayout() {
 
     checkToken(); // Check token on component mount
   }, []);
-
-  // if (!loaded || fetchToken) {
-  //   // Show loading screen while fonts are loading and token is being checked
-  //   return (
-  //     <View className="flex flex-1 justify-center items-center h-screen bg-[#65d2f9]">
-  //       <View className="rounded-full">
-  //         <Image className="w-60 h-24" source={require("@/assets/images/loading.gif")} />
-  //       </View>
-  //       <Text className="text-white font-bold text-xl">Loading...</Text>
-  //     </View>
-  //   );
-  // }
 
   return (
     <React.Fragment>
