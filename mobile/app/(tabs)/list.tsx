@@ -71,7 +71,7 @@ const Home = () => {
     const updateSections = (activeSections: any) => {
         setActiveSections(activeSections);
     };
-    const presrptionId = useSelector((state: RootState) => state.prescription.id);
+    const presrptionId = useSelector((state: RootState) => state.pharmacist.id);
     const { data: prescriptionData, isFetching: fetchingPrescriptionData, isLoading: loadingPrescription } = useGetPrescriptionByIdQuery(presrptionId, {
         skip: !presrptionId,
     });

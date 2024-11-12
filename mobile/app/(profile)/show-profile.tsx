@@ -16,14 +16,14 @@ import { RootState } from '@/store/store';
 const NewEditProfile = () => {
 
     // Get profile ID from Redux store
-    const profileId = useSelector((state: RootState) => state.prescription.id);
+    const profileId = useSelector((state: RootState) => state.pharmacist.id);
 
     // Fetch employee profile data using the profileId
     const { data: profileData, isLoading: _ } = useGetEmployeeByAccountIdQuery(profileId, {
         skip: !profileId // Skip the query if no profileId
     });
 
-    console.log(profileData); // Log the profile data for debugging
+    console.log(profileId); // Log the profile data for debugging
 
     const navigation = useNavigation();
 

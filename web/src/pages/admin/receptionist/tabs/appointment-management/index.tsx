@@ -72,6 +72,9 @@ export const AppointmentManagement = () => {
 
         stompClient.subscribe("/topic/exportPDF/" + sessionId, (message) => {
           if (Number(message.body)) {
+
+            generatePDF(Number(message.body));
+
             setAppointments((prev) => prev.map(val => {
               if (val.id == message.body) {
                 return {
@@ -81,7 +84,7 @@ export const AppointmentManagement = () => {
               }
               return val;
             }));
-            generatePDF(Number(message.body));
+
           }
         });
       };

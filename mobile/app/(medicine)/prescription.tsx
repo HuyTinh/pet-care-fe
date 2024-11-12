@@ -15,7 +15,7 @@ const prescription = () => {
     const updateSections = (activeSections: any) => {
         setActiveSections(activeSections)
     }
-    const presrptionId = useSelector((state: RootState) => state.prescription.id);
+    const presrptionId = useSelector((state: RootState) => state.pharmacist.id);
 
     const { data, isFetching, isLoading } = useGetPrescriptionByIdQuery(presrptionId, {
         skip: !presrptionId

@@ -16,7 +16,7 @@ const Explore = () => {
   }, [router]);
 
   // Accessing profile ID from the Redux store
-  const profileId = useSelector((state: RootState) => state.prescription.id);
+  const profileId = useSelector((state: RootState) => state.pharmacist.id);
 
   // Fetch profile data using the profile ID from the API
   const { data: profileData, isLoading: profileLoading } = useGetEmployeeByAccountIdQuery(profileId, {

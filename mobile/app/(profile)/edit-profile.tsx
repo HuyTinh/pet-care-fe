@@ -28,7 +28,7 @@ const EditProfile = () => {
   const [imageUrl, setImage] = useState([]);
   const { control, reset, handleSubmit } = useForm<any>(); // Initialize react-hook-form for form handling
   const navigation = useNavigation(); // Used for navigation
-  const profileId = useSelector((state: RootState) => state.prescription.id); // Get profile ID from Redux store
+  const profileId = useSelector((state: RootState) => state.pharmacist.id); // Get profile ID from Redux store
   const { data, isFetching, isLoading } = useGetEmployeeByAccountIdQuery(profileId, {
     skip: !profileId // Skip the query if no profileId
   })
@@ -53,6 +53,8 @@ const EditProfile = () => {
   const onSubmit: SubmitHandler<Account> = async (data: Account) => {
     if (data) {
       // On successful update
+      console.log(data);
+
       setSuccessMessage("Update successfully!");
       setModalVisible(true); // Show modal with success message
     }
@@ -62,21 +64,17 @@ const EditProfile = () => {
     <>
       {/* Modal to show success message after update */}
       <Modal
-        animationType="slide"
+        animationType="fade"
         transparent={true}
         visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible); // Close the modal when requested
-        }}
       >
-        <View style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }} className="flex-1 justify-center items-center">
-          <View style={{ width: 380, height: 320, padding: 50, backgroundColor: 'white', borderRadius: 10 }} className="flex justify-center items-center">
+        <View style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }} className="flex-1 justify-center items-center" onTouchStart={() => {
+          setModalVisible(!modalVisible); // Close the modal when requested
+        }}>
+          <View style={{ width: 250, padding: 15, backgroundColor: 'white', borderRadius: 10 }} className="flex justify-center items-center">
             <View className="justify-center items-center">
-              <Image className="w-36 h-32" source={require("@/assets/images/error.gif")} /> {/* Success GIF */}
-              <Text className="mt-3 mb-3 font-bold text-3xl text-center">{successMessage}</Text>
-              <Button style={styles.buttonModal} onPress={() => setModalVisible(false)} >
-                <Text className="font-bold text-base text-white text-center">OK</Text>
-              </Button>
+              <Image className="w-24 h-24" source={require("@/assets/images/error.gif")} />
+              <Text className="mt-3 mb-3 font-bold text-center">{successMessage}</Text>
             </View>
           </View>
         </View>
@@ -167,6 +165,7 @@ const EditProfile = () => {
                     style={styles.input}
                     className="rounded-xl"
                     onBlur={onBlur}
+                    disabled
                     value={value}
                     onChangeText={onChange}
                     underlineColor="transparent"

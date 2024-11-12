@@ -29,7 +29,7 @@ const pharmacistSlice = createSlice({
 })
 
 // Exporting the reducer to be used in the store configuration
-const prescriptionReducer = pharmacistSlice.reducer;
+const pharmacistReducer = pharmacistSlice.reducer;
 
 // Exporting the actions for use in components or other parts of the app
 export const {
@@ -38,4 +38,4 @@ export const {
 } = pharmacistSlice.actions;
 
 // Exporting the reducer as the default export to integrate into the Redux store
-export default prescriptionReducer;
+export default pharmacistReducer;
