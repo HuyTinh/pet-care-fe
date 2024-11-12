@@ -54,7 +54,6 @@ const EditProfile = () => {
     if (data) {
       // On successful update
       console.log(data);
-
       setSuccessMessage("Update successfully!");
       setModalVisible(true); // Show modal with success message
     }
@@ -67,14 +66,20 @@ const EditProfile = () => {
         animationType="fade"
         transparent={true}
         visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible); // Close modal on request
+        }}
       >
         <View style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }} className="flex-1 justify-center items-center" onTouchStart={() => {
           setModalVisible(!modalVisible); // Close the modal when requested
         }}>
           <View style={{ width: 250, padding: 15, backgroundColor: 'white', borderRadius: 10 }} className="flex justify-center items-center">
             <View className="justify-center items-center">
-              <Image className="w-24 h-24" source={require("@/assets/images/error.gif")} />
-              <Text className="mt-3 mb-3 font-bold text-center">{successMessage}</Text>
+              <Image className="w-24 h-24" source={require("@/assets/images/success_gif.gif")} />
+              <Text style={styles.textModal}>{successMessage}</Text>
+              <Button style={styles.buttonModal} onPress={() => setModalVisible(false)} >
+                <Text className="font-bold text-base text-white text-center">OK</Text>
+              </Button>
             </View>
           </View>
         </View>
@@ -354,6 +359,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#0099CF",
     marginTop: 20,
     width: wp("50%")
+  },
+  textModal: {
+    marginTop: 20,
+    marginBottom: 5,
+    textAlign: "center",
+    fontFamily: "blod",
+    fontWeight: "600",
   }
 });
 
