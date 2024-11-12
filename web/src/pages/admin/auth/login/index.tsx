@@ -65,7 +65,7 @@ export const AdminLoginForm = () => {
         navigate("/admin");
         return;
     }
-  }, [role]);
+  }, [navigate, role]);
 
   return (
     <Fragment>

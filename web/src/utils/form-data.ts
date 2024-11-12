@@ -44,19 +44,28 @@ const options = {
   dotsForObjectNotation: false,
 };
 
+// Define the function toFormData to convert an object into FormData using a serialization method
 export function toFormData(obj: object) {
+  // Serialize the object into FormData (assuming 'serialize' and 'options' are defined elsewhere)
   return serialize(obj, options);
 }
 
+// Define the function toFormDataGPT to convert an object or array of data into FormData format
 export function toFormDataGPT(data: any) {
+  // Create a new FormData object to store the key-value pairs
   const formData = new FormData();
+
+  // Loop through each key in the provided data object
   for (const key in data) {
     if (Array.isArray(data[key])) {
-      // Nếu là mảng, thêm từng phần tử
+      // If the value is an array, append each element with the key followed by "[]"
       data[key].forEach((value) => formData.append(key + "[]", value));
     } else {
+      // If the value is not an array, append it as a simple key-value pair
       formData.append(key, data[key]);
     }
   }
+
+  // Return the populated FormData object
   return formData;
 }

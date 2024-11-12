@@ -6,7 +6,7 @@ import { getCookieValue } from "../../../utils/cookie";
 import { PageableResponse } from "../../../types/pageable-response";
 import { IHospitalService } from "../../../types/hospital-service.type";
 import { ISpecie } from "../../../types/specie.type";
-import { displayInputDate, displayPlusDate } from "../../../utils/Date";
+import { displayInputDate, displayPlusDate } from "../../../utils/date";
 
 export const appointmentApi = createApi({
   reducerPath: "appointmentApi",

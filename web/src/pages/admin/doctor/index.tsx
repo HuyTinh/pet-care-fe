@@ -1,25 +1,26 @@
-import { SideMenu } from "./side-menu";
-import { AnimatePresence } from "framer-motion";
 import { PrescriptionManagement } from "./tabs/prescription-management";
-// import { useHandleLogout } from "../../../utils/handleLogout";
+import { MenuItem } from "../../../components/side-bar";
+import { IoDocumentText } from "react-icons/io5";
+import { CiUser } from "react-icons/ci";
+import { AdminLayout } from "..";
+
+const menuItems: MenuItem[] = [
+  {
+    title: "Prescription",
+    icon: <IoDocumentText size={32} />,
+    path: "/doctor",
+  },
+  {
+    title: "Profile",
+    icon: <CiUser size={32} />,
+    path: "/doctor/profile",
+  },
+];
 
 export const DoctorPage = () => {
-  // const _handleLogout = useHandleLogout();
   return (
-    <AnimatePresence initial={false}>
-      <div className="h-screen bg-blue-400">
-        {/* <button className="btn" onClick={handleLogout}>
-              Logout
-            </button> */}
-        <div className="flex h-full">
-          <SideMenu />
-          <div className="relative z-20 w-full pb-2 pe-4 pt-4">
-            <div className="flex h-full flex-1 flex-col rounded-lg border-2 border-black bg-white">
-              <PrescriptionManagement />
-            </div>
-          </div>
-        </div>
-      </div>
-    </AnimatePresence>
+    <AdminLayout menuItems={menuItems}>
+      <PrescriptionManagement />
+    </AdminLayout>
   );
 };
