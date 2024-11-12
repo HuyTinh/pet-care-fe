@@ -1,5 +1,6 @@
 // Import necessary functions from Redux Toolkit to create an API slice
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { setAuthenticated } from "./auth.slice";
 
 // Create an API slice for handling authentication requests
 export const authenticationApi = createApi({
@@ -15,6 +16,19 @@ export const authenticationApi = createApi({
           method: "POST", // POST method for login
           body, // Request body contains email and password
         };
+      },
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled; // Wait for the query to finish
+          const token = (data as any)?.data.token; // Extract token from the response
+
+          localStorage.setItem("token", token);
+
+          dispatch(setAuthenticated(token));
+
+        } catch (error) {
+          console.log('Error saving token:', error); // Log any errors
+        }
       },
     }),
     // Query for user logout

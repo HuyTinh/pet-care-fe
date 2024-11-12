@@ -2,7 +2,7 @@ import { PrescriptionManagement } from "./tabs/prescription-management";
 import { MenuItem } from "../../../components/side-bar";
 import { IoDocumentText } from "react-icons/io5";
 import { CiUser } from "react-icons/ci";
-import { AdminLayout } from "..";
+import { AdminLayout } from "../layout";
 
 const menuItems: MenuItem[] = [
   {

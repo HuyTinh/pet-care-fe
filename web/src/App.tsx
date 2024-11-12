@@ -28,12 +28,10 @@ function App() {
 
   return (
     <Fragment>
-      {/* <GoogleOAuthProvider clientId="171737653063-1m5elbbm70k45d1p48cj8qakjdfupslb.apps.googleusercontent.com"> */}
       <AnimatePresence initial={false}>
         <RouterProvider router={hookRouter.router} />
       </AnimatePresence>
 
-      {/* </GoogleOAuthProvider> */}
       <ToastContainer
         autoClose={2500}
         pauseOnHover={true}
@@ -42,7 +40,6 @@ function App() {
         stacked
         closeOnClick
       />
-      {/* <PetCareModalContainer size="md" /> */}
     </Fragment>
   );
 }

@@ -35,12 +35,12 @@ const authenticationSlice = createSlice({
       // Decode the JWT token to extract user details
       const decodedToken: {
         sub: string; // Email
-        userId: string; // User ID
+        user_id: string; // User ID
         scope: string; // User role
       } = jwtDecode(action.payload);
       state.email = decodedToken.sub; // Set email from decoded token
       state.role = decodedToken.scope.replace("ROLE_", ""); // Extract and set role (remove "ROLE_" prefix)
-      state.userId = decodedToken.userId; // Set user ID from decoded token
+      state.userId = decodedToken.user_id; // Set user ID from decoded token
     },
     // Action to set the user as unauthenticated
     setUnauthenticated(state) {
