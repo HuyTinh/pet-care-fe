@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'; // Importing `configureStore` to set up the Redux store
-import prescriptionReducer from '../app/pharmacist.slice'; // Importing the prescription reducer to manage prescription state
 import { pharmacistApi } from '../app/pharmacist.service'; // Importing the API slice to handle async requests and caching
+import pharmacistReducer from '../app/pharmacist.slice';
 
 // Configuring the Redux store
 export const store = configureStore({
     reducer: {
-        prescription: prescriptionReducer, // Adding the `prescriptionReducer` to the store to manage prescription data
+        pharmacist: pharmacistReducer, // Adding the `prescriptionReducer` to the store to manage prescription data
         [pharmacistApi.reducerPath]: pharmacistApi.reducer, // Adding the API reducer to manage the state for `pharmacistApi` (e.g., fetched data)
     },
     middleware: (getDefaultMiddleware) =>
