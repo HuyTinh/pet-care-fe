@@ -1,9 +1,12 @@
 import { motion } from "framer-motion";
 import { NavLink, useNavigate } from "react-router-dom";
 import { CiLogout } from "react-icons/ci";
-import { ReactElement } from "react";
-import { useDispatch } from "react-redux";
+import { ReactElement, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { setUnauthenticated } from "../../pages/auth.slice";
+import { RootState } from "../../store/store";
+import { useGetEmployeeProfileQuery } from "../../pages/admin/employee.service";
+import { IEmployee } from "../../types/employee.type";
 
 
 export interface MenuItem {
@@ -19,6 +22,20 @@ type SideBarProps = {
 export const SideBar = ({ menuItems }: SideBarProps) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const userId = useSelector((state: RootState) => state.authentication.userId);
+    const [userCurrent, setUserCurrent] = useState<IEmployee>();
+    const { data: employeeProfileResponse } = useGetEmployeeProfileQuery(
+        {
+            userId,
+        },
+        { skip: !userId },
+    );
+
+
+    useEffect(() => {
+        setUserCurrent(employeeProfileResponse?.data)
+    }, [employeeProfileResponse])
+
 
     const logout = () => {
         dispatch(setUnauthenticated());
@@ -41,10 +58,12 @@ export const SideBar = ({ menuItems }: SideBarProps) => {
             >
                 <div className="ps-2 ">
                     <div className="flex flex-col">
-                        <div className="flex p-2">
+                        <div className="flex p-2 cursor-pointer" onClick={() =>
+                            (document.getElementById("admin_profile_modal") as any)?.showModal()
+                        }>
                             <div className="avatar">
                                 <div className="mask mask-squircle w-16">
-                                    <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                                    <img src={userCurrent?.image_url} />
                                 </div>
                             </div>
                             <motion.div
@@ -59,7 +78,7 @@ export const SideBar = ({ menuItems }: SideBarProps) => {
                                 }}
                             >
                                 <div>Welcome back</div>
-                                <div>Huy tinhs</div>
+                                <div>{userCurrent?.first_name + " " + userCurrent?.last_name}</div>
                             </motion.div>
                         </div>
                         <div className="flex w-full flex-colflex-1">

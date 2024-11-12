@@ -1,5 +1,6 @@
-import { MenuItem, SideBar } from "../../components/side-bar"
+import { MenuItem, SideBar } from "../../../components/side-bar"
 import { AnimatePresence } from "framer-motion";
+import { AdminProfileModal } from "./admin-profile-modal";
 
 type AdminLayoutProps = {
     menuItems: MenuItem[],
@@ -18,6 +19,7 @@ export const AdminLayout = ({ menuItems, children }: AdminLayoutProps) => {
                         </div>
                     </div>
                 </div>
+                <AdminProfileModal />
             </div>
         </AnimatePresence>
     )
