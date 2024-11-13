@@ -18,10 +18,10 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { useGetEmployeeByAccountIdQuery } from "@/app/pharmacist.service";
+import { useGetEmployeeByAccountIdQuery, useSoftUpdateProfileMutation } from "@/app/pharmacist.service";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { Account } from "@/types/account.type";
+import { IAccount } from "@/types/account.type";
 
 const EditProfile = () => {
   // State to store the selected image URL
@@ -37,6 +37,8 @@ const EditProfile = () => {
   const [modalVisible, setModalVisible] = useState(false); // State for modal visibility
   const [successMessage, setSuccessMessage] = useState<string | null>(null); // State for success message
 
+  const [updateProfile] = useSoftUpdateProfileMutation()
+
   // Function to navigate back to the previous screen
   function handleBack() {
     navigation.goBack();
@@ -50,12 +52,23 @@ const EditProfile = () => {
   }, [data]);
 
   // Function to handle form submission
-  const onSubmit: SubmitHandler<Account> = async (data: Account) => {
+  const onSubmit: SubmitHandler<IAccount> = async (data: IAccount) => {
     if (data) {
       // On successful update
-      console.log(data);
-      setSuccessMessage("Update successfully!");
-      setModalVisible(true); // Show modal with success message
+      updateProfile({
+        accountId: data.account_id,
+        updateData: {
+          first_name: data.first_name,
+          last_name: data.last_name,
+          gender: data.gender,
+          phone_number: data.phone_number
+        },
+      }).then(res => {
+        if (res) {
+          setSuccessMessage("Update successfully!");
+          setModalVisible(true); // Show modal with success message
+        }
+      })
     }
   }
 

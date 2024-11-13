@@ -5,7 +5,7 @@ import { pharmacistProfileId } from './pharmacist.slice';
 
 // Importing types used in the API slice
 import { IPrescription } from '../types/prescription.type';
-import { Account } from '../types/account.type';
+import { IAccount } from '../types/account.type';
 import { LoginRequest } from '../types/login-request.type';
 import { APIReponse } from '../types/api-response.type';
 import { IJwtPayload } from '@/types/jwt-payload.type';
@@ -13,7 +13,7 @@ import { IJwtPayload } from '@/types/jwt-payload.type';
 // Creating the pharmacist API slice using Redux Toolkit's `createApi`
 export const pharmacistApi = createApi({
     reducerPath: 'pharmacistApi', // Name for the API slice in the Redux store
-    tagTypes: ['Prescriptions'], // Define the tags used for cache invalidation related to prescriptions
+    tagTypes: ['Prescriptions', 'Employee'], // Define the tags used for cache invalidation related to prescriptions
     baseQuery: fetchBaseQuery({ baseUrl: process.env.EXPO_PUBLIC_API_URL }), // Set the base URL for API requests from environment variables
     endpoints: (build) => ({
         // Endpoint to fetch all prescriptions
@@ -66,8 +66,25 @@ export const pharmacistApi = createApi({
         }),
 
         // Endpoint to fetch employee details by account ID
-        getEmployeeByAccountId: build.query<APIReponse<Account>, string>({
+        getEmployeeByAccountId: build.query<APIReponse<IAccount>, string>({
             query: (accountId) => `${process.env.EXPO_PUBLIC_EMPLOYEE_PATH}/employee/account/${accountId}`, // API URL to fetch employee by account ID
+            providesTags(result) {
+                // Provides a tag with the customer ID to manage cache invalidation
+                return [{ type: "Employee" as const, id: (result as any)?.data?.id }];
+            },
+        }),
+
+        // Endpoint to soft update employee profile
+        softUpdateProfile: build.mutation<APIReponse<IAccount>, { accountId: number, updateData: any }>({
+            query: (body) => ({
+                url: `${process.env.EXPO_PUBLIC_EMPLOYEE_PATH}/employee/account/${body.accountId}/soft-update`,
+                method: 'PUT',
+                body: body.updateData
+            }),
+            invalidatesTags: (result) => [
+                // Invalidates the cached customer data after updating
+                { type: "Employee" as const, id: (result as any)?.data.id },
+            ],
         }),
 
         // Endpoint to create a new bill
@@ -87,5 +104,6 @@ export const {
     useCreateBillMutation, // Hook for creating a bill
     useGetPrescriptionByIdQuery, // Hook for fetching a prescription by ID
     useLoginRequestMutation, // Hook for initiating a login request
+    useSoftUpdateProfileMutation,
     useGetEmployeeByAccountIdQuery, // Hook for fetching employee details by account ID
 } = pharmacistApi;
