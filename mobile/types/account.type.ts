@@ -1,5 +1,5 @@
 // Defining the Account interface which represents the structure of an account object
-export interface Account {
+export interface IAccount {
   id: number; // Unique identifier for the account
   email: string; // Email address associated with the account
   gender: string; // Gender of the account holder

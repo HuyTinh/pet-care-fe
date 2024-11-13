@@ -18,10 +18,10 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { useGetEmployeeByAccountIdQuery } from "@/app/pharmacist.service";
+import { useGetEmployeeByAccountIdQuery, useSoftUpdateProfileMutation } from "@/app/pharmacist.service";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { Account } from "@/types/account.type";
+import { IAccount } from "@/types/account.type";
 
 const EditProfile = () => {
   // State to store the selected image URL
@@ -37,6 +37,8 @@ const EditProfile = () => {
   const [modalVisible, setModalVisible] = useState(false); // State for modal visibility
   const [successMessage, setSuccessMessage] = useState<string | null>(null); // State for success message
 
+  const [updateProfile] = useSoftUpdateProfileMutation()
+
   // Function to navigate back to the previous screen
   function handleBack() {
     navigation.goBack();
@@ -50,13 +52,23 @@ const EditProfile = () => {
   }, [data]);
 
   // Function to handle form submission
-  const onSubmit: SubmitHandler<Account> = async (data: Account) => {
+  const onSubmit: SubmitHandler<IAccount> = async (data: IAccount) => {
     if (data) {
       // On successful update
-      console.log(data);
-
-      setSuccessMessage("Update successfully!");
-      setModalVisible(true); // Show modal with success message
+      updateProfile({
+        accountId: data.account_id,
+        updateData: {
+          first_name: data.first_name,
+          last_name: data.last_name,
+          gender: data.gender,
+          phone_number: data.phone_number
+        },
+      }).then(res => {
+        if (res) {
+          setSuccessMessage("Update successfully!");
+          setModalVisible(true); // Show modal with success message
+        }
+      })
     }
   }
 
@@ -67,14 +79,20 @@ const EditProfile = () => {
         animationType="fade"
         transparent={true}
         visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible); // Close modal on request
+        }}
       >
         <View style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }} className="flex-1 justify-center items-center" onTouchStart={() => {
           setModalVisible(!modalVisible); // Close the modal when requested
         }}>
           <View style={{ width: 250, padding: 15, backgroundColor: 'white', borderRadius: 10 }} className="flex justify-center items-center">
             <View className="justify-center items-center">
-              <Image className="w-24 h-24" source={require("@/assets/images/error.gif")} />
-              <Text className="mt-3 mb-3 font-bold text-center">{successMessage}</Text>
+              <Image className="w-24 h-24" source={require("@/assets/images/success_gif.gif")} />
+              <Text style={styles.textModal}>{successMessage}</Text>
+              <Button style={styles.buttonModal} onPress={() => setModalVisible(false)} >
+                <Text className="font-bold text-base text-white text-center">OK</Text>
+              </Button>
             </View>
           </View>
         </View>
@@ -354,6 +372,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#0099CF",
     marginTop: 20,
     width: wp("50%")
+  },
+  textModal: {
+    marginTop: 20,
+    marginBottom: 5,
+    textAlign: "center",
+    fontFamily: "blod",
+    fontWeight: "600",
   }
 });
 

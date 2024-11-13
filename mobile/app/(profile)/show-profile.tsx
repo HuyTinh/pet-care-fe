@@ -23,8 +23,6 @@ const NewEditProfile = () => {
         skip: !profileId // Skip the query if no profileId
     });
 
-    console.log(profileId); // Log the profile data for debugging
-
     const navigation = useNavigation();
 
     // Function to navigate back to the previous screen
