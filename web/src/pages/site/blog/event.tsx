@@ -126,6 +126,7 @@ export const Event = () => {
                                     <p className="text-gray-500 text-sm">{newSet?.authorNew}</p>
                                     <h2 className="text-lg font-bold mt-2">{newSet?.titleNew}</h2>
                                     <p className="text-gray-700 mt-2 line-clamp-3">{newSet?.contentNew}</p>
+
                                     <button className="text-blue-500 font-semibold mt-2 inline-block" onClick={() => handleNew(newSet.documentId)}>
                                         Read More »
                                     </button>

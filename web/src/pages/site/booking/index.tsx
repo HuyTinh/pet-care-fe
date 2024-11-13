@@ -1,6 +1,6 @@
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import { displayInputDate, displayPlusDate } from "../../../utils/date";
+import { displayInputDate, displayPlusDate } from "../../../utils/Date";
 import Select from "react-select";
 import { useForm } from "react-hook-form";
 import { FcApproval } from "react-icons/fc";
@@ -237,7 +237,7 @@ export const BookingPage = () => {
                         defaultValue={""}
                       >
                         <option value={""}>Species?</option>
-                        {(specieData?.data as any[]).map((val, index) => (
+                        {(specieData?.data as any)?.map((val: any, index: number) => (
                           <option key={index} value={val.name}>
                             {val.name}
                           </option>

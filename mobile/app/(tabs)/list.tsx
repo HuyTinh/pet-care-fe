@@ -7,11 +7,14 @@ import {
     TouchableWithoutFeedback,
     ScrollView,
     TextInput,
+    StatusBar,
+    TouchableOpacity,
+    Modal,
 } from "react-native";
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Button, Card, Searchbar } from "react-native-paper";
-import { Avatar } from "react-native-paper";
 import Accordion from "react-native-collapsible/Accordion";
 import {
     BottomSheetModal,
@@ -20,113 +23,142 @@ import {
 } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import {
+    useCreateBillMutation,
     useGetPrescriptionByIdQuery,
     useGetPrescriptionQuery,
 } from "@/app/pharmacist.service";
 import { IPrescription } from "@/types/prescription.type";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { startEditPost } from "@/app/prescription.slice";
-import { router } from "expo-router";
-// import { useFonts } from "expo-font";
+import { pharmacistProfileId } from "@/app/pharmacist.slice";
+import { Link, router, useFocusEffect } from "expo-router";
 const Home = () => {
+    const getDateInfo = (): { day: number; month: string; year: number; dayName: string } => {
+        const dateInfo = useMemo(() => {
+            const today = new Date();
+            const day: number = today.getDate();
+            const monthIndex: number = today.getMonth();
+            const months: string[] = [
+                'January', 'February', 'March', 'April',
+                'May', 'June', 'July', 'August',
+                'September', 'October', 'November', 'December'
+            ];
+            const month: string = months[monthIndex];
+            const year: number = today.getFullYear();
+            const dayOfWeek: number = today.getDay();
+            const days: string[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const dayName: string = days[dayOfWeek];
+            return { day, month, year, dayName };
+        }, [])
+        return dateInfo;
+    };
     const { data, isLoading, isFetching, isError } = useGetPrescriptionQuery();
     const [searchQuery, setSearchQuery] = React.useState("");
     const [searchResult, setSearchResult] = React.useState();
     const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-    // variables
-    const snapPoints = useMemo(() => ["75%", "75%", "75%", "75%"], []);
-
-    // callbacks
+    const snapPoints = useMemo(() => ["75%"], []);
     const handlePresentModalPress = useCallback((id: any) => {
         bottomSheetModalRef.current?.present();
-        distpath(startEditPost(id))
+        distpath(pharmacistProfileId(id))
     }, []);
+
+    useFocusEffect(
+        React.useCallback(() => {
+            return () => bottomSheetModalRef.current?.close()
+        }, [])
+    );
     const [activeSections, setActiveSections] = useState([]);
-
     const updateSections = (activeSections: any) => {
-
         setActiveSections(activeSections);
-
     };
-    const [listCustomer, setListCustomer] = useState([]);
-    const presrptionId = useSelector((state: RootState) => state.prescription.id);
+    const presrptionId = useSelector((state: RootState) => state.pharmacist.id);
     const { data: prescriptionData, isFetching: fetchingPrescriptionData, isLoading: loadingPrescription } = useGetPrescriptionByIdQuery(presrptionId, {
         skip: !presrptionId,
     });
-
-    console.log(data);
-
     const distpath = useDispatch()
     const filterCustomer = (value: any) => {
         return (data as any)?.data.filter((account: any) => {
             return (
                 value &&
-                account.customer.phone_number.includes(value)
+                account.appointment.phone_number.includes(value)
             )
         })
     }
-    const getDateInfo = (): { day: number; month: string; year: number; dayName: string } => {
-        const today = new Date(); // Lấy ngày hiện tại
-
-        // Lấy ngày (1-31)
-        const day: number = today.getDate();
-        // Lấy chỉ số tháng (0-11)
-        const monthIndex: number = today.getMonth();
-        // Lấy tháng (0-11). Cần cộng thêm 1 nếu muốn từ 1-12.
-        const months: string[] = [
-            'January', 'February', 'March', 'April',
-            'May', 'June', 'July', 'August',
-            'September', 'October', 'November', 'December'
-        ];
-        const month: string = months[monthIndex];
-        // Lấy năm (ví dụ: 2024)
-        const year: number = today.getFullYear();
-
-        // Lấy ngày trong tuần (0-6)
-        const dayOfWeek: number = today.getDay();
-
-        // Map các số 0-6 thành tên các thứ
-        const days: string[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        const dayName: string = days[dayOfWeek];
-
-        return { day, month, year, dayName };
-    };
-
-    // Sử dụng hàm
     const { day, month, year, dayName } = getDateInfo();
     useEffect(() => {
         setSearchResult(filterCustomer(searchQuery))
     }, [searchQuery])
-
-    const hanldListSearch = () => {
-        router.replace('./(tabs)/list');
-    }
     const inputRef = useRef<TextInput>(null);
     const handleButtonPress = () => {
-        // Khi button được nhấn, gọi phương thức blur() trên input để out focus
         inputRef.current?.blur();
         setIsFocus(false)
+        setSearchQuery("")
     };
     const [isFocus, setIsFocus] = useState(false)
+    const options = ['Cash', 'Banking'];
+    const [modalVisible, setModalVisible] = useState(false);
+    const [countdown, setCountdown] = useState(300);
+    const [craeteBill] = useCreateBillMutation();
+    const [qrPayment, setQrPayment] = useState();
+    const [selectedOption, setSelectedOption] = useState<any>("Cash");
+    const handlApproved = () => {
+        if (selectedOption === 'Banking') {
+            craeteBill({
+                "prescription_id": (prescriptionData?.data as any)?.id,
+                "payment_method": "BANKING",
+                "status": "PENDING",
+                "total_money": (prescriptionData?.data as any)?.total_money
+            }).then(res => {
+                setQrPayment((res?.data?.data as any).checkout_response.qrCode);
+            })
+            setModalVisible(true);
+            setCountdown(300);
+        }
+        else {
+            console.log("cash");
+        }
+    }
+    const startCountdown = useCallback(() => {
+        const timer = setInterval(() => {
+            setCountdown(prev => {
+                if (prev === 1) {
+                    setModalVisible(false);
+                    clearInterval(timer);
+                    return 300;
+                }
+                return prev - 1;
+            });
+        }, 1000);
+        return timer;
+    }, []);
+    useEffect(() => {
+        let timer: any;
+        if (modalVisible) {
+            timer = startCountdown();
+        }
+        return () => clearInterval(timer);
+    }, [modalVisible, startCountdown]);
+    const minutes = useMemo(() => Math.floor(countdown / 60), [countdown]);
+    const seconds = useMemo(() => countdown % 60, [countdown]);
+    const handleCancel = useCallback(() => {
+        setModalVisible(false);
+        setCountdown(300);
+    }, []);
     const renderHeader = (session: any) => {
-
         return (
-            <Card className="bg-[#E7E7E8] mt-5 p-1">
+            <Card className="p-1 ">
                 <Card.Content>
                     <View className="flex flex-row items-center justify-between">
-
                         <View className="flex flex-row items-center">
                             <View>
-                                <Image source={require("@/assets/images/pets 4.png")} />
                             </View>
                             <View className="ml-3">
                                 <Text className="text-[#0D74B1] text-base font-medium " style={{ fontFamily: "blod" }}>
-                                    Tên:{" "}
+                                    Tên thú cưng:{" "}
                                     <Text className="!text-black" style={{ fontFamily: "medium" }}> {session.pet.name}</Text>
                                 </Text>
                                 <Text className="text-[#0D74B1] text-base font-medium " style={{ fontFamily: "blod" }}>
-                                    Bệnh: <Text className="!text-black" style={{ fontFamily: "medium" }}>{session.note}</Text>
+                                    Bệnh: <Text className="!text-black" style={{ fontFamily: "medium" }}>{session.diagnosis}</Text>
                                 </Text>
                             </View>
                         </View>
@@ -143,7 +175,7 @@ const Home = () => {
     };
     const renderContent = (session: any) => {
         return (
-            <View className="bg-[#E7E7E8] rounded-2xl px-5 pt-3">
+            <View className="bg-slate-100 rounded-2xl px-5 pt-3">
                 <View className="w-auto h-auto">
                     {session?.medicines?.map((medicine: any, index: number) => (
                         <View className="flex flex-row items-center justify-between mb-3" key={index}>
@@ -172,247 +204,305 @@ const Home = () => {
             </View>
         );
     };
+
     return (
-        // <ScrollView>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <GestureHandlerRootView>
-                <BottomSheetModalProvider>
-                    <View className="mt-16">
-                        <View className="flex-row gap-4 gap-y-5 static py-5 items-center">
-                            {
-                                !isFocus
-                                    ?
-                                    <View className="w-[95%] px-5">
-                                        <Searchbar
-                                            ref={inputRef}
-                                            style={styles.searchbar}
-                                            placeholder="Search list customer"
-                                            // onChangeText={(query) => setSearchQuery(query)}
-                                            value={searchQuery}
-                                            onFocus={() => setIsFocus(true)}
-                                        />
-                                    </View>
-                                    :
-                                    <View className="w-[95%] px-5">
-                                        <Searchbar
-                                            ref={inputRef}
-                                            style={styles.searchbar}
-                                            placeholder="Search list customer"
-                                            onChangeText={(query) => setSearchQuery(query)}
-                                            value={searchQuery}
-                                            onFocus={() => setIsFocus(true)}
-                                            icon={() =>
-                                                <View>
-                                                    <Button onPress={handleButtonPress} >
-                                                        <Image source={require('@/assets/images/back.png')} style={styles.backIcon} />
-                                                    </Button>
-                                                </View>
-                                            }
-
-                                        />
-                                    </View>
-                            }
+        <>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    setModalVisible(!modalVisible);
+                }}
+            >
+                <View style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }} className="flex-1 justify-center items-center">
+                    <View style={{ width: 380, height: 320, padding: 50, backgroundColor: 'white', borderRadius: 10 }} className="flex justify-center items-center">
+                        <View className="justify-center items-center">
+                            <Text>
+                                <Link href="https://dl.vietqr.io/pay?app=icb&"><Image className="w-36 h-32" source={{ uri: qrPayment }} /></Link>
+                            </Text>
+                            <Text className="text-sm mt-2" style={{ fontFamily: "medium" }}>QR will expire after {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}</Text>
+                            <Text className="items-center text-base mt-5" style={{ fontFamily: "blod" }}>Petcare thanks you for your favor!</Text>
+                            <Button style={styles.buttonModal} onPress={handleCancel} >
+                                <Text className="font-bold text-base text-white text-center">Cancel</Text>
+                            </Button>
                         </View>
-                        <ScrollView>
-                            {
-                                !isFocus &&
-                                <View className="px-3 py-1 static">
-                                    <View className="flex-row items-center">
-                                        <View>
-                                            <View style={styles.square} />
-                                            <Image
-                                                className="absolute ml-[14px] mt-[8px] "
-                                                source={require("@/assets/images/calendar.png")}
-                                            />
-                                        </View>
-                                        <View className="ml-[5.5px]">
-                                            <Text className="text-[50px] font-bold text-[#0099CF]" style={{ fontFamily: "blod" }}>
-
-                                                {day}
-                                            </Text>
-                                        </View>
-                                        <View className="ml-[5.5px]">
-                                            <Text className="text-sm text-[#0099CF] opacity-70 font-bold" style={{ fontFamily: "blod" }}>
-                                                {dayName}
-                                            </Text>
-                                            <Text className="text-sm text-[#0099CF]" style={{ fontFamily: "medium" }}>
-
-                                                {month} {year}
-                                            </Text>
-                                        </View>
-                                        <View className="ml-16">
-                                            <Text className="text-4xl text-[#0099CF] font-bold" style={{ fontFamily: "blod" }}>
-
-                                                Today
-                                            </Text>
-                                        </View>
-                                    </View>
-                                </View>
-                            }
-                            <View className=" p-5 pb-64 ">
-                                {
-                                    isFocus
-                                        &&
-                                        !searchQuery.length
-                                        ?
-                                        <View className="flex flex-1 justify-center items-center h-[550px]">
-                                            <Image className="w-56 h-24" source={require("@/assets/images/loading.gif")} />
-                                            <Text className="text-[#ACACAD]" style={{ fontFamily: "blod" }}>Waiting for few minus...</Text>
-
-                                        </View>
-                                        :
-                                        (searchResult as any)?.map((search: any, index: number) => (
-                                            <Card
-                                                className="bg-[#E7E7E8] mb-5"
-                                                onPress={() => handlePresentModalPress(search.id)}
-                                                key={index}
-                                            >
-                                                <Card.Content>
-                                                    <Text className="font-bold text-lg text-[#0D74B1]" style={{ fontFamily: "blod" }}>
-                                                        #PC{search.id}
-                                                    </Text>
-                                                    <Text className="text-[#0D74B1] text-base font-medium" style={{ fontFamily: "blod" }}>
-                                                        Họ và tên:{" "}
-                                                        <Text className="!text-black" style={{ fontFamily: "medium" }}>
-                                                            {search.appointment.last_name}{" "}
-                                                            {search.appointment.first_name}
-                                                        </Text>
-                                                    </Text>
-                                                    <Text className="text-[#0D74B1] text-base font-medium" style={{ fontFamily: "blod" }}>
-                                                        Số điện thoại:{" "}
-                                                        <Text className="!text-black" style={{ fontFamily: "medium" }}>
-
-                                                            {search.appointment.phone_number}
-                                                        </Text>
-                                                    </Text>
-                                                    <Image
-                                                        className="absolute top-6 right-4"
-                                                        source={require("@/assets/images/pets 4.png")}
-                                                    />
-                                                </Card.Content>
-                                            </Card>
-                                        ))
-                                }
-                                {
-                                    isLoading
-                                        ?
-                                        <View className="flex flex-1 justify-center items-center h-[400px]">
-                                            <Image className="w-56 h-24" source={require("@/assets/images/loading.gif")} />
-                                            <Text className="text-[#ACACAD] font-bold" style={{ fontFamily: "blod" }}>Customer loading...</Text>
-
-                                        </View>
-                                        :
-                                        !isFocus && !isFetching && ((data as any)?.data as IPrescription[])?.map(
-                                            (prescription: any, index: number) => (
-                                                <Card
-                                                    className="bg-[#E7E7E8] mb-5"
-                                                    onPress={() => handlePresentModalPress(prescription.id)}
-                                                    key={index}
-                                                >
-                                                    <Card.Content>
-                                                        <Text className=" text-lg text-[#0D74B1]" style={{ fontFamily: "blod" }}>
-                                                            #PC{prescription.id}
-                                                        </Text>
-                                                        <Text className="text-[#0D74B1] text-base font-medium" style={{ fontFamily: "blod" }}>
-                                                            Họ và tên:{" "}
-                                                            <Text className="!text-black" style={{ fontFamily: "medium" }}>
-
-                                                                {prescription?.appointment.last_name}{" "}
-                                                                {prescription.appointment.first_name}
-                                                            </Text>
-                                                        </Text>
-                                                        <Text className="text-[#0D74B1] text-base font-medium" style={{ fontFamily: "blod" }}>
-
-                                                            Số điện thoại:{" "}
-                                                            <Text className="!text-black" style={{ fontFamily: "medium" }}>
-                                                                {prescription?.appointment.phone_number}
-                                                            </Text>
-                                                        </Text>
-                                                        <Image
-                                                            className="absolute top-6 right-4"
-                                                            source={require("@/assets/images/pets 4.png")}
-                                                        />
-                                                    </Card.Content>
-                                                </Card>
-                                            ))
-
-                                }
-                                <BottomSheetModal
-                                    ref={bottomSheetModalRef}
-                                    index={1}
-                                    snapPoints={snapPoints}
-                                // handleIndicatorStyle={{ display: "none" }}
-                                >
-                                    <BottomSheetView>
-                                        <View className='flex flex-col justify-between pb-80 h-screen' style={{ width: wp(100) }}>
-
-                                            {
-                                                loadingPrescription
-                                                    ?
-                                                    <View className="flex flex-1 justify-center items-center mt-5">
-                                                        <Image className="w-56 h-24" source={require("@/assets/images/loading.gif")} />
-                                                        <Text className="text-[#ACACAD] font-bold h-10" style={{ fontFamily: "blod" }}>Prescription loading...</Text>
-                                                    </View>
-                                                    :
-                                                    <View >
-                                                        <Text className="text-xl font-bold ml-4" style={{ fontFamily: "blod" }}>#PC{(prescriptionData as any)?.data.id}</Text>
-
-                                                        <View className="px-4 py-4">
-                                                            <Accordion
-                                                                sections={(prescriptionData as any)?.data.details || []}
-                                                                activeSections={activeSections}
-                                                                underlayColor="transparent"
-                                                                renderHeader={renderHeader}
-                                                                renderContent={renderContent}
-                                                                onChange={updateSections}
-                                                            />
+                    </View>
+                </View>
+            </Modal>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <TouchableWithoutFeedback
+                    onPress={() => {
+                        bottomSheetModalRef.current?.close();
+                    }}
+                >
+                    <GestureHandlerRootView>
+                        <BottomSheetModalProvider>
+                            <View className="mt-16">
+                                <StatusBar barStyle="dark-content" />
+                                <View className="flex-row gap-4 gap-y-5 static py-5 items-center">
+                                    {
+                                        !isFocus
+                                            ?
+                                            <View className="w-full px-5">
+                                                <Searchbar
+                                                    ref={inputRef}
+                                                    style={styles.searchbar}
+                                                    placeholder="Search list customer"
+                                                    value={searchQuery}
+                                                    onFocus={() => setIsFocus(true)}
+                                                />
+                                            </View>
+                                            :
+                                            <View className="w-[95%] px-5">
+                                                <Searchbar
+                                                    ref={inputRef}
+                                                    style={styles.searchbar}
+                                                    placeholder="Search list customer"
+                                                    onChangeText={(query) => setSearchQuery(query)}
+                                                    value={searchQuery}
+                                                    onFocus={() => setIsFocus(true)}
+                                                    icon={() =>
+                                                        <View>
+                                                            <Button onPress={handleButtonPress} >
+                                                                <Image source={require('@/assets/images/back.png')} style={styles.backIcon} />
+                                                            </Button>
                                                         </View>
-                                                    </View>
-                                            }
-                                            <View className="flex flex-row justify-between px-5">
-                                                <View>
-                                                    <Text className="font-bold text-2xl text-[#0D74B1]" style={{ fontFamily: "blod" }}>
-
-                                                        Medical total
-                                                    </Text>
-                                                    {
-                                                        loadingPrescription
-                                                            ?
-                                                            <Text className="text-base ml-4" style={{ fontFamily: "medium" }}>
-                                                                000.000 VND
-                                                            </Text>
-                                                            :
-                                                            <Text className="text-base ml-4" style={{ fontFamily: "medium" }}>
-
-                                                                {Intl.NumberFormat("vi-VN", {}).format(
-                                                                    (prescriptionData as any)?.data.total_money
-                                                                )}{" "}
-                                                                VND
-                                                            </Text>
                                                     }
+
+                                                />
+                                            </View>
+                                    }
+                                </View>
+                                <ScrollView>
+                                    {
+                                        !isFocus &&
+                                        <View className="px-3 py-1 static">
+                                            <View className="flex-row items-center">
+                                                <View>
+                                                    <View style={styles.square} />
+                                                    <Image
+                                                        className="absolute ml-[14px] mt-[8px] "
+                                                        source={require("@/assets/images/calendar.png")}
+                                                    />
+                                                </View>
+                                                <View className="px-1">
+                                                    <Text className="text-[50px] font-bold text-[#0099CF]" style={{ fontFamily: "blod" }}>
+
+                                                        {day}
+                                                    </Text>
                                                 </View>
                                                 <View>
-                                                    <Button
-                                                        mode="contained"
-                                                        className="w-40 h-14 flex justify-center !bg-[#0F74C1]"
-                                                    >
-                                                        <Text className="text-base font-bold" style={{ fontFamily: "blod" }}>Approved</Text>
+                                                    <Text className="text-sm text-[#0099CF] opacity-70 font-bold" style={{ fontFamily: "blod" }}>
+                                                        {dayName}
+                                                    </Text>
+                                                    <Text className="text-sm text-[#0099CF]" style={{ fontFamily: "medium" }}>
 
-                                                    </Button>
+                                                        {month} {year}
+                                                    </Text>
+                                                </View>
+                                                <View className="flex-1">
+                                                    <Text className="text-4xl text-[#0099CF] font-bold text-right" style={{ fontFamily: "blod" }}>
+
+                                                        Today
+                                                    </Text>
                                                 </View>
                                             </View>
                                         </View>
-                                    </BottomSheetView>
-                                </BottomSheetModal>
+                                    }
+                                    <View className="p-5 flex gap-5 mb-24">
+                                        {
+                                            isFocus
+                                                &&
+                                                !searchQuery.length
+                                                ?
+                                                <View className="flex flex-1 justify-center items-center h-[550px]">
+                                                    <Image className="w-56 h-24" source={require("@/assets/images/loading.gif")} />
+                                                    <Text className="text-[#ACACAD]" style={{ fontFamily: "blod" }}>Waiting for few minus...</Text>
+
+                                                </View>
+                                                :
+                                                (searchResult as any)?.map((search: any, index: number) => (
+                                                    <Card
+                                                        className="bg-red-500"
+                                                        onPress={() => handlePresentModalPress(search.id)}
+                                                        key={index}
+                                                    >
+                                                        <Card.Content>
+                                                            <Text className="font-bold text-lg text-[#0D74B1]" style={{ fontFamily: "blod" }}>
+                                                                #PC{search.id}
+                                                            </Text>
+                                                            <Text className="text-[#0D74B1] text-base font-medium" style={{ fontFamily: "blod" }}>
+                                                                Họ và tên:{" "}
+                                                                <Text className="!text-black" style={{ fontFamily: "medium" }}>
+                                                                    {search.appointment.last_name}{" "}
+                                                                    {search.appointment.first_name}
+                                                                </Text>
+                                                            </Text>
+                                                            <Text className="text-[#0D74B1] text-base font-medium" style={{ fontFamily: "blod" }}>
+                                                                Số điện thoại:{" "}
+                                                                <Text className="!text-black" style={{ fontFamily: "medium" }}>
+
+                                                                    {search.appointment.phone_number}
+                                                                </Text>
+                                                            </Text>
+                                                            <Image
+                                                                className="absolute top-6 right-4"
+                                                                source={require("@/assets/images/pets 4.png")}
+                                                            />
+                                                        </Card.Content>
+                                                    </Card>
+                                                ))
+                                        }
+                                        {
+                                            isLoading
+                                                ?
+                                                <View className="flex flex-1 justify-center items-center h-[400px]">
+                                                    <Image className="w-56 h-24" source={require("@/assets/images/loading.gif")} />
+                                                    <Text className="text-[#ACACAD] font-bold" style={{ fontFamily: "blod" }}>Customer loading...</Text>
+
+                                                </View>
+                                                :
+                                                !isFocus && !isFetching && ((data as any)?.data as IPrescription[])?.map(
+                                                    (prescription: any, index: number) => (
+                                                        <Card
+                                                            className="bg-[#E7E7E8]"
+                                                            onPress={() => handlePresentModalPress(prescription.id)}
+                                                            key={index}
+                                                        >
+                                                            <Card.Content>
+                                                                <Text className=" text-lg text-[#0D74B1]" style={{ fontFamily: "blod" }}>
+                                                                    #PC{prescription.id}
+                                                                </Text>
+                                                                <Text className="text-[#0D74B1] text-base font-medium" style={{ fontFamily: "blod" }}>
+                                                                    Họ và tên:{" "}
+                                                                    <Text className="!text-black" style={{ fontFamily: "medium" }}>
+
+                                                                        {prescription?.appointment.last_name}{" "}
+                                                                        {prescription.appointment.first_name}
+                                                                    </Text>
+                                                                </Text>
+                                                                <Text className="text-[#0D74B1] text-base font-medium" style={{ fontFamily: "blod" }}>
+
+                                                                    Số điện thoại:{" "}
+                                                                    <Text className="!text-black" style={{ fontFamily: "medium" }}>
+                                                                        {prescription?.appointment.phone_number}
+                                                                    </Text>
+                                                                </Text>
+                                                                <Image
+                                                                    className="absolute top-6 right-4"
+                                                                    source={require("@/assets/images/pets 4.png")}
+                                                                />
+                                                            </Card.Content>
+                                                        </Card>
+                                                    ))
+
+                                        }
+                                        <BottomSheetModal
+                                            ref={bottomSheetModalRef}
+                                            index={1}
+                                            snapPoints={snapPoints}
+                                        >
+                                            <BottomSheetView>
+                                                <View className='flex flex-col justify-between h-full' style={{ width: wp(100) }}>
+                                                    {
+                                                        loadingPrescription
+                                                            ?
+                                                            <View className="flex flex-1 justify-center items-center mt-5">
+                                                                <Image className="w-56 h-24" source={require("@/assets/images/loading.gif")} />
+                                                                <Text className="text-[#ACACAD] font-bold h-10" style={{ fontFamily: "blod" }}>Prescription loading...</Text>
+                                                            </View>
+                                                            :
+                                                            <View >
+                                                                <Text className="text-xl font-bold ml-4" style={{ fontFamily: "blod" }}>#PC{(prescriptionData as any)?.data.id}</Text>
+                                                                <View className="px-4 py-4">
+                                                                    <Accordion
+                                                                        sectionContainerStyle={{
+                                                                            display: "flex",
+                                                                            gap: 10
+
+                                                                        }}
+                                                                        sections={(prescriptionData as any)?.data.details || []}
+                                                                        activeSections={activeSections}
+                                                                        underlayColor="transparent"
+                                                                        renderHeader={renderHeader}
+                                                                        renderContent={renderContent}
+                                                                        onChange={updateSections}
+                                                                    />
+                                                                </View>
+                                                            </View>
+                                                    }
+                                                    <View className="w-full h-48 flex bg-slate-50 ">
+                                                        <View className="w-full mt-3 flex-row h-14 px-3">
+                                                            {options.map((option, index) => (
+                                                                <TouchableOpacity
+                                                                    className="flex-1 justify-center items-center px-2 py-2"
+                                                                    key={index}
+                                                                    style={[
+                                                                        styles.optionContainer,
+                                                                        selectedOption === option && styles.selectedOptionContainer,
+                                                                    ]}
+                                                                    onPress={() => setSelectedOption(option)}
+                                                                >
+                                                                    {selectedOption === option && (
+                                                                        <Text style={styles.checkedIcon}>
+                                                                            <FontAwesome name="check" size={10} color="white" />
+                                                                        </Text>
+                                                                    )}
+                                                                    <Text
+                                                                        style={[
+                                                                            styles.optionText,
+                                                                            selectedOption === option && styles.selectedOptionText,
+                                                                        ]}
+                                                                    >
+                                                                        {option}
+                                                                    </Text>
+                                                                </TouchableOpacity>
+                                                            ))}
+                                                        </View>
+                                                        <View className=" mt-3 items-center">
+                                                            <View>
+                                                                <Text className="font-bold text-xl text-[#0D74B1]" style={{ fontFamily: "blod" }}>
+                                                                    Medical total: {
+                                                                        loadingPrescription
+                                                                            ?
+                                                                            <Text className="text-base ml-4" style={{ fontFamily: "medium" }}>
+                                                                                000.000 VND
+                                                                            </Text>
+                                                                            :
+                                                                            <Text className="text-base ml-4" style={{ fontFamily: "medium" }}>
+                                                                                {Intl.NumberFormat("vi-VN", {}).format(
+                                                                                    (prescriptionData as any)?.data.total_money
+                                                                                )}{" "}
+                                                                                VND
+                                                                            </Text>
+                                                                    }
+                                                                </Text>
+                                                            </View>
+                                                        </View>
+                                                        <View className="mt-3 w-full px-3">
+                                                            <Button
+                                                                mode="contained"
+                                                                className="h-14 flex justify-center !bg-[#0F74C1]"
+                                                                onPress={handlApproved}
+                                                            >
+                                                                <Text className="text-lg" style={{ fontFamily: "blod" }}>Approved</Text>
+                                                            </Button>
+                                                        </View>
+                                                    </View>
+                                                </View>
+                                            </BottomSheetView>
+                                        </BottomSheetModal>
+                                    </View>
+                                </ScrollView>
                             </View>
-                        </ScrollView>
-                    </View>
-                </BottomSheetModalProvider>
-            </GestureHandlerRootView>
-        </TouchableWithoutFeedback>
+                        </BottomSheetModalProvider>
+                    </GestureHandlerRootView>
+                </TouchableWithoutFeedback>
+            </TouchableWithoutFeedback>
+        </>
     );
 };
-
 export default Home;
 const styles = StyleSheet.create({
     searchbar: {
@@ -443,5 +533,42 @@ const styles = StyleSheet.create({
     backIcon: {
         width: wp('5.5%'),
         height: wp('5.5%'),
+    },
+
+    optionContainer: {
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderWidth: 2,
+        borderColor: '#ddd',
+        borderRadius: 8,
+        marginHorizontal: 5,
+        position: 'relative',
+    },
+    selectedOptionContainer: {
+        borderColor: '#0099CF',
+    },
+    optionText: {
+        fontSize: 16,
+        color: '#000',
+        opacity: 0.5,
+        fontFamily: "blod"
+    },
+    selectedOptionText: {
+        color: '#0099CF',
+        fontWeight: 'bold',
+        opacity: 1
+    },
+    checkedIcon: {
+        position: 'absolute',
+        top: -5,
+        left: -5,
+        backgroundColor: '#0099CF',
+        borderRadius: 10,
+        padding: 2,
+    },
+    buttonModal: {
+        backgroundColor: "#0099CF",
+        marginTop: 20,
+        width: wp("50%")
     }
 });

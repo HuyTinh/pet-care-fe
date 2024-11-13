@@ -2,10 +2,9 @@ import { MdEmail, MdKey, MdOutlineErrorOutline } from "react-icons/md";
 import { Fragment } from "react/jsx-runtime";
 import { PCCheckBox } from "../../../../components/pc-checkbox";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useLoginRequestMutation } from "../../../auth.service";
 import { toast } from "react-toastify";
-import { setAuthenticated } from "../../../auth.slice";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../../../../store/store";
 import { useEffect } from "react";
@@ -18,7 +17,6 @@ export const AdminLoginForm = () => {
   } = useForm<any>({
     mode: "onChange",
   });
-  const dispatch = useDispatch();
   const [loginRequest] = useLoginRequestMutation();
   const navigate = useNavigate();
   const role = useSelector((state: RootState) => state.authentication.role);
@@ -31,16 +29,9 @@ export const AdminLoginForm = () => {
         });
       }
       if ("data" in res) {
-        let { data } = res;
         toast.success("Login successful", {
           position: "top-right",
         });
-        const loginResponse: {
-          token: string;
-          authenticated: boolean;
-        } = data.data;
-        localStorage.setItem("token", loginResponse.token);
-        dispatch(setAuthenticated(loginResponse.token));
       }
     });
   };
@@ -65,7 +56,7 @@ export const AdminLoginForm = () => {
         navigate("/admin");
         return;
     }
-  }, [role]);
+  }, [navigate, role]);
 
   return (
     <Fragment>

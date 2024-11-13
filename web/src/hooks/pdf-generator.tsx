@@ -28,7 +28,7 @@ export const usePdfGenerator = () => {
     pdf.text(`- Date: ${appointmentDetails.date}`, 40, 60);
     pdf.text(`- Time: ${appointmentDetails.time}`, 40, 70);
 
-    var image = new Image();
+    const image = new Image();
     image.src =
       "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" +
       appointmentId;

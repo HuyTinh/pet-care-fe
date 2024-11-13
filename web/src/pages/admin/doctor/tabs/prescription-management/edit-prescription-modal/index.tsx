@@ -48,7 +48,8 @@ export const EditPrescriptionModal = ({
   }, [calculationUnitData?.data]);
 
   useEffect(() => {
-    setMedicines(medicinesData?.data);
+    setMedicines(medicinesData?.data.content);
+
     return () => { };
   }, [medicinesData?.data]);
 
@@ -75,8 +76,6 @@ export const EditPrescriptionModal = ({
   useEffect(() => {
     reset(petPrescription)
   }, [petPrescription])
-  console.log(prescription);
-
 
   return (
     <dialog id="edit_prescription_modal" className="modal backdrop:!hidden">
@@ -209,8 +208,7 @@ export const EditPrescriptionModal = ({
             <ServicePicker services={services} setServices={setServices} />
             <div>
               <button className="btn" onClick={() => {
-                // createPrescription({
-                //   appointment_id: appointment.id,
+                // updatePrescription({
                 //   services: services,
                 //   details: [{
                 //     pet_id: selectedPet,
@@ -233,7 +231,6 @@ export const EditPrescriptionModal = ({
                 //     position: "top-right"
                 //   })
                 // });
-                // console.log();
 
               }}>Save</button>
             </div>

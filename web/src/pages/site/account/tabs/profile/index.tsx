@@ -63,7 +63,7 @@ export const ProfileTab = () => {
   };
 
   const emailNotification = (e: any) => {
-    let cookieName = `email-notification-${userId}`;
+    const cookieName = `email-notification-${userId}`;
     setCookie(cookieName, e.target.checked, {
       path: "/",
     });

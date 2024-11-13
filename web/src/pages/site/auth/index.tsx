@@ -2,8 +2,8 @@ import { useState } from "react";
 import { ClientLoginForm } from "./login";
 import { ClientRegisterForm } from "./register";
 type Tabs = {
-  LOGIN_FORM: Function;
-  REGISTER_FORM: Function;
+  LOGIN_FORM: (setFormState: React.Dispatch<React.SetStateAction<string>>) => JSX.Element;
+  REGISTER_FORM: (setFormState: React.Dispatch<React.SetStateAction<string>>) => JSX.Element;
 };
 
 const tabs: Tabs = {
@@ -31,12 +31,8 @@ export const AuthModal = () => {
       >
         <div className="modal-box flex max-w-md flex-col p-0">
           <div className="relative p-5">
-            {/* {
-            <div className="absolute left-0 top-0 flex h-full w-full justify-center bg-black/10">
-              <span className="loading loading-spinner loading-lg text-info"></span>
-            </div>
-          } */}
-            {(tabs[formState as keyof Tabs] as Function)(setFormState)}
+
+            {(tabs[formState as keyof Tabs] as (setFormState: React.Dispatch<React.SetStateAction<string>>) => JSX.Element)(setFormState)}
           </div>
         </div>
         <form method="dialog" className="modal-backdrop">

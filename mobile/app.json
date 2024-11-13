@@ -1,12 +1,13 @@
 {
   "expo": {
-    "name": "mobile",
+    "name": "mobile_2",
     "slug": "petcare",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
@@ -28,26 +29,16 @@
     },
     "plugins": [
       "expo-router",
-      "expo-font",
-      [
-        "expo-secure-store",
-        {
-          "faceIDPermission": "Allow to access your Face ID biometric data."
-        }
-      ]
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true
     },
     "extra": {
       "eas": {
-        "projectId": "51939d77-bfed-403f-a676-a40ad445abdc"
-      },
-      "router": {
-        "origin": false
+        "projectId": "a0625775-8454-46df-9cc4-9a4197f92992"
       }
     },
     "owner": "tinhnth"
-    
   }
 }

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   StyleSheet,
   Text,
@@ -15,8 +15,6 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { useFonts } from "expo-font";
-import * as SplashScreen from "expo-splash-screen";
 
 const NewPassword = () => {
   const { control } = useForm<any>();
@@ -25,7 +23,7 @@ const NewPassword = () => {
   function handleBack() {
     navigation.goBack();
   }
- 
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ScrollView contentContainerStyle={styles.container}>

@@ -20,12 +20,13 @@ const newFetch = <T extends unknown>(url: string): FetchResult<T> => {
         if (!res.ok) {
           throw new Error(`Error: ${res.status} ${res.statusText}`);
         }
+
         const json = (await res.json()) as T;
         setNewData(json);
-        setError(null);  
+        setError(null);  // Clear any previous errors if the fetch is successful
       } catch (error) {
         setError(error as Error);
-        setNewData(null); 
+        setNewData(null);  // Clear data in case of error
       } finally {
         setLoading(false);
       }
