@@ -56,18 +56,19 @@ export const Blog = () => {
     return (
         <div className="relative">
             <div
-                className="h-[42rem] w-full bg-cover mb-5"
+                className="w-full h-64 sm:h-72 md:h-[32rem] lg:h-[42rem] bg-cover bg-center mb-5"
                 style={{
-                    backgroundImage: "url(/src/assets/images/booking_banner.jpg)",
+                    backgroundImage: "url(/src/assets/images/banner-blog.webp)",
                 }}
             ></div>
 
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-24 space-y-5 text-3xl text-white">
-                <div className="text-center text-5xl font-bold">Blog</div>
-                <div className="text-xl">
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-24 space-y-3 sm:space-y-5 text-center text-white">
+                <div className="text-3xl sm:text-4xl md:text-5xl font-bold">Blog</div>
+                <div className="text-lg sm:text-xl md:text-2xl">
                     Where pets and owners live happily together
                 </div>
             </div>
+
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-5 p-5 *:text-[#0d74b1]">
                 {blogs.map((blog: IBlog) => (
                     <div

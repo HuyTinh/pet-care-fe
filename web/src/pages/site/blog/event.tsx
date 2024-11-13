@@ -24,16 +24,15 @@ export const Event = () => {
     return (
         <div className="relative">
             <div
-                className="h-[42rem] w-full bg-cover mb-5"
+                className="w-full h-64 sm:h-72 md:h-[32rem] lg:h-[42rem] bg-cover bg-center mb-5"
                 style={{
-                    backgroundImage: "url(/src/assets/images/booking_banner.jpg)",
+                    backgroundImage: "url(/src/assets/images/banner-even.webp)",
                 }}
-            >
-            </div>
+            ></div>
 
-            <div className="absolute left-1/2 top-[400px] -translate-x-1/2 -translate-y-24 space-y-5 text-3xl text-white">
-                <div className="text-center text-5xl font-bold">Event</div>
-                <div className="text-xl">
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-24 space-y-3 sm:space-y-5 text-center text-white">
+                <div className="text-3xl sm:text-4xl md:text-5xl font-bold">Blog</div>
+                <div className="text-lg sm:text-xl md:text-2xl">
                     Where pets and owners live happily together
                 </div>
             </div>
@@ -46,7 +45,7 @@ export const Event = () => {
                             {events.map((event: IEvent) => (
                                 <div
                                     key={event.id}
-                                    className="bg-base-300 text-white rounded-xl p-4 flex flex-col w-[700px]"
+                                    className="bg-base-300 text-white rounded-xl p-4 flex flex-col w-full max-w-[90%] lg:max-w-[650px] mx-auto"
                                     onClick={() => {
                                         setEvent(event);
                                         (document.getElementById('my_modal_event') as any)?.showModal();
@@ -56,7 +55,7 @@ export const Event = () => {
                                         <img
                                             src={`http://localhost:1337${(event?.imageEvent as any)?.url}`}
                                             alt="All-Access Pass"
-                                            className="w-full h-[400px] rounded-lg"
+                                            className="w-full h-[200px] sm:h-[300px] lg:h-[250px] rounded-lg object-cover"
                                         />
                                         <h3 className="text-lg font-bold mt-4">{event.titleEvent}</h3>
                                         <div className="flex-grow"></div>
@@ -73,23 +72,20 @@ export const Event = () => {
                                             ) : (
                                                 <h2 className="text-3xl font-bold mb-4 text-center">Bài viết không tồn tại</h2>
                                             )}
-                                            <div className='flex justify-between'>
-                                                <div className='flex'>
-
-                                                </div>
+                                            <div className="flex justify-between">
+                                                <div className="flex"></div>
                                             </div>
                                         </div>
-
                                     </div>
-                                    <div className="w-full ">
+                                    <div className="w-full">
                                         <img
                                             src={`http://localhost:1337${(event?.imageEvent as any)?.url}`}
                                             alt="Kitten with bubbles"
-                                            className="rounded-lg shadow-lg w-full h-[400px]"
+                                            className="rounded-lg shadow-lg w-full h-[300px] sm:h-[400px] lg:h-[450px] object-cover"
                                         />
                                     </div>
                                     <div className="mt-8">
-                                        <div className="w-full ">
+                                        <div className="w-full">
                                             <h2 className="text-3xl font-bold mb-4">NỘI DUNG SỰ KIỆN</h2>
                                             <p className="text-gray-700 leading-relaxed">
                                                 <ReactMarkdown>{event?.contentEvent || ''}</ReactMarkdown>
@@ -108,6 +104,7 @@ export const Event = () => {
                         </div>
                     </div>
 
+
                     <input
                         type="radio"
                         name="my_tabs_2"
@@ -117,35 +114,30 @@ export const Event = () => {
                         defaultChecked />
                     <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6">
                         {news.map((newSet: INew) => (
-                            <div className="bg-gray-100 p-6 rounded-lg mx-auto">
+                            <div className="bg-gray-100 p-6 rounded-lg mx-auto max-w-[90%] lg:max-w-[1200px] mb-8">
                                 <div className="flex justify-center">
                                     <img
                                         src={`http://localhost:1337${(newSet?.imageNew as any)?.url}`}
                                         alt="Article banner"
-                                        className="w-[1300px] h-[500px] rounded-lg"
+                                        className="w-full h-[200px] sm:h-[300px] lg:h-[400px] rounded-lg object-cover"
                                     />
                                 </div>
                                 <div className="mt-4">
-                                    <p className="text-gray-500 text-sm">
-                                        {newSet?.authorNew}
-                                    </p>
-                                    <h2 className="text-lg font-bold mt-2">
-                                        {newSet?.titleNew}
-                                    </h2>
-                                    <p className="text-gray-700 mt-2 line-clamp-3">
-                                        {newSet?.contentNew}
-                                    </p>
+                                    <p className="text-gray-500 text-sm">{newSet?.authorNew}</p>
+                                    <h2 className="text-lg font-bold mt-2">{newSet?.titleNew}</h2>
+                                    <p className="text-gray-700 mt-2 line-clamp-3">{newSet?.contentNew}</p>
+
                                     <button className="text-blue-500 font-semibold mt-2 inline-block" onClick={() => handleNew(newSet.documentId)}>
                                         Read More »
                                     </button>
                                 </div>
-                                <hr className="border-2" />
+                                <hr className="border-2 mt-4" />
                             </div>
                         ))}
                     </div>
+
                 </div>
             </div>
-
         </div>
     );
 };
