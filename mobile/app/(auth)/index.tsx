@@ -71,7 +71,9 @@ const Auth = () => {
           setModalVisible(!modalVisible); // Close modal on request
         }}
       >
-        <View style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }} className="flex-1 justify-center items-center">
+         <View style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }} className="flex-1 justify-center items-center" onTouchStart={() => {
+          setModalVisible(!modalVisible); // Close the modal when requested
+        }}>
           <View style={{ width: 380, height: 320, padding: 50, backgroundColor: 'white', borderRadius: 10 }} className="flex justify-center items-center">
             <View className="justify-center items-center">
               <Image className="w-36 h-32" source={require("@/assets/images/error.gif")} />
