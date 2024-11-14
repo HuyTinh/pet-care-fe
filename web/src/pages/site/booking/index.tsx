@@ -53,39 +53,36 @@ export const BookingPage = () => {
     >
       <div className="relative">
         <div
-          className="h-[42rem] w-full bg-cover"
+          className="w-full bg-cover h-[28rem] sm:h-[32rem] md:h-[36rem] lg:h-[42rem]"
           style={{
             backgroundImage: "url(/src/assets/images/booking_banner.jpg)",
           }}
         ></div>
 
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-24 space-y-5 text-3xl text-white">
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-20 sm:-translate-y-24 space-y-3 text-center text-white text-2xl sm:text-3xl md:space-y-5 md:text-3xl lg:space-y-5 lg:text-3xl">
           <AnimateSection>
-            <div className="text-center text-5xl font-bold">Booking</div>
+            <div className="font-bold text-3xl sm:text-4xl md:text-5xl lg:text-5xl">
+              Booking
+            </div>
           </AnimateSection>
           <AnimateSection>
-            <div className="text-xl">
+            <div className="text-lg sm:text-xl md:text-2xl lg:text-xl">
               Your Time, Your Schedule – Book with Ease!
             </div>
           </AnimateSection>
         </div>
       </div>
-      <div className="space-y-5 p-10">
+
+      <div className="space-y-5 p-4 md:p-6 lg:p-10">
         <div className="flex justify-center">
           <ul className="steps">
-            <li className={`step ${step >= 1 ? "step-info" : "step"}`}>
-              Service
-            </li>
-            <li className={`step ${step >= 2 ? "step-info" : "step"}`}>
-              Customer Information
-            </li>
-            <li className={`step ${step >= 3 ? "step-info" : "step"}`}>
-              Approved
-            </li>
+            <li className={`step ${step >= 1 ? "step-info" : "step"}`}>Service</li>
+            <li className={`step ${step >= 2 ? "step-info" : "step"}`}>Customer Information</li>
+            <li className={`step ${step >= 3 ? "step-info" : "step"}`}>Approved</li>
           </ul>
         </div>
-        <div className="flex justify-evenly">
-          <div className="flex h-80">
+        <div className="flex flex-col justify-evenly lg:flex-row">
+          <div className="flex h-60 md:h-80 lg:h-80">
             {step < 3 && (
               <div className="relative rounded-xl border">
                 <img
@@ -99,20 +96,18 @@ export const BookingPage = () => {
                     options={time}
                     className="flex *:flex-1"
                     placeholder="Select time"
-                    onChange={(singleValue) =>
-                      setValue("time", singleValue?.time)
-                    }
+                    onChange={(singleValue) => setValue("time", singleValue?.time)}
                   />
                 </div>
               </div>
             )}
           </div>
-          <div className="">
+          <div className="w-full lg:w-[46rem]">
             {step === 1 && (
               <Calendar
                 minDate={new Date()}
                 maxDate={displayPlusDate(new Date(), 90)}
-                className="w-[46rem] overflow-hidden rounded-xl"
+                className="overflow-hidden rounded-xl"
                 onChange={(value) => setValue("date", value?.toString())}
               />
             )}
@@ -132,8 +127,7 @@ export const BookingPage = () => {
                                 ...getValues(),
                                 first_name: customerProfileData.data.first_name,
                                 last_name: customerProfileData.data.last_name,
-                                phone_number:
-                                  customerProfileData.data.phone_number,
+                                phone_number: customerProfileData.data.phone_number,
                                 email: customerProfileData.data.email,
                                 account_id: customerProfileData.data.account_id,
                               });
@@ -148,13 +142,13 @@ export const BookingPage = () => {
                             }
                           }}
                         />
-                        Use your infor
+                        Use your info
                       </label>
                     )}
                   </div>
                   <div className="space-y-5">
-                    <div className="flex gap-x-5">
-                      <label className="input input-bordered flex w-72 items-center gap-2">
+                    <div className="flex flex-col gap-4 md:flex-row">
+                      <label className="input input-bordered flex w-full md:w-72 items-center gap-2">
                         <input
                           type="text"
                           className="grow"
@@ -164,7 +158,7 @@ export const BookingPage = () => {
                           })}
                         />
                       </label>
-                      <label className="input input-bordered flex w-72 items-center gap-2">
+                      <label className="input input-bordered flex w-full md:w-72 items-center gap-2">
                         <input
                           type="text"
                           className="grow"
@@ -175,8 +169,8 @@ export const BookingPage = () => {
                         />
                       </label>
                     </div>
-                    <div className="flex gap-x-5">
-                      <label className="input input-bordered flex w-72 items-center gap-2">
+                    <div className="flex flex-col gap-4 md:flex-row">
+                      <label className="input input-bordered flex w-full md:w-72 items-center gap-2">
                         <input
                           type="text"
                           className="grow"
@@ -186,7 +180,7 @@ export const BookingPage = () => {
                           })}
                         />
                       </label>
-                      <label className="input input-bordered flex w-72 items-center gap-2">
+                      <label className="input input-bordered flex w-full md:w-72 items-center gap-2">
                         <input
                           type="text"
                           className="grow"
@@ -202,8 +196,8 @@ export const BookingPage = () => {
                 <div className="space-y-2">
                   <span>Pet:</span>
                   <div className="space-y-5">
-                    <div className="flex gap-x-5">
-                      <label className="input input-bordered flex w-72 items-center gap-2">
+                    <div className="flex flex-col gap-4 md:flex-row">
+                      <label className="input input-bordered flex w-full md:w-72 items-center gap-2">
                         <input
                           type="text"
                           className="grow"
@@ -213,7 +207,7 @@ export const BookingPage = () => {
                           })}
                         />
                       </label>
-                      <label className="input input-bordered flex w-72 items-center gap-2">
+                      <label className="input input-bordered flex w-full md:w-72 items-center gap-2">
                         <input
                           type="text"
                           className="grow"
@@ -224,21 +218,21 @@ export const BookingPage = () => {
                         />
                       </label>
                     </div>
-                    <div className="flex gap-x-5">
-                      <label className="input input-bordered flex w-72 items-center gap-2">
+                    <div className="flex flex-col gap-4 md:flex-row">
+                      <label className="input input-bordered flex w-full md:w-72 items-center gap-2">
                         <input
                           type="text"
                           className="grow"
-                          placeholder="weight"
+                          placeholder="Weight"
                           {...register("pets.weight", {
                             required: "Weight is empty!",
                           })}
                         />
                       </label>
                       <select
-                        className="select select-bordered w-72"
+                        className="select select-bordered w-full md:w-72"
                         {...register("pets.species", {
-                          required: "Spieces is empty!",
+                          required: "Species is empty!",
                         })}
                         defaultValue={""}
                       >
@@ -257,7 +251,7 @@ export const BookingPage = () => {
           </div>
           {step === 3 && (
             <div className="flex flex-1 flex-col items-center">
-              <div className="flex w-1/3 flex-col items-center gap-y-2">
+              <div className="flex w-full lg:w-1/3 flex-col items-center gap-y-2">
                 <FcApproval size={98} />
                 <div className="text-xl font-bold">
                   Booking Appointment Successful
@@ -280,13 +274,13 @@ export const BookingPage = () => {
           )}
         </div>
         {step !== 3 && (
-          <div className="flex justify-end pe-10">
+          <div className="flex justify-end pr-4 md:pr-6 lg:pr-10">
             <button
               className="btn"
               type={`${step === 2 ? "button" : "submit"}`}
               onClick={() => {
                 if (step < 3) {
-                  if (step == 1) {
+                  if (step === 1) {
                     if (!(getValues("date") && getValues("time"))) {
                       return toast.error("Check again your service!", {
                         position: "top-right",
@@ -307,7 +301,7 @@ export const BookingPage = () => {
                         getValues("pets.species")
                       )
                     ) {
-                      return toast.error("Check again your infor!", {
+                      return toast.error("Check again your info!", {
                         position: "top-right",
                       });
                     }
@@ -332,11 +326,12 @@ export const BookingPage = () => {
                 }
               }}
             >
-              next
+              Next
             </button>
           </div>
         )}
       </div>
     </motion.div>
+
   );
 };

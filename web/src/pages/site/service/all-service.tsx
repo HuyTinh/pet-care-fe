@@ -17,25 +17,27 @@ export const AllService = () => {
     >
       <div className="relative">
         <div
-          className="h-[52rem] w-full bg-cover"
+          className="h-[40rem] sm:h-[48rem] md:h-[52rem] w-full bg-cover bg-center"
           style={{
             backgroundImage: "url(/src/assets/images/services_hero_image.webp)",
           }}
         ></div>
 
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-16 space-y-5 text-3xl text-white">
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 space-y-5 text-center text-white px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32">
           <AnimateSection>
-            <h2 className="text-center text-lg font-bold uppercase tracking-wide text-blue-700/75">
+            <h2 className="text-sm sm:text-md md:text-lg font-bold uppercase tracking-wide text-blue-700/75">
               <span className="rounded-full bg-white px-2">
                 Partners in Care
               </span>
             </h2>
           </AnimateSection>
           <AnimateSection>
-            <div className="text-center text-5xl font-bold">Our Services</div>
+            <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold">
+              Our Services
+            </div>
           </AnimateSection>
           <AnimateSection>
-            <div className="text-center text-xl">
+            <div className="text-base sm:text-lg md:text-xl lg:text-2xl">
               We strongly believe that the more familiar a client is with their
               animal’s health issues, the better we are able to work together to
               diagnose and resolve health and behavioural problems.
@@ -43,6 +45,7 @@ export const AllService = () => {
           </AnimateSection>
         </div>
       </div>
+
       <div className="pb-16">
         <section className="H14 bg-gray-100 bg-cover bg-center px-8">
           <div className="H12 bg-gray-100 p-16">

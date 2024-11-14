@@ -24,29 +24,27 @@ export const HomePage = () => {
               "url(https://aberdeenvethospital.ca/wp-content/uploads/2022/05/services-1-hero.jpg)",
           }}
         >
-          <motion.div className="Content absolute top-1/2 w-full -translate-y-1/2 transform text-center text-white">
+          <motion.div className="Content absolute top-1/2 w-full -translate-y-1/2 transform text-center text-white px-4 sm:px-8 md:px-16 lg:px-24">
             <AnimateSection>
-              <h1 className="text-5xl font-bold">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold">
                 Welcome to Pet Care Hospital
               </h1>
             </AnimateSection>
             <AnimateSection>
-              <p className="mt-4 !px-96 text-xl">
-                We invite new clients and old friends to experience the best
-                healthcare we can provide for their animal companion.
+              <p className="mt-4 text-base sm:text-lg md:text-xl lg:text-2xl max-w-xl mx-auto">
+                We invite new clients and old friends to experience the best healthcare we can provide for their animal companion.
               </p>
             </AnimateSection>
             <AnimateSection>
               <a
                 href="#services"
-                className="mt-6 inline-block rounded-full border border-white bg-transparent px-6 py-3 hover:bg-white hover:text-black"
+                className="mt-6 inline-block rounded-full border border-white bg-transparent px-4 py-2 sm:px-6 sm:py-3 hover:bg-white hover:text-black"
               >
                 View Our Services →
               </a>
             </AnimateSection>
           </motion.div>
         </header>
-
         <section
           className="About bg-gray-100 bg-cover bg-center px-8 py-16"
           style={{
