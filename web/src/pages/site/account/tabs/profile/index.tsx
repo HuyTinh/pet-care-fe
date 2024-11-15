@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import _ from "lodash";
@@ -7,47 +8,38 @@ import { toast } from "react-toastify";
 import { ClientChangePasswordModal } from "./change-password";
 import { RootState } from "../../../../../store/store";
 import {
-  useGetCustomerProfileQuery,
   useUpdateCustomerProfileMutation,
 } from "../../../customer.service";
 import { useCookies } from "react-cookie";
 import { toFormData } from "../../../../../utils/form-data";
+import { ICustomer } from "../../../../../types/customer.type";
 
 export const ProfileTab = () => {
-  const { register, handleSubmit, reset } = useForm<any>({
+  const profile = useSelector((state: RootState) => state.authentication.profile);
+  const { register, handleSubmit, reset } = useForm<ICustomer>({
     mode: "onChange",
-    defaultValues: {
-      first_name: "",
-      last_name: "",
-      email: "",
-      phone_number: "",
-    },
   });
+
+  useEffect(() => {
+    reset(profile)
+  }, [profile])
+
   const [tab, setTab] = useState(0);
   const [cookies, setCookie] = useCookies<any>();
-  const userId = useSelector((state: RootState) => state.authentication.userId);
-  const { data: customerProfileResponse } = useGetCustomerProfileQuery(
-    {
-      userId,
-    },
-    { skip: !userId },
-  );
+
   const [updateProfileRequest, { isLoading }] =
     useUpdateCustomerProfileMutation();
 
-  useEffect(() => {
-    if (customerProfileResponse) {
-      reset({
-        ...customerProfileResponse.data,
-        phoneNumber: customerProfileResponse.data.phone_number,
-      });
-    }
-  }, [customerProfileResponse]);
 
-  const onSubmit: SubmitHandler<any> = (data) => {
+  const onSubmit: SubmitHandler<ICustomer> = (data) => {
     updateProfileRequest({
-      userId: userId,
-      data: toFormData(_.omit(data, ["id"])),
+      userId: profile.account_id,
+      data: toFormData(_.omit({
+        firstName: data.first_name,
+        lastName: data.last_name,
+        gender: data.gender,
+        phoneNumber: data.phone_number
+      }, ["id"])),
     }).then((res) => {
       if ("error" in res) {
         toast.error((res.error as any).data.message, {
@@ -63,13 +55,12 @@ export const ProfileTab = () => {
   };
 
   const emailNotification = (e: any) => {
-    const cookieName = `email-notification-${userId}`;
+    const cookieName = `email-notification-${profile.account_id}`;
     setCookie(cookieName, e.target.checked, {
       path: "/",
     });
   };
 
-  //   if (!isFetching)
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -80,7 +71,7 @@ export const ProfileTab = () => {
                 <div className="mask mask-squircle w-24">
                   <img
                     src={
-                      customerProfileResponse?.data.image_url ||
+                      profile.image_url ||
                       "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
                     }
                   />
@@ -168,7 +159,7 @@ export const ProfileTab = () => {
                     type="text"
                     placeholder="Type here"
                     className="input input-bordered w-full max-w-xs"
-                    {...register("phoneNumber")}
+                    {...register("phone_number")}
                   />
                 </label>
                 <label className="form-control w-full max-w-xs">
@@ -227,7 +218,7 @@ export const ProfileTab = () => {
                     type="checkbox"
                     className="toggle toggle-primary"
                     onChange={(e) => emailNotification(e)}
-                    checked={cookies[`email-notification-${userId}`]}
+                    checked={cookies[`email-notification-${profile.account_id}`]}
                   />
                 </label>
               </div>
@@ -235,7 +226,7 @@ export const ProfileTab = () => {
           )}
         </div>
       </form>
-      <ClientChangePasswordModal email={customerProfileResponse?.data.email} />
+      <ClientChangePasswordModal email={profile.email} />
     </div>
   );
 };

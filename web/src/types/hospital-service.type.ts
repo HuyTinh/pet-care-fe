@@ -1,8 +1,16 @@
-// Define the IHospitalService interface to represent the structure of a hospital service object
+/**
+ * Interface representing the structure of a hospital service object.
+ */
 export interface IHospitalService {
-  // 'name' is the name of the hospital service (string)
+  /**
+   * Name of the hospital service.
+   * @example "Emergency Care"
+   */
   name: string;
 
-  // 'description' provides a detailed description of the hospital service (string)
+  /**
+   * Detailed description of the hospital service.
+   * @example "Provides immediate medical attention for critical injuries or illnesses."
+   */
   description: string;
 }

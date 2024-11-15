@@ -51,7 +51,7 @@ export const medicineApi = createApi({
         queryParams += `&sortOrder=${encodeURIComponent(sortOrder)}`;
 
         // Returning the full URL for the request with query parameters
-        return `${import.meta.env.VITE_MEDICINE_PATH}/medicine?${queryParams}`;
+        return `${import.meta.env.VITE_MEDICINE_PATH}/medicine/filter?${queryParams}`;
       },
       providesTags(result) {
         if (result) {

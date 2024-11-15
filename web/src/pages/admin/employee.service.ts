@@ -2,6 +2,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { APIResponse } from "../../types/api-response.type";
 import { IEmployee } from "../../types/employee.type";
+import { setProfile } from "../auth.slice";
 
 // Define the employeeApi using createApi to manage employee-related data
 export const employeeApi = createApi({
@@ -25,19 +26,27 @@ export const employeeApi = createApi({
         }),
 
         // Endpoint to update employee profile information
-        updateEmployeeProfile: build.mutation<APIResponse<IEmployee>, { userId: string | null; data: any }>({
-            query(body) {
-                // Request to update employee profile data by userId
-                return {
-                    url: `${import.meta.env.VITE_EMPLOYEE_PATH}/employee/account/${body.userId}`, // Dynamic path with userId
-                    method: "PUT", // HTTP PUT method for updating the profile
-                    body: body.data, // Data to be updated for the employee
-                };
-            },
+        updateEmployeeProfile: build.mutation<APIResponse<IEmployee>, { accountId: number, updateData: any }>({
+            query: (body) => ({
+                url: `${import.meta.env.VITE_EMPLOYEE_PATH}/employee/account/${body.accountId}/soft-update`,
+                method: 'PUT',
+                body: body.updateData
+            }),
             invalidatesTags: (result) => [
-                // Invalidates the cached employee data after updating the profile
-                { type: "Employee" as const, id: result?.data.id },
+                // Invalidates the cached customer data after updating
+                { type: "Employee" as const, id: (result as any)?.data.id },
             ],
+            async onQueryStarted(_, { dispatch, queryFulfilled }) {
+                try {
+                    const { data } = await queryFulfilled; // Wait for the query to finish
+                    const employeeProfile = (data as any)?.data; // Extract token from the response
+
+                    dispatch(setProfile({ profile: employeeProfile }))
+
+                } catch (error) {
+                    console.log('Error saving token:', error); // Log any errors
+                }
+            },
         }),
     }),
 });

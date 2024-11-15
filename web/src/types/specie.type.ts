@@ -1,14 +1,28 @@
-// Define the ISpecie interface to represent the structure of a species object
+/**
+ * Interface representing the structure of a species object.
+ */
 export interface ISpecie {
-    // 'name' is the name of the species (string)
+    /**
+     * The name of the species.
+     * @example "Canis lupus familiaris" (Domestic Dog)
+     */
     name: string;
 
-    // 'status' is a boolean indicating if the species is currently active or not
+    /**
+     * A boolean indicating if the species is currently active or not.
+     * @example true (active), false (inactive)
+     */
     status: boolean;
 
-    // 'createdAt' is the timestamp representing when the species was created (number)
+    /**
+     * The timestamp representing when the species was created.
+     * @example 1633590400 (Unix timestamp for a specific date and time)
+     */
     createdAt: number;
 
-    // 'updatedAt' is the timestamp representing the last time the species information was updated (number)
+    /**
+     * The timestamp representing the last time the species information was updated.
+     * @example 1633590400 (Unix timestamp for the last update date and time)
+     */
     updatedAt: number;
 }

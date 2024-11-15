@@ -3,25 +3,60 @@ import { IPet } from "./pet.type";
 
 // Define the ICustomer interface to represent the structure of a customer object
 export interface ICustomer {
-  // 'id' is a unique identifier for the customer (string)
-  id: string;
+  /**
+   * Unique identifier for the customer.
+   * @example "abc123"
+   */
+  id: string; // Unique identifier for the customer
 
-  // 'address' is the customer's address (string)
-  address: string;
+  /**
+   * The customer's address.
+   * @example "123 Main St, City, Country"
+   */
+  address: string; // The address of the customer
 
-  // 'email' is the customer's email address (string)
-  email: string;
+  /**
+   * The customer's email address.
+   * @example "customer@example.com"
+   */
+  email: string; // The email address of the customer
 
-  // 'pets' is an array of IPet objects that represent the pets owned by the customer
-  // It uses the IPet interface to ensure that the data conforms to the pet structure
-  pets: IPet[];
+  gender: string; // The gender of the customer
 
-  // 'first_name' is the customer's first name (string)
-  first_name: string;
+  /**
+   * List of pets owned by the customer.
+   * This is an array of IPet objects, which ensures that the data conforms to the pet structure.
+   * @example [{ "id": "pet1", "name": "Buddy", "type": "Dog" }]
+   */
+  pets: IPet[]; // An array of pets owned by the customer, each conforming to the IPet structure
 
-  // 'last_name' is the customer's last name (string)
-  last_name: string;
+  /**
+   * The customer's first name.
+   * @example "John"
+   */
+  first_name: string; // The first name of the customer
 
-  // 'phone_number' is the customer's phone number (string)
-  phone_number: string;
+  /**
+   * The customer's last name.
+   * @example "Doe"
+   */
+  last_name: string; // The last name of the customer
+
+  /**
+   * The customer's phone number.
+   * @example "+1234567890"
+   */
+  phone_number: string; // The phone number of the customer
+
+  /**
+   * URL to the customer's profile image.
+   * @example "https://example.com/images/customer.jpg"
+   */
+  image_url: string; // URL to the customer's profile image
+
+  /**
+   * Unique identifier for the customer's associated account.
+   * @example 123
+   */
+  account_id: string; // Unique identifier for the associated account of the customer
 }
