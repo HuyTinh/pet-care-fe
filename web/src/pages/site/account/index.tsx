@@ -3,19 +3,13 @@ import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { setUnauthenticated } from "../../auth.slice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
-import { useGetCustomerProfileQuery } from "../customer.service";
 import { motion } from "framer-motion";
 
 export const ProfilePage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const userId = useSelector((state: RootState) => state.authentication.userId);
-  const { data: customerProfileResponse } = useGetCustomerProfileQuery(
-    {
-      userId,
-    },
-    { skip: !userId },
-  );
+  const profile = useSelector((state: RootState) => state.authentication.profile);
+
   const logout = () => {
     dispatch(setUnauthenticated());
     navigate("/");
@@ -53,9 +47,9 @@ export const ProfilePage = () => {
               <div className="flex flex-col items-center justify-center gap-y-1">
                 <div className="font-bold">Welcome back, </div>
                 <div className="text-center text-sm">
-                  {customerProfileResponse?.data.first_name +
+                  {profile?.first_name +
                     " " +
-                    customerProfileResponse?.data.last_name}
+                    profile?.last_name}
                 </div>
               </div>
             </div>

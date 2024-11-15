@@ -1,41 +1,82 @@
-// Define the IBlog interface to represent the structure of a blog object
+/**
+ * Interface representing the structure of a blog object.
+ */
 export interface IBlog {
-    // 'id' is a unique identifier for the blog (number)
+    /**
+     * Unique identifier for the blog.
+     * @example 1
+     */
     id: number;
 
-    // 'documentId' is a string that represents the unique document identifier for the blog
+    /**
+     * Unique document identifier for the blog.
+     * @example "doc123"
+     */
     documentId: string;
 
-    // 'blogTitle' is the title of the blog (string)
+    /**
+     * Title of the blog.
+     * @example "Introduction to TypeScript"
+     */
     blogTitle: string;
 
-    // 'blogAuthor' is the name of the author of the blog (string)
+    /**
+     * Name of the blog's author.
+     * @example "John Doe"
+     */
     blogAuthor: string;
 
-    // 'slogan' is a short tagline or slogan related to the blog (string)
+    /**
+     * Short tagline or slogan related to the blog.
+     * @example "Learn the basics of TypeScript"
+     */
     slogan: string;
 
-    // 'blogInstruct' is a string that might describe instructions or content for the blog (string)
+    /**
+     * Content or instructions related to the blog.
+     * @example "This blog post explains TypeScript fundamentals..."
+     */
     blogInstruct: string;
 
-    // 'createdAt' is a string representing the creation date of the blog (string)
+    /**
+     * Date the blog was created.
+     * @example "2024-11-15"
+     */
     createdAt: string;
 
-    // 'updatedAt' is a string representing the last updated date of the blog (string)
+    /**
+     * Date the blog was last updated.
+     * @example "2024-11-16"
+     */
     updatedAt: string;
 
-    // 'locale' is a string that may indicate the localization or language of the blog; it can be null (string | null)
+    /**
+     * Localization or language of the blog. Can be null if not specified.
+     * @example "en-US"
+     */
     locale: string | null;
 
-    // 'dateCreateBlog' is a string representing the exact date the blog was created (string)
+    /**
+     * Exact date the blog was created.
+     * @example "2024-11-15"
+     */
     dateCreateBlog: string;
 
-    // 'blogImage' is a string URL to the image associated with the blog (string)
+    /**
+     * URL to the image associated with the blog.
+     * @example "https://example.com/images/blog-image.jpg"
+     */
     blogImage: string;
 
-    // 'authorImage' is a string URL to the image of the blog's author (string)
+    /**
+     * URL to the image of the blog's author.
+     * @example "https://example.com/images/author-image.jpg"
+     */
     authorImage: string;
 
-    // 'blogVideo' is a string URL to a video related to the blog (string)
+    /**
+     * URL to a video related to the blog.
+     * @example "https://example.com/videos/blog-video.mp4"
+     */
     blogVideo: string;
 }

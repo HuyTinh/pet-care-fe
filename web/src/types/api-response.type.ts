@@ -1,12 +1,26 @@
-// Define a generic interface for API responses
+/**
+ * Generic interface for representing an API response.
+ * @template T - The type of data contained in the response.
+ */
 export interface APIResponse<T> {
-  // The 'code' property is a number that typically represents the status of the API response
+  /**
+   * Status code of the API response.
+   * Typically used to indicate success, error, or other status types.
+   * @example 1000
+   */
   code: number;
 
-  // The 'message' property is an optional string that can contain a message about the API response
+  /**
+   * Optional message providing additional information about the API response.
+   * @example "Request completed successfully"
+   */
   message?: string;
 
-  // The 'data' property is optional and can hold an array of type T or any type of data
-  // T represents a generic type, allowing the response to handle different data structures
+  /**
+   * Optional data returned by the API.
+   * Can hold an array of type `T` or other types of data as needed.
+   * Allows flexibility in handling various data structures.
+   * @example [{ id: 1, name: "Sample Item" }]
+   */
   data?: T[] | any;
 }

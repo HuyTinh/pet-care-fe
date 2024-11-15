@@ -2,50 +2,93 @@
 import { IAppointment } from "./appoiment.type";
 import { IPet } from "./pet.type";
 
-// Define the IPrescription interface to represent the structure of a prescription object
+/**
+ * Interface representing a prescription object.
+ */
 export interface IPrescription {
-  // 'id' is a unique identifier for the prescription (number)
+  /**
+   * Unique identifier for the prescription.
+   * @example 1
+   */
   id: number;
 
-  // 'status' represents the current status of the prescription (string)
+  /**
+   * Current status of the prescription.
+   * @example "pending"
+   */
   status: string;
 
-  // 'appointment' is an object of type IAppointment, representing the related appointment for the prescription
+  /**
+   * The appointment associated with this prescription.
+   * Uses the IAppointment interface to define the structure.
+   */
   appointment: IAppointment;
 
-  // 'details' is an array of IDetail objects, each representing the details of the prescription for a pet
+  /**
+   * Array of IDetail objects, each representing prescription details for a specific pet.
+   */
   details: IDetail[];
 
-  // 'total_money' is the total cost of the prescription (number)
+  /**
+   * Total cost of the prescription.
+   * @example 150.00
+   */
   total_money: number;
 }
 
-// Define the IDetail interface to represent the details of the prescription for a specific pet
+/**
+ * Interface representing the details of the prescription for a specific pet.
+ */
 export interface IDetail {
-  // 'pet' is an object of type IPet, representing the pet for which the prescription is issued
+  /**
+   * The pet for whom the prescription is issued.
+   * Uses the IPet interface to define the structure.
+   */
   pet: IPet;
 
-  // 'note' is any additional note regarding the prescription (string)
+  /**
+   * Additional notes regarding the prescription.
+   * @example "Administer with food"
+   */
   note: string;
 
-  // 'diagnosis' is the diagnosis given to the pet by the veterinarian (string)
+  /**
+   * Diagnosis provided by the veterinarian for the pet.
+   * @example "Allergic dermatitis"
+   */
   diagnosis: string;
 
-  // 'medicines' is an array of IMedicine objects, representing the list of medicines prescribed to the pet
+  /**
+   * List of medicines prescribed for the pet.
+   */
   medicines: IMedicine[];
 }
 
-// Define the IMedicine interface to represent the structure of a medicine prescribed in the prescription
+/**
+ * Interface representing a medicine prescribed in the prescription.
+ */
 export interface IMedicine {
-  // 'id' is a unique identifier for the medicine (number)
+  /**
+   * Unique identifier for the medicine.
+   * @example 101
+   */
   id: number;
 
-  // 'name' is the name of the prescribed medicine (string)
+  /**
+   * Name of the prescribed medicine.
+   * @example "Amoxicillin"
+   */
   name: string;
 
-  // 'quantity' is the quantity of the medicine prescribed (number)
+  /**
+   * Quantity of the medicine prescribed.
+   * @example 2
+   */
   quantity: number;
 
-  // 'calculate_unit' is the unit of measurement for the medicine (string, e.g., tablets, ml)
+  /**
+   * Unit of measurement for the medicine (e.g., tablets, ml).
+   * @example "tablets"
+   */
   calculate_unit: string;
 }

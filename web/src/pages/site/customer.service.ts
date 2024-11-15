@@ -1,5 +1,6 @@
 // Import necessary functions from Redux Toolkit for creating an API slice
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { setProfile } from "../auth.slice";
 
 // Define the customerApi using createApi to manage customer-related data
 export const customerApi = createApi({
@@ -32,10 +33,18 @@ export const customerApi = createApi({
           body: body.data, // Data to be updated
         };
       },
-      invalidatesTags: (result) => [
-        // Invalidates the cached customer data after updating
-        { type: "Customer" as const, id: result?.data.id },
-      ],
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled; // Wait for the query to finish
+          const customerProfile = (data as any)?.data; // Extract token from the response
+
+
+          dispatch(setProfile({ profile: customerProfile }))
+
+        } catch (error) {
+          console.log('Error saving token:', error); // Log any errors
+        }
+      },
     }),
   }),
 });
