@@ -38,7 +38,6 @@ export const customerApi = createApi({
           const { data } = await queryFulfilled; // Wait for the query to finish
           const customerProfile = (data as any)?.data; // Extract token from the response
 
-
           dispatch(setProfile({ profile: customerProfile }))
 
         } catch (error) {
