@@ -26,18 +26,19 @@ const Explore = () => {
   return (
     <View className='h-full w-full'>
       {/* Profile Header Section */}
-      <View style={styles.square}>
+      <View>
+        <Image source={require('@/assets/images/backgound_profile.jpg')} style={styles.background_img} />
         <View>
-          <View className='items-center mt-28 static'>
+          <View className='items-center -mt-64'>
             {/* Displaying the user's avatar */}
             <Avatar.Image size={100} source={{ uri: (profileData as any)?.data.image_url }} />
             <View>
               {/* Displaying the user's name */}
-              <Text className='text-2xl font-bold mt-2 text-white' style={{ fontFamily: "blod" }}>
+              <Text className='text-2xl font-bold mt-2 text-black' style={{ fontFamily: "blod" }}>
                 {(profileData as any)?.data.first_name} {(profileData as any)?.data.last_name}
               </Text>
               {/* Displaying the user's ID */}
-              <Text className='text-lg font-medium opacity-70 text-white ml-[15px]' style={{ fontFamily: "blod" }}>
+              <Text className='text-lg font-medium opacity-70 text-black ml-[15px]' style={{ fontFamily: "blod" }}>
                 ID:<Text style={{ fontFamily: "medium" }}> #PC{(profileData as any)?.data.id}</Text>
               </Text>
             </View>
@@ -46,7 +47,7 @@ const Explore = () => {
       </View>
 
       {/* Settings and Profile Options Section */}
-      <View className='p-7'>
+      <View className='p-7 -mt-48' >
         {/* Profile Card */}
         <Card style={styles.card}>
           <Link href={"../(profile)/show-profile"}>
@@ -92,16 +93,20 @@ export default Explore;
 
 // Styles for the layout
 const styles = StyleSheet.create({
-  square: {
-    width: '100%',
-    height: '40%',
-    backgroundColor: '#0099CF',
-    borderWidth: 1,
-    borderBottomRightRadius: 25,
-    borderColor: '#0099CF',
-  },
+  // square: {
+  //   backgroundColor: '#0099CF',
+  //   borderWidth: 1,
+  //   borderBottomRightRadius: 25,
+  //   borderColor: '#0099CF',
+  // },
   card: {
     backgroundColor: '#0099CF',
     marginTop: 28,
   },
+  background_img: {
+    width: '100%',
+    height: '60%',
+    backgroundColor: "#0099CF"
+    
+  }
 });

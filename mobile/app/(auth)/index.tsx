@@ -218,6 +218,7 @@ const styles = StyleSheet.create({
     borderTopEndRadius: 25,
     borderRadius: 25,
     borderTopLeftRadius: 25,
+    borderTopRightRadius: 25
   },
   checkboxContainer: {
     flexDirection: "row",
