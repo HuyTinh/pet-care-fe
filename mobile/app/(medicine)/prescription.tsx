@@ -92,7 +92,7 @@ const prescription = () => {
             <>
                 <View className='bg-slate-100 rounded-2xl px-5 py-3'>
                     <View className='w-auto h-auto'>
-                        {session?.medicines.content.map((medicine: any, index: number) =>
+                        {session?.medicines.map((medicine: any, index: number) =>
                             <View className='flex flex-row items-center justify-between mb-3' key={index}>
                                 <View className='flex flex-row items-center'>
                                     <View>
