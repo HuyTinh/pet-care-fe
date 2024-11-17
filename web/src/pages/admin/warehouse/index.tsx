@@ -7,12 +7,12 @@ const menuItems: MenuItem[] = [
   {
     title: "Medicine",
     icon: <CiPill size={32} />,
-    path: "/warehouse",
+    path: "/admin/warehouse",
   },
   {
     title: "Guide",
     icon: <CiCircleInfo size={32} />,
-    path: "/guide",
+    path: "/admin/guide",
   },
 ];
 

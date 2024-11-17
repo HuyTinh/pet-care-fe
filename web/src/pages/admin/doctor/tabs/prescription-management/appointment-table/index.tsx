@@ -79,7 +79,7 @@ export const AppointmentTable = ({ filterAppointmentConditions, setSelectedAppoi
                 </div>
             </div>
             <div className="h-[32rem] border rounded-lg overflow-auto relative">
-                <table className="table">
+                <table className="table h-full border rounded-lg">
                     {/* head */}
                     <thead className="sticky top-0 bg-white ">
                         <tr>
