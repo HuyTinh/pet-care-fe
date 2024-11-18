@@ -8,7 +8,7 @@ import { RootLayout } from "./components/root-layout"; // Root layout for the ap
 import { ReceptionistPage } from "./pages/admin/receptionist"; // Receptionist page
 import { DoctorPage } from "./pages/admin/doctor"; // Doctor page
 import { ClientLayout } from "./pages/site"; // Layout for client-side pages
-import { HomePage } from "./pages/site/home"; // Homepage for the site
+// import { HomePage } from "./pages/site/home"; // Homepage for the site
 import { BookingPage } from "./pages/site/booking"; // Booking page
 import { useSelector } from "react-redux"; // Redux hook to access global state
 import { RootState } from "./store/store"; // RootState type for Redux store
@@ -77,7 +77,7 @@ const userRoutes: RouteObject = {
   path: "/",
   element: <ClientLayout />, // Layout for the site
   children: [
-    { index: true, element: <HomePage /> }, // Homepage
+    { index: true, element: <div></div> }, // Homepage
     {
       path: "account",
       element: <ProfilePage />, // Profile page
@@ -103,56 +103,7 @@ const userRoutes: RouteObject = {
 };
 
 // Admin routes for protected pages
-const adminRoutes: RouteObject[] = [
-  {
-    path: "/receptionist",
-    element: (
-      <ProtectedRoute
-        element={<ReceptionistPage />} // Receptionist page (protected)
-        allowedRoles={["RECEPTIONIST"]} // Only allowed for receptionists
-      />
-    ),
-  },
-  {
-    path: "/doctor",
-    element: (
-      <ProtectedRoute element={<DoctorPage />} allowedRoles={["DOCTOR"]} /> // Doctor page (protected)
-    ),
-  },
-  {
-    path: "/warehouse",
-    element: (
-      <ProtectedRoute
-        element={<WareHousePage />} // Warehouse page (protected)
-        allowedRoles={["WAREHOUSE_MANAGER"]} // Only allowed for warehouse managers
-      />
-    ),
-  },
-  {
-    path: "/manager",
-    element: (
-      <ProtectedRoute
-        element={<ManagerLayout />} // Manager layout (protected)
-        allowedRoles={["MANAGER"]} // Only allowed for managers
-      />
-    ),
-    // element: <ManagerLayout />,
-    children: [
-      { index: true, element: <HomeManager /> }, // Manager home page
-      { path: "customer", element: <Customeranager /> }, // Manager customer page
-      { path: "employee", element: <EmployeesManager /> }, // Manager emloyee page
-      { path: "appointment", element: <Appointment /> }, // Manager appointment page
-      { path: "serivces", element: <Services /> }, // Manager services page
-      { path: "report/appointment", element: <Report_appointment /> }, // Appointment report
-      { path: "report/service", element: <Report_service /> }, // Service report
-      { path: "report/revenue", element: <Report_revenue /> }, // Revenue report
-    ],
-  },
-];
-
-
-// Default route for admin (auth page)
-const defaultRoute: RouteObject = {
+const adminRoutes: RouteObject = {
   path: "/admin",
   element: <RootLayout />, // Admin root layout
   children: [
@@ -191,6 +142,9 @@ const defaultRoute: RouteObject = {
       ),
       children: [
         { index: true, element: <HomeManager /> }, // Manager home page
+        { path: "customer", element: <Customeranager /> }, // Manager customer page
+        { path: "employee", element: <EmployeesManager /> }, // Manager emloyee page
+        { path: "appointment", element: <Appointment /> }, // Manager appointment 
         { path: "serivces", element: <Services /> }, // Manager services page
         { path: "report/appointment", element: <Report_appointment /> }, // Appointment report
         { path: "report/service", element: <Report_service /> }, // Service report
@@ -215,7 +169,7 @@ export const RouterHooks = () => {
 
   // Create a browser router with all defined routes
   const router = createBrowserRouter([
-    defaultRoute,
+    adminRoutes,
     userRoutes,
   ]);
 
