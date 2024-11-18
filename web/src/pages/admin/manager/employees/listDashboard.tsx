@@ -43,7 +43,7 @@ export const EmployeesManager = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-100 flex flex-col items-center p-6">
+        <div className="min-h-screen bg-gray-100 flex flex-col items-center p-6 mt-28">
             <div className="w-full max-w-7xl bg-white shadow-md p-6 flex justify-between items-center rounded-lg mb-6">
                 <h1 className="text-2xl font-bold text-blue-500">List Employees</h1>
                 <button
