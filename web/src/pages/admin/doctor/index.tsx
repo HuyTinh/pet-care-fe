@@ -8,7 +8,7 @@ const menuItems: MenuItem[] = [
   {
     title: "Prescription",
     icon: <IoDocumentText size={32} />,
-    path: "/doctor",
+    path: "/admin/doctor",
   },
   {
     title: "Profile",

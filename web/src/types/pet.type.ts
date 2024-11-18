@@ -1,17 +1,34 @@
-// Define the IPet interface to represent the structure of a pet object
+/**
+ * Interface representing the structure of a pet object.
+ */
 export interface IPet {
-  // 'id' is a unique identifier for the pet (string)
+  /**
+   * Unique identifier for the pet.
+   * @example "pet123"
+   */
   id: string;
 
-  // 'name' is the name of the pet (string)
+  /**
+   * The name of the pet.
+   * @example "Buddy"
+   */
   name: string;
 
-  // 'age' is the age of the pet (string)
+  /**
+   * The age of the pet.
+   * @example "2 years"
+   */
   age: string;
 
-  // 'weight' is the weight of the pet (string)
+  /**
+   * The weight of the pet.
+   * @example "5 kg"
+   */
   weight: string;
 
-  // 'species' is the species or breed of the pet (string)
+  /**
+   * The species or breed of the pet.
+   * @example "Golden Retriever"
+   */
   species: string;
 }

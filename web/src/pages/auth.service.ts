@@ -1,6 +1,10 @@
 // Import necessary functions from Redux Toolkit to create an API slice
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { setAuthenticated } from "./auth.slice";
+import AxiosClient from "../config/axios-client";
+import { jwtDecode } from "jwt-decode";
+import { APIResponse } from "../types/api-response.type";
+import { ICustomer } from "../types/customer.type";
 
 // Create an API slice for handling authentication requests
 export const authenticationApi = createApi({
@@ -22,9 +26,16 @@ export const authenticationApi = createApi({
           const { data } = await queryFulfilled; // Wait for the query to finish
           const token = (data as any)?.data.token; // Extract token from the response
 
+          const decodedToken: {
+            user_id: string; // User ID
+            scope: string; // User role
+          } = jwtDecode(token);
+
+          const apiResponse: APIResponse<ICustomer> = await AxiosClient.get(`${decodedToken.scope.includes("CUSTOMER") ? import.meta.env.VITE_CUSTOMER_PATH + "/customer" : import.meta.env.VITE_EMPLOYEE_PATH + "/employee"}/account/${decodedToken.user_id}`)
+
           localStorage.setItem("token", token);
 
-          dispatch(setAuthenticated(token));
+          dispatch(setAuthenticated({ token, profile: apiResponse.data }));
 
         } catch (error) {
           console.log('Error saving token:', error); // Log any errors
@@ -49,6 +60,25 @@ export const authenticationApi = createApi({
           body, // Request body contains the Google token
         };
       },
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled; // Wait for the query to finish
+          const token = (data as any)?.data.token; // Extract token from the response
+
+          const decodedToken: {
+            user_id: string; // User ID
+          } = jwtDecode(token);
+
+          const apiResponse: APIResponse<ICustomer> = await AxiosClient.get(`${import.meta.env.VITE_CUSTOMER_PATH}/customer/account/${decodedToken.user_id}`)
+
+          localStorage.setItem("token", token);
+
+          dispatch(setAuthenticated({ token: token, profile: apiResponse.data }));
+
+        } catch (error) {
+          console.log('Error saving token:', error); // Log any errors
+        }
+      },
     }),
     // Mutation for login using Facebook token
     loginWithFacebookRequest: build.mutation<any, { token: string }>({
@@ -59,12 +89,31 @@ export const authenticationApi = createApi({
           body, // Request body contains the Facebook token
         };
       },
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled; // Wait for the query to finish
+          const token = (data as any)?.data.token; // Extract token from the response
+
+          const decodedToken: {
+            user_id: string; // User ID
+          } = jwtDecode(token);
+
+          const apiResponse: APIResponse<ICustomer> = await AxiosClient.get(`${import.meta.env.VITE_CUSTOMER_PATH}/customer/account/${decodedToken.user_id}`)
+
+          localStorage.setItem("token", token);
+
+          dispatch(setAuthenticated({ token, profile: apiResponse.data }));
+
+        } catch (error) {
+          console.log('Error saving token:', error); // Log any errors
+        }
+      },
     }),
     // Mutation for user registration
     registerRequest: build.mutation<any, any>({
       query(body) {
         return {
-          url: `${import.meta.env.VITE_IDENTITY_PATH}/account/generate-token`, // Endpoint for registration
+          url: `${import.meta.env.VITE_IDENTITY_PATH} / account / generate - token`, // Endpoint for registration
           method: "POST", // POST method for registration
           body, // Request body contains registration details
         };

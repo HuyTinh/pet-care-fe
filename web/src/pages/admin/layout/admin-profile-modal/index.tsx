@@ -101,6 +101,22 @@ export const AdminProfileModal = () => {
               </span>
             )}
           </label>
+          <label className="form-control w-full max-w-xs">
+            <div className="label">
+              <span className="label-text">Gender:</span>
+            </div>
+            <select
+              className="select select-bordered w-full"
+              {...register("gender")}
+              defaultValue={""}
+            >
+              <option disabled value={""}>
+                Your gender?
+              </option>
+              <option value={"MALE"}>Male</option>
+              <option value={"FEMALE"}>Female</option>
+            </select>
+          </label>
         </form>
       </div>
       <form method="dialog" className="modal-backdrop">

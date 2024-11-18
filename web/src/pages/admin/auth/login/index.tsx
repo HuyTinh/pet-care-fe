@@ -39,15 +39,15 @@ export const AdminLoginForm = () => {
   useEffect(() => {
     switch (role?.replace("ROLE_", "")) {
       case "RECEPTIONIST":
-        navigate("/receptionist");
+        navigate("/admin/receptionist");
         return;
 
       case "DOCTOR":
-        navigate("/doctor");
+        navigate("/admin/doctor");
         return;
 
       case "WAREHOUSE_MANAGER":
-        navigate("/warehouse");
+        navigate("/admin/warehouse");
         return;
       case "CUSTOMER":
         navigate("/");

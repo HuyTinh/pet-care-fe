@@ -1,95 +1,186 @@
-// Define the IMedicine interface to represent the structure of a medicine object
+/**
+ * Interface representing the structure of a medicine object.
+ */
 export interface IMedicine {
-  // 'id' is a unique identifier for the medicine (number)
+  /**
+   * Unique identifier for the medicine.
+   * @example 123
+   */
   id: number;
 
-  // 'name' is the name of the medicine (string)
+  /**
+   * Name of the medicine.
+   * @example "Paracetamol"
+   */
   name: string;
 
-  // 'quantity' is the quantity of the medicine available (number)
+  /**
+   * Quantity of the medicine available in stock.
+   * @example 100
+   */
   quantity: number;
 
-  // 'image_url' is a string URL to the image of the medicine (string)
+  /**
+   * URL to the image of the medicine.
+   * @example "https://example.com/images/paracetamol.jpg"
+   */
   image_url: string;
 
-  // 'price' is the price of the medicine (number)
+  /**
+   * Price of the medicine.
+   * @example 15.5
+   */
   price: number;
 
-  // 'date_import' is the string representing the date the medicine was imported (string)
+  /**
+   * Date the medicine was imported into the system.
+   * @example "2024-10-10"
+   */
   date_import: string;
 
-  // 'manufacture' is an object that represents the manufacturer of the medicine, following the IManufacture structure
+  /**
+   * Manufacturer of the medicine, adhering to the IManufacture structure.
+   * @example { id: 1, name: "PharmaCorp", status: true }
+   */
   manufacture: IManufacture;
 
-  // 'locations' is an array of ILocation objects representing the locations where the medicine is stored
+  /**
+   * Locations where the medicine is stored, using the ILocation structure.
+   * @example [{ id: "A1", area: "Shelf 1", status: true, row_location: "Row 1", column_location: "Column 1" }]
+   */
   locations: ILocation[];
 
-  // 'status' is a string representing the current status of the medicine (e.g., in stock, out of stock)
+  /**
+   * Current status of the medicine (e.g., "in stock", "out of stock").
+   * @example "in stock"
+   */
   status: string;
 
-  // 'types' is a string representing the types or categories of the medicine (string)
+  /**
+   * Types or categories of the medicine.
+   * @example "Painkiller"
+   */
   types: string;
 
-  // 'manufacturing_date' is the manufacturing date of the medicine (number, likely a timestamp)
+  /**
+   * Manufacturing date of the medicine (likely a timestamp).
+   * @example 1622419200000
+   */
   manufacturing_date: number;
 
-  // 'expiry_date' is the expiry date of the medicine (number, likely a timestamp)
+  /**
+   * Expiry date of the medicine (likely a timestamp).
+   * @example 1672444800000
+   */
   expiry_date: number;
 
-  // 'calculation_units' is an array of ICalculationUnit objects, representing units of measurement for the medicine
+  /**
+   * Units used for calculating the medicine's quantity (e.g., tablets, bottles).
+   * @example [{ id: "box", name: "Box", status: true }]
+   */
   calculation_units: ICalculationUnit[];
 }
 
-// Define the IManufacture interface to represent the structure of a manufacturer
+/**
+ * Interface representing the structure of a manufacturer.
+ */
 export interface IManufacture {
-  // 'id' is a unique identifier for the manufacturer (number)
+  /**
+   * Unique identifier for the manufacturer.
+   * @example 1
+   */
   id: number;
 
-  // 'name' is the name of the manufacturer (string)
+  /**
+   * Name of the manufacturer.
+   * @example "PharmaCorp"
+   */
   name: string;
 
-  // 'status' is a boolean indicating if the manufacturer is active or not
+  /**
+   * Status indicating if the manufacturer is active or not.
+   * @example true
+   */
   status: boolean;
 }
 
-// Define the ILocation interface to represent the structure of a location where the medicine is stored
+/**
+ * Interface representing the structure of a location where the medicine is stored.
+ */
 export interface ILocation {
-  // 'id' is a unique identifier for the location (string)
+  /**
+   * Unique identifier for the location.
+   * @example "A1"
+   */
   id: string;
 
-  // 'area' is the area or section where the medicine is stored (string)
+  /**
+   * Area or section where the medicine is stored.
+   * @example "Shelf 1"
+   */
   area: string;
 
-  // 'status' is a boolean indicating if the location is active or not
+  /**
+   * Status indicating if the location is active.
+   * @example true
+   */
   status: boolean;
 
-  // 'row_location' is the row where the medicine is located within the area (string)
+  /**
+   * Row where the medicine is located within the area.
+   * @example "Row 1"
+   */
   row_location: string;
 
-  // 'column_location' is the column where the medicine is located within the area (string)
+  /**
+   * Column where the medicine is located within the area.
+   * @example "Column 1"
+   */
   column_location: string;
 }
 
-// Define the ICalculationUnit interface to represent units used for calculating the medicine's quantity
+/**
+ * Interface representing the units used for calculating the medicine's quantity.
+ */
 export interface ICalculationUnit {
-  // 'id' is a unique identifier for the calculation unit (string)
+  /**
+   * Unique identifier for the calculation unit.
+   * @example "box"
+   */
   id: string;
 
-  // 'name' is the name of the calculation unit (e.g., box, bottle, tablet) (string)
+  /**
+   * Name of the calculation unit (e.g., "box", "tablet").
+   * @example "box"
+   */
   name: string;
 
-  // 'status' is a boolean indicating if the unit is active or not
+  /**
+   * Status indicating if the unit is active.
+   * @example true
+   */
   status: boolean;
 }
 
-// Define the IMedicinePageResponse interface to represent the structure of the response for a paginated list of medicines
+/**
+ * Interface representing the structure of a paginated response for a list of medicines.
+ */
 export interface IMedicinePageResponse {
-  // 'content' is an array of IMedicine objects representing the medicines on the current page
+  /**
+   * List of medicines on the current page.
+   * @example [{ id: 1, name: "Paracetamol", quantity: 100, price: 15.5, ... }]
+   */
   content: IMedicine[];
 
-  // 'totalPages' is the total number of pages available in the paginated response (number)
+  /**
+   * Total number of pages available in the paginated response.
+   * @example 5
+   */
   totalPages: number;
 
-  // 'totalElements' is the total number of medicine items in the database (number)
+  /**
+   * Total number of medicines available in the database.
+   * @example 100
+   */
   totalElements: number;
 }

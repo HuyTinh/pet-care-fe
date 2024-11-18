@@ -55,13 +55,13 @@ const ProtectedRoute: React.FC<{
       // Redirect based on user role if not authorized
       switch (role) {
         case "DOCTOR":
-          navigate("/doctor");
+          navigate("/admin/doctor");
           break;
         case "RECEPTIONIST":
-          navigate("/receptionist");
+          navigate("/admin/receptionist");
           break;
         case "WAREHOUSE_MANAGER":
-          navigate("/warehouse");
+          navigate("/admin/warehouse");
           break;
         default:
           navigate("/admin"); // Default to admin if no valid role
@@ -150,11 +150,54 @@ const adminRoutes: RouteObject[] = [
   },
 ];
 
+
 // Default route for admin (auth page)
 const defaultRoute: RouteObject = {
   path: "/admin",
   element: <RootLayout />, // Admin root layout
-  children: [{ index: true, element: <AdminAuthPage /> }], // Admin authentication page
+  children: [
+    { index: true, element: <AdminAuthPage /> },
+    {
+      path: "receptionist",
+      element: (
+        <ProtectedRoute
+          element={<ReceptionistPage />} // Receptionist page (protected)
+          allowedRoles={["RECEPTIONIST"]} // Only allowed for receptionists
+        />
+      ),
+    },
+    {
+      path: "doctor",
+      element: (
+        <ProtectedRoute element={<DoctorPage />} allowedRoles={["DOCTOR"]} /> // Doctor page (protected)
+      ),
+    },
+    {
+      path: "warehouse",
+      element: (
+        <ProtectedRoute
+          element={<WareHousePage />} // Warehouse page (protected)
+          allowedRoles={["WAREHOUSE_MANAGER"]} // Only allowed for warehouse managers
+        />
+      ),
+    },
+    {
+      path: "manager",
+      element: (
+        <ProtectedRoute
+          element={<ManagerLayout />} // Manager layout (protected)
+          allowedRoles={["MANAGER"]} // Only allowed for managers
+        />
+      ),
+      children: [
+        { index: true, element: <HomeManager /> }, // Manager home page
+        { path: "serivces", element: <Services /> }, // Manager services page
+        { path: "report/appointment", element: <Report_appointment /> }, // Appointment report
+        { path: "report/service", element: <Report_service /> }, // Service report
+        { path: "report/revenue", element: <Report_revenue /> }, // Revenue report
+      ],
+    },
+  ], // Admin authentication page
 };
 
 // Main router component with user, admin, and default routes
@@ -174,7 +217,6 @@ export const RouterHooks = () => {
   const router = createBrowserRouter([
     defaultRoute,
     userRoutes,
-    ...adminRoutes, // Add admin routes dynamically
   ]);
 
   return { router }; // Return the router object

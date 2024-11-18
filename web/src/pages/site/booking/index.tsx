@@ -1,6 +1,6 @@
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import { displayInputDate, displayPlusDate } from "../../../utils/Date";
+import { displayInputDate, displayPlusDate } from "../../../utils/date";
 import Select from "react-select";
 import { useForm } from "react-hook-form";
 import { FcApproval } from "react-icons/fc";
@@ -102,12 +102,12 @@ export const BookingPage = () => {
               </div>
             )}
           </div>
-          <div className="w-full lg:w-[46rem]">
+          <div>
             {step === 1 && (
               <Calendar
                 minDate={new Date()}
                 maxDate={displayPlusDate(new Date(), 90)}
-                className="overflow-hidden rounded-xl"
+                className="overflow-hidden rounded-xl w-[40rem] h-full"
                 onChange={(value) => setValue("date", value?.toString())}
               />
             )}
@@ -147,8 +147,8 @@ export const BookingPage = () => {
                     )}
                   </div>
                   <div className="space-y-5">
-                    <div className="flex flex-col gap-4 md:flex-row">
-                      <label className="input input-bordered flex w-full md:w-72 items-center gap-2">
+                    <div className="flex flex-col gap-4 md:flex-row justify-between">
+                      <label className="input input-bordered flex w-full md:w-72 items-center gap-2 ">
                         <input
                           type="text"
                           className="grow"
@@ -169,7 +169,7 @@ export const BookingPage = () => {
                         />
                       </label>
                     </div>
-                    <div className="flex flex-col gap-4 md:flex-row">
+                    <div className="flex flex-col gap-4 md:flex-row justify-between">
                       <label className="input input-bordered flex w-full md:w-72 items-center gap-2">
                         <input
                           type="text"
@@ -196,7 +196,7 @@ export const BookingPage = () => {
                 <div className="space-y-2">
                   <span>Pet:</span>
                   <div className="space-y-5">
-                    <div className="flex flex-col gap-4 md:flex-row">
+                    <div className="flex flex-col gap-4 md:flex-row justify-between">
                       <label className="input input-bordered flex w-full md:w-72 items-center gap-2">
                         <input
                           type="text"
@@ -218,7 +218,7 @@ export const BookingPage = () => {
                         />
                       </label>
                     </div>
-                    <div className="flex flex-col gap-4 md:flex-row">
+                    <div className="flex flex-col gap-4 md:flex-row justify-between">
                       <label className="input input-bordered flex w-full md:w-72 items-center gap-2">
                         <input
                           type="text"
