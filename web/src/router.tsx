@@ -34,6 +34,9 @@ import { Services } from "./pages/admin/manager/services"; // Manager services p
 import Report_appointment from "./pages/admin/manager/report/appointment"; // Appointment report
 import Report_service from "./pages/admin/manager/report/service"; // Service report
 import Report_revenue from "./pages/admin/manager/report/revenue"; // Revenue report
+import Appointment from "./pages/admin/manager/appointment";
+import { Customeranager } from "./pages/admin/manager/customer/custommer";
+import { EmployeesManager } from "./pages/admin/manager/employees/listDashboard";
 
 // ProtectedRoute component ensures that only users with valid roles can access the route
 const ProtectedRoute: React.FC<{
@@ -133,8 +136,12 @@ const adminRoutes: RouteObject[] = [
         allowedRoles={["MANAGER"]} // Only allowed for managers
       />
     ),
+    // element: <ManagerLayout />,
     children: [
       { index: true, element: <HomeManager /> }, // Manager home page
+      { path: "customer", element: <Customeranager /> }, // Manager customer page
+      { path: "employee", element: <EmployeesManager /> }, // Manager emloyee page
+      { path: "appointment", element: <Appointment /> }, // Manager appointment page
       { path: "serivces", element: <Services /> }, // Manager services page
       { path: "report/appointment", element: <Report_appointment /> }, // Appointment report
       { path: "report/service", element: <Report_service /> }, // Service report

@@ -72,7 +72,7 @@ export const Customeranager = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
+    <div className="p-6 bg-gray-100 min-h-screen mt-28">
       <h1 className="text-2xl font-semibold text-blue-500 mb-4">List Customers</h1>
       <div className="relative mb-4">
         <input

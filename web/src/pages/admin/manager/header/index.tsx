@@ -76,19 +76,16 @@ export const Header = () => {
               <NavLink end to={"/manager"}>Home</NavLink>
             </li>
             <li>
-              <p>Customers</p>
-              {/* <NavLink to={"/service"}>Customers</NavLink> */}
+              <NavLink to={"/manager/customer"}>Customers</NavLink>
             </li>
             {/* <li>
               <a>Link</a>
             </li> */}
             <li>
-              <p>Employees</p>
-              {/* <NavLink to={"/booking"}>Employees</NavLink> */}
+              <NavLink to={"/manager/employee"}>Employees</NavLink>
             </li>
             <li>
-              <p>Appointments</p>
-              {/* <NavLink to={"/blog"}>Appointments</NavLink> */}
+              <NavLink to={"/manager/appointment"}>Appointments</NavLink>
             </li>
             <li>
               <NavLink to={"/manager/serivces"}>Serivces</NavLink>
