@@ -1,10 +1,10 @@
 import { useSelector } from "react-redux";
-import { useCancelAppointmentMutation, useGetAppointmentByCustomerIdQuery } from "../../../../admin/receptionist/appointment.service";
+import { useCancelAppointmentMutation, useGetAllAppointmentQuery } from "../../../../admin/receptionist/appointment.service";
 import { RootState } from "../../../../../store/store";
-import { displayCustomDate } from "../../../../../utils/Date";
+import { displayCustomDate } from "../../../../../utils/date";
 import { AnimatePresence, motion } from "framer-motion";
 import { FcCalendar } from "react-icons/fc";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { EditAppointmentModal } from "./edit-appointment-modal";
 import { IAppointment } from "../../../../../types/appoiment.type";
 import { toast } from "react-toastify";
@@ -14,7 +14,9 @@ export const AppointmentTab = () => {
   const [selectedAppointment, setSelectedAppointment] = useState<IAppointment>(
     {} as IAppointment,
   );
-  const [appointmentStatus, setAppointmentStatus] = useState("SCHEDULED");
+  const [appointmentStatus, setAppointmentStatus] = useState<String[]>(["SCHEDULED", "CANCELLED", "APPROVED"]);
+  const [appointments, setAppointments] = useState<IAppointment[]>([]);
+  const [pageNumber, setPageNumber] = useState<Number>(0)
 
   const [cancelAppointment] = useCancelAppointmentMutation()
 
@@ -32,31 +34,37 @@ export const AppointmentTab = () => {
   }
 
   const { data: appoimentsHistoryResponse, isFetching } =
-    useGetAppointmentByCustomerIdQuery(
-      {
-        userId,
-        params: {
-          status: appointmentStatus,
-        },
-      },
-      { skip: !userId },
-    );
+    useGetAllAppointmentQuery({
+      statues: appointmentStatus,
+      page: pageNumber,
+      userId: userId as String
+    }, {
+      skip: !userId
+    });
+
+
+  useEffect(() => {
+    if (appoimentsHistoryResponse?.data) {
+      setAppointments(appoimentsHistoryResponse.data.content)
+    }
+  }, [appoimentsHistoryResponse])
+
 
   return (
     <AnimatePresence initial={false}>
       <div className="w-full space-y-2" key={"1"}>
         <select
           className="select select-bordered select-md"
-          onChange={(e) => setAppointmentStatus(e.target.value)}
-          defaultValue={"SCHEDULED"}
+          onChange={(e) => setAppointmentStatus([...e.target.value])}
+          defaultValue={["SCHEDULED", "CANCELLED", "APPROVED"]}
         >
-          <option value={"SCHEDULED"}>Up comming</option>
-          <option value={"CANCELLED"}>Old appointment</option>
+          <option value={["SCHEDULED", "CANCELLED", "APPROVED"]}>All</option>
+          <option value={"CANCELLED"}>Up comming</option>
         </select>
         <div>
           <div className="relative h-[32rem] overflow-auto rounded-lg border border-black">
             {!isFetching &&
-              !(appoimentsHistoryResponse?.data as any[])?.length && (
+              !(appointments as any[])?.length && (
                 <div className="absolute top-0 z-50 flex h-full w-full flex-col items-center justify-center">
                   <FcCalendar size={64} className="mb-10" />
                   <div>You don't have any appoiment</div>
@@ -96,7 +104,7 @@ export const AppointmentTab = () => {
               </thead>
               {!isFetching && (
                 <tbody>
-                  {(appoimentsHistoryResponse?.data as any[])?.map(
+                  {(appointments as any[])?.map(
                     (val, index) => (
                       <motion.tr
                         initial={{

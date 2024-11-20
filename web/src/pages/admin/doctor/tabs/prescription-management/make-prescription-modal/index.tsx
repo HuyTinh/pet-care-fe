@@ -50,10 +50,9 @@ export const MakePrescriptionModal = ({
   }, [calculationUnitData?.data]);
 
   useEffect(() => {
-    setMedicines(medicinesData?.data.content);
+    setMedicines(medicinesData?.data);
     return () => { };
   }, [medicinesData?.data]);
-
 
   useEffect(() => {
     if (appointment.pets) {
@@ -180,7 +179,7 @@ export const MakePrescriptionModal = ({
 
                 setPrescriptionDetails([...prescriptionDetails, {
                   ...prescription_detail,
-                  price: prescription_detail.quantity * (medicines as any)?.find((val: any) => val.name === prescription_detail.medicine).price
+                  price: prescription_detail.quantity * (medicines as any)?.find((val: any) => val.name === prescription_detail.medicine)?.price
                 }]);
 
               }}>Add medicine</button>
@@ -206,8 +205,8 @@ export const MakePrescriptionModal = ({
                     medicines: [...prescriptionDetails].map(val => {
                       return _.omit({
                         ...val,
-                        medicine_id: (medicines.find((v: any) => v.name == val.medicine) as any).id,
-                        calculation_id: (calculationUnits.find((v: any) => v.name == val.calculate_unit) as any).id,
+                        medicine_id: (medicines.find((v: any) => v.name == val.medicine) as any)?.id,
+                        calculation_id: (calculationUnits.find((v: any) => v.name == val.calculate_unit) as any)?.id,
                         total_money: val.price * val.quantity
                       }, ["medicine", "calculate_unit", "price"])
                     }),

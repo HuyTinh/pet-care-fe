@@ -48,7 +48,7 @@ export const EditPrescriptionModal = ({
   }, [calculationUnitData?.data]);
 
   useEffect(() => {
-    setMedicines(medicinesData?.data.content);
+    setMedicines(medicinesData?.data);
 
     return () => { };
   }, [medicinesData?.data]);
@@ -79,7 +79,7 @@ export const EditPrescriptionModal = ({
 
   return (
     <dialog id="edit_prescription_modal" className="modal backdrop:!hidden">
-      <div className="modal-box w-full max-w-3xl">
+      <div className="modal-box w-full max-w-5xl">
         <div className="my-1 text-center text-3xl font-bold">
           Edit Prescription
         </div>

@@ -79,7 +79,7 @@ export const AppointmentTable = ({ filterAppointmentConditions, setSelectedAppoi
                 </div>
             </div>
             <div className="h-[32rem] border rounded-lg overflow-auto relative">
-                <table className="table h-full border rounded-lg">
+                <table className="table border rounded-lg">
                     {/* head */}
                     <thead className="sticky top-0 bg-white ">
                         <tr>
@@ -93,7 +93,7 @@ export const AppointmentTable = ({ filterAppointmentConditions, setSelectedAppoi
                     <tbody>
                         {!isFetchingFilterAppointmentData &&
                             ((appointments as any)?.length <= 0) ?
-                            <div className="absolute top-0 z-50 flex h-full w-full flex-col items-center justify-center">
+                            <div className="absolute top-0 z-50 flex h-[30rem] w-full flex-col items-center justify-center">
                                 <FcCalendar size={64} className="mb-10" />
                                 <div>You don't have any appointment</div>
                             </div> :

@@ -8,6 +8,7 @@ import { MakePrescriptionModal } from "./make-prescription-modal";
 import { ViewPrescriptionModal } from "./view-prescription-modal";
 import { FilterPrescriptionModal } from "./filter-prescription-modal";
 import { FilterAppointmentModal } from "./filter-appointment-modal";
+import { EditPrescriptionModal } from "./edit-prescription-modal";
 
 export const PrescriptionManagement = () => {
   const [filterPrescriptionConditions, setFilterPrescriptionConditions] = useState<any>({});
@@ -57,7 +58,7 @@ export const PrescriptionManagement = () => {
           </div>
         </div>
         <MakePrescriptionModal appointment={selectedAppointment} />
-        {/* <EditPrescriptionModal prescription={selectedPrescription} /> */}
+        <EditPrescriptionModal prescription={selectedPrescription} />
         <ViewPrescriptionModal prescription={selectedPrescription} />
         <FilterPrescriptionModal onFilterSubmit={onFilterPrescriptionSubmit} />
         <FilterAppointmentModal onFilterSubmit={onFilterAppointmentSubmit} />
