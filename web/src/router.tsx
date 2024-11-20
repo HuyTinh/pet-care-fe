@@ -37,6 +37,7 @@ import Report_revenue from "./pages/admin/manager/report/revenue"; // Revenue re
 import Appointment from "./pages/admin/manager/appointment";
 import { Customeranager } from "./pages/admin/manager/customer/custommer";
 import { EmployeesManager } from "./pages/admin/manager/employees/listDashboard";
+import TinyMCE from "./tinyMCE";
 
 // ProtectedRoute component ensures that only users with valid roles can access the route
 const ProtectedRoute: React.FC<{
@@ -77,7 +78,7 @@ const userRoutes: RouteObject = {
   path: "/",
   element: <ClientLayout />, // Layout for the site
   children: [
-    { index: true, element: <div></div> }, // Homepage
+    { index: true, element: <TinyMCE /> }, // Homepage
     {
       path: "account",
       element: <ProfilePage />, // Profile page
