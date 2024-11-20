@@ -20,6 +20,12 @@ export const AppointmentManagement = () => {
   const [appointments, setAppointments] = useState<IAppointment[]>([]);
   const [filterAppointmentConditions, setFilterAppointmentConditions] = useState<any>({});
 
+  const [qrModalVisible, setQrModalVisible] = useState<boolean>(false);
+  const [sessionId, _setSessionId] = useState(new Date().getTime());
+  const stompClient = WebSocketManager.getInstance().getClient();
+  const [pageNumber, setPageNumber] = useState<number>(0)
+  const { generatePDF } = usePdfGenerator();
+
   const onFilterAppointmentSubmit = (data: any) => {
     setFilterAppointmentConditions(data); // Cập nhật điều kiện lọc
   };
@@ -30,16 +36,13 @@ export const AppointmentManagement = () => {
   } = useFilterAppointmentsQuery({
     startDate: filterAppointmentConditions['start_date'],
     endDate: filterAppointmentConditions['end_date'],
+    page: pageNumber
   });
 
   const [selectedAppointment, setSelectedAppointment] = useState<IAppointment>(
     {} as IAppointment,
   );
-  const [qrModalVisible, setQrModalVisible] = useState<boolean>(false);
-  const [sessionId, _setSessionId] = useState(new Date().getTime());
-  const stompClient = WebSocketManager.getInstance().getClient();
-  const [pageNumber, setPageNumber] = useState<number>(0)
-  const { generatePDF } = usePdfGenerator();
+
 
 
   useEffect(() => {

@@ -124,6 +124,16 @@ export const prescriptionApi = createApi({
       invalidatesTags: () => [
         { type: "Prescriptions", id: "LIST" }, // Invalidating prescriptions list cache
       ],
+    }),
+
+    testTinyMCE: build.mutation<any, any>({
+      query(body) {
+        return {
+          url: `${import.meta.env.VITE_MEDICAL_PRESCRIPTION_PATH}/prescription/tinyMCE`,
+          method: "POST",
+          body
+        }
+      }
     })
   }),
 });
@@ -136,4 +146,5 @@ export const {
   useCreatePrescriptionMutation, // Hook to create a prescription
   useGetAllPresctiptionQuery, // Hook to get all prescriptions
   useFilterPrescriptionsQuery, // Hook to filter prescriptions
+  useTestTinyMCEMutation
 } = prescriptionApi; // Export all the generated hooks from the prescription API

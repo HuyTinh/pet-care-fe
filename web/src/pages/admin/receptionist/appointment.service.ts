@@ -10,37 +10,21 @@ import { displayInputDate, displayPlusDate } from "../../../utils/date";
 
 export const appointmentApi = createApi({
   reducerPath: "appointmentApi",
-  tagTypes: ["Appointments", "AppointmentsCustomer", "UpcomingAppointments"],
+  tagTypes: ["Appointments", "CustomerAppointments", "UpcomingAppointments"],
   baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_API_URL }),
   endpoints: (build) => ({
-    getAppointments: build.query<APIResponse<PageableResponse<IAppointment>>, void>({
-      query: () => `${import.meta.env.VITE_APPOINTMENT_PATH}/appointment`,
-      providesTags(result) {
-        if (result) {
-          const final = [
-            ...(result.data?.content as IAppointment[]).map(({ id }) => ({
-              type: "Appointments" as const,
-              id,
-            })),
-            { type: "Appointments" as const, id: "LIST" },
-          ];
-          return final;
-        }
-        const final = [{ type: "Appointments" as const, id: "LIST" }];
-        return final;
-      },
-    }),
     filterAppointments: build.query<
       APIResponse<PageableResponse<IAppointment>>,
-      { startDate: string; endDate: string }
+      { startDate: string; endDate: string, page: number }
     >({
-      query: ({ startDate, endDate }) => {
+      query: ({ startDate, endDate, page }) => {
         return {
           url: `${import.meta.env.VITE_APPOINTMENT_PATH}/appointment/filter`,
           params: {
             startDate,
             endDate,
-            statues: ["CHECKED_IN", "SCHEDULED"]
+            statues: ["CHECKED_IN", "SCHEDULED"],
+            page
           },
         };
       },
@@ -57,6 +41,36 @@ export const appointmentApi = createApi({
           return final;
         }
         const final = [{ type: "Appointments" as const, id: "LIST" }];
+        return final;
+      },
+    }),
+    getAllAppointment: build.query<
+      APIResponse<PageableResponse<IAppointment>>,
+      { statues: String[], page: Number, userId: String }
+    >({
+      query: ({ statues, page, userId }) => {
+        return {
+          url: `${import.meta.env.VITE_APPOINTMENT_PATH}/appointment/status`,
+          params: {
+            statues,
+            page,
+            userId
+          },
+        };
+      },
+
+      providesTags(result) {
+        if (result) {
+          const final = [
+            ...(result.data.content as IAppointment[]).map(({ id }) => ({
+              type: "CustomerAppointments" as const,
+              id,
+            })),
+            { type: "CustomerAppointments" as const, id: "LIST" },
+          ];
+          return final;
+        }
+        const final = [{ type: "CustomerAppointments" as const, id: "LIST" }];
         return final;
       },
     }),
@@ -89,27 +103,6 @@ export const appointmentApi = createApi({
         return final;
       },
     }),
-    getAppointmentsByStatus: build.query<APIResponse<IAppointment>, string>({
-      query: (body) => `/appointment-service/appointment/status/${body}`,
-      providesTags(result) {
-        if (result) {
-          const final = [
-            ...(result.data as IAppointment[]).map(({ id }) => ({
-              type: "Appointments" as const,
-              id,
-            })),
-            { type: "Appointments" as const, id: "LIST" },
-          ];
-          return final;
-        }
-        const final = [{ type: "Appointments" as const, id: "LIST" }];
-        return final;
-      },
-    }),
-    isCheckin: build.query<APIResponse<IAppointment>, string>({
-      query: (body) =>
-        `${import.meta.env.VITE_APPOINTMENT_PATH}/appointment/isCheckin/${body}`,
-    }),
     cancelAppointment: build.mutation<any, number>({
       query(appointmentId) {
         return {
@@ -119,7 +112,7 @@ export const appointmentApi = createApi({
       },
       invalidatesTags: () => [
         { type: "Appointments", id: "LIST" },
-        { type: "AppointmentsCustomer" as const, id: "LIST" },
+        { type: "CustomerAppointments" as const, id: "LIST" },
         { type: "UpcomingAppointments" as const, id: "LIST" },
       ],
     }),
@@ -138,7 +131,7 @@ export const appointmentApi = createApi({
       },
       invalidatesTags: () => [
         { type: "Appointments", id: "LIST" },
-        { type: "AppointmentsCustomer" as const, id: "LIST" },
+        { type: "CustomerAppointments" as const, id: "LIST" },
         { type: "UpcomingAppointments" as const, id: "LIST" },
       ],
     }),
@@ -155,7 +148,7 @@ export const appointmentApi = createApi({
       },
       invalidatesTags: () => [
         { type: "Appointments", id: "LIST" },
-        { type: "AppointmentsCustomer" as const, id: "LIST" },
+        { type: "CustomerAppointments" as const, id: "LIST" },
         { type: "UpcomingAppointments" as const, id: "LIST" },
       ],
     }),
@@ -164,31 +157,6 @@ export const appointmentApi = createApi({
     }),
     getSpecies: build.query<APIResponse<ISpecie>, void>({
       query: () => `${import.meta.env.VITE_APPOINTMENT_PATH}/specie`,
-    }),
-    getAppointmentByCustomerId: build.query<
-      APIResponse<IAppointment>,
-      { userId: string | number | null; params: object }
-    >({
-      query: (body) => {
-        return {
-          url: `${import.meta.env.VITE_APPOINTMENT_PATH}/appointment/account/${body.userId}`,
-          params: body.params,
-        };
-      },
-      providesTags(result) {
-        if (result) {
-          const final = [
-            ...(result.data as IAppointment[]).map(({ id }) => ({
-              type: "AppointmentsCustomer" as const,
-              id,
-            })),
-            { type: "AppointmentsCustomer" as const, id: "LIST" },
-          ];
-          return final;
-        }
-        const final = [{ type: "AppointmentsCustomer" as const, id: "LIST" }];
-        return final;
-      },
     }),
     getAppointmentById: build.query<APIResponse<IAppointment>, { appointmentId: any }>({
       query: (body) => {
@@ -223,17 +191,14 @@ export const appointmentApi = createApi({
 });
 
 export const {
-  useGetAppointmentsQuery,
-  useGetAppointmentsByStatusQuery,
-  useIsCheckinQuery,
   useGetUpcomingAppointmentsQuery,
   useGetHospitalServiceQuery,
   useCreateAppointmentMutation,
   useUpdateAppointmentMutation,
-  useGetAppointmentByCustomerIdQuery,
   useGetSpeciesQuery,
   useCancelAppointmentMutation,
   useFilterAppointmentsQuery,
+  useGetAllAppointmentQuery,
   useGenerateApointmentPDFMutation,
   useGetAppointmentByIdQuery,
 } = appointmentApi;
