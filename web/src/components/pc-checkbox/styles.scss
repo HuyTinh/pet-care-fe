@@ -1,5 +1,5 @@
-@import "../../assets/styles/mixin.scss";
+@use "../../assets/css/mixin.scss" as mixin;
 
 .checkbox-green {
-  @include custom-checkbox(120 97% 34%);
+  @include mixin.custom-checkbox(120 97% 34%);
 }

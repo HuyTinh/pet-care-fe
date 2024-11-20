@@ -8,10 +8,10 @@ import { useDispatch } from "react-redux";
 import { AnimatePresence } from "framer-motion";
 
 import "react-toastify/dist/ReactToastify.css";
-import "./assets/styles/app.css";
+import "./assets/css/app.css";
 import "swiper/css";
 
-import "./assets/styles/app.css";
+import "./assets/css/app.css";
 import "react-toastify/dist/ReactToastify.css";
 import AxiosClient from "./config/axios-client";
 import { jwtDecode } from "jwt-decode";
