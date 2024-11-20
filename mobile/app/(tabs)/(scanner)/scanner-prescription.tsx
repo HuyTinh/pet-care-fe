@@ -1,10 +1,9 @@
 import { Alert, AppState, StyleSheet, Vibration, View } from 'react-native'
 import React, { useEffect, useRef } from 'react'
-import { CameraView } from 'expo-camera'
-import { BarCodeScanningResult } from 'expo-camera/build/legacy/Camera.types';
+import { BarcodeScanningResult, CameraView } from 'expo-camera'
 import { useDispatch } from 'react-redux';
 import { Overlay } from './orverlay';
-import { Href, router } from 'expo-router';
+import { router } from 'expo-router';
 import { pharmacistProfileId } from '@/app/pharmacist.slice';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
@@ -26,14 +25,14 @@ const scannerprescription = () => {
             subcription.remove()
         }
     }, [])
-    async function onBarcodeScanned({ data }: BarCodeScanningResult) {
+    async function onBarcodeScanned({ data }: BarcodeScanningResult) {
         try {
             if (data && !qrLock.current) {
                 qrLock.current = true;
                 Vibration.vibrate();
                 distpath(pharmacistProfileId(data))
                 Alert.alert('Success', "Quét thành công", [
-                    { text: 'Ok', onPress: () => router.replace('/(medicine)/prescription' as Href<string | object>) },
+                    { text: 'Ok', onPress: () => router.replace('/(medicine)/prescription') },
                 ]);
             }
         }
