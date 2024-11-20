@@ -1,4 +1,5 @@
 import { Canvas, DiffRect, rect, rrect } from "@shopify/react-native-skia"; // Importing necessary components from Skia
+import React from "react";
 import { Dimensions, Platform, StyleSheet } from "react-native"; // Importing required native components for layout and styles
 
 // Get the width and height of the device screen

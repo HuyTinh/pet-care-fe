@@ -17,6 +17,8 @@ const prescription = () => {
     }
     const presrptionId = useSelector((state: RootState) => state.pharmacist.id);
 
+    console.log(presrptionId);
+
     const { data, isFetching, isLoading } = useGetPrescriptionByIdQuery(presrptionId, {
         skip: !presrptionId
     })
