@@ -15,7 +15,7 @@ export const appointmentApi = createApi({
   endpoints: (build) => ({
     filterAppointments: build.query<
       APIResponse<PageableResponse<IAppointment>>,
-      { startDate: string; endDate: string, page: number }
+      { startDate: String; endDate: String, page: Number }
     >({
       query: ({ startDate, endDate, page }) => {
         return {
@@ -51,7 +51,13 @@ export const appointmentApi = createApi({
       query: ({ statues, page, userId }) => {
         return {
           url: `${import.meta.env.VITE_APPOINTMENT_PATH}/appointment/status`,
-          params: {
+          params: statues.length === 1 ? {
+            startDate: displayInputDate(new Date()),
+            endDate: displayInputDate(displayPlusDate(new Date(), 3)),
+            statues,
+            page,
+            userId
+          } : {
             statues,
             page,
             userId
