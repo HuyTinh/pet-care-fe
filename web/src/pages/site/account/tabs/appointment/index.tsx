@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { useCancelAppointmentMutation, useGetAllAppointmentQuery } from "../../../../admin/receptionist/appointment.service";
 import { RootState } from "../../../../../store/store";
-import { displayCustomDate } from "../../../../../utils/date";
+import { displayCustomDate, displayInputDate, displayPlusDate } from "../../../../../utils/date";
 import { AnimatePresence, motion } from "framer-motion";
 import { FcCalendar } from "react-icons/fc";
 import { useEffect, useState } from "react";
@@ -14,6 +14,7 @@ export const AppointmentTab = () => {
   const [selectedAppointment, setSelectedAppointment] = useState<IAppointment>(
     {} as IAppointment,
   );
+  const [upCommingDate, setUpCommingDate] = useState<Date>()
   const [appointmentStatus, setAppointmentStatus] = useState<String[]>(["SCHEDULED", "CANCELLED", "APPROVED"]);
   const [appointments, setAppointments] = useState<IAppointment[]>([]);
   const [pageNumber, setPageNumber] = useState<Number>(0)
@@ -33,7 +34,7 @@ export const AppointmentTab = () => {
     })
   }
 
-  const { data: appoimentsHistoryResponse, isFetching } =
+  const { data: appoimentsResponse, isFetching } =
     useGetAllAppointmentQuery({
       statues: appointmentStatus,
       page: pageNumber,
@@ -44,10 +45,13 @@ export const AppointmentTab = () => {
 
 
   useEffect(() => {
-    if (appoimentsHistoryResponse?.data) {
-      setAppointments(appoimentsHistoryResponse.data.content)
+    if (appoimentsResponse?.data) {
+      setAppointments(appoimentsResponse.data.content)
     }
-  }, [appoimentsHistoryResponse])
+  }, [appoimentsResponse])
+
+
+  console.log(isFetching);
 
 
   return (
@@ -55,11 +59,14 @@ export const AppointmentTab = () => {
       <div className="w-full space-y-2" key={"1"}>
         <select
           className="select select-bordered select-md"
-          onChange={(e) => setAppointmentStatus([...e.target.value])}
+          onChange={(e) => {
+            let strVal = [...e.target.value.split(",")]
+            setAppointmentStatus(strVal)
+          }}
           defaultValue={["SCHEDULED", "CANCELLED", "APPROVED"]}
         >
           <option value={["SCHEDULED", "CANCELLED", "APPROVED"]}>All</option>
-          <option value={"CANCELLED"}>Up comming</option>
+          <option value={["SCHEDULED"]}>Up comming</option>
         </select>
         <div>
           <div className="relative h-[32rem] overflow-auto rounded-lg border border-black">
