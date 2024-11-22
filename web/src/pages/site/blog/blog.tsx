@@ -197,7 +197,7 @@ export const Blog = () => {
                                             postComments({
                                                 avatar: "a",
                                                 content: content as any,
-                                                time: "2024-10-13",
+                                                time: displayCustomDate((new Date()) as any, false) ,
                                                 user: "dua",
                                                 user_id: user_id,
                                                 id: self.crypto.randomUUID() as any,
@@ -250,7 +250,7 @@ export const Blog = () => {
                                                     onClick={() => eidtComments({
                                                         avatar: comment.avatar,
                                                         content: content as any,
-                                                        time: "2024-10-13",
+                                                        time: displayCustomDate((comment as any)?.time),
                                                         user: "dua",
                                                         user_id: (comment as any)?.user_id,
                                                         id: comment.id,
