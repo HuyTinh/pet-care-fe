@@ -39,6 +39,7 @@ import { Customeranager } from "./pages/admin/manager/customer/custommer";
 import { EmployeesManager } from "./pages/admin/manager/employees/listDashboard";
 import TinyMCE from "./tinyMCE";
 import { HomePage } from "./pages/site/home";
+import { PrescriptionTab } from "./pages/site/account/tabs/prescription";
 
 // ProtectedRoute component ensures that only users with valid roles can access the route
 const ProtectedRoute: React.FC<{
@@ -86,6 +87,7 @@ const userRoutes: RouteObject = {
       children: [
         { index: true, element: <ProfileTab /> }, // Profile tab
         { path: "appointment", element: <AppointmentTab /> }, // Appointment tab
+        { path: "prescription", element: <PrescriptionTab /> }
       ],
     },
     { path: "booking", element: <BookingPage /> }, // Booking page

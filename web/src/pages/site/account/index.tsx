@@ -62,6 +62,9 @@ export const ProfilePage = () => {
               <li>
                 <NavLink to={"/account/appointment"}>Appointment</NavLink>
               </li>
+              <li>
+                <NavLink to={"/account/prescription"}>Prescription</NavLink>
+              </li>
             </ul>
             <button
               className="btn-infor btn btn-outline"

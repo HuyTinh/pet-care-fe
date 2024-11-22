@@ -1,16 +1,15 @@
 import { useSelector } from "react-redux";
 import { useCancelAppointmentMutation, useGetAllAppointmentQuery } from "../../../../admin/receptionist/appointment.service";
 import { RootState } from "../../../../../store/store";
-import { displayCustomDate } from "../../../../../utils/date";
+import { displayCustomDate, displayInputDate, displayPlusDate } from "../../../../../utils/date";
 import { AnimatePresence, motion } from "framer-motion";
 import { FcCalendar } from "react-icons/fc";
 import { useEffect, useState } from "react";
-import { EditAppointmentModal } from "./modal/edit";
+import { EditAppointmentModal } from "./edit-appointment-modal";
 import { IAppointment } from "../../../../../types/appoiment.type";
 import { toast } from "react-toastify";
-import { FaFilter } from "react-icons/fa";
 
-export const AppointmentTab = () => {
+export const PrescriptionTab = () => {
   const userId = useSelector((state: RootState) => state.authentication.userId);
   const [selectedAppointment, setSelectedAppointment] = useState<IAppointment>(
     {} as IAppointment,
@@ -47,42 +46,26 @@ export const AppointmentTab = () => {
   useEffect(() => {
     if (appoimentsResponse?.data) {
       setAppointments(appoimentsResponse.data.content)
-      setPageNumber(appoimentsResponse.data.page_number)
     }
   }, [appoimentsResponse])
 
 
   return (
     <AnimatePresence initial={false}>
+      <p>Chào</p>
       <div className="w-full space-y-2" key={"1"}>
         <div className="flex justify-between">
-
-          <div className="flex gap-x-2">
-            <select
-              className="select select-bordered select-sm"
-              onChange={(e) => {
-                let strVal = [...e.target.value.split(",")]
-                setAppointmentStatus(strVal)
-              }}
-              defaultValue={["SCHEDULED", "CANCELLED", "APPROVED"]}
-            >
-              <option value={["SCHEDULED", "CANCELLED", "APPROVED"]}>All</option>
-              <option value={["SCHEDULED"]}>Up comming</option>
-            </select>
-            <div className="flex space-x-2">
-              <button
-                className="btn btn-sm btn-info flex items-center gap-2 rounded-md"
-                onClick={() =>
-                  (
-                    document.getElementById("filter_appointment_modal") as any
-                  ).showModal()
-                }
-              >
-                <FaFilter color="white" />
-                <span className="font-semibold text-white">Filter</span>
-              </button>
-            </div>
-          </div>
+          <select
+            className="select select-bordered select-sm"
+            onChange={(e) => {
+              let strVal = [...e.target.value.split(",")]
+              setAppointmentStatus(strVal)
+            }}
+            defaultValue={["SCHEDULED", "CANCELLED", "APPROVED"]}
+          >
+            <option value={["SCHEDULED", "CANCELLED", "APPROVED"]}>All</option>
+            <option value={["SCHEDULED"]}>Up comming</option>
+          </select>
           < div className="join" >
             <button className="join-item btn btn-sm" onClick={() => {
               if (pageNumber - 1 >= 0) {

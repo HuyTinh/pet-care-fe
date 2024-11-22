@@ -16,7 +16,7 @@ export interface PageableResponse<T> {
     page_number: number;
 
     /**
-     * Number of items per page in the paginated response.
+     * number of items per page in the paginated response.
      * @example 20
      */
     page_size: number;

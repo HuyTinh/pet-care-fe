@@ -43,8 +43,6 @@ function App() {
     }
   }, [dispatch]); // Effect runs when `dispatch` changes, but in this case, `dispatch` doesn't change, so this runs once
 
-  console.log(hookRouter.router);
-
   return (
     <Fragment>
       {/* AnimatePresence wraps the RouterProvider to animate routes when transitioning */}

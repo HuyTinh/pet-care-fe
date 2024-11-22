@@ -89,7 +89,7 @@ export const AddMedicineModal = () => {
           locations: locationIds,
           calculationUnits: caculationIds,
           image_url: imageFile,
-          manufactureId: Number(data.manufacture_id),
+          manufactureId: number(data.manufacture_id),
         }),
       ).unwrap();
       // Đóng modal
