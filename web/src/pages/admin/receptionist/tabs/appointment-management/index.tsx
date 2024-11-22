@@ -43,8 +43,6 @@ export const AppointmentManagement = () => {
     {} as IAppointment,
   );
 
-
-
   useEffect(() => {
     if (stompClient) {
       stompClient.onConnect = () => {

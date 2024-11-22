@@ -15,7 +15,7 @@ export const appointmentApi = createApi({
   endpoints: (build) => ({
     filterAppointments: build.query<
       APIResponse<PageableResponse<IAppointment>>,
-      { startDate: String; endDate: String, page: Number }
+      { startDate: String; endDate: String, page: number }
     >({
       query: ({ startDate, endDate, page }) => {
         return {
@@ -46,7 +46,7 @@ export const appointmentApi = createApi({
     }),
     getAllAppointment: build.query<
       APIResponse<PageableResponse<IAppointment>>,
-      { statues: String[], page: Number, userId: String }
+      { statues: String[], page: number, userId: String }
     >({
       query: ({ statues, page, userId }) => {
         return {

@@ -77,7 +77,7 @@ export const Customeranager = () => {
       <div className="relative mb-4">
         <input
           type="text"
-          placeholder="Search by Name, Phone Number"
+          placeholder="Search by Name, Phone number"
           className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
         />
         <span className="absolute top-2 right-3 text-gray-500">
@@ -103,7 +103,7 @@ export const Customeranager = () => {
             <tr className="bg-gray-200">
               <th className="border border-gray-300 p-2">#</th>
               <th className="border border-gray-300 p-2">Full Name</th>
-              <th className="border border-gray-300 p-2">Phone Number</th>
+              <th className="border border-gray-300 p-2">Phone number</th>
               <th className="border border-gray-300 p-2">Email</th>
               <th className="border border-gray-300 p-2">Pet</th>
               <th className="border border-gray-300 p-2">Prescription</th>

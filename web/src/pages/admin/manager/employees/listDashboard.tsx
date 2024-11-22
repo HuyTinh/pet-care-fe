@@ -57,7 +57,7 @@ export const EmployeesManager = () => {
                 <div className="relative">
                     <input
                         type="text"
-                        placeholder="Search by Name, Phone Number, Email, Role,…"
+                        placeholder="Search by Name, Phone number, Email, Role,…"
                         className="w-full p-3 pl-10 border rounded-lg outline-none focus:border-blue-500"
                     />
                     <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
@@ -71,7 +71,7 @@ export const EmployeesManager = () => {
                         <tr className="bg-gray-200 text-gray-700">
                             <th className="p-3">#</th>
                             <th className="p-3">Full Name</th>
-                            <th className="p-3">Phone Number</th>
+                            <th className="p-3">Phone number</th>
                             <th className="p-3">Email</th>
                             <th className="p-3">Role</th>
                             <th className="p-3">Delete</th>
@@ -124,7 +124,7 @@ export const EmployeesManager = () => {
                     <div className="bg-white p-6 rounded-lg shadow-md max-w-4xl w-full">
                         <h2 className="text-lg font-semibold mb-4 text-center">Add New Employee</h2>
                         <input type="text" placeholder="Full Name" className="w-full p-2 mb-3 border rounded-lg" />
-                        <input type="text" placeholder="Phone Number" className="w-full p-2 mb-3 border rounded-lg" />
+                        <input type="text" placeholder="Phone number" className="w-full p-2 mb-3 border rounded-lg" />
                         <input type="email" placeholder="Email" className="w-full p-2 mb-3 border rounded-lg" />
                         <input type="text" placeholder="Role" className="w-full p-2 mb-3 border rounded-lg" />
                         <div className="flex justify-end space-x-4">
