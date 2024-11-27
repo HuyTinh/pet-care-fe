@@ -1,10 +1,11 @@
+import { memo } from "react";
 import { useForm } from "react-hook-form";
 
 interface FilterAppointmentModalProps {
   onFilterSubmit: (filters: any) => void; // Truyền prop onFilterSubmit
 }
 
-export const FilterAppointmentModal = ({
+export const FilterAppointmentModal = memo(({
   onFilterSubmit,
 }: FilterAppointmentModalProps) => {
   const { register, handleSubmit, reset } = useForm<any>();
@@ -61,4 +62,4 @@ export const FilterAppointmentModal = ({
       </form>
     </dialog>
   );
-};
+});

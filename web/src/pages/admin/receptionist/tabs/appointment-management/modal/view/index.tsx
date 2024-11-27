@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { IHospitalService } from "../../../../../../../@typeshospital-service.type";
-import { IPet } from "../../../../../../../@typespet.type";
-import { IAppointment } from "../../../../../../../@typesappoiment.type";
+import { IHospitalService } from "../../../../../../../@types/hospital-service.type";
+import { IPet } from "../../../../../../../@types/pet.type";
+import { IAppointment } from "../../../../../../../@types/appoiment.type";
 import { PetPicker } from "../../../../../../../shared/ui/pet-picker";
 import { time } from "../../../../../../../constant/time";
 import {
@@ -16,7 +16,7 @@ type ViewAppointmentModalProps = {
   appointment: IAppointment;
 };
 
-export const ViewAppointmentModal = ({
+export const ViewAppointmentModal = memo(({
   appointment,
 }: ViewAppointmentModalProps) => {
   const {
@@ -181,4 +181,4 @@ export const ViewAppointmentModal = ({
       </form>
     </dialog >
   );
-};
+});
