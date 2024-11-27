@@ -1,4 +1,4 @@
-import { MenuItem, SideBar } from "../../../components/side-bar"
+import { MenuItem, SideBar } from "../../../layout/side-bar"
 import { AnimatePresence } from "framer-motion";
 import { AdminProfileModal } from "./admin-profile-modal";
 

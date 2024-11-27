@@ -1,6 +1,6 @@
 import { ToastContainer } from "react-toastify";
 import { RouterProvider } from "react-router-dom";
-import { RouterHooks } from "./router";
+import { useRouterHooks } from "./router";
 import { Fragment } from "react/jsx-runtime";
 import { setAuthenticated } from "./pages/auth.slice";
 import { useEffect } from "react";
@@ -21,7 +21,7 @@ import { jwtDecode } from "jwt-decode";
  * The main App component that manages authentication and routing.
  */
 function App() {
-  const hookRouter = RouterHooks(); // Initialize custom router hooks for routing
+  const hookRouter = useRouterHooks(); // Initialize custom router hooks for routing
   const dispatch = useDispatch(); // Access the dispatch function to dispatch actions to Redux
 
   useEffect(() => {

@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../store/store";
 import { useEffect } from "react";
-import { IEmployee } from "../../../../types/employee.type";
+import { IEmployee } from "../../../../@typesemployee.type";
 import { useGetEmployeeProfileQuery } from "../../employee.service";
 import { MdOutlineErrorOutline } from "react-icons/md";
 

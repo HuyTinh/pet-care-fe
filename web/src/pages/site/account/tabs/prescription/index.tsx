@@ -1,12 +1,12 @@
 import { useSelector } from "react-redux";
 import { useCancelAppointmentMutation, useGetAllAppointmentQuery } from "../../../../admin/receptionist/appointment.service";
 import { RootState } from "../../../../../store/store";
-import { displayCustomDate, displayInputDate, displayPlusDate } from "../../../../../utils/date";
+import { displayCustomDate, displayInputDate, displayPlusDate } from "../../../../../shared/helped/date";
 import { AnimatePresence, motion } from "framer-motion";
 import { FcCalendar } from "react-icons/fc";
 import { useEffect, useState } from "react";
 import { EditAppointmentModal } from "./edit-appointment-modal";
-import { IAppointment } from "../../../../../types/appoiment.type";
+import { IAppointment } from "../../../../../@typesappoiment.type";
 import { toast } from "react-toastify";
 
 export const PrescriptionTab = () => {

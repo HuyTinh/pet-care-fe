@@ -1,6 +1,6 @@
 import { MdEmail, MdKey, MdOutlineErrorOutline } from "react-icons/md";
 import { Fragment } from "react/jsx-runtime";
-import { PCCheckBox } from "../../../../components/pc-checkbox";
+import { PCCheckBox } from "../../../../shared/ui/pc-checkbox";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { useLoginRequestMutation } from "../../../auth.service";

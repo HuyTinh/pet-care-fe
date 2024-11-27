@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { AnimateSection } from "../../../components/animate-section";
+import { AnimateSection } from "../../../shared/ui/animate-section";
 const textBox = {
   animate: { height: "auto", opacity: 1 },
 };

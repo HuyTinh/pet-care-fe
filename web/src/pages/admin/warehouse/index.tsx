@@ -1,6 +1,6 @@
 import MedicinesManagement from "./tabs/medicine-management";
 import { CiCircleInfo, CiPill } from "react-icons/ci";
-import { MenuItem } from "../../../components/side-bar";
+import { MenuItem } from "../../../layout/side-bar";
 import { AdminLayout } from "../layout";
 
 const menuItems: MenuItem[] = [

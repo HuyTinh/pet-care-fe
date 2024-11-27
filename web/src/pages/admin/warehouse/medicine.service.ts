@@ -1,7 +1,7 @@
 // Import necessary functions from Redux Toolkit and types
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { APIResponse } from "../../../types/api-response.type";
-import { ICalculationUnit, ILocation, IManufacture, IMedicine, IMedicinePageResponse } from "../../../types/medicine.type";
+import { APIResponse } from "../../../@typesapi-response.type";
+import { ICalculationUnit, ILocation, IManufacture, IMedicine, IMedicinePageResponse } from "../../../@typesmedicine.type";
 
 // Define the medicineApi slice using createApi to manage medicine-related data
 export const medicineApi = createApi({

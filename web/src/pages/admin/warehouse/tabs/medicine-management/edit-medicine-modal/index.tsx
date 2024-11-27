@@ -5,7 +5,7 @@ import {
   IMedicine,
   ILocation,
   ICalculationUnit,
-} from "../../../../../../types/medicine.type";
+} from "../../../../../../@typesmedicine.type";
 import { LocationPicker } from "../picker-medicine/edit-pickup-medicine/location-picker";
 import { CaculationPicker } from "../picker-medicine/edit-pickup-medicine/caculation-picker";
 import {
@@ -14,7 +14,7 @@ import {
   useUpdateMedicineMutation,
 } from "../../../medicine.service";
 import { toast } from "react-toastify";
-import { toFormData } from "../../../../../../utils/form-data";
+import { toFormData } from "../../../../../../shared/helped/form-data";
 
 type EditMedicineModalProps = {
   medicine: IMedicine;

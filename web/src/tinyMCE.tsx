@@ -1,16 +1,16 @@
 import { useRef } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
-import { useTestTinyMCEMutation } from './pages/admin/doctor/prescription.service';
+// import { useTestTinyMCEMutation } from './pages/admin/doctor/prescription.service';
 
 export default function TinyMCE() {
     const editorRef = useRef<any>(null);
-    const [testTinyMCE] = useTestTinyMCEMutation()
+    // const [testTinyMCE] = useTestTinyMCEMutation()
 
-    const log = () => {
-        if (editorRef.current) {
-            testTinyMCE(editorRef.current.getContent());
-        }
-    };
+    // const log = () => {
+    //     if (editorRef.current) {
+    //         testTinyMCE(editorRef.current.getContent());
+    //     }
+    // };
     return (
         <div className='mt-28'>
             <Editor

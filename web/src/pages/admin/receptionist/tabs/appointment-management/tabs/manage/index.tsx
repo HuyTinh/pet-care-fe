@@ -1,6 +1,6 @@
-import { IAppointment } from '../../../../../../../types/appoiment.type';
+import { IAppointment } from '../../../../../../../@typesappoiment.type';
 import { LiaEditSolid } from 'react-icons/lia';
-import { displayCustomDate } from '../../../../../../../utils/date';
+import { displayCustomDate } from '../../../../../../../shared/helped/date';
 import { motion } from 'framer-motion'
 import { CiCalendar } from 'react-icons/ci';
 import { MdOutlineCancel } from 'react-icons/md';

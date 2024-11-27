@@ -1,5 +1,5 @@
 import { AppointmentManagement } from "./tabs/appointment-management";
-import { MenuItem } from "../../../components/side-bar";
+import { MenuItem } from "../../../layout/side-bar";
 import { CiCalendar, CiCircleInfo } from "react-icons/ci";
 import { AdminLayout } from "../layout";
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { IAppointment } from "../../../../../types/appoiment.type";
+import { IAppointment } from "../../../../../@typesappoiment.type";
 // import { EditPrescriptionModal } from "./edit-prescription-modal";
 import { QRScanModal } from "./qr-scan";
 import { PrescriptionTable } from "./prescription-table";
