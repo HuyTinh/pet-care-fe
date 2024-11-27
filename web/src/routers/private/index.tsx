@@ -2,7 +2,7 @@ import { RouteObject, useNavigate } from "react-router-dom";
 import { RootLayout } from "../../shared/ui/root-layout";
 import { AdminAuthPage } from "../../pages/admin/auth";
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 import { RootState } from "../../store/store";
 import { DoctorPage } from "../../pages/admin/doctor";
 import { WareHousePage } from "../../pages/admin/warehouse";
@@ -21,7 +21,7 @@ import { ReceptionistPage } from "../../pages/admin/receptionist";
 const ProtectedRoute: React.FC<{
     element: JSX.Element; // The element to be rendered if authorized
     allowedRoles: string[]; // List of roles allowed to access the route
-}> = ({ element, allowedRoles }) => {
+}> = memo(({ element, allowedRoles }) => {
     const { isAuth, role } = useSelector(
         (state: RootState) => state.authentication, // Getting authentication status and role from Redux
     );
@@ -49,7 +49,7 @@ const ProtectedRoute: React.FC<{
     }, [isAuth, role, allowedRoles, navigate]);
 
     return allowedRoles.includes(role!) ? element : null; // Render element if role is allowed
-};
+})
 
 // Admin routes for protected pages
 export const PrivateRoutes: RouteObject = {

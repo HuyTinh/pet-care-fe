@@ -1,11 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { IAppointment } from "../../../@typesappoiment.type";
+import { IAppointment } from "../../../@types/appoiment.type";
 
-import { APIResponse } from "../../../@typesapi-response.type";
+import { APIResponse } from "../../../@types/api-response.type";
 import { getCookieValue } from "../../../shared/helped/cookie";
-import { PageableResponse } from "../../../@typespageable-response";
-import { IHospitalService } from "../../../@typeshospital-service.type";
-import { ISpecie } from "../../../@typesspecie.type";
+import { PageableResponse } from "../../../@types/pageable-response";
+import { IHospitalService } from "../../../@types/hospital-service.type";
+import { ISpecie } from "../../../@types/specie.type";
 import { displayInputDate, displayPlusDate } from "../../../shared/helped/date";
 
 export const appointmentApi = createApi({
