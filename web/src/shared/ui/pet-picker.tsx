@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { IPet } from "../types/pet.type";
-import { useGetSpeciesQuery } from "../pages/admin/receptionist/appointment.service";
+import { useGetSpeciesQuery } from "../../pages/admin/receptionist/appointment.service";
 
 type PetPickerProps = {
   pets: IPet[];

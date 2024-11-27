@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUnauthenticated } from "../../pages/auth.slice";
 import { RootState } from "../../store/store";
 import { useGetEmployeeProfileQuery } from "../../pages/admin/employee.service";
-import { IEmployee } from "../../types/employee.type";
+import { IEmployee } from "../../@typesemployee.type";
 
 
 export interface MenuItem {

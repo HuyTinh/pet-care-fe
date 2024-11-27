@@ -1,4 +1,4 @@
-import { AnimateSection } from "../../../components/animate-section";
+import { AnimateSection } from "../../../shared/ui/animate-section";
 
 export const SurgeryService = () => {
   return (

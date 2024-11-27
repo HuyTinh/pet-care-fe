@@ -4,7 +4,7 @@ import {
   useGetAllCalculationUnitQuery,
   useGetAllMedicineQuery,
 } from "../../../prescription.service";
-import { ServicePicker } from "../../../../../../components/service-picker";
+import { ServicePicker } from "../../../../../../shared/ui/service-picker";
 import _ from "lodash"
 
 

@@ -1,13 +1,13 @@
-import { displayInputDate } from "../../../../../../utils/date";
+import { displayInputDate } from "../../../../../../shared/helped/date";
 import {
   useGetHospitalServiceQuery,
   useCreateAppointmentMutation,
 } from "../../../appointment.service";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useState } from "react";
-import { IPet } from "../../../../../../types/pet.type";
-import { IHospitalService } from "../../../../../../types/hospital-service.type";
-import { PetPicker } from "../../../../../../components/pet-picker";
+import { IPet } from "../../../../../../@typespet.type";
+import { IHospitalService } from "../../../../../../@typeshospital-service.type";
+import { PetPicker } from "../../../../../../shared/ui/pet-picker";
 
 export const AppoimentManageForm = () => {
   const {

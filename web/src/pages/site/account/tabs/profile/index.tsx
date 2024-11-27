@@ -11,8 +11,8 @@ import {
   useUpdateCustomerProfileMutation,
 } from "../../../customer.service";
 import { useCookies } from "react-cookie";
-import { toFormData } from "../../../../../utils/form-data";
-import { ICustomer } from "../../../../../types/customer.type";
+import { toFormData } from "../../../../../shared/helped/form-data";
+import { ICustomer } from "../../../../../@typescustomer.type";
 
 export const ProfileTab = () => {
   const profile = useSelector((state: RootState) => state.authentication.profile);

@@ -5,12 +5,12 @@ import { motion } from "framer-motion";
 import { FcCalendar } from "react-icons/fc";
 import { FaFilter } from "react-icons/fa";
 import { useGetAllMedicinesQuery } from "../../medicine.service";
-import { IMedicine } from "../../../../../types/medicine.type";
+import { IMedicine } from "../../../../../@typesmedicine.type";
 import { EditMedicineModal } from "./edit-medicine-modal";
 import { AddMedicineModal } from "./add-medicine-modal";
 import { FilterMedicineModal } from "./filter-medicine-modal";
-import { displayCustomDate } from "../../../../../utils/date";
-import { toCurrency } from "../../../../../utils/number-format";
+import { displayCustomDate } from "../../../../../shared/helped/date";
+import { toCurrency } from "../../../../../shared/helped/number-format";
 import { TbFilterX } from "react-icons/tb";
 
 export default function MedicinesManagement() {

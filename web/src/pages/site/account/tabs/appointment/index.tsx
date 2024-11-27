@@ -1,12 +1,12 @@
 import { useSelector } from "react-redux";
 import { useCancelAppointmentMutation, useGetAllAppointmentQuery } from "../../../../admin/receptionist/appointment.service";
 import { RootState } from "../../../../../store/store";
-import { displayCustomDate } from "../../../../../utils/date";
+import { displayCustomDate } from "../../../../../shared/helped/date";
 import { AnimatePresence, motion } from "framer-motion";
 import { FcCalendar } from "react-icons/fc";
 import { useEffect, useState } from "react";
 import { EditAppointmentModal } from "./modal/edit";
-import { IAppointment } from "../../../../../types/appoiment.type";
+import { IAppointment } from "../../../../../@typesappoiment.type";
 import { toast } from "react-toastify";
 import { FaFilter } from "react-icons/fa";
 

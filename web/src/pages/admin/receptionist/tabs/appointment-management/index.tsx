@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useFilterAppointmentsQuery } from "../../appointment.service";
-import { IAppointment } from "../../../../../types/appoiment.type";
+import { IAppointment } from "../../../../../@typesappoiment.type";
 import { usePdfGenerator } from "../../../../../hooks/pdf-generator";
 import { EditAppointmentModal } from "./modal/edit";
 import WebSocketManager from "../../../../../config/web-socket-manager";

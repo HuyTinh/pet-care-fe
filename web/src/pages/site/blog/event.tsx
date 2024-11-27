@@ -1,14 +1,14 @@
 import { useState } from "react";
-import useFetch from "../../../hooks/useFecth";
+import useFetch from "../../../shared/hooks/useFecth";
 
 import ReactMarkdown from 'react-markdown';
-import { displayCustomDate } from "../../../utils/date";
-import { IEvent } from "../../../types/event.type";
+import { displayCustomDate } from "../../../shared/helped/date";
+import { IEvent } from "../../../@types/event.type";
 import { Link } from "react-router-dom";
-import { INew } from "../../../types/new.type";
-import newFetch from "../../../hooks/newFecth";
+import newFetch from "../../../shared/hooks/newFecth";
 import { useNavigate } from "react-router-dom";
-export const Event = () => {
+import { INews } from "../../../@types/new.type";
+export const EventPage = () => {
 
     const { data } = useFetch('http://localhost:1337/api/events?populate=*')
     const events = (data as any)?.data || [];
@@ -113,7 +113,7 @@ export const Event = () => {
                         aria-label="PetNew"
                         defaultChecked />
                     <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6">
-                        {news.map((newSet: INew) => (
+                        {news.map((newSet: INews) => (
                             <div className="bg-gray-100 p-6 rounded-lg mx-auto max-w-[90%] lg:max-w-[1200px] mb-8">
                                 <div className="flex justify-center">
                                     <img

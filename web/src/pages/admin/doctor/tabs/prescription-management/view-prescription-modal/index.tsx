@@ -1,6 +1,6 @@
 import { useRef } from "react"
-import { IDetail, IPrescription } from "../../../../../../types/prescription.type"
-import { displayCustomDate } from "../../../../../../utils/date"
+import { IDetail, IPrescription } from "../../../../../../@typesprescription.type"
+import { displayCustomDate } from "../../../../../../shared/helped/date"
 import { useReactToPrint } from 'react-to-print';
 
 type ViewPrescriptionModalProps = {

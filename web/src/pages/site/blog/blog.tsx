@@ -1,12 +1,12 @@
 import { useState } from "react";
-import useFetch from "../../../hooks/useFecth";
-import { IBlog } from "../../../types/blog.type"
+import useFetch from "../../../shared/hooks/useFecth";
+import { IBlog } from "../../../@types/blog.type"
 
-import { IComment } from "../../../types/comment.type"
+import { IComment } from "../../../@types/comment.type"
 import ReactMarkdown from 'react-markdown';
-import { displayCustomDate } from "../../../utils/Date";
+import { displayCustomDate } from "../../../shared/helped/date";
 
-export const Blog = () => {
+export const BlogPage = () => {
 
     const { data } = useFetch('http://localhost:1337/api/blogs?populate=*')
     const blogs = (data as any)?.data || [];

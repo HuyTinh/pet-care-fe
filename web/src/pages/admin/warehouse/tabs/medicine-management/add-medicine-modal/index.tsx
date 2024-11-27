@@ -4,7 +4,7 @@ import { MdOutlineErrorOutline } from "react-icons/md";
 import {
   ICalculationUnit,
   ILocation,
-} from "../../../../../../types/medicine.type";
+} from "../../../../../../@typesmedicine.type";
 import { LocationPicker } from "../picker-medicine/edit-pickup-medicine/location-picker";
 import { CaculationPicker } from "../picker-medicine/edit-pickup-medicine/caculation-picker";
 import {
@@ -12,7 +12,7 @@ import {
   useGetLocationQuery,
   useGetManufactureQuery,
 } from "../../../medicine.service";
-import { toFormData } from "../../../../../../utils/form-data";
+import { toFormData } from "../../../../../../shared/helped/form-data";
 import { toast } from "react-toastify";
 
 interface IManufacturer {

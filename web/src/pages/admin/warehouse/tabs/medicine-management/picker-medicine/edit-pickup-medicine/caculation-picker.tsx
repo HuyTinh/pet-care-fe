@@ -3,7 +3,7 @@ import { FaAngleDown } from "react-icons/fa";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
-import { ICalculationUnit } from "../../../../../../../types/medicine.type";
+import { ICalculationUnit } from "../../../../../../../@typesmedicine.type";
 import { useGetCaculationunitQuery } from "../../../../medicine.service";
 import { toast } from "react-toastify";
 

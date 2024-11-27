@@ -2,7 +2,7 @@ import { MdCancel } from "react-icons/md";
 import { FaAngleDown } from "react-icons/fa";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { useGetHospitalServiceQuery } from "../pages/admin/receptionist/appointment.service";
+import { useGetHospitalServiceQuery } from "../../pages/admin/receptionist/appointment.service";
 
 type ServicePickerProps = {
   services: string[];

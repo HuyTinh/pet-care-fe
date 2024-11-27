@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { displayCustomDate } from "../../../../../../utils/date";
+import { displayCustomDate } from "../../../../../../shared/helped/date";
 import { useFilterAppointmentsQuery } from "../../../prescription.service";
-import { IAppointment } from "../../../../../../types/appoiment.type";
+import { IAppointment } from "../../../../../../@typesappoiment.type";
 import { SiGoogledocs } from "react-icons/si";
 import { motion } from "framer-motion"
 import { FcCalendar } from "react-icons/fc";
