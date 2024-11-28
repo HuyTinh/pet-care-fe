@@ -1,7 +1,7 @@
 // Import necessary components and hooks from React Router, Framer Motion, and React
 import { Outlet, ScrollRestoration, useLocation } from "react-router-dom";
-import { Header } from "../../components/header";
-import { Footer } from "../../components/footer";
+import { Header } from "../../layout/header";
+import { Footer } from "../../layout/footer";
 import { AnimatePresence } from "framer-motion";
 
 // Define an interface for the CozeWebSDK, which will be used globally

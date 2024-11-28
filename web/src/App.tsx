@@ -1,6 +1,6 @@
 import { ToastContainer } from "react-toastify";
 import { RouterProvider } from "react-router-dom";
-import { useRouterHooks } from "./router";
+import { useRoutes } from "./shared/hooks/useRoutes";
 import { Fragment } from "react/jsx-runtime";
 import { setAuthenticated } from "./pages/auth.slice";
 import { useEffect } from "react";
@@ -21,7 +21,7 @@ import { jwtDecode } from "jwt-decode";
  * The main App component that manages authentication and routing.
  */
 function App() {
-  const hookRouter = useRouterHooks(); // Initialize custom router hooks for routing
+  const hookRouter = useRoutes(); // Initialize custom router hooks for routing
   const dispatch = useDispatch(); // Access the dispatch function to dispatch actions to Redux
 
   useEffect(() => {
@@ -32,7 +32,6 @@ function App() {
     if (token) {
       // Decode the JWT token to get user data (specifically, user_id)
       const decodedToken: { user_id: string, scope: string } = jwtDecode(token);
-
 
       // If token exists, make an API request to get the user account details
       AxiosClient.get(`${decodedToken.scope.includes("CUSTOMER") ? import.meta.env.VITE_CUSTOMER_PATH + "/customer" : import.meta.env.VITE_EMPLOYEE_PATH + "/employee"}/account/${decodedToken.user_id}`)

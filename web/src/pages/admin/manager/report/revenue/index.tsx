@@ -13,7 +13,7 @@ import {
 } from 'recharts';
 import { revenueData, revenueYear, revenueYear2024 } from "./dummy_revenue_data";
 import { FilterModal } from "./modal";
-const Report_revenue = () => {
+const ReportRevenue = () => {
 
   return (
     <div className="h-[100%] w-full mt-28 bg-slate-100 px-14 py-10 ">
@@ -199,4 +199,4 @@ const Report_revenue = () => {
   )
 }
 
-export default Report_revenue
+export default ReportRevenue

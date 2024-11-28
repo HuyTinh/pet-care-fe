@@ -19,11 +19,11 @@ import {
 import { FilterModal } from "./modal";
 import { serviceDataCeil, serviceTotal, serviceYear } from "./dummy_service_data";
 import { appointmentDatePie } from "../appointment/dummy_appointment_data";
-const Report_service = () => {
-    
+const ReportService = () => {
+
     const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', "#FF0404", "#F662DD", "#0099CF"];
     const RADIAN = Math.PI / 180;
-    const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
+    const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }: any) => {
         const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
         const x = cx + radius * Math.cos(-midAngle * RADIAN);
         const y = cy + radius * Math.sin(-midAngle * RADIAN);
@@ -34,7 +34,7 @@ const Report_service = () => {
             </text>
         );
     };
-   
+
 
 
     const CustomTooltip = ({ active, payload, label }: any) => {
@@ -111,7 +111,7 @@ const Report_service = () => {
                                     fill="#8884d8"
                                     dataKey="value"
                                 >
-                                    {appointmentDatePie.map((entry, index) => (
+                                    {appointmentDatePie.map((_, index) => (
                                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                                     ))}
                                 </Pie>
@@ -199,7 +199,7 @@ const Report_service = () => {
                                 <Area type="monotone" dataKey="2023" stackId="1" stroke="#8884d8" fill="#8884d8" />
                                 <Area type="monotone" dataKey="2024" stackId="1" stroke="#82ca9d" fill="#82ca9d" />
                             </AreaChart>
-                            
+
                         </ResponsiveContainer>
                     </div>
                 </div>
@@ -209,4 +209,4 @@ const Report_service = () => {
     )
 }
 
-export default Report_service
+export default ReportService

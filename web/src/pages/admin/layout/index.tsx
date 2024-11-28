@@ -1,13 +1,14 @@
 import { MenuItem, SideBar } from "../../../layout/side-bar"
 import { AnimatePresence } from "framer-motion";
 import { AdminProfileModal } from "./admin-profile-modal";
+import { memo } from "react";
 
 type AdminLayoutProps = {
     menuItems: MenuItem[],
     children: JSX.Element
 }
 
-export const AdminLayout = ({ menuItems, children }: AdminLayoutProps) => {
+export const AdminLayout = memo(({ menuItems, children }: AdminLayoutProps) => {
     return (
         <AnimatePresence initial={false}>
             <div className="h-screen w-screen bg-blue-400">
@@ -23,4 +24,4 @@ export const AdminLayout = ({ menuItems, children }: AdminLayoutProps) => {
             </div>
         </AnimatePresence>
     )
-}
+})

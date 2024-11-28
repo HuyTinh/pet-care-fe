@@ -1,9 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"; // Importing createApi and fetchBaseQuery from RTK Query
-import { APIResponse } from "../../../@typesapi-response.type"; // Importing the APIResponse type for standard API response structure
-import { IAppointment } from "../../../@typesappoiment.type"; // Importing IAppointment type for appointments
-import { PageableResponse } from "../../../@typespageable-response"; // Importing PageableResponse type for pagination
-import { IMedicine, IPrescription } from "../../../@typesprescription.type"; // Importing medicine and prescription types
-import { ICalculationUnit } from "../../../@typesmedicine.type"; // Importing the CalculationUnit type for unit management in medicine
+import { APIResponse } from "../../../@types/api-response.type"; // Importing the APIResponse type for standard API response structure
+import { IAppointment } from "../../../@types/appoiment.type"; // Importing IAppointment type for appointments
+import { PageableResponse } from "../../../@types/pageable-response"; // Importing PageableResponse type for pagination
+import { IMedicine, IPrescription } from "../../../@types/prescription.type"; // Importing medicine and prescription types
+import { ICalculationUnit } from "../../../@types/medicine.type"; // Importing the CalculationUnit type for unit management in medicine
 
 export const prescriptionApi = createApi({
   reducerPath: "prescriptionApi", // Defining the reducer path for the slice

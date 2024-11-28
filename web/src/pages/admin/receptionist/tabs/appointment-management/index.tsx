@@ -2,19 +2,15 @@ import { useState, useEffect } from "react";
 import { useFilterAppointmentsQuery } from "../../appointment.service";
 import { IAppointment } from "../../../../../@types/appoiment.type";
 import { usePdfGenerator } from "../../../../../shared/hooks/pdf-generator";
-import { EditAppointmentModal } from "./modal/edit";
+
 import WebSocketManager from "../../../../../config/web-socket-manager";
-import { QRScanModal } from "./qr-scan";
 import { IoQrCodeOutline } from "react-icons/io5";
 import { FaPlus } from "react-icons/fa6";
 import { FaFilter } from "react-icons/fa";
-import { FilterAppointmentModal } from "./modal/filter";
-import { CreateAppointmentModal } from "./modal/create";
-import { ManageAppointmentTable } from "./tabs/manage";
-import { ViewAppointmentModal } from "./modal/view";
-import { UpcomingAppointmentTable } from "./tabs/upcoming";
 import { FcCalendar } from "react-icons/fc";
 import { motion } from 'framer-motion'
+import { CreateAppointmentModal, EditAppointmentModal, FilterAppointmentModal, QRScanModal, ViewAppointmentModal } from "./modal";
+import { ManageAppointmentTable, UpcomingAppointmentTable } from "./tabs";
 
 export const AppointmentManagement = () => {
   const [appointments, setAppointments] = useState<IAppointment[]>([]);

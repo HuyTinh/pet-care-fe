@@ -16,10 +16,12 @@ const menuItems: MenuItem[] = [
   },
 ];
 
-export const ReceptionistPage = () => {
+const ReceptionistPage = () => {
   return (
     <AdminLayout menuItems={menuItems}>
       <AppointmentManagement />
     </AdminLayout>
   );
 };
+
+export default { page: ReceptionistPage, rolesAccess: ["RECEPTIONIST"] }
