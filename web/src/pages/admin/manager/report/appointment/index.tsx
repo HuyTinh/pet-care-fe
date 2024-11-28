@@ -13,44 +13,43 @@ import {
     Pie,
     Cell,
     Rectangle,
-    AreaChart, 
+    AreaChart,
     Area,
 } from 'recharts';
 import { FilterModal } from "./modal";
 import { appointmentDataCeil, appointmentDatePie, appointmentYear } from "./dummy_appointment_data";
-const Report_appointment = () => {
 
-    const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', "#FF0404", "#F662DD", "#0099CF"];
-    const RADIAN = Math.PI / 180;
-    const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent } : any) => {
-        const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-        const x = cx + radius * Math.cos(-midAngle * RADIAN);
-        const y = cy + radius * Math.sin(-midAngle * RADIAN);
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', "#FF0404", "#F662DD", "#0099CF"];
+const RADIAN = Math.PI / 180;
+const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }: any) => {
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
+    return (
+        <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
+            {`${(percent * 100).toFixed(0)}%`}
+        </text>
+    );
+};
+
+
+const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
         return (
-            <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
-                {`${(percent * 100).toFixed(0)}%`}
-            </text>
+            <div className="p-4 bg-slate-900 flex flex-col gap-4 rounded-md">
+                <p className="text-medium text-lg text-white">{label}</p>
+                <p className="text-sm text-blue-400">
+                    Appointment:
+                    <span className="ml-2">{payload[0].value}</span>
+                </p>
+            </div>
         );
-    };
-    
+    }
+};
 
 
-
-
-    const CustomTooltip = ({ active, payload, label }: any) => {
-        if (active && payload && payload.length) {
-            return (
-                <div className="p-4 bg-slate-900 flex flex-col gap-4 rounded-md">
-                    <p className="text-medium text-lg text-white">{label}</p>
-                    <p className="text-sm text-blue-400">
-                        Appointment:
-                        <span className="ml-2">{payload[0].value}</span>
-                    </p>
-                </div>
-            );
-        }
-    };
+const ReportAppointment = () => {
 
     return (
         <div className="h-[100%] w-full mt-28 bg-slate-100 px-14 py-10 ">
@@ -63,9 +62,9 @@ const Report_appointment = () => {
                         className="btn btn-info flex items-center gap-2 rounded-md"
                         onClick={() =>
                             (
-                              document.getElementById("filter_modal") as any
+                                document.getElementById("filter_modal") as any
                             ).showModal()
-                          }
+                        }
                     >
                         <FaFilter color="white" />
                         <span className="font-semibold text-white">Filter</span>
@@ -108,7 +107,7 @@ const Report_appointment = () => {
                                     fill="#8884d8"
                                     dataKey="value"
                                 >
-                                    {appointmentDatePie.map((entry, index) => (
+                                    {appointmentDatePie.map((_, index) => (
                                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                                     ))}
                                 </Pie>
@@ -153,7 +152,7 @@ const Report_appointment = () => {
                                     fill="#8884d8"
                                     dataKey="value"
                                 >
-                                    {appointmentDatePie.map((entry, index) => (
+                                    {appointmentDatePie.map((_, index) => (
                                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                                     ))}
                                 </Pie>
@@ -222,4 +221,4 @@ const Report_appointment = () => {
     )
 }
 
-export default Report_appointment
+export default ReportAppointment 

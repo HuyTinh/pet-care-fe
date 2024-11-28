@@ -17,10 +17,12 @@ const menuItems: MenuItem[] = [
   },
 ];
 
-export const DoctorPage = () => {
+const DoctorPage = () => {
   return (
     <AdminLayout menuItems={menuItems}>
       <PrescriptionManagement />
     </AdminLayout>
   );
 };
+
+export default { page: DoctorPage, rolesAccess: ["DOCTOR"] }
