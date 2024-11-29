@@ -16,10 +16,12 @@ const menuItems: MenuItem[] = [
   },
 ];
 
-export const WareHousePage = () => {
+const WarehousePage = () => {
   return (
     <AdminLayout menuItems={menuItems}>
       <MedicinesManagement />
     </AdminLayout>
   );
 };
+
+export default { page: WarehousePage, rolesAccess: ["WAREHOUSE_MANAGER"] }

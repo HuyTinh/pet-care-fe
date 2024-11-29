@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { ICustomer } from '../../../../@types/customer.type';
 
-export const Customeranager = () => {
+export const CustomersManager = () => {
   const customers = [...Array(15)].map((_, index) => ({
     id: index + 1,
     name: 'Nguyen Van A',
@@ -23,19 +24,19 @@ export const Customeranager = () => {
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [showPetPopup, setShowPetPopup] = useState(false);
   const [showPrescriptionPopup, setShowPrescriptionPopup] = useState(false);
-  const [selectedCustomer, setSelectedCustomer] = useState(null);
+  const [selectedCustomer, setSelectedCustomer] = useState<ICustomer>();
 
   const totalPages = Math.ceil(customers.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentItems = customers.slice(startIndex, startIndex + itemsPerPage);
 
-  const changePage = (page) => {
+  const changePage = (page: number) => {
     if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
     }
   };
 
-  const handleDeleteClick = (customer) => {
+  const handleDeleteClick = (customer: ICustomer) => {
     setSelectedCustomer(customer);
     setShowDeletePopup(true);
   };
@@ -43,32 +44,32 @@ export const Customeranager = () => {
   const confirmDelete = () => {
     console.log('Deleted customer:', selectedCustomer);
     setShowDeletePopup(false);
-    setSelectedCustomer(null);
+    setSelectedCustomer(null as any);
   };
 
   const cancelDelete = () => {
     setShowDeletePopup(false);
-    setSelectedCustomer(null);
+    setSelectedCustomer(null as any);
   };
 
-  const handlePetClick = (customer) => {
+  const handlePetClick = (customer: ICustomer) => {
     setSelectedCustomer(customer);
     setShowPetPopup(true);
   };
 
   const closePetPopup = () => {
     setShowPetPopup(false);
-    setSelectedCustomer(null);
+    setSelectedCustomer(null as any);
   };
 
-  const handlePrescriptionClick = (customer) => {
+  const handlePrescriptionClick = (customer: ICustomer) => {
     setSelectedCustomer(customer);
     setShowPrescriptionPopup(true);
   };
 
   const closePrescriptionPopup = () => {
     setShowPrescriptionPopup(false);
-    setSelectedCustomer(null);
+    setSelectedCustomer(null as any);
   };
 
   return (
@@ -119,16 +120,16 @@ export const Customeranager = () => {
                 <td className="border border-gray-300 p-2">{customer.email}</td>
                 <td
                   className="border border-gray-300 p-2 text-center cursor-pointer"
-                  onClick={() => handlePetClick(customer)}
+                  onClick={() => handlePetClick(customer as any)}
                 >
                   <span role="img" aria-label="pet">🐾</span>
                 </td>
-                <td className="border border-gray-300 p-2 text-center cursor-pointer" onClick={() => handlePrescriptionClick(customer)}>
+                <td className="border border-gray-300 p-2 text-center cursor-pointer" onClick={() => handlePrescriptionClick(customer as any)}>
                   <span role="img" aria-label="prescription">💊</span>
                 </td>
                 <td className="border border-gray-300 p-2 text-center">
                   <button
-                    onClick={() => handleDeleteClick(customer)}
+                    onClick={() => handleDeleteClick(customer as any)}
                     className="text-red-500 hover:text-red-700"
                   >
                     <svg
@@ -209,7 +210,7 @@ export const Customeranager = () => {
                   <strong>Name:</strong>
                   <input
                     type="text"
-                    value={selectedCustomer.pet.name}
+                    value={(selectedCustomer as any).pet.name}
                     readOnly
                     className="w-full px-3 py-2 mt-1 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                   />
@@ -218,7 +219,7 @@ export const Customeranager = () => {
                   <strong>Weight:</strong>
                   <input
                     type="text"
-                    value={selectedCustomer.pet.weight}
+                    value={(selectedCustomer as any).pet.weight}
                     readOnly
                     className="w-full px-3 py-2 mt-1 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                   />
@@ -229,7 +230,7 @@ export const Customeranager = () => {
                   <strong>Age:</strong>
                   <input
                     type="text"
-                    value={selectedCustomer.pet.age}
+                    value={(selectedCustomer as any).pet.age}
                     readOnly
                     className="w-full px-3 py-2 mt-1 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                   />
@@ -238,7 +239,7 @@ export const Customeranager = () => {
                   <strong>Species:</strong>
                   <input
                     type="text"
-                    value={selectedCustomer.pet.species}
+                    value={(selectedCustomer as any).pet.species}
                     readOnly
                     className="w-full px-3 py-2 mt-1 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                   />
@@ -265,8 +266,8 @@ export const Customeranager = () => {
 
             <div className="mb-4">
               <h3 className="font-semibold">Customer Info</h3>
-              <p><strong>Name:</strong> {selectedCustomer.name}</p>
-              <p><strong>Phone:</strong> {selectedCustomer.phone}</p>
+              <p><strong>Name:</strong> {(selectedCustomer as any).name}</p>
+              <p><strong>Phone:</strong> {(selectedCustomer as any).phone}</p>
               <p><strong>Email:</strong> {selectedCustomer.email}</p>
             </div>
 
@@ -283,10 +284,10 @@ export const Customeranager = () => {
                 </thead>
                 <tbody>
                   <tr>
-                    <td className="border border-gray-300 p-2">{selectedCustomer.pet.name}</td>
-                    <td className="border border-gray-300 p-2">{selectedCustomer.pet.weight}</td>
-                    <td className="border border-gray-300 p-2">{selectedCustomer.pet.age}</td>
-                    <td className="border border-gray-300 p-2">{selectedCustomer.pet.species}</td>
+                    <td className="border border-gray-300 p-2">{(selectedCustomer as any).pet.name}</td>
+                    <td className="border border-gray-300 p-2">{(selectedCustomer as any).pet.weight}</td>
+                    <td className="border border-gray-300 p-2">{(selectedCustomer as any).pet.age}</td>
+                    <td className="border border-gray-300 p-2">{(selectedCustomer as any).pet.species}</td>
                   </tr>
                 </tbody>
               </table>
@@ -306,7 +307,7 @@ export const Customeranager = () => {
                 </thead>
                 <tbody>
                   <tr>
-                    <td className="border border-gray-300 p-2">{selectedCustomer.pet.name}</td>
+                    <td className="border border-gray-300 p-2">{(selectedCustomer as any).pet.name}</td>
                     <td className="border border-gray-300 p-2">10</td>
                     <td className="border border-gray-300 p-2">14/12/2024</td>
                     <td className="border border-gray-300 p-2">Allegy</td>

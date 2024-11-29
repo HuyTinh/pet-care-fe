@@ -2,7 +2,7 @@ import { FaFilter } from "react-icons/fa";
 import AppointmentFilterModal from "./modal/filter/filter";
 import Swal from 'sweetalert2';
 import CustomPrescription from "./modal/customPrescription";
-const Appointment = () => {
+const AppointmentsManage = () => {
     const hanldDelete = () => {
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
@@ -133,7 +133,7 @@ const Appointment = () => {
                                     </button>
                                 </td>
                                 <td className="text-base font-bold">Warning</td>
-                                <td className="cursor-pointer"><img  onClick={hanldDelete} className='ml-4' src="/src/assets/images/Rectangle 89.png" /></td>
+                                <td className="cursor-pointer"><img onClick={hanldDelete} className='ml-4' src="/src/assets/images/Rectangle 89.png" /></td>
                             </tr>
                             {/* row 1 */}
                             <tr>
@@ -345,4 +345,4 @@ const Appointment = () => {
     )
 }
 
-export default Appointment
+export default AppointmentsManage
