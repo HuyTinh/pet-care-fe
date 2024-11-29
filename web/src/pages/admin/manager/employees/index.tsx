@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 export const EmployeesManager = () => {
     const [showAddPopup, setShowAddPopup] = useState(false);
     const [showDeletePopup, setShowDeletePopup] = useState(false);
-    const [selectedEmployee, setSelectedEmployee] = useState(null);
+    const [_, setSelectedEmployee] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
 
     const employees = [

@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, PieChart, Pie, Cell,
-    ResponsiveContainer,
     Rectangle
 } from 'recharts';
 import { dataBarMonthly, dataBarYearly, dataMedicine, dataPie } from './dummy_medicine_data';
@@ -13,7 +12,7 @@ interface LabelProps {
     innerRadius: number;
     outerRadius: number;
     percent: number;
-    index: number;
+    index?: number;
 }
 
 const renderCustomizedLabel = ({
@@ -23,7 +22,6 @@ const renderCustomizedLabel = ({
     innerRadius,
     outerRadius,
     percent,
-    index,
 }: LabelProps) => {
     const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
     const x = cx + radius * Math.cos((-midAngle * Math.PI) / 180);
@@ -46,9 +44,9 @@ const renderCustomizedLabel = ({
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
 export const AppointmentDashboard = () => {
-    const [activeIndex, setActiveIndex] = useState(null); // Sử dụng useState để quản lý trạng thái
+    const [activeIndex, setActiveIndex] = useState<number | null>(null); // Sử dụng useState để quản lý trạng thái
 
-    const onPieEnter = (_, index) => {
+    const onPieEnter = (_: any, index: number) => {
         setActiveIndex(index); // Cập nhật chỉ số của phần được hover
     };
 
@@ -171,7 +169,7 @@ export const AppointmentDashboard = () => {
                             onMouseEnter={onPieEnter} // Sự kiện hover vào
                             onMouseLeave={onPieLeave}
                         >
-                            {dataPie.map((entry, index) => (
+                            {dataPie.map((_, index) => (
                                 <Cell
                                     key={`cell-${index}`}
                                     fill={COLORS[index % COLORS.length]}
@@ -186,14 +184,14 @@ export const AppointmentDashboard = () => {
                                 marginTop: 10,
                                 fontSize: "16px",
                                 fontFamily: "medium",
-                                color: COLORS[activeIndex % COLORS.length],
+                                color: COLORS[activeIndex || 1 % COLORS.length],
                             }}
                         >
                             <span
                                 style={{
                                     width: 16,
                                     height: 16,
-                                    backgroundColor: COLORS[activeIndex % COLORS.length],
+                                    backgroundColor: COLORS[activeIndex || 1 % COLORS.length],
                                     display: "inline-block",
                                     marginRight: 8,
                                 }}
@@ -207,43 +205,41 @@ export const AppointmentDashboard = () => {
             </div>
 
             <div className="bg-white p-10 rounded-lg shadow">
-                <ResponsiveContainer width={"100%"} height={400}>
-                    <h2 className="text-lg font-semibold text-center">Top 10 Revenue Medicine of Oct - 2023</h2>
-                    <BarChart height={300} data={dataMedicine} margin={{
-                        top: 5,
-                        right: 30,
-                        left: 40,
-                        bottom: 5,
-                    }}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" />
-                        <YAxis />
-                        <Tooltip />
-                        <Legend />
-                        <Bar dataKey="Total" fill="#FF6347" />
-                    </BarChart>
-                </ResponsiveContainer>
-
+                {/* <ResponsiveContainer width={"100%"} height={400}> */}
+                <h2 className="text-lg font-semibold text-center">Top 10 Revenue Medicine of Oct - 2023</h2>
+                <BarChart height={300} data={dataMedicine} margin={{
+                    top: 5,
+                    right: 30,
+                    left: 40,
+                    bottom: 5,
+                }}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Bar dataKey="Total" fill="#FF6347" />
+                </BarChart>
+                {/* </ResponsiveContainer> */}
             </div>
             <div className="bg-white p-10 rounded-lg shadow">
-                <ResponsiveContainer width={"100%"} height={400}>
-                    <h2 className="text-lg font-semibold text-center">Appointment of year 2023 & 2024</h2>
-                    <BarChart height={300} data={dataBarYearly} margin={{
-                        top: 5,
-                        right: 30,
-                        left: 40,
-                        bottom: 5,
-                    }}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="month" />
-                        <YAxis />
-                        <Tooltip />
-                        <Legend />
-                        <Bar dataKey="2023" fill="#FF6347" />
-                        <Bar dataKey="2024" fill="#00008B" />
-                    </BarChart>
-                </ResponsiveContainer>
-
+                {/* <ResponsiveContainer width={"100%"} height={400}> */}
+                <h2 className="text-lg font-semibold text-center">Appointment of year 2023 & 2024</h2>
+                <BarChart height={300} data={dataBarYearly} margin={{
+                    top: 5,
+                    right: 30,
+                    left: 40,
+                    bottom: 5,
+                }}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="month" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Bar dataKey="2023" fill="#FF6347" />
+                    <Bar dataKey="2024" fill="#00008B" />
+                </BarChart>
+                {/* </ResponsiveContainer> */}
             </div>
         </div>
     );
