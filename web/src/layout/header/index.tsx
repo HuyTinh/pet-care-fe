@@ -47,13 +47,13 @@ export const Header = () => {
           >
             {scrollYPosition > 100 ? (
               <img
-                src="/src/assets/images/login_logo_admin_blue.png"
+                src="/src/shared/assets/images/login_logo_admin_blue.png"
                 className="object-cover !text-red-500"
                 alt=""
               />
             ) : (
               <img
-                src="/src/assets/images/login_logo_admin.png"
+                src="/src/shared/assets/images/login_logo_admin.png"
                 className="object-cover !text-red-500"
                 alt=""
               />

@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { FcCalendar } from "react-icons/fc";
 import { useEffect, useState } from "react";
 import { EditAppointmentModal } from "./modal/edit";
-import { IAppointment } from "../../../../../@typesappoiment.type";
+import { IAppointment } from "../../../../../@types/appoiment.type";
 import { toast } from "react-toastify";
 import { FaFilter } from "react-icons/fa";
 
@@ -121,7 +121,7 @@ export const AppointmentTab = () => {
               >
                 <div className="w-64">
                   <img
-                    src="/src/assets/images/loading.gif"
+                    src="/src/shared/assets/images/loading.gif"
                     className="object-cover"
                     alt=""
                   />
@@ -176,7 +176,7 @@ export const AppointmentTab = () => {
                               ))}
                             </div>
                           </div>
-                          <div className="collapse bg-base-200">
+                          {/* <div className="collapse bg-base-200">
                             <input type="checkbox" />
                             <div className="collapse-title text-center text-lg font-medium">
                               Services ({val.services?.length})
@@ -186,7 +186,7 @@ export const AppointmentTab = () => {
                                 <div key={subIndex}>- {se.name}</div>
                               ))}
                             </div>
-                          </div>
+                          </div> */}
                         </td>
                         <td>
                           <span className="underline">

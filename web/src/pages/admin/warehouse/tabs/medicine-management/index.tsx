@@ -123,7 +123,7 @@ export default function MedicinesManagement() {
               (document.getElementById("add_medicine_modal") as any).showModal()
             }
           >
-            <img src="/src/assets/images/add.png" alt="" />
+            <img src="/src/shared/assets/images/add.png" alt="" />
             <span className="font-semibold text-white">Add item</span>
           </button>
           <button
@@ -200,7 +200,7 @@ export default function MedicinesManagement() {
             >
               <div className="w-64">
                 <img
-                  src="/src/assets/images/loading.gif"
+                  src="/src/shared/assets/images/loading.gif"
                   className="object-cover"
                   alt=""
                 />
@@ -219,7 +219,7 @@ export default function MedicinesManagement() {
                   <span>Name</span>
                   <button>
                     <img
-                      src="/src/assets/images/sort.png"
+                      src="/src/shared/assets/images/sort.png"
                       className="h-[12px] w-[12px]"
                     />
                   </button>
@@ -231,7 +231,7 @@ export default function MedicinesManagement() {
                   <span>Quantity</span>
                   <button>
                     <img
-                      src="/src/assets/images/sort.png"
+                      src="/src/shared/assets/images/sort.png"
                       className="h-[12px] w-[12px]"
                     />
                   </button>
@@ -247,7 +247,7 @@ export default function MedicinesManagement() {
                   <span>Price</span>
                   <button>
                     <img
-                      src="/src/assets/images/sort.png"
+                      src="/src/shared/assets/images/sort.png"
                       className="h-[12px] w-[12px]"
                     />
                   </button>

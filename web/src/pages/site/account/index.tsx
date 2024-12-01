@@ -39,7 +39,7 @@ export const ProfilePage = () => {
               <div className="avatar">
                 <div className="mask mask-squircle w-24">
                   <img
-                    src="/src/assets/images/account_member_logo.jpg"
+                    src="/src/shared/assets/images/account_member_logo.jpg"
                     alt=""
                   />
                 </div>

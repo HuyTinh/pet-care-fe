@@ -19,7 +19,7 @@ export const AllService = () => {
         <div
           className="h-[40rem] sm:h-[48rem] md:h-[52rem] w-full bg-cover bg-center"
           style={{
-            backgroundImage: "url(/src/assets/images/services_hero_image.webp)",
+            backgroundImage: "url(/src/shared/assets/images/services_hero_image.webp)",
           }}
         ></div>
 

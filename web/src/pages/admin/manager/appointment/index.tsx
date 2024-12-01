@@ -129,11 +129,11 @@ const AppointmentsManage = () => {
                                             ).showModal()
                                         }
                                     >
-                                        <img className='ml-10' src="/src/assets/images/Rectangle 87.png" />
+                                        <img className='ml-10' src="/src/shared/assets/images/Rectangle 87.png" />
                                     </button>
                                 </td>
                                 <td className="text-base font-bold">Warning</td>
-                                <td className="cursor-pointer"><img onClick={hanldDelete} className='ml-4' src="/src/assets/images/Rectangle 89.png" /></td>
+                                <td className="cursor-pointer"><img onClick={hanldDelete} className='ml-4' src="/src/shared/assets/images/Rectangle 89.png" /></td>
                             </tr>
                             {/* row 1 */}
                             <tr>
@@ -169,11 +169,11 @@ const AppointmentsManage = () => {
                                             ).showModal()
                                         }
                                     >
-                                        <img className='ml-10' src="/src/assets/images/Rectangle 87.png" />
+                                        <img className='ml-10' src="/src/shared/assets/images/Rectangle 87.png" />
                                     </button>
                                 </td>
                                 <td className="text-base font-bold">Warning</td>
-                                <td className="cursor-pointer"><img className='ml-4' src="/src/assets/images/Rectangle 89.png" /></td>
+                                <td className="cursor-pointer"><img className='ml-4' src="/src/shared/assets/images/Rectangle 89.png" /></td>
                             </tr>
                             {/* row 1 */}
                             <tr>
@@ -209,11 +209,11 @@ const AppointmentsManage = () => {
                                             ).showModal()
                                         }
                                     >
-                                        <img className='ml-10' src="/src/assets/images/Rectangle 87.png" />
+                                        <img className='ml-10' src="/src/shared/assets/images/Rectangle 87.png" />
                                     </button>
                                 </td>
                                 <td className="text-base font-bold">Warning</td>
-                                <td className="cursor-pointer"><img className='ml-4' src="/src/assets/images/Rectangle 89.png" /></td>
+                                <td className="cursor-pointer"><img className='ml-4' src="/src/shared/assets/images/Rectangle 89.png" /></td>
                             </tr>
                             {/* row 1 */}
                             <tr>
@@ -249,11 +249,11 @@ const AppointmentsManage = () => {
                                             ).showModal()
                                         }
                                     >
-                                        <img className='ml-10' src="/src/assets/images/Rectangle 87.png" />
+                                        <img className='ml-10' src="/src/shared/assets/images/Rectangle 87.png" />
                                     </button>
                                 </td>
                                 <td className="text-base font-bold">Warning</td>
-                                <td className="cursor-pointer"><img className='ml-4' src="/src/assets/images/Rectangle 89.png" /></td>
+                                <td className="cursor-pointer"><img className='ml-4' src="/src/shared/assets/images/Rectangle 89.png" /></td>
                             </tr>
                             {/* row 1 */}
                             <tr>
@@ -289,11 +289,11 @@ const AppointmentsManage = () => {
                                             ).showModal()
                                         }
                                     >
-                                        <img className='ml-10' src="/src/assets/images/Rectangle 87.png" />
+                                        <img className='ml-10' src="/src/shared/assets/images/Rectangle 87.png" />
                                     </button>
                                 </td>
                                 <td className="text-base font-bold">Warning</td>
-                                <td className="cursor-pointer"><img className='ml-4' src="/src/assets/images/Rectangle 89.png" /></td>
+                                <td className="cursor-pointer"><img className='ml-4' src="/src/shared/assets/images/Rectangle 89.png" /></td>
                             </tr>
                             {/* row 1 */}
                             <tr>
@@ -329,11 +329,11 @@ const AppointmentsManage = () => {
                                             ).showModal()
                                         }
                                     >
-                                        <img className='ml-10' src="/src/assets/images/Rectangle 87.png" />
+                                        <img className='ml-10' src="/src/shared/assets/images/Rectangle 87.png" />
                                     </button>
                                 </td>
                                 <td className="text-base font-bold">Warning</td>
-                                <td className="cursor-pointer"><img className='ml-4' src="/src/assets/images/Rectangle 89.png" /></td>
+                                <td className="cursor-pointer"><img className='ml-4' src="/src/shared/assets/images/Rectangle 89.png" /></td>
                             </tr>
                         </tbody>
                     </table>

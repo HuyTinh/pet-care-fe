@@ -16,7 +16,7 @@ const { page, rolesAccess } = Manager
 export const ManagerRouter: RouteObject =
 {
     path: "manager",
-    element: ProtectedRoute({ element: page as unknown as JSX.Element, rolesAccess }),
+    element: <ProtectedRoute element={page as unknown as JSX.Element} rolesAccess={rolesAccess} />,
     children: [
         { index: true, element: HomeManager as unknown as ReactNode },
         { path: "customer", element: CustomersManager as unknown as ReactNode },

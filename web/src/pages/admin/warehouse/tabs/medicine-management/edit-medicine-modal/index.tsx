@@ -145,7 +145,7 @@ export const EditMedicineModal = ({ medicine }: EditMedicineModalProps) => {
                   <div className="mt-24 flex !w-full items-center justify-center">
                     <img
                       className="!w-16"
-                      src="src/assets/images/picture.png"
+                      src="src/shared/assets/images/picture.png"
                       alt="Default"
                     />
                   </div>

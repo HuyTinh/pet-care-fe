@@ -55,7 +55,7 @@ export const BookingPage = () => {
         <div
           className="w-full bg-cover h-[28rem] sm:h-[32rem] md:h-[36rem] lg:h-[42rem]"
           style={{
-            backgroundImage: "url(/src/assets/images/booking_banner.jpg)",
+            backgroundImage: "url(/src/shared/assets/images/booking_banner.jpg)",
           }}
         ></div>
 

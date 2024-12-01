@@ -7,5 +7,5 @@ const { page, rolesAccess } = Resription
 export const ReceptionistRouter: RouteObject =
 {
     path: "receptionist",
-    element: ProtectedRoute({ element: page as unknown as JSX.Element, rolesAccess })
+    element: <ProtectedRoute element={page as unknown as JSX.Element} rolesAccess={rolesAccess} />
 }

@@ -26,7 +26,7 @@ export const EventPage = () => {
             <div
                 className="w-full h-64 sm:h-72 md:h-[32rem] lg:h-[42rem] bg-cover bg-center mb-5"
                 style={{
-                    backgroundImage: "url(/src/assets/images/banner-even.webp)",
+                    backgroundImage: "url(/src/shared/assets/images/banner-even.webp)",
                 }}
             ></div>
 

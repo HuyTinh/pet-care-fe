@@ -86,7 +86,7 @@ export const HomePage = () => {
               <AnimateSection>
                 <div className="flex flex-1 flex-col items-center justify-center space-y-4 text-center">
                   <img
-                    src="/src/assets/images/clock.png"
+                    src="/src/shared/assets/images/clock.png"
                     alt="Icon"
                     className="Icon-Size"
                   />
@@ -116,7 +116,7 @@ export const HomePage = () => {
               <AnimateSection>
                 <div className="flex flex-1 flex-col items-center justify-center space-y-4 text-center">
                   <img
-                    src="/src/assets/images/wheelchair.png"
+                    src="/src/shared/assets/images/wheelchair.png"
                     alt="Icon"
                     className="Icon-Size"
                   />
@@ -143,7 +143,7 @@ export const HomePage = () => {
               <AnimateSection>
                 <div className="flex flex-1 flex-col items-center justify-center space-y-4 text-center">
                   <img
-                    src="/src/assets/images/animal_foot.png"
+                    src="/src/shared/assets/images/animal_foot.png"
                     alt="Icon"
                     className="Icon-Size"
                   />
