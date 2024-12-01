@@ -7,5 +7,5 @@ const { page, rolesAccess } = Warehouse
 export const WarehouseRouter: RouteObject =
 {
     path: "warehouse",
-    element: ProtectedRoute({ element: page as unknown as JSX.Element, rolesAccess })
+    element: <ProtectedRoute element={page as unknown as JSX.Element} rolesAccess={rolesAccess} />
 }

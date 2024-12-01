@@ -16,7 +16,7 @@ export const DiagnosticsService = () => {
         className="h-[28rem] w-full bg-cover bg-center"
         style={{
           backgroundImage:
-            "url(/src/assets/images/services_diagnostics_hero.webp)",
+            "url(/src/shared/assets/images/services_diagnostics_hero.webp)",
         }}
       ></div>
       <section

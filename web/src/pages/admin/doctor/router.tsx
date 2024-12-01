@@ -7,5 +7,5 @@ const { page, rolesAccess } = Doctor
 export const DoctorRouter: RouteObject =
 {
     path: "doctor",
-    element: ProtectedRoute({ element: page as unknown as JSX.Element, rolesAccess })
+    element: <ProtectedRoute element={page as unknown as JSX.Element} rolesAccess={rolesAccess} />
 }

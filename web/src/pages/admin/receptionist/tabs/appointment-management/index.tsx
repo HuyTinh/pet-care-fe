@@ -223,7 +223,7 @@ export const AppointmentManagement = () => {
             >
               <div className="w-64">
                 <img
-                  src="/src/assets/images/loading.gif"
+                  src="/src/shared/assets/images/loading.gif"
                   className="object-cover"
                   alt=""
                 />

@@ -6,9 +6,9 @@ import { useSelector } from "react-redux"; // Redux hook to access global state
 import { RootState } from "../../store/store"; // RootState type for Redux store
 import { useCookies } from "react-cookie"; // Cookie hook to manage cookies
 import { useEffect } from "react"; // Effect hook for side effects
-
-import { PrivateRoutes } from "../../routers/private";
 import { PublicRoutes } from "../../routers/public";
+import { PrivateRoutes } from "../../routers/private";
+
 
 // Main router component with user, admin, and default routes
 export const useRoutes = () => {

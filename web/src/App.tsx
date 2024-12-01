@@ -1,20 +1,19 @@
 import { ToastContainer } from "react-toastify";
 import { RouterProvider } from "react-router-dom";
-import { useRoutes } from "./shared/hooks/useRoutes";
 import { Fragment } from "react/jsx-runtime";
 import { setAuthenticated } from "./pages/auth.slice";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { AnimatePresence } from "framer-motion";
 
+
 import "react-toastify/dist/ReactToastify.css";
-import "./assets/css/app.css";
+import "./shared/assets/css/app.css";
 import "swiper/css";
 
-import "./assets/css/app.css";
-import "react-toastify/dist/ReactToastify.css";
 import AxiosClient from "./config/axios-client";
 import { jwtDecode } from "jwt-decode";
+import { useRoutes } from "./shared/hooks/useRoutes";
 
 
 /**

@@ -3,13 +3,13 @@ import { AdminLoginForm } from "./login";
 export const AdminAuthPage = () => {
   return (
     <div className="h-screen">
-      <div className="h-full bg-[url('/src/assets/images/login_banner_admin.jpg')] bg-cover p-5">
+      <div className="h-full bg-[url('/src/shared/assets/images/login_banner_admin.jpg')] bg-cover p-5">
         <div className="flex h-full">
           <div className="flex flex-1 justify-center">
             <div className="py-20">
               <div className="rounded-lg bg-blue-800 p-2">
                 <img
-                  src="/src/assets/images/login_logo_admin.png"
+                  src="/src/shared/assets/images/login_logo_admin.png"
                   className=""
                   alt=""
                 />
