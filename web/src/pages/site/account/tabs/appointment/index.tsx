@@ -9,6 +9,7 @@ import { EditAppointmentModal } from "./modal/edit";
 import { IAppointment } from "../../../../../@types/appoiment.type";
 import { toast } from "react-toastify";
 import { FaFilter } from "react-icons/fa";
+import { ViewAppointmentModal } from "./modal/view";
 
 export const AppointmentTab = () => {
   const userId = useSelector((state: RootState) => state.authentication.userId);
@@ -216,7 +217,10 @@ export const AppointmentTab = () => {
                             </div>
                           ) : (
                             <div className="flex flex-col gap-y-2">
-                              <button className="btn btn-sm">View</button>
+                              <button className="btn btn-sm" onClick={() => {
+                                (document.getElementById("view_appointment_modal") as any).showModal()
+                                setSelectedAppointment(val)
+                              }}>View</button>
                             </div>
                           )}
                         </td>
@@ -230,6 +234,7 @@ export const AppointmentTab = () => {
         </div>
       </div>
       <EditAppointmentModal selectedAppointment={selectedAppointment} />
+      <ViewAppointmentModal appointment={selectedAppointment} />
     </AnimatePresence>
   );
 };
