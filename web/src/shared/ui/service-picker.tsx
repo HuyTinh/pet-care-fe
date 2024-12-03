@@ -2,7 +2,6 @@ import { MdCancel } from "react-icons/md";
 import { FaAngleDown } from "react-icons/fa";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { useGetHospitalServiceQuery } from "../../pages/admin/receptionist/appointment.service";
 
 type ServicePickerProps = {
   services: string[];
@@ -13,7 +12,7 @@ export const ServicePicker = ({
   services,
   setServices,
 }: ServicePickerProps) => {
-  const { data: hospitalServicesData } = useGetHospitalServiceQuery();
+  // const { data: hospitalServicesData } = useGetHospitalServiceQuery();
 
   const [expand, setExpand] = useState(false);
   const addServices = (data: string) => {
@@ -93,26 +92,26 @@ export const ServicePicker = ({
               <select
                 className="select select-bordered w-full"
                 onChange={(e) => {
-                  if (e.target.value !== "") {
-                    addServices(
-                      hospitalServicesData?.data?.find(
-                        (val: any) => val.name === e.target.value,
-                      ),
-                    );
-                    e.target.value = "";
-                  }
+                  // if (e.target.value !== "") {
+                  //   addServices(
+                  //     hospitalServicesData?.data?.find(
+                  //       (val: any) => val.name === e.target.value,
+                  //     ),
+                  //   );
+                  //   e.target.value = "";
+                  // }
                 }}
               >
                 <option value={""}>Services ?</option>
 
-                {services?.length < 3 &&
+                {/* {services?.length < 3 &&
                   (hospitalServicesData?.data as any[])
                     ?.filter((val) => !services.map(val => (val as any).name).includes(val.name))
                     .map((val, index) => (
                       <option key={index} value={val?.name}>
                         {val?.name}
                       </option>
-                    ))}
+                    ))} */}
               </select>
             </label>
           </div>

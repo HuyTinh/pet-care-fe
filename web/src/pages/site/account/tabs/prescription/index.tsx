@@ -36,7 +36,6 @@ export const PrescriptionTab = () => {
 
   return (
     <AnimatePresence initial={false}>
-      <p>Chào</p>
       <div className="w-full space-y-2" key={"1"}>
         <div className="flex justify-between">
           <select

@@ -72,7 +72,7 @@ export const ViewAppointmentModal = memo(({
                         </label>
                         |
                         <label className="space-y-2">
-                            <div>Status: <span className="ps-1 font-bold underline text-lg">{appointment.status}</span></div>
+                            <div>Status: <span className={`rounded-lg ${appointment.status === "SCHEDULED" && "bg-yellow-300"} ${appointment.status === "APPROVED" && "bg-green-300"} ${appointment.status === "CANCELLED" && "bg-red-300"} p-2 font-bold underline text-lg`}>{appointment.status}</span></div>
                         </label>
                     </div>
                     <div className="divider divider-start underline font-bold">Pets Info:</div>
