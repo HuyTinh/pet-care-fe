@@ -4,7 +4,6 @@ import { IAppointment } from "../../../@types/appoiment.type";
 import { APIResponse } from "../../../@types/api-response.type";
 import { getCookieValue } from "../../../shared/helped/cookie";
 import { PageableResponse } from "../../../@types/pageable-response";
-import { IHospitalService } from "../../../@types/hospital-service.type";
 import { ISpecie } from "../../../@types/specie.type";
 import { displayInputDate, displayPlusDate } from "../../../shared/helped/date";
 
@@ -15,16 +14,17 @@ export const appointmentApi = createApi({
   endpoints: (build) => ({
     filterAppointments: build.query<
       APIResponse<PageableResponse<IAppointment>>,
-      { startDate: String; endDate: String, page: number }
+      { startDate: String; endDate: String, page: number, statues?: string[], accountId?: number }
     >({
-      query: ({ startDate, endDate, page }) => {
+      query: ({ startDate, endDate, page, statues, accountId }) => {
         return {
           url: `${import.meta.env.VITE_APPOINTMENT_PATH}/appointment/filter`,
           params: {
             startDate,
             endDate,
-            statues: ["CHECKED_IN", "SCHEDULED"],
-            page
+            statues,
+            page,
+            accountId
           },
         };
       },
@@ -158,9 +158,6 @@ export const appointmentApi = createApi({
         { type: "UpcomingAppointments" as const, id: "LIST" },
       ],
     }),
-    getHospitalService: build.query<APIResponse<IHospitalService>, void>({
-      query: () => `${import.meta.env.VITE_APPOINTMENT_PATH}/hospital-service`,
-    }),
     getSpecies: build.query<APIResponse<ISpecie>, void>({
       query: () => `${import.meta.env.VITE_APPOINTMENT_PATH}/specie`,
     }),
@@ -198,7 +195,6 @@ export const appointmentApi = createApi({
 
 export const {
   useGetUpcomingAppointmentsQuery,
-  useGetHospitalServiceQuery,
   useCreateAppointmentMutation,
   useUpdateAppointmentMutation,
   useGetSpeciesQuery,
