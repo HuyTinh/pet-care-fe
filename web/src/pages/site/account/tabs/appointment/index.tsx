@@ -69,6 +69,8 @@ export const AppointmentTab = () => {
             >
               <option value={["SCHEDULED", "CANCELLED", "APPROVED"]}>All</option>
               <option value={["SCHEDULED"]}>Up comming</option>
+              <option value={["APPROVED"]}>Approved</option>
+              <option value={["CANCELLED"]}>Cancelled</option>
             </select>
             <div className="flex space-x-2">
               <button
@@ -173,6 +175,7 @@ export const AppointmentTab = () => {
                                     <div>Weight: {pe.weight}</div>|
                                     <div>Age: {pe.age}</div>
                                   </div>
+
                                 </div>
                               ))}
                             </div>
@@ -199,7 +202,7 @@ export const AppointmentTab = () => {
                           <span
                             className={`rounded-lg ${val.status === "SCHEDULED" && "bg-yellow-300"} ${val.status === "APPROVED" && "bg-green-300"} ${val.status === "CANCELLED" && "bg-red-300"} p-2`}
                           >
-                            {val.status}
+                            {val.status.replace("_", " ")}
                           </span>
                         </td>
                         <td>

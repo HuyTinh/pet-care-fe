@@ -51,7 +51,7 @@ export const appointmentApi = createApi({
       query: ({ statues, page, userId }) => {
         return {
           url: `${import.meta.env.VITE_APPOINTMENT_PATH}/appointment/status`,
-          params: statues.length === 1 ? {
+          params: statues.length === 1 && statues[0] === "SCHEDULED" ? {
             startDate: displayInputDate(new Date()),
             endDate: displayInputDate(displayPlusDate(new Date(), 3)),
             statues,
