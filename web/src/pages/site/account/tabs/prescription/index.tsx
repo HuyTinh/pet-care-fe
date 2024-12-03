@@ -1,21 +1,22 @@
 import { useSelector } from "react-redux";
-import { useCancelAppointmentMutation, useGetAllAppointmentQuery } from "../../../../admin/receptionist/appointment.service";
+import { useCancelAppointmentMutation } from "../../../../admin/receptionist/appointment.service";
 import { RootState } from "../../../../../store/store";
-import { displayCustomDate, displayInputDate, displayPlusDate } from "../../../../../shared/helped/date";
+import { displayCustomDate } from "../../../../../shared/helped/date";
 import { AnimatePresence, motion } from "framer-motion";
 import { FcCalendar } from "react-icons/fc";
 import { useEffect, useState } from "react";
 import { EditAppointmentModal } from "./edit-appointment-modal";
-import { IAppointment } from "../../../../../@typesappoiment.type";
+import { IAppointment } from "../../../../../@types/appoiment.type";
 import { toast } from "react-toastify";
+import { useFilterPrescriptionsQuery } from "../../../../admin/doctor/prescription.service";
 
 export const PrescriptionTab = () => {
   const userId = useSelector((state: RootState) => state.authentication.userId);
   const [selectedAppointment, setSelectedAppointment] = useState<IAppointment>(
     {} as IAppointment,
   );
-  const [appointmentStatus, setAppointmentStatus] = useState<String[]>(["SCHEDULED", "CANCELLED", "APPROVED"]);
-  const [appointments, setAppointments] = useState<IAppointment[]>([]);
+  const [appointmentStatus, setAppointmentStatus] = useState<string[]>(["PENDING_PAYMENT", "CANCELLED", "APPROVED"]);
+  const [prescriptions, setPrescriptions] = useState<IAppointment[]>([]);
   const [pageNumber, setPageNumber] = useState<number>(0)
 
   const [cancelAppointment] = useCancelAppointmentMutation()
@@ -33,21 +34,21 @@ export const PrescriptionTab = () => {
     })
   }
 
-  const { data: appoimentsResponse, isFetching } =
-    useGetAllAppointmentQuery({
+  const { data: prescriptionsResponse, isFetching } =
+    useFilterPrescriptionsQuery({
       statues: appointmentStatus,
       page: pageNumber,
-      userId: userId as String
+      accountId: userId as any
     }, {
       skip: !userId,
     });
 
 
   useEffect(() => {
-    if (appoimentsResponse?.data) {
-      setAppointments(appoimentsResponse.data.content)
+    if (prescriptionsResponse?.data) {
+      setPrescriptions(prescriptionsResponse.data.content)
     }
-  }, [appoimentsResponse])
+  }, [prescriptionsResponse])
 
 
   return (
@@ -61,10 +62,12 @@ export const PrescriptionTab = () => {
               let strVal = [...e.target.value.split(",")]
               setAppointmentStatus(strVal)
             }}
-            defaultValue={["SCHEDULED", "CANCELLED", "APPROVED"]}
+            defaultValue={["PENDING_PAYMENT", "CANCELLED", "APPROVED"]}
           >
-            <option value={["SCHEDULED", "CANCELLED", "APPROVED"]}>All</option>
-            <option value={["SCHEDULED"]}>Up comming</option>
+            <option value={["PENDING_PAYMENT", "CANCELLED", "APPROVED"]}>All</option>
+            <option value={["PENDING_PAYMENT"]}>Pending</option>
+            <option value={["CANCELLED"]}>Cancel</option>
+            <option value={["APPROVED"]}>Approved</option>
           </select>
           < div className="join" >
             <button className="join-item btn btn-sm" onClick={() => {
@@ -84,7 +87,7 @@ export const PrescriptionTab = () => {
         <div>
           <div className="relative h-[32rem] overflow-auto rounded-lg border border-black">
             {!isFetching &&
-              !(appointments as any[])?.length && (
+              !(prescriptions as any[])?.length && (
                 <div className="absolute top-0 z-50 flex h-full w-full flex-col items-center justify-center">
                   <FcCalendar size={64} className="mb-10" />
                   <div>You don't have any appoiment</div>
@@ -124,7 +127,7 @@ export const PrescriptionTab = () => {
               </thead>
               {!isFetching && (
                 <tbody>
-                  {(appointments as any[])?.map(
+                  {(prescriptions as any[])?.map(
                     (val, index) => (
                       <motion.tr
                         initial={{

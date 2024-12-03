@@ -59,14 +59,16 @@ export const prescriptionApi = createApi({
     }),
 
     // Endpoint to filter prescriptions by date range and pagination
-    filterPrescriptions: build.query<APIResponse<PageableResponse<IPrescription>>, { page: number; startDate?: string; endDate?: string }>({
-      query: ({ startDate, endDate, page }) => {
+    filterPrescriptions: build.query<APIResponse<PageableResponse<IPrescription>>, { page: number; startDate?: string; endDate?: string, accountId?: number, statues?: string[] }>({
+      query: ({ startDate, endDate, page, accountId, statues }) => {
         return {
           url: `${import.meta.env.VITE_MEDICAL_PRESCRIPTION_PATH}/prescription/filter`, // Fetching filtered prescriptions
           params: {
+            statues,
             startDate,
             endDate,
             page,
+            accountId
           },
         };
       },
