@@ -24,4 +24,4 @@ const ReceptionistPage = () => {
   );
 };
 
-export default { page: ReceptionistPage, rolesAccess: ["RECEPTIONIST"] }
+export default { page: <ReceptionistPage />, rolesAccess: ["RECEPTIONIST"] }

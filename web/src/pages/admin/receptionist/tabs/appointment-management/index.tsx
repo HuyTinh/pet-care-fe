@@ -11,10 +11,14 @@ import { FcCalendar } from "react-icons/fc";
 import { motion } from 'framer-motion'
 import { CreateAppointmentModal, EditAppointmentModal, FilterAppointmentModal, QRScanModal, ViewAppointmentModal } from "./modal";
 import { ManageAppointmentTable, UpcomingAppointmentTable } from "./tabs";
+import { displayInputDate } from "../../../../../shared/helped/date";
 
 export const AppointmentManagement = () => {
   const [appointments, setAppointments] = useState<IAppointment[]>([]);
-  const [filterAppointmentConditions, setFilterAppointmentConditions] = useState<any>({});
+  const [filterAppointmentConditions, setFilterAppointmentConditions] = useState<any>({
+    start_date: displayInputDate(new Date()),
+    end_date: displayInputDate(new Date())
+  });
 
   const [qrModalVisible, setQrModalVisible] = useState<boolean>(false);
   const [sessionId, _setSessionId] = useState(new Date().getTime());
@@ -32,6 +36,7 @@ export const AppointmentManagement = () => {
   } = useFilterAppointmentsQuery({
     startDate: filterAppointmentConditions['start_date'],
     endDate: filterAppointmentConditions['end_date'],
+    statues: ["SCHEDULED"],
     page: pageNumber
   });
 
@@ -47,6 +52,7 @@ export const AppointmentManagement = () => {
         stompClient.publish({ destination: "/app/connect" });
         stompClient.subscribe("/topic/updateAppointment", (message) => {
           const receiveData = JSON.parse(message.body);
+
 
           setAppointments((prev) => {
             const arr = [...prev];
@@ -64,6 +70,8 @@ export const AppointmentManagement = () => {
         });
 
         stompClient.subscribe("/topic/createAppointment", (message) => {
+          console.log(message);
+
           setAppointments((prev) => [...prev, JSON.parse(message.body)]);
         });
 
@@ -104,7 +112,7 @@ export const AppointmentManagement = () => {
   const sendMessage = (appointmentId: string, status: string) => {
     if (stompClient) {
       stompClient.publish({
-        destination: "/app/sendMessage",
+        destination: "/app/sendEvent",
         body: JSON.stringify({
           sessionId,
           appointmentId,
