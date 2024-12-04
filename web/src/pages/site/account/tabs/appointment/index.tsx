@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { useCancelAppointmentMutation, useGetAllAppointmentQuery } from "../../../../admin/receptionist/appointment.service";
+import { useCancelAppointmentMutation, useFilterAppointmentsQuery, useGetAllAppointmentQuery } from "../../../../admin/receptionist/appointment.service";
 import { RootState } from "../../../../../store/store";
 import { displayCustomDate } from "../../../../../shared/helped/date";
 import { AnimatePresence, motion } from "framer-motion";
@@ -16,7 +16,7 @@ export const AppointmentTab = () => {
   const [selectedAppointment, setSelectedAppointment] = useState<IAppointment>(
     {} as IAppointment,
   );
-  const [appointmentStatus, setAppointmentStatus] = useState<String[]>(["SCHEDULED", "CANCELLED", "APPROVED"]);
+  const [appointmentStatus, setAppointmentStatus] = useState<string[]>(["SCHEDULED", "CANCELLED", "APPROVED"]);
   const [appointments, setAppointments] = useState<IAppointment[]>([]);
   const [pageNumber, setPageNumber] = useState<number>(0)
 
@@ -36,10 +36,10 @@ export const AppointmentTab = () => {
   }
 
   const { data: appoimentsResponse, isFetching } =
-    useGetAllAppointmentQuery({
+    useFilterAppointmentsQuery({
       statues: appointmentStatus,
       page: pageNumber,
-      userId: userId as String
+      accountId: userId as any
     }, {
       skip: !userId,
     });

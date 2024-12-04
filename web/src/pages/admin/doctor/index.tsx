@@ -25,4 +25,4 @@ const DoctorPage = () => {
   );
 };
 
-export default { page: DoctorPage, rolesAccess: ["DOCTOR"] }
+export default { page: <DoctorPage />, rolesAccess: ["DOCTOR"] }

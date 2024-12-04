@@ -14,7 +14,7 @@ export const appointmentApi = createApi({
   endpoints: (build) => ({
     filterAppointments: build.query<
       APIResponse<PageableResponse<IAppointment>>,
-      { startDate: String; endDate: String, page: number, statues?: string[], accountId?: number }
+      { startDate?: String; endDate?: String, page: number, statues?: string[], accountId?: number }
     >({
       query: ({ startDate, endDate, page, statues, accountId }) => {
         return {
