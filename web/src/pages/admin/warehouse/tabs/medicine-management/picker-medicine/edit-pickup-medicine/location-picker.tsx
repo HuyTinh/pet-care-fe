@@ -3,7 +3,7 @@ import { FaAngleDown } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
-import { ILocation } from "../../../../../../../@typesmedicine.type";
+import { ILocation } from "../../../../../../../@types/medicine.type"; 
 
 type LocationPickerProps = {
   location: ILocation[];

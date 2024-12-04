@@ -4,7 +4,7 @@ import { MdOutlineErrorOutline } from "react-icons/md";
 import {
   ICalculationUnit,
   ILocation,
-} from "../../../../../../@typesmedicine.type";
+} from "../../../../../../../@types/medicine.type";
 import { LocationPicker } from "../picker-medicine/edit-pickup-medicine/location-picker";
 import { CaculationPicker } from "../picker-medicine/edit-pickup-medicine/caculation-picker";
 import {
