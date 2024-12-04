@@ -5,6 +5,8 @@ import { FaUserCircle } from "react-icons/fa";
 import { AuthModal } from "../../pages/site/auth";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
+import { MdShoppingCartCheckout } from "react-icons/md";
+
 
 const openAuthModal = () => {
   (document.getElementById("authentication_modal") as any).showModal();
@@ -75,6 +77,9 @@ export const Header = () => {
               <NavLink to={"/booking"}>Booking</NavLink>
             </li>
             <li>
+              <NavLink to={"/product"}>Product</NavLink>
+            </li>
+            <li>
               <NavLink to={"/blog"}>Blog</NavLink>
             </li>
             <li>
@@ -84,6 +89,9 @@ export const Header = () => {
               <span onClick={() => (isAuth ? navigate("/account") : openAuthModal())}>
                 <FaUserCircle size={28} />
               </span>
+            </li>
+            <li>
+              <NavLink to={"/cart"} className="mt-1"><MdShoppingCartCheckout /></NavLink>
             </li>
           </ul>
         </div>
