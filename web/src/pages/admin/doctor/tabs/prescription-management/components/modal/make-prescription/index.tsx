@@ -5,8 +5,8 @@ import {
   useCreatePrescriptionMutation,
   useGetAllCalculationUnitQuery,
   useGetAllMedicineQuery,
+  useGetAllVeterinaryCareQuery,
 } from "../../../../../prescription.service";
-import { ServicePicker } from "../../../../../../../../shared/ui/service-picker";
 import _ from "lodash"
 import { toast } from "react-toastify";
 import { Editor } from "@tinymce/tinymce-react";
@@ -30,13 +30,15 @@ export const MakePrescriptionModal = memo(({
 
   const [medicines, setMedicines] = useState([]);
 
-  const [services, setServices] = useState<any>([]);
+  const [veterinaryCares, setVeterinaryCares] = useState([]);
 
   const editorRef = useRef<any>(null);
 
   const [selectedPet, setSelectedPet] = useState<any>()
 
-  const [prescriptionDetails, setPrescriptionDetails] = useState<any[]>([])
+  const [prescriptionMedicines, setPrescriptionMedicines] = useState<any[]>([])
+
+  const [prescriptionVeterinaryCares, setPrescriptionVeterinaryCares] = useState<any[]>([])
 
   const [createPrescription] = useCreatePrescriptionMutation()
 
@@ -46,6 +48,8 @@ export const MakePrescriptionModal = memo(({
 
   const { data: medicinesData } =
     useGetAllMedicineQuery();
+
+  const { data: veterinaryCareData } = useGetAllVeterinaryCareQuery();
 
   useEffect(() => {
     setCalculationUnits(calculationUnitData?.data);
@@ -58,25 +62,30 @@ export const MakePrescriptionModal = memo(({
   }, [medicinesData?.data]);
 
   useEffect(() => {
+    setVeterinaryCares(veterinaryCareData?.data);
+    return () => { };
+  }, [veterinaryCareData?.data]);
+
+  useEffect(() => {
     if (appointment.pets) {
       setSelectedPet((appointment as any).pets[0].id);
     }
 
-    if (appointment.services) {
-      setServices((appointment as any).services)
-    }
+    // if (appointment.services) {
+    //   setServices((appointment as any).services)
+    // }
     return () => { };
   }, [appointment]);
 
 
   return (
     <dialog id="make_prescription_modal" className="modal backdrop:!hidden">
-      <div className="modal-box w-full max-w-5xl">
+      <div className="modal-box w-full max-w-7xl">
         <div className="my-1 text-center text-3xl font-bold">
           Make Prescription
         </div>
         <div className="flex flex-col gap-x-3">
-          <div className="space-y-2">
+          <div className="space-y-5">
             <label className="space-y-2">
               <div>Pets:</div>
               <select
@@ -90,6 +99,7 @@ export const MakePrescriptionModal = memo(({
                 ))}
               </select>
             </label>
+            <div className="divider divider-start font-bold text-lg underline">Medicine:</div>
             <div className="flex flex-col gap-y-2">
               <div className="flex gap-x-2">
                 <label className="form-control flex-1">
@@ -147,7 +157,7 @@ export const MakePrescriptionModal = memo(({
               <div>
                 <label className="space-y-2 w-full">
                   <div>Note:</div>
-                  <textarea className="textarea textarea-bordered w-full" placeholder="Bio" {...register("note")}></textarea>
+                  <textarea className="textarea textarea-bordered w-full" placeholder="Bio" {...register("prescription_detail.note")}></textarea>
                 </label>
               </div>
             </div>
@@ -155,9 +165,9 @@ export const MakePrescriptionModal = memo(({
               <button className="w-full btn btn-sm" onClick={() => {
                 const prescription_detail = { ...getValues("prescription_detail") }
 
-                setPrescriptionDetails([...prescriptionDetails, {
+                setPrescriptionMedicines([...prescriptionMedicines, {
                   ...prescription_detail,
-                  price: prescription_detail.quantity * (medicines as any)?.find((val: any) => val.name === prescription_detail.medicine)?.price
+                  price: prescription_detail.quantity * (medicines as any)?.find((val: any) => val.name.trim() === prescription_detail.medicine)?.price
                 }]);
 
               }}>Add medicine</button>
@@ -176,7 +186,7 @@ export const MakePrescriptionModal = memo(({
                 </thead>
                 <tbody>
                   {
-                    prescriptionDetails?.map((val, index) =>
+                    prescriptionMedicines?.map((val, index) =>
                       <tr key={index}>
                         <th>#{index + 1}</th>
                         <td>{val.medicine}</td>
@@ -184,7 +194,7 @@ export const MakePrescriptionModal = memo(({
                         <td>{val.calculate_unit}</td>
                         <td>
                           <button className="btn btn-sm btn-outline"
-                            onClick={() => setPrescriptionDetails((prevState) => {
+                            onClick={() => setPrescriptionMedicines((prevState) => {
                               return prevState.filter((_, i) => i != index)
                             })}
                           >x</button>
@@ -196,8 +206,54 @@ export const MakePrescriptionModal = memo(({
               </table>
             </div>
           </div>
+          <div className="divider divider-start font-bold text-lg underline">Services:</div>
+          <div className="overflow-x-auto h-56 border rounded-xl">
+            <table className="table">
+              {/* head */}
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Service</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  prescriptionVeterinaryCares?.map((val, index) =>
+                    <tr key={index}>
+                      <th>#{index + 1}</th>
+                      <td>{val.veterinary_care}</td>
+                      <td>
+                        <button className="btn btn-sm btn-outline"
+                          onClick={() => setPrescriptionVeterinaryCares((prevState) => {
+                            return prevState.filter((_, i) => i != index)
+                          })}
+                        >x</button>
+                      </td>
+                    </tr>
+                  )
+                }
+              </tbody>
+            </table>
+          </div>
           <div className="flex-1 space-y-2">
-            <ServicePicker services={services} setServices={setServices} />
+            <label className="form-control flex-1">
+              <div className="label">
+                <span className="label-text">Veterinary Cares:</span>
+              </div>
+              <select
+                className="select select-bordered"
+                defaultValue={""}
+                {...register("veterinary_cares")}
+              >
+                <option value={""} disabled>
+                  Choose...
+                </option>
+                {veterinaryCares?.map((val, index) => (
+                  <option key={index}>{(val as any).name}</option>
+                ))}
+              </select>
+            </label>
             <div>
               <label>Result:</label>
               <Editor
@@ -220,6 +276,22 @@ export const MakePrescriptionModal = memo(({
                 }}
               />
             </div>
+            <div>
+              <button className="w-full btn btn-sm" onClick={() => {
+                let veterinary_care_id = getValues("veterinary_cares")
+
+                let veterinary_care = _.omit(veterinaryCares.find((val: any) => val.name.trim() === veterinary_care_id), [
+                  "description", "status"
+                ]);
+
+                setPrescriptionVeterinaryCares((prevState) => [...prevState, {
+                  veterinary_care: veterinary_care.name,
+                  total_money: veterinary_care.price,
+                  result: editorRef.current.getContent()
+                }])
+
+              }}>Add service</button>
+            </div>
             <div className="flex gap-x-2 pt-2">
               <label className="space-y-2 w-full">
                 <div>Diagnosis:</div>
@@ -230,24 +302,24 @@ export const MakePrescriptionModal = memo(({
               <button className="btn" onClick={() => {
                 createPrescription({
                   appointment_id: appointment.id,
-                  services: services.map((val: any) => val.name),
                   details: [{
                     pet_id: selectedPet,
-                    medicines: [...prescriptionDetails].map(val => {
+                    pet_medicines: [...prescriptionMedicines].map(val => {
+
                       return _.omit({
                         ...val,
-                        medicine_id: (medicines.find((v: any) => v.name == val.medicine) as any)?.id,
+                        medicine_id: (medicines.find((v: any) => v.name.trim() == val.medicine) as any)?.id,
                         calculation_id: (calculationUnits.find((v: any) => v.name == val.calculate_unit) as any)?.id,
                         total_money: val.price * val.quantity
                       }, ["medicine", "calculate_unit", "price"])
                     }),
+                    pet_veterinary_cares: prescriptionVeterinaryCares,
                     diagnosis: getValues("diagnosis"),
-                    note: getValues("note")
                   }],
-                  total_money: [...prescriptionDetails].reduce((sum, val) => {
+                  total_money: [...prescriptionMedicines].reduce((sum, val) => {
                     return sum + (val.price * val.quantity)
-                  }, 0) + [...services].reduce((sum, val) => {
-                    return sum + (val as any).price
+                  }, 0) + [...prescriptionVeterinaryCares].reduce((sum, val) => {
+                    return sum + (val as any).total_money
                   }, 0)
                 }).then(() => {
                   toast.success("Create prescription successful", {

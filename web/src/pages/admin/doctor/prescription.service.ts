@@ -98,6 +98,10 @@ export const prescriptionApi = createApi({
     getAllMedicine: build.query<APIResponse<IMedicine>, void>({
       query: () => `${import.meta.env.VITE_MEDICINE_PATH}/medicine`, // Fetching medicines
     }),
+    // Endpoint to fetch all medicines
+    getAllVeterinaryCare: build.query<any, void>({
+      query: () => `${import.meta.env.VITE_MEDICAL_PRESCRIPTION_PATH}/veterinary-care`, // Fetching medicines
+    }),
 
     // Endpoint to create a new prescription
     createPrescription: build.mutation<APIResponse<IPrescription>, any>({
@@ -113,6 +117,7 @@ export const prescriptionApi = createApi({
         { type: "Prescriptions", id: "LIST" }, // Invalidating prescriptions list cache
       ],
     }),
+
 
     // Endpoint to update an existing prescription
     updatePrescription: build.mutation<APIResponse<IPrescription>, any>({
@@ -148,5 +153,6 @@ export const {
   useCreatePrescriptionMutation, // Hook to create a prescription
   useGetAllPresctiptionQuery, // Hook to get all prescriptions
   useFilterPrescriptionsQuery, // Hook to filter prescriptions
-  useTestTinyMCEMutation
+  useTestTinyMCEMutation,
+  useGetAllVeterinaryCareQuery
 } = prescriptionApi; // Export all the generated hooks from the prescription API
