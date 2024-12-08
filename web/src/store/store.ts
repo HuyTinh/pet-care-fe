@@ -7,6 +7,7 @@ import { customerApi } from "../pages/site/customer.service";  // API service fo
 import { prescriptionApi } from "../pages/admin/doctor/prescription.service";  // API service for prescriptions
 import { medicineApi } from "../pages/admin/warehouse/medicine.service";  // API service for medicine-related operations
 import { employeeApi } from "../pages/admin/employee.service";  // API service for employee-related operations
+import { reportApi } from "../pages/admin/manager/report/report.service";
 
 // Create the Redux store with configuration
 export const store = configureStore({
@@ -16,6 +17,7 @@ export const store = configureStore({
     [authenticationApi.reducerPath]: authenticationApi.reducer,  // Reducer for authentication API
     [customerApi.reducerPath]: customerApi.reducer,  // Reducer for customer API
     [employeeApi.reducerPath]: employeeApi.reducer,  // Reducer for employee API
+    [reportApi.reducerPath]: reportApi.reducer,
     [prescriptionApi.reducerPath]: prescriptionApi.reducer,  // Reducer for prescription API
     [appointmentApi.reducerPath]: appointmentApi.reducer,  // Reducer for appointment API
     [medicineApi.reducerPath]: medicineApi.reducer,  // Reducer for medicine API
@@ -31,6 +33,7 @@ export const store = configureStore({
       appointmentApi.middleware,
       customerApi.middleware,
       employeeApi.middleware,
+      reportApi.middleware,
       medicineApi.middleware,
       prescriptionApi.middleware,
     ),
