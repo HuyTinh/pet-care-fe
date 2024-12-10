@@ -17,11 +17,18 @@ export const useRoutes = () => {
   );
   const [cookies, setCookies] = useCookies<any>(); // Use cookies for notification settings
 
+  // setCookies("name", "HuyTinhcd123", {
+  //   path: "/",
+  //   domain: "asse.devtunnels.ms",
+  //   secure: true,
+  //   sameSite: "none"
+  // })
+
   useEffect(() => {
     if (userId && cookies[`email-notification-${userId}`] === undefined) {
       setCookies(`email-notification-${userId}`, true); // Set a cookie for email notifications
     }
-  }, [userId, cookies, setCookies]);
+  }, [userId, cookies]);
 
   // Create a browser router with all defined routes
   const router = createBrowserRouter([

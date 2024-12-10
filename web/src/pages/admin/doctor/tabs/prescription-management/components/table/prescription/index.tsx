@@ -28,9 +28,9 @@ export const PrescriptionTable = memo(({ filterPrescriptionConditions, setSelect
 
     return (
         <div className="space-y-3">
-            <div className="flex">
-                <div className="flex gap-x-2 flex-1">
-                    <label className="input input-sm input-bordered flex items-center gap-2">
+            <div className="flex gap-x-2">
+                <div className="flex gap-x-2  flex-1">
+                    <label className="input input-sm input-bordered flex items-center gap-2 flex-1">
                         <input type="text" className="grow" placeholder="Search" />
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -75,14 +75,13 @@ export const PrescriptionTable = memo(({ filterPrescriptionConditions, setSelect
                     }}>»</button>
                 </div>
             </div>
-            <div className="h-[32rem] overflow-auto relative">
-                <table className="table h-full border rounded-lg">
+            <div className="h-[32rem] border rounded-lg overflow-auto relative">
+                <table className="table">
                     {/* head */}
                     <thead className="sticky top-0 bg-white">
                         <tr>
                             <th></th>
                             <th>Appointment</th>
-                            <th>Services</th>
                             <th>Status</th>
                             <th className="text-center">Actions</th>
                         </tr>
@@ -113,18 +112,12 @@ export const PrescriptionTable = memo(({ filterPrescriptionConditions, setSelect
                                                 <span className="font-bold underline">{pre.appointment?.email}</span>
                                             </div>
                                         </td>
-                                        <td>
-                                            <div className="truncate ">
-                                                {
-                                                    pre.appointment?.services.map((val: any, index: any) => <div key={index}>- <div className="underline font-bold inline">{val.name}</div></div>)
-                                                }
-                                            </div>
-                                        </td>
+
                                         <td>
                                             <span
-                                                className={`${pre.status === "APPROVED" && "rounded-lg bg-green-300 p-1"}`}
+                                                className={`${pre.status === "APPROVED" || pre.status === "PENDING_PAYMENT" && "rounded-lg bg-yellow-300 p-1"}`}
                                             >
-                                                {pre.status}
+                                                {pre.status.replace("_", " ")}
                                             </span>
                                         </td>
                                         <td className="space-x-2 text-center">

@@ -31,9 +31,9 @@ export const AppointmentTable = memo(({ filterAppointmentConditions, setSelected
     }, [filterAppointmentData?.data]);
     return (
         <div className="space-y-3">
-            <div className="flex">
+            <div className="flex gap-x-2">
                 <div className="flex gap-x-2 flex-1">
-                    <label className="input input-sm input-bordered flex items-center gap-2">
+                    <label className="input input-sm input-bordered flex items-center gap-2 flex-1">
                         <input type="text" className="grow" placeholder="Search" />
                         <svg
                             xmlns="http://www.w3.org/2000/svg"

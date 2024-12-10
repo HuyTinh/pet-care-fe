@@ -7,7 +7,8 @@ const AxiosClient = axios.create({
         'Content-Type': 'application/json',
         // Add any custom headers here if needed (e.g., Authorization)
         // 'Authorization': `Bearer ${localStorage.getItem('token')}`
-    }
+    },
+    withCredentials: true
 });
 
 // Optionally, add interceptors (for request/response transformations or error handling)

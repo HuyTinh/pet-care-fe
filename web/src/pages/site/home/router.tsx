@@ -5,5 +5,5 @@ import ReportAppointment from "../../admin/manager/report/appointment";
 export const HomeRouter: RouteObject =
 {
     index: true,
-    element: <ReportAppointment />
+    element: <HomePage />
 }

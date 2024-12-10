@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { IPet } from "../../../../../../../@types/pet.type";
 import { PetPicker } from "../../../../../../../shared/ui/pet-picker";
@@ -11,7 +11,6 @@ import { toast } from "react-toastify";
 import { MdOutlineErrorOutline } from "react-icons/md";
 import { useCreateAppointmentMutation } from "../../../../appointment.service";
 import _ from "lodash"
-import { usePdfGenerator } from "../../../../../../../shared/hooks/pdf-generator";
 
 export const CreateAppointmentModal = () => {
   const {
@@ -27,20 +26,16 @@ export const CreateAppointmentModal = () => {
 
   const [createAppointment] = useCreateAppointmentMutation();
 
-  const { generatePDF } = usePdfGenerator();
-
-  const onSubmit: SubmitHandler<any> = (data) => {
+  const onSubmit: SubmitHandler<any> = useCallback((data) => {
     createAppointment(_.omit({
       ...data,
       pets: pets,
-      services: ["Diagnosis."],
-    }, ["id"])).then((res) => {
+    }, ["id"])).then(() => {
       toast.success("Create appointment successful", {
         position: "top-right",
       });
-      generatePDF((res as any)?.data.id);
     });
-  }
+  }, [])
 
   return (
     <dialog id="create_appointment_modal" className="modal backdrop:!hidden">
@@ -164,7 +159,7 @@ export const CreateAppointmentModal = () => {
                 className="select select-bordered"
                 {...register("status")}
               >
-                {["CHECKED_IN", "CANCELLED", "SCHEDULED"]?.map((val, index) => (
+                {["CHECKED_IN", "SCHEDULED"]?.map((val, index) => (
                   <option key={index} value={val}>
                     {val}
                   </option>
