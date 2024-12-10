@@ -10,7 +10,7 @@ import { FaFilter } from "react-icons/fa";
 import { FcCalendar } from "react-icons/fc";
 import { motion } from 'framer-motion'
 import { CreateAppointmentModal, EditAppointmentModal, FilterAppointmentModal, QRScanModal, ViewAppointmentModal } from "./modal";
-import { ManageAppointmentTable, UpcomingAppointmentTable } from "./tabs";
+import { ManageAppointmentTable } from "./tabs";
 import { displayInputDate } from "../../../../../shared/helped/date";
 
 export const AppointmentManagement = () => {
@@ -240,10 +240,6 @@ export const AppointmentManagement = () => {
             </motion.div>
           )}
           {!isFetchingFilterAppointmentData && <ManageAppointmentTable appointments={appointments} sendMessage={sendMessage} setSelectedAppointment={setSelectedAppointment} />}
-
-          <div className="hidden">
-            <UpcomingAppointmentTable setSelectedAppointment={setSelectedAppointment} />
-          </div>
         </div>
         <ViewAppointmentModal appointment={selectedAppointment} />
         <EditAppointmentModal appointment={selectedAppointment} />
@@ -251,6 +247,7 @@ export const AppointmentManagement = () => {
         <FilterAppointmentModal onFilterSubmit={onFilterAppointmentSubmit} />
         <QRScanModal
           qrModalVisible={qrModalVisible}
+          sendMessage={sendMessage}
           setQrModalVisible={setQrModalVisible}
           setSelectedAppointment={setSelectedAppointment}
         />

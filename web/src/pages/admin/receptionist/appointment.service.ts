@@ -10,7 +10,7 @@ import { displayInputDate, displayPlusDate } from "../../../shared/helped/date";
 export const appointmentApi = createApi({
   reducerPath: "appointmentApi",
   tagTypes: ["Appointments", "CustomerAppointments", "UpcomingAppointments"],
-  baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_API_URL }),
+  baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_API_URL, credentials: "include" }),
   endpoints: (build) => ({
     filterAppointments: build.query<
       APIResponse<PageableResponse<IAppointment>>,

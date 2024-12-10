@@ -6,9 +6,11 @@ import { useGetAppointmentByIdQuery } from "../../../../appointment.service";
 export const QRScanModal = memo(({
   qrModalVisible,
   setQrModalVisible,
+  sendMessage,
   setSelectedAppointment,
 }: {
   qrModalVisible: boolean;
+  sendMessage: (appointmentId: string, status: string) => void;
   setQrModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
   setSelectedAppointment: React.Dispatch<React.SetStateAction<any>>;
 }) => {
@@ -51,9 +53,7 @@ export const QRScanModal = memo(({
                   setQrModalVisible(false);
                   if (appointmentId === result[0].rawValue) {
                     // setAppointmentId(result[0].rawValue);
-                    (
-                      document.getElementById("edit_appointment_modal") as any
-                    ).showModal();
+                    sendMessage(appointmentId, "CHECKED_IN")
                   } else {
                     setAppointmentId(result[0].rawValue);
                   }

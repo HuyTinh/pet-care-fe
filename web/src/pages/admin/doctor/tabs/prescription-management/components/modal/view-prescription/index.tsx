@@ -19,10 +19,11 @@ export const ViewPrescriptionModal = memo(({ prescription }: ViewPrescriptionMod
     const { appointment, details } = prescription || {}
 
     const medicines = details?.map((val) => val.medicines).flat(Infinity)
+    const veterinary_cares = details?.map((val) => val.veterinary_cares).flat(Infinity)
 
     return (
         <dialog id="view_prescription_modal" className="modal">
-            <div className="modal-box max-w-2xl">
+            <div className="modal-box max-w-5xl">
                 <div ref={contentRef}>
                     <h3 className="font-bold text-xl text-center">Presctiption</h3>
                     <div className="py-4">
@@ -40,7 +41,7 @@ export const ViewPrescriptionModal = memo(({ prescription }: ViewPrescriptionMod
                             <div className="px-2">
                                 {
                                     details?.map((val: IDetail, index: number) =>
-                                        <div key={index}>
+                                        <div key={index} className="space-y-2">
                                             <div className="flex justify-between" >-
                                                 <span>Name: <span className="font-bold">{val.pet.name}</span></span>|
                                                 <span>Age: <span className="font-bold">{val.pet.age}</span></span>|
@@ -48,82 +49,88 @@ export const ViewPrescriptionModal = memo(({ prescription }: ViewPrescriptionMod
                                                 <span>Species: <span className="font-bold">{val.pet.species}</span></span>
                                             </div>
                                             <div>+ Diagnosis: <span className="font-bold underline">{val.diagnosis}</span></div>
-                                            <div>+ Note: <span className="italic">{val.note}</span></div>
+                                            <div>+ Medicines:
+                                                {
+                                                    <div className="overflow-x-auto  border rounded-xl mt-2">
+                                                        <table className="table">
+                                                            {/* head */}
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Name</th>
+                                                                    <th>Quantity</th>
+                                                                    <th>Calculate Unit</th>
+                                                                    <th>Total Money</th>
+                                                                    <th>Note</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {
+                                                                    val.medicines?.map((v: any, index: number) =>
+                                                                        <tr key={index}>
+
+                                                                            <td>{v.name}</td>
+                                                                            <td>{v.quantity}</td>
+                                                                            <td>{v.calculate_unit}</td>
+                                                                            <td>{v.total_money.toLocaleString()}</td>
+                                                                            <td>
+                                                                                {v.note}
+                                                                            </td>
+                                                                        </tr>)
+                                                                }
+                                                                <tr >
+                                                                    <th>Toltal Money:</th>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td>{medicines?.reduce((sum, val) => sum + (val as any).total_money, 0).toLocaleString()}</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                }
+                                            </div>
+                                            <div>+ Services:
+                                                {
+                                                    <div className="overflow-x-auto  border rounded-xl mt-2">
+                                                        <table className="table">
+                                                            {/* head */}
+                                                            <thead>
+                                                                <tr>
+                                                                    <th >Name</th>
+                                                                    <th>Total Money</th>
+                                                                    <th>Result</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {
+                                                                    val.veterinary_cares?.map((v: any, index: number) =>
+                                                                        <tr key={index}>
+
+                                                                            <td className="w-[18rem]">{v.veterinary_care}</td>
+                                                                            <td>{v.total_money.toLocaleString()}</td>
+                                                                            <td>
+                                                                                <td>
+                                                                                    <span dangerouslySetInnerHTML={{
+                                                                                        __html: v.result
+                                                                                    }} />
+                                                                                </td>
+                                                                            </td>
+                                                                        </tr>)
+                                                                }
+                                                                <tr >
+                                                                    <th>Toltal Money:</th>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td>{veterinary_cares?.reduce((sum, val) => sum + (val as any).total_money, 0).toLocaleString()}</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                }
+                                            </div>
                                         </div>)
                                 }
-
-                            </div>
-                        </div>
-                        <div>
-                            <div className="divider divider-start font-bold underline">Services</div>
-                            <div className="px-2">
-                                <div className="overflow-x-auto  border rounded-xl">
-                                    <table className="table">
-                                        {/* head */}
-                                        <thead>
-                                            <tr>
-                                                <th></th>
-                                                <th>Name</th>
-                                                <th>Price</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-
-                                            {
-                                                appointment?.services?.map((val: any, index: number) =>
-                                                    <tr key={index}>
-                                                        <th>#{index + 1}</th>
-                                                        <td>{val.name}</td>
-                                                        <td>{val.price.toLocaleString()}</td>
-                                                    </tr>)
-                                            }
-                                            <tr >
-                                                <th>Toltal Money:</th>
-                                                <td></td>
-                                                <td>{appointment?.services?.reduce((sum, val) => (val as any).price + sum, 0).toLocaleString()}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div className="divider divider-start font-bold underline">Medicines</div>
-                            <div className="px-2">
-                                <div className="overflow-x-auto  border rounded-xl">
-                                    <table className="table">
-                                        {/* head */}
-                                        <thead>
-                                            <tr>
-                                                <th></th>
-                                                <th>Name</th>
-                                                <th>Quantity</th>
-                                                <th>Calculate Unit</th>
-                                                <th>Total Money</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-
-                                            {
-                                                medicines?.map((val: any, index: number) =>
-                                                    <tr key={index}>
-                                                        <th>#{val.id}</th>
-                                                        <td>{val.name}</td>
-                                                        <td>{val.quantity}</td>
-                                                        <td>{val.calculate_unit}</td>
-                                                        <td>{val.total_money.toLocaleString()}</td>
-                                                    </tr>)
-                                            }
-                                            <tr >
-                                                <th>Toltal Money:</th>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td>{medicines?.reduce((sum, val) => sum + (val as any).total_money, 0).toLocaleString()}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
                             </div>
                         </div>
                     </div>

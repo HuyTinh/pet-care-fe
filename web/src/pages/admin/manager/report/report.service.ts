@@ -5,7 +5,7 @@ import { APIResponse } from "../../../../@types/api-response.type";
 // Define the employeeApi using createApi to manage employee-related data
 export const reportApi = createApi({
     reducerPath: "reportApi", // Name of the slice in the Redux store
-    baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_API_URL }), // Base query for API requests with dynamic environment URL
+    baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_API_URL, credentials: "include" }), // Base query for API requests with dynamic environment URL
     endpoints: (build) => ({
         // Endpoint to get employee profile information
         getAppointmentsReportByYear: build.query<APIResponse<any>, { year: number }>({
