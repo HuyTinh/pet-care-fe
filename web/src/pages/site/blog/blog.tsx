@@ -1,7 +1,6 @@
 import { useState } from "react";
 import useFetch from "../../../hooks/useFecth";
 import { IBlog } from "../../../types/blog.type"
-
 import { IComment } from "../../../types/comment.type"
 import ReactMarkdown from 'react-markdown';
 import { displayCustomDate } from "../../../utils/date";
@@ -68,28 +67,29 @@ export const Blog = () => {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-5 p-5 *:text-[#0d74b1]">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-5 p-5 *:text-[#0d74b1] ">
                 {blogs.map((blog: IBlog) => (
                     <div
                         key={blog.id}
-                        className="bg-base-300 text-white rounded-xl p-4 flex flex-col w-[350px]"
+                        className="bg-base-300 text-white rounded-xl p-4 flex flex-col w-[350px] hover:cursor-pointer"
                         onClick={() => {
                             setBlog(blog);
                             (document.getElementById('my_modal_blog') as any)?.showModal();
                         }}
                     >
-                        <div>
+                        <div className="overflow-hidden">
                             <img
                                 src={`http://localhost:1337${(blog?.blogImage as any)?.url}`}
                                 alt="All-Access Pass"
-                                className="w-full h-56 object-cover rounded-lg"
+                                className="w-full h-56 object-cover rounded-lg transform transition-transform duration-500 hover:scale-110"
                             />
                             <h3 className="text-lg font-bold mt-4">{blog.blogTitle}</h3>
                             <div className="flex-grow"></div>
                             <div className="text-sm">{displayCustomDate(new Date(blog.dateCreateBlog))}</div>
+                            <ReactMarkdown className="text-gray-700 mt-2 line-clamp-3">{blog?.blogInstruct}</ReactMarkdown>
                             <div className='flex justify-between'>
                                 <p className="text-gray-700 mt-2">{blog.blogAuthor}</p>
-                                <p className="text-gray-700 mt-2">5 lượt xem</p>
+                                {/* <p className="text-gray-700 mt-2">5 lượt xem</p> */}
                             </div>
                         </div>
                     </div>
@@ -254,7 +254,7 @@ export const Blog = () => {
                                                         user: "dua",
                                                         user_id: (comment as any)?.user_id,
                                                         id: comment.id,
-                                                        rating: 5
+                                                        rating: comment.rating
                                                     })}>Edit</button>
                                             </div>
                                         </div>
