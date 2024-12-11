@@ -29,7 +29,7 @@ export const PrescriptionTable = memo(({ filterPrescriptionConditions, setSelect
     return (
         <div className="space-y-3">
             <div className="flex gap-x-2">
-                <div className="flex gap-x-2  flex-1">
+                <div className="flex gap-x-2 flex-1">
                     <label className="input input-sm input-bordered flex items-center gap-2 flex-1">
                         <input type="text" className="grow" placeholder="Search" />
                         <svg

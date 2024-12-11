@@ -16,11 +16,11 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen"; // For responsive screen design
 import { useLoginRequestMutation } from "@/app/pharmacist.service"; // Import mutation hook for login
-import { LoginRequest } from "@/types/login-request.type"; // Import LoginRequest type
+import { LoginRequest } from "@/@types/login-request.type"; // Import LoginRequest type
 import * as SecureStore from 'expo-secure-store'; // For storing secure data like tokens
 import { useDispatch } from "react-redux"; // For dispatching actions to the Redux store
 import { jwtDecode } from "jwt-decode"; // To decode JWT token
-import { IJwtPayload } from "@/types/jwt-payload.type"; // Import JWT payload type
+import { IJwtPayload } from "@/@types/jwt-payload.type"; // Import JWT payload type
 import { pharmacistProfileId } from "../pharmacist.slice"; // Redux action to update pharmacist profile ID
 
 const Auth = () => {
@@ -71,7 +71,7 @@ const Auth = () => {
           setModalVisible(!modalVisible); // Close modal on request
         }}
       >
-         <View style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }} className="flex-1 justify-center items-center" onTouchStart={() => {
+        <View style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }} className="flex-1 justify-center items-center" onTouchStart={() => {
           setModalVisible(!modalVisible); // Close the modal when requested
         }}>
           <View style={{ width: 380, height: 320, padding: 50, backgroundColor: 'white', borderRadius: 10 }} className="flex justify-center items-center">
@@ -162,14 +162,14 @@ const Auth = () => {
 
           {/* Login button */}
           <View style={styles.buttonContainer}>
-            <Button
-              mode="contained"
-              style={styles.button}
-              labelStyle={styles.buttonText}
-              onPress={handleSubmit(onSubmit)} // Trigger form submit
-            >
-              Login
-            </Button>
+              <Button
+                mode="contained"
+                style={styles.button}
+                labelStyle={styles.buttonText}
+                onPress={handleSubmit(onSubmit)} // Trigger form submit
+              >
+                Login
+              </Button>
           </View>
         </View>
       </TouchableWithoutFeedback>

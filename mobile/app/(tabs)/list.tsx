@@ -27,7 +27,7 @@ import {
     useGetPrescriptionByIdQuery,
     useGetPrescriptionQuery,
 } from "@/app/pharmacist.service";
-import { IPrescription } from "@/types/prescription.type";
+import { IPrescription } from "@/@types/prescription.type";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { pharmacistProfileId } from "@/app/pharmacist.slice";
@@ -178,8 +178,8 @@ const Home = () => {
             <View className="bg-slate-100 rounded-2xl px-5 pt-3">
                 <View className="w-auto h-auto">
                     {session?.medicines?.map((medicine: any, index: number) => (
-                        <View className="flex flex-row items-center justify-between mb-3" key={index}>
-                            <View className="flex flex-row items-center">
+                        <View className="flex flex-row items-center justify-between mb-3 w-full" key={index}>
+                            <View className="flex flex-row items-center w-3/4">
                                 <View>
                                     <Image source={require("@/assets/images/image.png")} />
                                 </View>
@@ -193,9 +193,12 @@ const Home = () => {
                                     </Text>
                                 </View>
                             </View>
-                            <View>
+                            <View className="flex flex-row w-1/4 justify-end">
                                 <Text style={{ fontFamily: "medium" }}>
-                                    x{medicine.quantity} / <Text>{medicine.calculate_unit}</Text>
+                                    x{medicine.quantity} / {""}
+                                </Text> 
+                                <Text style={{ fontFamily: "medium" }}>
+                                    <Text>{medicine.calculate_unit}</Text>
                                 </Text>
                             </View>
                         </View>
