@@ -162,14 +162,14 @@ const Auth = () => {
 
           {/* Login button */}
           <View style={styles.buttonContainer}>
-            <Button
-              mode="contained"
-              style={styles.button}
-              labelStyle={styles.buttonText}
-              onPress={handleSubmit(onSubmit)} // Trigger form submit
-            >
-              Login
-            </Button>
+              <Button
+                mode="contained"
+                style={styles.button}
+                labelStyle={styles.buttonText}
+                onPress={handleSubmit(onSubmit)} // Trigger form submit
+              >
+                Login
+              </Button>
           </View>
         </View>
       </TouchableWithoutFeedback>
