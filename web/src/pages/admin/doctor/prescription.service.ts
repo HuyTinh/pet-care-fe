@@ -1,9 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"; // Importing createApi and fetchBaseQuery from RTK Query
-import { APIResponse } from "../../../types/api-response.type"; // Importing the APIResponse type for standard API response structure
-import { IAppointment } from "../../../types/appoiment.type"; // Importing IAppointment type for appointments
-import { PageableResponse } from "../../../types/pageable-response"; // Importing PageableResponse type for pagination
-import { IMedicine, IPrescription } from "../../../types/prescription.type"; // Importing medicine and prescription types
-import { ICalculationUnit } from "../../../types/medicine.type"; // Importing the CalculationUnit type for unit management in medicine
+import { APIResponse } from "../../../@types/api-response.type"; // Importing the APIResponse type for standard API response structure
+import { IAppointment } from "../../../@types/appoiment.type"; // Importing IAppointment type for appointments
+import { PageableResponse } from "../../../@types/pageable-response"; // Importing PageableResponse type for pagination
+import { IMedicine, IPrescription } from "../../../@types/prescription.type"; // Importing medicine and prescription types
+import { ICalculationUnit } from "../../../@types/medicine.type"; // Importing the CalculationUnit type for unit management in medicine
 
 export const prescriptionApi = createApi({
   reducerPath: "prescriptionApi", // Defining the reducer path for the slice
@@ -59,14 +59,16 @@ export const prescriptionApi = createApi({
     }),
 
     // Endpoint to filter prescriptions by date range and pagination
-    filterPrescriptions: build.query<APIResponse<PageableResponse<IPrescription>>, { page: number; startDate?: string; endDate?: string }>({
-      query: ({ startDate, endDate, page }) => {
+    filterPrescriptions: build.query<APIResponse<PageableResponse<IPrescription>>, { page: number; startDate?: string; endDate?: string, accountId?: number, statues?: string[] }>({
+      query: ({ startDate, endDate, page, accountId, statues }) => {
         return {
           url: `${import.meta.env.VITE_MEDICAL_PRESCRIPTION_PATH}/prescription/filter`, // Fetching filtered prescriptions
           params: {
+            statues,
             startDate,
             endDate,
             page,
+            accountId
           },
         };
       },
@@ -96,6 +98,10 @@ export const prescriptionApi = createApi({
     getAllMedicine: build.query<APIResponse<IMedicine>, void>({
       query: () => `${import.meta.env.VITE_MEDICINE_PATH}/medicine`, // Fetching medicines
     }),
+    // Endpoint to fetch all medicines
+    getAllVeterinaryCare: build.query<any, void>({
+      query: () => `${import.meta.env.VITE_MEDICAL_PRESCRIPTION_PATH}/veterinary-care`, // Fetching medicines
+    }),
 
     // Endpoint to create a new prescription
     createPrescription: build.mutation<APIResponse<IPrescription>, any>({
@@ -111,6 +117,7 @@ export const prescriptionApi = createApi({
         { type: "Prescriptions", id: "LIST" }, // Invalidating prescriptions list cache
       ],
     }),
+
 
     // Endpoint to update an existing prescription
     updatePrescription: build.mutation<APIResponse<IPrescription>, any>({
@@ -146,5 +153,6 @@ export const {
   useCreatePrescriptionMutation, // Hook to create a prescription
   useGetAllPresctiptionQuery, // Hook to get all prescriptions
   useFilterPrescriptionsQuery, // Hook to filter prescriptions
-  useTestTinyMCEMutation
+  useTestTinyMCEMutation,
+  useGetAllVeterinaryCareQuery
 } = prescriptionApi; // Export all the generated hooks from the prescription API

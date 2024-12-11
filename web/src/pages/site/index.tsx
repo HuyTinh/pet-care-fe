@@ -1,7 +1,7 @@
 // Import necessary components and hooks from React Router, Framer Motion, and React
-import { Outlet, ScrollRestoration, useLocation } from "react-router-dom";
-import { Header } from "../../components/header";
-import { Footer } from "../../components/footer";
+import { Outlet, ScrollRestoration } from "react-router-dom";
+import { Header } from "../../layout/header";
+import { Footer } from "../../layout/footer";
 import { AnimatePresence } from "framer-motion";
 
 // Define an interface for the CozeWebSDK, which will be used globally
@@ -21,7 +21,7 @@ declare global {
 
 // Main layout component for the client-side view
 export const ClientLayout: React.FC = () => {
-  const location = useLocation(); // Hook to get the current location
+  // const location = useLocation(); // Hook to get the current location
 
   return (
     <div className="flex h-screen flex-col">

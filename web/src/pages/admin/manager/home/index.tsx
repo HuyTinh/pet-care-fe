@@ -13,28 +13,28 @@ import { AppointmentModal } from '../modal/appointment';
 import { PrescriptionModal } from '../modal/prescription';
 
 export const HomeManager = () => {
-        const appointmentData = [
-            {
-                name: '9:00:00',
-                appointment: 40,
+    const appointmentData = [
+        {
+            name: '9:00:00',
+            appointment: 40,
 
-            },
-            {
-                name: '11:00:00',
-                appointment: 30,
+        },
+        {
+            name: '11:00:00',
+            appointment: 30,
 
-            },
-            {
-                name: '13:00:00',
-                appointment: 20,
+        },
+        {
+            name: '13:00:00',
+            appointment: 20,
 
-            },
-            {
-                name: '15:00:00',
-                appointment: 10,
+        },
+        {
+            name: '15:00:00',
+            appointment: 10,
 
-            },
-        ];
+        },
+    ];
     const managerData = [
         {
             name: 'Customers',
@@ -89,7 +89,7 @@ export const HomeManager = () => {
                                 <div className="flex flex-row mt-1 ">
                                     {/* Thêm wrapper tròn cho ảnh */}
                                     <div className="flex items-center justify-center w-[70px] h-[70px] bg-[#0099CF] rounded-full">
-                                        <img src="/src/assets/images/rating.png" className="w-12 h-12 z-10" />
+                                        <img src="/src/shared/assets/images/rating.png" className="w-12 h-12 z-10" />
                                     </div>
                                     <div className="flex flex-col ml-7">
                                         <p>
@@ -108,7 +108,7 @@ export const HomeManager = () => {
                                 <div className="flex flex-row mt-1 ">
                                     {/* Thêm wrapper tròn cho ảnh */}
                                     <div className="flex items-center justify-center w-[70px] h-[70px] bg-[#0099CF] rounded-full">
-                                        <img src="/src/assets/images/appointment.png" className="w-12 h-12 z-10" />
+                                        <img src="/src/shared/assets/images/appointment.png" className="w-12 h-12 z-10" />
                                     </div>
                                     <div className="flex flex-col ml-7">
                                         <p>
@@ -126,7 +126,7 @@ export const HomeManager = () => {
                                 <h2 className="card-title justify-center text-2xl -mt-3">Invoices</h2>
                                 <div className="flex flex-row mt-1 ">
                                     <div className="flex items-center justify-center w-[70px] h-[70px] bg-[#0099CF] rounded-full">
-                                        <img src="/src/assets/images/invoice.png" className="w-12 h-12 z-10" />
+                                        <img src="/src/shared/assets/images/invoice.png" className="w-12 h-12 z-10" />
                                     </div>
                                     <div className="flex flex-col ml-7">
                                         <p>
@@ -227,7 +227,7 @@ export const HomeManager = () => {
                                                     ).showModal()
                                                 }
                                             >
-                                                <img className='items-center' src="/src/assets/images/Rectangle 100.png" />
+                                                <img className='items-center' src="/src/shared/assets/images/Rectangle 100.png" />
                                             </button>
                                         </td>
                                         <td>
@@ -238,7 +238,7 @@ export const HomeManager = () => {
                                                     ).showModal()
                                                 }
                                             >
-                                                <img className='items-center' src="/src/assets/images/Rectangle 86.png" />
+                                                <img className='items-center' src="/src/shared/assets/images/Rectangle 86.png" />
                                             </button>
 
                                         </td>
@@ -263,11 +263,11 @@ export const HomeManager = () => {
                                         <td className="text-base font-bold">Success</td>
                                         <td>
                                             <button>
-                                                <img className='items-center' src="/src/assets/images/Rectangle 100.png" />
+                                                <img className='items-center' src="/src/shared/assets/images/Rectangle 100.png" />
                                             </button>
                                         </td>
                                         <td>
-                                            <img className='items-center' src="/src/assets/images/Rectangle 86.png" />
+                                            <img className='items-center' src="/src/shared/assets/images/Rectangle 86.png" />
                                         </td>
                                     </tr>
                                     <tr>
@@ -288,10 +288,10 @@ export const HomeManager = () => {
                                         <td className="text-base font-bold">9:00:00</td>
                                         <td className="text-base font-bold">Success</td>
                                         <td>
-                                            <img className='items-center' src="/src/assets/images/Rectangle 100.png" />
+                                            <img className='items-center' src="/src/shared/assets/images/Rectangle 100.png" />
                                         </td>
                                         <td>
-                                            <img className='items-center' src="/src/assets/images/Rectangle 86.png" />
+                                            <img className='items-center' src="/src/shared/assets/images/Rectangle 86.png" />
                                         </td>
                                     </tr>
                                     <tr>
@@ -312,10 +312,10 @@ export const HomeManager = () => {
                                         <td className="text-base font-bold">9:00:00</td>
                                         <td className="text-base font-bold">Success</td>
                                         <td>
-                                            <img className='items-center' src="/src/assets/images/Rectangle 100.png" />
+                                            <img className='items-center' src="/src/shared/assets/images/Rectangle 100.png" />
                                         </td>
                                         <td>
-                                            <img className='items-center' src="/src/assets/images/Rectangle 86.png" />
+                                            <img className='items-center' src="/src/shared/assets/images/Rectangle 86.png" />
                                         </td>
                                     </tr>
                                     <tr>
@@ -336,10 +336,10 @@ export const HomeManager = () => {
                                         <td className="text-base font-bold">9:00:00</td>
                                         <td className="text-base font-bold">Success</td>
                                         <td>
-                                            <img className='items-center' src="/src/assets/images/Rectangle 100.png" />
+                                            <img className='items-center' src="/src/shared/assets/images/Rectangle 100.png" />
                                         </td>
                                         <td>
-                                            <img className='items-center' src="/src/assets/images/Rectangle 86.png" />
+                                            <img className='items-center' src="/src/shared/assets/images/Rectangle 86.png" />
                                         </td>
                                     </tr>
                                     <tr>
@@ -360,10 +360,10 @@ export const HomeManager = () => {
                                         <td className="text-base font-bold">9:00:00</td>
                                         <td className="text-base font-bold">Success</td>
                                         <td>
-                                            <img className='items-center' src="/src/assets/images/Rectangle 100.png" />
+                                            <img className='items-center' src="/src/shared/assets/images/Rectangle 100.png" />
                                         </td>
                                         <td>
-                                            <img className='items-center' src="/src/assets/images/Rectangle 86.png" />
+                                            <img className='items-center' src="/src/shared/assets/images/Rectangle 86.png" />
                                         </td>
                                     </tr>
                                 </tbody>
@@ -376,7 +376,7 @@ export const HomeManager = () => {
                     <div className='bg-white h-[81%] w-full px-5 mt-7 py-7 !rounded-xl'>
                         <div className='flex flex-row items-center'>
                             <div className="flex items-center justify-center w-[65px] h-[65px] bg-[#0099CF] rounded-full">
-                                <img src="/src/assets/images/prescription.png" className="w-10 h-10 z-10" />
+                                <img src="/src/shared/assets/images/prescription.png" className="w-10 h-10 z-10" />
                             </div>
                             <span className='ml-3 text-xl font-bold text-[#0099CF]'>List Prescriptions Today</span>
                         </div>
@@ -403,7 +403,7 @@ export const HomeManager = () => {
                                                         <span> Vaccination - Cat</span>
                                                     </p>
                                                 </div>
-                                                <img src="/src/assets/images/dog.png" className="w-12 h-12 z-10" />
+                                                <img src="/src/shared/assets/images/dog.png" className="w-12 h-12 z-10" />
                                             </div>
                                             <div className='mt-2 flex justify-between'>
                                                 <span>25-10-2004</span>
@@ -430,7 +430,7 @@ export const HomeManager = () => {
                                                         <span> Vaccination - Cat</span>
                                                     </p>
                                                 </div>
-                                                <img src="/src/assets/images/dog.png" className="w-12 h-12 z-10" />
+                                                <img src="/src/shared/assets/images/dog.png" className="w-12 h-12 z-10" />
                                             </div>
                                             <div className='mt-2 flex justify-between'>
                                                 <span>25-10-2004</span>
@@ -457,7 +457,7 @@ export const HomeManager = () => {
                                                         <span> Vaccination - Cat</span>
                                                     </p>
                                                 </div>
-                                                <img src="/src/assets/images/dog.png" className="w-12 h-12 z-10" />
+                                                <img src="/src/shared/assets/images/dog.png" className="w-12 h-12 z-10" />
                                             </div>
                                             <div className='mt-2 flex justify-between'>
                                                 <span>25-10-2004</span>
@@ -484,7 +484,7 @@ export const HomeManager = () => {
                                                         <span> Vaccination - Cat</span>
                                                     </p>
                                                 </div>
-                                                <img src="/src/assets/images/dog.png" className="w-12 h-12 z-10" />
+                                                <img src="/src/shared/assets/images/dog.png" className="w-12 h-12 z-10" />
                                             </div>
                                             <div className='mt-2 flex justify-between'>
                                                 <span>25-10-2004</span>
@@ -511,7 +511,7 @@ export const HomeManager = () => {
                                                         <span> Vaccination - Cat</span>
                                                     </p>
                                                 </div>
-                                                <img src="/src/assets/images/dog.png" className="w-12 h-12 z-10" />
+                                                <img src="/src/shared/assets/images/dog.png" className="w-12 h-12 z-10" />
                                             </div>
                                             <div className='mt-2 flex justify-between'>
                                                 <span>25-10-2004</span>

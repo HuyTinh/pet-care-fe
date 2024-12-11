@@ -1,7 +1,7 @@
 // Import necessary functions from Redux Toolkit for creating an API slice
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { APIResponse } from "../../types/api-response.type";
-import { IEmployee } from "../../types/employee.type";
+import { APIResponse } from "../../@types/api-response.type";
+import { IEmployee } from "../../@types/employee.type";
 import { setProfile } from "../auth.slice";
 
 // Define the employeeApi using createApi to manage employee-related data

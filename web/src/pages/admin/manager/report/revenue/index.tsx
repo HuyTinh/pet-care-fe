@@ -13,7 +13,7 @@ import {
 } from 'recharts';
 import { revenueData, revenueYear, revenueYear2024 } from "./dummy_revenue_data";
 import { FilterModal } from "./modal";
-const Report_revenue = () => {
+const ReportRevenue = () => {
 
   return (
     <div className="h-[100%] w-full mt-28 bg-slate-100 px-14 py-10 ">
@@ -42,7 +42,7 @@ const Report_revenue = () => {
             <div className="flex flex-row mt-1 ">
               {/* Thêm wrapper tròn cho ảnh */}
               <div className="flex items-center justify-center w-[70px] h-[70px] bg-[#0099CF] rounded-full">
-                <img src="/src/assets/images/rating.png" className="w-12 h-12 z-10" />
+                <img src="/src/shared/assets/images/rating.png" className="w-12 h-12 z-10" />
               </div>
               <div className="flex flex-col ml-7">
                 <p>
@@ -61,7 +61,7 @@ const Report_revenue = () => {
             <div className="flex flex-row mt-1 ">
               {/* Thêm wrapper tròn cho ảnh */}
               <div className="flex items-center justify-center w-[70px] h-[70px] bg-[#0099CF] rounded-full">
-                <img src="/src/assets/images/appointment.png" className="w-12 h-12 z-10" />
+                <img src="/src/shared/assets/images/appointment.png" className="w-12 h-12 z-10" />
               </div>
               <div className="flex flex-col ml-7">
                 <p>
@@ -79,7 +79,7 @@ const Report_revenue = () => {
             <h2 className="card-title justify-center text-2xl -mt-3">Invoices</h2>
             <div className="flex flex-row mt-1 ">
               <div className="flex items-center justify-center w-[70px] h-[70px] bg-[#0099CF] rounded-full">
-                <img src="/src/assets/images/invoice.png" className="w-12 h-12 z-10" />
+                <img src="/src/shared/assets/images/invoice.png" className="w-12 h-12 z-10" />
               </div>
               <div className="flex flex-col ml-7">
                 <p>
@@ -97,7 +97,7 @@ const Report_revenue = () => {
             <h2 className="card-title justify-center text-2xl -mt-3">Revenue</h2>
             <div className="flex flex-row mt-1 ">
               <div className="flex items-center justify-center w-[70px] h-[70px] bg-[#0099CF] rounded-full">
-                <img src="/src/assets/images/revenue.png" className="w-12 h-12 z-10" />
+                <img src="/src/shared/assets/images/revenue.png" className="w-12 h-12 z-10" />
               </div>
               <div className="flex flex-col ml-7">
                 <p>
@@ -199,4 +199,4 @@ const Report_revenue = () => {
   )
 }
 
-export default Report_revenue
+export default ReportRevenue

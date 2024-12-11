@@ -21,7 +21,8 @@ import {
 import { useGetEmployeeByAccountIdQuery, useSoftUpdateProfileMutation } from "@/app/pharmacist.service";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { IAccount } from "@/types/account.type";
+import { IAccount } from "@/@types/account.type";
+import { toFormData } from "@/shared/utils/form-data";
 
 const EditProfile = () => {
   // State to store the selected image URL
@@ -57,12 +58,12 @@ const EditProfile = () => {
       // On successful update
       updateProfile({
         accountId: data.account_id,
-        updateData: {
-          first_name: data.first_name,
-          last_name: data.last_name,
+        updateData: toFormData({
+          firstName: data.first_name,
+          lastName: data.last_name,
           gender: data.gender,
-          phone_number: data.phone_number
-        },
+          phoneNumber: data.phone_number
+        }),
       }).then(res => {
         if (res) {
           setSuccessMessage("Update successfully!");

@@ -3,7 +3,7 @@ import { RiDeleteBin5Fill } from "react-icons/ri";
 import Swal from 'sweetalert2';
 import { ServiceCreateModal } from "./modal/create";
 import { ServiceEditModal } from "./modal/edit";
-export const Services = () => {
+export const ServicesManage = () => {
     const hanldDelete = () => {
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {

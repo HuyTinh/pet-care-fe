@@ -16,11 +16,11 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen"; // For responsive screen design
 import { useLoginRequestMutation } from "@/app/pharmacist.service"; // Import mutation hook for login
-import { LoginRequest } from "@/types/login-request.type"; // Import LoginRequest type
+import { LoginRequest } from "@/@types/login-request.type"; // Import LoginRequest type
 import * as SecureStore from 'expo-secure-store'; // For storing secure data like tokens
 import { useDispatch } from "react-redux"; // For dispatching actions to the Redux store
 import { jwtDecode } from "jwt-decode"; // To decode JWT token
-import { IJwtPayload } from "@/types/jwt-payload.type"; // Import JWT payload type
+import { IJwtPayload } from "@/@types/jwt-payload.type"; // Import JWT payload type
 import { pharmacistProfileId } from "../pharmacist.slice"; // Redux action to update pharmacist profile ID
 
 const Auth = () => {

@@ -3,8 +3,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { setAuthenticated } from "./auth.slice";
 import AxiosClient from "../config/axios-client";
 import { jwtDecode } from "jwt-decode";
-import { APIResponse } from "../types/api-response.type";
-import { ICustomer } from "../types/customer.type";
+import { APIResponse } from "../@types/api-response.type";
+import { ICustomer } from "../@types/customer.type";
 
 // Create an API slice for handling authentication requests
 export const authenticationApi = createApi({

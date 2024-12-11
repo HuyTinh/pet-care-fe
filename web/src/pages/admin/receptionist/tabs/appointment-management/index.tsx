@@ -1,24 +1,24 @@
 import { useState, useEffect } from "react";
 import { useFilterAppointmentsQuery } from "../../appointment.service";
-import { IAppointment } from "../../../../../types/appoiment.type";
-import { usePdfGenerator } from "../../../../../hooks/pdf-generator";
-import { EditAppointmentModal } from "./modal/edit";
+import { IAppointment } from "../../../../../@types/appoiment.type";
+import { usePdfGenerator } from "../../../../../shared/hooks/pdf-generator";
+
 import WebSocketManager from "../../../../../config/web-socket-manager";
-import { QRScanModal } from "./qr-scan";
 import { IoQrCodeOutline } from "react-icons/io5";
 import { FaPlus } from "react-icons/fa6";
 import { FaFilter } from "react-icons/fa";
-import { FilterAppointmentModal } from "./modal/filter";
-import { CreateAppointmentModal } from "./modal/create";
-import { ManageAppointmentTable } from "./tabs/manage";
-import { ViewAppointmentModal } from "./modal/view";
-import { UpcomingAppointmentTable } from "./tabs/upcoming";
 import { FcCalendar } from "react-icons/fc";
 import { motion } from 'framer-motion'
+import { CreateAppointmentModal, EditAppointmentModal, FilterAppointmentModal, QRScanModal, ViewAppointmentModal } from "./modal";
+import { ManageAppointmentTable } from "./tabs";
+import { displayInputDate } from "../../../../../shared/helped/date";
 
 export const AppointmentManagement = () => {
   const [appointments, setAppointments] = useState<IAppointment[]>([]);
-  const [filterAppointmentConditions, setFilterAppointmentConditions] = useState<any>({});
+  const [filterAppointmentConditions, setFilterAppointmentConditions] = useState<any>({
+    start_date: displayInputDate(new Date()),
+    end_date: displayInputDate(new Date())
+  });
 
   const [qrModalVisible, setQrModalVisible] = useState<boolean>(false);
   const [sessionId, _setSessionId] = useState(new Date().getTime());
@@ -36,6 +36,7 @@ export const AppointmentManagement = () => {
   } = useFilterAppointmentsQuery({
     startDate: filterAppointmentConditions['start_date'],
     endDate: filterAppointmentConditions['end_date'],
+    statues: ["SCHEDULED"],
     page: pageNumber
   });
 
@@ -51,6 +52,7 @@ export const AppointmentManagement = () => {
         stompClient.publish({ destination: "/app/connect" });
         stompClient.subscribe("/topic/updateAppointment", (message) => {
           const receiveData = JSON.parse(message.body);
+
 
           setAppointments((prev) => {
             const arr = [...prev];
@@ -68,6 +70,8 @@ export const AppointmentManagement = () => {
         });
 
         stompClient.subscribe("/topic/createAppointment", (message) => {
+          console.log(message);
+
           setAppointments((prev) => [...prev, JSON.parse(message.body)]);
         });
 
@@ -108,7 +112,7 @@ export const AppointmentManagement = () => {
   const sendMessage = (appointmentId: string, status: string) => {
     if (stompClient) {
       stompClient.publish({
-        destination: "/app/sendMessage",
+        destination: "/app/sendEvent",
         body: JSON.stringify({
           sessionId,
           appointmentId,
@@ -227,7 +231,7 @@ export const AppointmentManagement = () => {
             >
               <div className="w-64">
                 <img
-                  src="/src/assets/images/loading.gif"
+                  src="/src/shared/assets/images/loading.gif"
                   className="object-cover"
                   alt=""
                 />
@@ -236,10 +240,6 @@ export const AppointmentManagement = () => {
             </motion.div>
           )}
           {!isFetchingFilterAppointmentData && <ManageAppointmentTable appointments={appointments} sendMessage={sendMessage} setSelectedAppointment={setSelectedAppointment} />}
-
-          <div className="hidden">
-            <UpcomingAppointmentTable setSelectedAppointment={setSelectedAppointment} />
-          </div>
         </div>
         <ViewAppointmentModal appointment={selectedAppointment} />
         <EditAppointmentModal appointment={selectedAppointment} />
@@ -247,6 +247,7 @@ export const AppointmentManagement = () => {
         <FilterAppointmentModal onFilterSubmit={onFilterAppointmentSubmit} />
         <QRScanModal
           qrModalVisible={qrModalVisible}
+          sendMessage={sendMessage}
           setQrModalVisible={setQrModalVisible}
           setSelectedAppointment={setSelectedAppointment}
         />

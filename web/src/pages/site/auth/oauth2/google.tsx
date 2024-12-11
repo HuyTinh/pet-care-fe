@@ -24,7 +24,7 @@ export const PetCareGoogleLoginButton = () => {
         isLoading && <div className="absolute left-0 top-0 flex h-full w-full justify-center items-center bg-black/35">
           <div className="w-64 relative">
             <img
-              src="/src/assets/images/loading.gif"
+              src="/src/shared/assets/images/loading.gif"
               className="object-cover"
               alt=""
             />

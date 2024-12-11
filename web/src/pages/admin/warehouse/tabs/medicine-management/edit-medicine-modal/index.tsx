@@ -5,7 +5,7 @@ import {
   IMedicine,
   ILocation,
   ICalculationUnit,
-} from "../../../../../../types/medicine.type";
+} from "../../../../../../@types/medicine.type";
 import { LocationPicker } from "../picker-medicine/edit-pickup-medicine/location-picker";
 import { CaculationPicker } from "../picker-medicine/edit-pickup-medicine/caculation-picker";
 import {
@@ -14,7 +14,7 @@ import {
   useUpdateMedicineMutation,
 } from "../../../medicine.service";
 import { toast } from "react-toastify";
-import { toFormData } from "../../../../../../utils/form-data";
+import { toFormData } from "../../../../../../shared/helped/form-data";
 
 type EditMedicineModalProps = {
   medicine: IMedicine;
@@ -94,7 +94,7 @@ export const EditMedicineModal = ({ medicine }: EditMedicineModalProps) => {
       dateImport: data.date_import,
       expiryDate: data.expiry_date,
       locations: locationIds,
-      manufactureId: number(data.manufacture_id),
+      manufactureId: data.manufacture_id,
       manufacturingDate: data.manufacturing_date,
       name: data.name,
       price: data.price,
@@ -145,7 +145,7 @@ export const EditMedicineModal = ({ medicine }: EditMedicineModalProps) => {
                   <div className="mt-24 flex !w-full items-center justify-center">
                     <img
                       className="!w-16"
-                      src="src/assets/images/picture.png"
+                      src="src/shared/assets/images/picture.png"
                       alt="Default"
                     />
                   </div>

@@ -1,13 +1,13 @@
-import { IAppointment } from "../../../../../../types/appoiment.type";
+import { IAppointment } from "../../../../../../@typesappoiment.type";
 import { time } from "../../../../../../constant/time";
 import {
   displayInputDate,
   displayPlusDate,
-} from "../../../../../../utils/date";
+} from "../../../../../../shared/helped/date";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
-import { PetPicker } from "../../../../../../components/pet-picker";
-import { IPet } from "../../../../../../types/pet.type";
+import { PetPicker } from "../../../../../../shared/ui/pet-picker";
+import { IPet } from "../../../../../../@typespet.type";
 import { useUpdateAppointmentMutation } from "../../../../../admin/receptionist/appointment.service";
 import { toast } from "react-toastify";
 import _ from "lodash";

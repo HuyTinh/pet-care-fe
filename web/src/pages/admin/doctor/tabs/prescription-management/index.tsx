@@ -1,14 +1,8 @@
 import { useState } from "react";
-import { IAppointment } from "../../../../../types/appoiment.type";
-// import { EditPrescriptionModal } from "./edit-prescription-modal";
-import { QRScanModal } from "./qr-scan";
-import { PrescriptionTable } from "./prescription-table";
-import { AppointmentTable } from "./appointment-table";
-import { MakePrescriptionModal } from "./make-prescription-modal";
-import { ViewPrescriptionModal } from "./view-prescription-modal";
-import { FilterPrescriptionModal } from "./filter-prescription-modal";
-import { FilterAppointmentModal } from "./filter-appointment-modal";
-import { EditPrescriptionModal } from "./edit-prescription-modal";
+import { IAppointment } from "../../../../../@types/appoiment.type";
+import { EditPrescriptionModal, FilterAppointmentModal, FilterPrescriptionModal, MakePrescriptionModal, QRScanModal, ViewPrescriptionModal } from "./components/modal";
+import { AppointmentTable, PrescriptionTable } from "./components/table";
+
 
 export const PrescriptionManagement = () => {
   const [filterPrescriptionConditions, setFilterPrescriptionConditions] = useState<any>({});

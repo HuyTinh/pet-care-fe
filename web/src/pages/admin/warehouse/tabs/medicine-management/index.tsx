@@ -5,12 +5,12 @@ import { motion } from "framer-motion";
 import { FcCalendar } from "react-icons/fc";
 import { FaFilter } from "react-icons/fa";
 import { useGetAllMedicinesQuery } from "../../medicine.service";
-import { IMedicine } from "../../../../../types/medicine.type";
+import { IMedicine } from "../../../../../@typesmedicine.type";
 import { EditMedicineModal } from "./edit-medicine-modal";
 import { AddMedicineModal } from "./add-medicine-modal";
 import { FilterMedicineModal } from "./filter-medicine-modal";
-import { displayCustomDate } from "../../../../../utils/date";
-import { toCurrency } from "../../../../../utils/number-format";
+import { displayCustomDate } from "../../../../../shared/helped/date";
+import { toCurrency } from "../../../../../shared/helped/number-format";
 import { TbFilterX } from "react-icons/tb";
 
 export default function MedicinesManagement() {
@@ -123,7 +123,7 @@ export default function MedicinesManagement() {
               (document.getElementById("add_medicine_modal") as any).showModal()
             }
           >
-            <img src="/src/assets/images/add.png" alt="" />
+            <img src="/src/shared/assets/images/add.png" alt="" />
             <span className="font-semibold text-white">Add item</span>
           </button>
           <button
@@ -200,7 +200,7 @@ export default function MedicinesManagement() {
             >
               <div className="w-64">
                 <img
-                  src="/src/assets/images/loading.gif"
+                  src="/src/shared/assets/images/loading.gif"
                   className="object-cover"
                   alt=""
                 />
@@ -219,7 +219,7 @@ export default function MedicinesManagement() {
                   <span>Name</span>
                   <button>
                     <img
-                      src="/src/assets/images/sort.png"
+                      src="/src/shared/assets/images/sort.png"
                       className="h-[12px] w-[12px]"
                     />
                   </button>
@@ -231,7 +231,7 @@ export default function MedicinesManagement() {
                   <span>Quantity</span>
                   <button>
                     <img
-                      src="/src/assets/images/sort.png"
+                      src="/src/shared/assets/images/sort.png"
                       className="h-[12px] w-[12px]"
                     />
                   </button>
@@ -247,7 +247,7 @@ export default function MedicinesManagement() {
                   <span>Price</span>
                   <button>
                     <img
-                      src="/src/assets/images/sort.png"
+                      src="/src/shared/assets/images/sort.png"
                       className="h-[12px] w-[12px]"
                     />
                   </button>

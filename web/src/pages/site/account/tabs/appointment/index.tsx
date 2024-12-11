@@ -1,21 +1,22 @@
 import { useSelector } from "react-redux";
-import { useCancelAppointmentMutation, useGetAllAppointmentQuery } from "../../../../admin/receptionist/appointment.service";
+import { useCancelAppointmentMutation, useFilterAppointmentsQuery, useGetAllAppointmentQuery } from "../../../../admin/receptionist/appointment.service";
 import { RootState } from "../../../../../store/store";
-import { displayCustomDate } from "../../../../../utils/date";
+import { displayCustomDate } from "../../../../../shared/helped/date";
 import { AnimatePresence, motion } from "framer-motion";
 import { FcCalendar } from "react-icons/fc";
 import { useEffect, useState } from "react";
 import { EditAppointmentModal } from "./modal/edit";
-import { IAppointment } from "../../../../../types/appoiment.type";
+import { IAppointment } from "../../../../../@types/appoiment.type";
 import { toast } from "react-toastify";
 import { FaFilter } from "react-icons/fa";
+import { ViewAppointmentModal } from "./modal/view";
 
 export const AppointmentTab = () => {
   const userId = useSelector((state: RootState) => state.authentication.userId);
   const [selectedAppointment, setSelectedAppointment] = useState<IAppointment>(
     {} as IAppointment,
   );
-  const [appointmentStatus, setAppointmentStatus] = useState<String[]>(["SCHEDULED", "CANCELLED", "APPROVED"]);
+  const [appointmentStatus, setAppointmentStatus] = useState<string[]>(["SCHEDULED", "CANCELLED", "APPROVED"]);
   const [appointments, setAppointments] = useState<IAppointment[]>([]);
   const [pageNumber, setPageNumber] = useState<number>(0)
 
@@ -35,10 +36,10 @@ export const AppointmentTab = () => {
   }
 
   const { data: appoimentsResponse, isFetching } =
-    useGetAllAppointmentQuery({
+    useFilterAppointmentsQuery({
       statues: appointmentStatus,
       page: pageNumber,
-      userId: userId as String
+      accountId: userId as any
     }, {
       skip: !userId,
     });
@@ -68,6 +69,8 @@ export const AppointmentTab = () => {
             >
               <option value={["SCHEDULED", "CANCELLED", "APPROVED"]}>All</option>
               <option value={["SCHEDULED"]}>Up comming</option>
+              <option value={["APPROVED"]}>Approved</option>
+              <option value={["CANCELLED"]}>Cancelled</option>
             </select>
             <div className="flex space-x-2">
               <button
@@ -121,7 +124,7 @@ export const AppointmentTab = () => {
               >
                 <div className="w-64">
                   <img
-                    src="/src/assets/images/loading.gif"
+                    src="/src/shared/assets/images/loading.gif"
                     className="object-cover"
                     alt=""
                   />
@@ -172,11 +175,12 @@ export const AppointmentTab = () => {
                                     <div>Weight: {pe.weight}</div>|
                                     <div>Age: {pe.age}</div>
                                   </div>
+
                                 </div>
                               ))}
                             </div>
                           </div>
-                          <div className="collapse bg-base-200">
+                          {/* <div className="collapse bg-base-200">
                             <input type="checkbox" />
                             <div className="collapse-title text-center text-lg font-medium">
                               Services ({val.services?.length})
@@ -186,7 +190,7 @@ export const AppointmentTab = () => {
                                 <div key={subIndex}>- {se.name}</div>
                               ))}
                             </div>
-                          </div>
+                          </div> */}
                         </td>
                         <td>
                           <span className="underline">
@@ -198,7 +202,7 @@ export const AppointmentTab = () => {
                           <span
                             className={`rounded-lg ${val.status === "SCHEDULED" && "bg-yellow-300"} ${val.status === "APPROVED" && "bg-green-300"} ${val.status === "CANCELLED" && "bg-red-300"} p-2`}
                           >
-                            {val.status}
+                            {val.status.replace("_", " ")}
                           </span>
                         </td>
                         <td>
@@ -216,7 +220,10 @@ export const AppointmentTab = () => {
                             </div>
                           ) : (
                             <div className="flex flex-col gap-y-2">
-                              <button className="btn btn-sm">View</button>
+                              <button className="btn btn-sm" onClick={() => {
+                                (document.getElementById("view_appointment_modal") as any).showModal()
+                                setSelectedAppointment(val)
+                              }}>View</button>
                             </div>
                           )}
                         </td>
@@ -230,6 +237,7 @@ export const AppointmentTab = () => {
         </div>
       </div>
       <EditAppointmentModal selectedAppointment={selectedAppointment} />
+      <ViewAppointmentModal appointment={selectedAppointment} />
     </AnimatePresence>
   );
 };

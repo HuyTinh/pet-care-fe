@@ -1,58 +1,41 @@
 import { useSelector } from "react-redux";
-import { useCancelAppointmentMutation, useGetAllAppointmentQuery } from "../../../../admin/receptionist/appointment.service";
 import { RootState } from "../../../../../store/store";
-import { displayCustomDate, displayInputDate, displayPlusDate } from "../../../../../utils/date";
 import { AnimatePresence, motion } from "framer-motion";
 import { FcCalendar } from "react-icons/fc";
 import { useEffect, useState } from "react";
 import { EditAppointmentModal } from "./edit-appointment-modal";
-import { IAppointment } from "../../../../../types/appoiment.type";
-import { toast } from "react-toastify";
+import { IAppointment } from "../../../../../@types/appoiment.type";
+import { useFilterPrescriptionsQuery } from "../../../../admin/doctor/prescription.service";
+import { displayCustomDate } from "../../../../../shared/helped/date";
 
 export const PrescriptionTab = () => {
   const userId = useSelector((state: RootState) => state.authentication.userId);
   const [selectedAppointment, setSelectedAppointment] = useState<IAppointment>(
     {} as IAppointment,
   );
-  const [appointmentStatus, setAppointmentStatus] = useState<String[]>(["SCHEDULED", "CANCELLED", "APPROVED"]);
-  const [appointments, setAppointments] = useState<IAppointment[]>([]);
+  const [appointmentStatus, setAppointmentStatus] = useState<string[]>(["PENDING_PAYMENT", "CANCELLED", "APPROVED"]);
+  const [prescriptions, setPrescriptions] = useState<IAppointment[]>([]);
   const [pageNumber, setPageNumber] = useState<number>(0)
 
-  const [cancelAppointment] = useCancelAppointmentMutation()
-
-  const editAppointmentHandle = (appointment: IAppointment) => {
-    (document.getElementById("edit_appointment_modal") as any).showModal();
-    setSelectedAppointment(appointment);
-  };
-
-  const cancelAppointmentHandle = (appoimentId: number) => {
-    cancelAppointment(appoimentId).then(() => {
-      toast.success("Cancel appointment successful", {
-        position: "top-right",
-      });
-    })
-  }
-
-  const { data: appoimentsResponse, isFetching } =
-    useGetAllAppointmentQuery({
+  const { data: prescriptionsResponse, isFetching } =
+    useFilterPrescriptionsQuery({
       statues: appointmentStatus,
       page: pageNumber,
-      userId: userId as String
+      accountId: userId as any
     }, {
       skip: !userId,
     });
 
 
   useEffect(() => {
-    if (appoimentsResponse?.data) {
-      setAppointments(appoimentsResponse.data.content)
+    if (prescriptionsResponse?.data) {
+      setPrescriptions(prescriptionsResponse.data.content)
     }
-  }, [appoimentsResponse])
+  }, [prescriptionsResponse])
 
 
   return (
     <AnimatePresence initial={false}>
-      <p>Chào</p>
       <div className="w-full space-y-2" key={"1"}>
         <div className="flex justify-between">
           <select
@@ -61,10 +44,12 @@ export const PrescriptionTab = () => {
               let strVal = [...e.target.value.split(",")]
               setAppointmentStatus(strVal)
             }}
-            defaultValue={["SCHEDULED", "CANCELLED", "APPROVED"]}
+            defaultValue={["PENDING_PAYMENT", "CANCELLED", "APPROVED"]}
           >
-            <option value={["SCHEDULED", "CANCELLED", "APPROVED"]}>All</option>
-            <option value={["SCHEDULED"]}>Up comming</option>
+            <option value={["PENDING_PAYMENT", "CANCELLED", "APPROVED"]}>All</option>
+            <option value={["PENDING_PAYMENT"]}>Pending</option>
+            <option value={["CANCELLED"]}>Cancel</option>
+            <option value={["APPROVED"]}>Approved</option>
           </select>
           < div className="join" >
             <button className="join-item btn btn-sm" onClick={() => {
@@ -84,7 +69,7 @@ export const PrescriptionTab = () => {
         <div>
           <div className="relative h-[32rem] overflow-auto rounded-lg border border-black">
             {!isFetching &&
-              !(appointments as any[])?.length && (
+              !(prescriptions as any[])?.length && (
                 <div className="absolute top-0 z-50 flex h-full w-full flex-col items-center justify-center">
                   <FcCalendar size={64} className="mb-10" />
                   <div>You don't have any appoiment</div>
@@ -104,7 +89,7 @@ export const PrescriptionTab = () => {
               >
                 <div className="w-64">
                   <img
-                    src="/src/assets/images/loading.gif"
+                    src="/src/shared/assets/images/loading.gif"
                     className="object-cover"
                     alt=""
                   />
@@ -124,7 +109,7 @@ export const PrescriptionTab = () => {
               </thead>
               {!isFetching && (
                 <tbody>
-                  {(appointments as any[])?.map(
+                  {(prescriptions as any[])?.map(
                     (val, index) => (
                       <motion.tr
                         initial={{
@@ -142,66 +127,45 @@ export const PrescriptionTab = () => {
                           <div className="collapse bg-base-200">
                             <input type="checkbox" />
                             <div className="collapse-title text-center text-lg font-medium">
-                              Pets ({val.pets?.length})
+                              Pets ({val.appointment.pets?.length})
                             </div>
                             <div className="collapse-content">
-                              {(val.pets as any[])?.map((pe, subIndex) => (
+                              {(val.appointment.pets as any[])?.map((pe, subIndex) => (
                                 <div key={subIndex}>
                                   <div className="font-bold">
                                     - Name: {pe.name}
                                   </div>
-                                  <div className="flex justify-between">
-                                    <div>Species: {pe.species}</div>|
-                                    <div>Weight: {pe.weight}</div>|
-                                    <div>Age: {pe.age}</div>
+                                  <div className="space-y-2">
+                                    <div className="flex justify-between">
+                                      <div>Species: {pe.species}</div>|
+                                      <div>Weight: {pe.weight}</div>|
+                                      <div>Age: {pe.age}</div>
+                                    </div>
+                                    <div>
+                                      <span className="font-bold underline bg-red-300 p-1 rounded-md text-white">Diagnosis: {val.details[subIndex].diagnosis}</span>
+                                    </div>
                                   </div>
                                 </div>
-                              ))}
-                            </div>
-                          </div>
-                          <div className="collapse bg-base-200">
-                            <input type="checkbox" />
-                            <div className="collapse-title text-center text-lg font-medium">
-                              Services ({val.services?.length})
-                            </div>
-                            <div className="collapse-content">
-                              {(val.services as any[])?.map((se, subIndex) => (
-                                <div key={subIndex}>- {se.name}</div>
                               ))}
                             </div>
                           </div>
                         </td>
                         <td>
                           <span className="underline">
-                            {displayCustomDate(new Date(val.appointment_date))},{" "}
-                            {val.appointment_time.substring(0, 5) + "h"}
+                            {displayCustomDate(new Date(val.created_at))}
                           </span>
                         </td>
                         <td>
                           <span
-                            className={`rounded-lg ${val.status === "SCHEDULED" && "bg-yellow-300"} ${val.status === "APPROVED" && "bg-green-300"} ${val.status === "CANCELLED" && "bg-red-300"} p-2`}
+                            className={`rounded-lg ${val.status === "PENDING_PAYMENT" && "bg-yellow-300"} ${val.status === "APPROVED" && "bg-green-300"} ${val.status === "CANCELLED" && "bg-red-300"} p-2`}
                           >
-                            {val.status}
+                            {val.status.replace("_", " ")}
                           </span>
                         </td>
                         <td>
-                          {val.status !== "APPROVED" && val.status !== "CANCELLED" ? (
-                            <div className="flex flex-col gap-y-2">
-                              <button
-                                className="btn btn-sm"
-                                onClick={() => editAppointmentHandle(val)}
-                              >
-                                Edit
-                              </button>
-                              <button className="btn btn-sm"
-                                onClick={() => cancelAppointmentHandle(val.id)}
-                              >Cancel</button>
-                            </div>
-                          ) : (
-                            <div className="flex flex-col gap-y-2">
-                              <button className="btn btn-sm">View</button>
-                            </div>
-                          )}
+                          <div className="flex flex-col gap-y-2">
+                            <button className="btn btn-sm">View</button>
+                          </div>
                         </td>
                       </motion.tr>
                     ),

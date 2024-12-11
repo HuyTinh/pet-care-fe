@@ -1,6 +1,6 @@
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import { displayInputDate, displayPlusDate } from "../../../utils/date";
+import { displayInputDate, displayPlusDate } from "../../../shared/helped/date";
 import Select from "react-select";
 import { useForm } from "react-hook-form";
 import { FcApproval } from "react-icons/fc";
@@ -12,7 +12,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import { useGetCustomerProfileQuery } from "../customer.service";
-import { AnimateSection } from "../../../components/animate-section";
+import { AnimateSection } from "../../../shared/ui/animate-section";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
 import { time } from "../../../constant/time";
@@ -55,7 +55,7 @@ export const BookingPage = () => {
         <div
           className="w-full bg-cover h-[28rem] sm:h-[32rem] md:h-[36rem] lg:h-[42rem]"
           style={{
-            backgroundImage: "url(/src/assets/images/booking_banner.jpg)",
+            backgroundImage: "url(/src/shared/assets/images/booking_banner.jpg)",
           }}
         ></div>
 
@@ -321,7 +321,6 @@ export const BookingPage = () => {
                     ),
                     appointment_time: getValues("time"),
                     pets: [getValues("pets")],
-                    services: ["Diagnosis"],
                   });
                 }
               }}

@@ -1,37 +1,51 @@
 export const appointmentDataCeil = [
     {
         name: '9:00:00',
-        appointment: 40,
+        uv: 4000,
+        pv: 2400,
+        amt: 2400,
 
     },
     {
         name: '10:00:00',
-        appointment: 20,
+        uv: 4000,
+        pv: 2400,
+        amt: 2400,
 
     },
     {
         name: '11:00:00',
-        appointment: 30,
+        uv: 4000,
+        pv: 2400,
+        amt: 2400,
 
     },
     {
         name: '12:00:00',
-        appointment: 15,
+        uv: 4000,
+        pv: 2400,
+        amt: 2400,
 
     },
     {
         name: '13:00:00',
-        appointment: 20,
+        uv: 4000,
+        pv: 2400,
+        amt: 2400,
 
     },
     {
         name: '14:00:00',
-        appointment: 50,
+        uv: 4000,
+        pv: 2400,
+        amt: 2400,
 
     },
     {
         name: '15:00:00',
-        appointment: 10,
+        uv: 4000,
+        pv: 2400,
+        amt: 2400,
 
     },
 ];
@@ -47,58 +61,9 @@ export const appointmentDatePie = [
 export const appointmentYear = [
     {
         name: 'Jan',
-        uv: 4000,
+        uv: {
+            vi: 1000
+        },
         pv: 2400,
-    },
-    {
-        name: 'Feb',
-        uv: 3000,
-        pv: 1398,
-    },
-    {
-        name: 'Mar',
-        uv: 2000,
-        pv: 9800,
-    },
-    {
-        name: 'Apr',
-        uv: 2780,
-        pv: 3908,
-    },
-    {
-        name: 'May',
-        uv: 1890,
-        pv: 4800,
-    },
-    {
-        name: 'Jun',
-        uv: 2390,
-        pv: 3800,
-    },
-    {
-        name: 'Aug',
-        uv: 3490,
-        pv: 4300,
-    },
-    {
-        name: 'Sep',
-        uv: 3490,
-        pv: 4300,
-    },
-    {
-        name: 'Oct',
-        uv: 3490,
-        pv: 4300,
-    },
-    {
-        name: 'Nov',
-        uv: 2490,
-        pv: 4300,
-        
-    },
-    {
-        name: 'Dec',
-        uv: 2430,
-        pv: 4300,
     },
 ];

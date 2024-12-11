@@ -1,9 +1,10 @@
-import { IAppointment } from '../../../../../../../types/appoiment.type';
+import { IAppointment } from '../../../../../../../@types/appoiment.type';
 import { LiaEditSolid } from 'react-icons/lia';
-import { displayCustomDate } from '../../../../../../../utils/date';
+import { displayCustomDate } from '../../../../../../../shared/helped/date';
 import { motion } from 'framer-motion'
 import { CiCalendar } from 'react-icons/ci';
 import { MdOutlineCancel } from 'react-icons/md';
+import { memo } from 'react';
 
 
 type ManageAppointmentTableProps = {
@@ -12,7 +13,7 @@ type ManageAppointmentTableProps = {
     setSelectedAppointment: React.Dispatch<React.SetStateAction<IAppointment>>,
 }
 
-export const ManageAppointmentTable = ({ sendMessage, appointments, setSelectedAppointment }: ManageAppointmentTableProps) => {
+export const ManageAppointmentTable = memo(({ sendMessage, appointments, setSelectedAppointment }: ManageAppointmentTableProps) => {
     return (
         <div>
             <table className="table ">
@@ -125,4 +126,4 @@ export const ManageAppointmentTable = ({ sendMessage, appointments, setSelectedA
             </table>
         </div>
     )
-}
+})

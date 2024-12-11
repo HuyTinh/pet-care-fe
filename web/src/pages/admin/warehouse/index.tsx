@@ -1,6 +1,6 @@
 import MedicinesManagement from "./tabs/medicine-management";
 import { CiCircleInfo, CiPill } from "react-icons/ci";
-import { MenuItem } from "../../../components/side-bar";
+import { MenuItem } from "../../../layout/side-bar";
 import { AdminLayout } from "../layout";
 
 const menuItems: MenuItem[] = [
@@ -16,10 +16,12 @@ const menuItems: MenuItem[] = [
   },
 ];
 
-export const WareHousePage = () => {
+const WarehousePage = () => {
   return (
     <AdminLayout menuItems={menuItems}>
       <MedicinesManagement />
     </AdminLayout>
   );
 };
+
+export default { page: WarehousePage, rolesAccess: ["WAREHOUSE_MANAGER"] }

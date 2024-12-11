@@ -27,7 +27,7 @@ import {
     useGetPrescriptionByIdQuery,
     useGetPrescriptionQuery,
 } from "@/app/pharmacist.service";
-import { IPrescription } from "@/types/prescription.type";
+import { IPrescription } from "@/@types/prescription.type";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { pharmacistProfileId } from "@/app/pharmacist.slice";

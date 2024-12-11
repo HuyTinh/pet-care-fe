@@ -2,7 +2,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 // Import the jwtDecode function for decoding JWT tokens
 import { jwtDecode } from "jwt-decode";
-import { ICustomer } from "../types/customer.type";
+import { ICustomer } from "../@types/customer.type";
 
 // Define the interface for the authentication state
 interface AuthenticationState {

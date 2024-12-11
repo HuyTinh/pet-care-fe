@@ -1,5 +1,5 @@
 import { AppointmentManagement } from "./tabs/appointment-management";
-import { MenuItem } from "../../../components/side-bar";
+import { MenuItem } from "../../../layout/side-bar";
 import { CiCalendar, CiCircleInfo } from "react-icons/ci";
 import { AdminLayout } from "../layout";
 
@@ -16,10 +16,12 @@ const menuItems: MenuItem[] = [
   },
 ];
 
-export const ReceptionistPage = () => {
+const ReceptionistPage = () => {
   return (
     <AdminLayout menuItems={menuItems}>
       <AppointmentManagement />
     </AdminLayout>
   );
 };
+
+export default { page: <ReceptionistPage />, rolesAccess: ["RECEPTIONIST"] }
