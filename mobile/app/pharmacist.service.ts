@@ -4,11 +4,11 @@ import { jwtDecode } from 'jwt-decode';
 import { pharmacistProfileId } from './pharmacist.slice';
 
 // Importing types used in the API slice
-import { IPrescription } from '../types/prescription.type';
-import { IAccount } from '../types/account.type';
-import { LoginRequest } from '../types/login-request.type';
-import { APIReponse } from '../types/api-response.type';
-import { IJwtPayload } from '@/types/jwt-payload.type';
+import { IPrescription } from '../@types/prescription.type';
+import { IAccount } from '../@types/account.type';
+import { LoginRequest } from '../@types/login-request.type';
+import { APIReponse } from '../@types/api-response.type';
+import { IJwtPayload } from '@/@types/jwt-payload.type';
 
 // Creating the pharmacist API slice using Redux Toolkit's `createApi`
 export const pharmacistApi = createApi({

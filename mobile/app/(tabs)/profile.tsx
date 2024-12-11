@@ -29,7 +29,7 @@ const Explore = () => {
       <View>
         <Image source={require('@/assets/images/backgound_profile.jpg')} style={styles.background_img} />
         <View>
-          <View className='items-center -mt-64'>
+          <View className='items-center -mt-52'>
             {/* Displaying the user's avatar */}
             <Avatar.Image size={100} source={{ uri: (profileData as any)?.data.image_url }} />
             <View>
@@ -107,6 +107,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '60%',
     backgroundColor: "#0099CF"
-    
+
   }
 });

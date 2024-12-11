@@ -5,7 +5,7 @@ import {
   IMedicine,
   ILocation,
   ICalculationUnit,
-} from "../../../../../../@typesmedicine.type";
+} from "../../../../../../@types/medicine.type";
 import { LocationPicker } from "../picker-medicine/edit-pickup-medicine/location-picker";
 import { CaculationPicker } from "../picker-medicine/edit-pickup-medicine/caculation-picker";
 import {
@@ -94,7 +94,7 @@ export const EditMedicineModal = ({ medicine }: EditMedicineModalProps) => {
       dateImport: data.date_import,
       expiryDate: data.expiry_date,
       locations: locationIds,
-      manufactureId: number(data.manufacture_id),
+      manufactureId: data.manufacture_id,
       manufacturingDate: data.manufacturing_date,
       name: data.name,
       price: data.price,
