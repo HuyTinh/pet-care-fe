@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, ScrollView, StatusBar, TouchableOpacity, Modal } from 'react-native'
+import { StyleSheet, Text, View, Image, ScrollView, StatusBar, TouchableOpacity, Modal, TouchableWithoutFeedback } from 'react-native'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Button, Card } from 'react-native-paper';
 import Accordion from 'react-native-collapsible/Accordion'
@@ -7,17 +7,16 @@ import { useGetPrescriptionByIdQuery } from '@/app/pharmacist.service';
 import { RootState } from '@/store/store';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { FontAwesome } from '@expo/vector-icons';
+import { router } from "expo-router";
 
 const prescription = () => {
 
     const [activeSections, setActiveSections] = useState([])
-
     const updateSections = (activeSections: any) => {
         setActiveSections(activeSections)
     }
     const presrptionId = useSelector((state: RootState) => state.pharmacist.id);
 
-    console.log(presrptionId);
 
     const { data, isFetching, isLoading } = useGetPrescriptionByIdQuery(presrptionId, {
         skip: !presrptionId
@@ -28,7 +27,6 @@ const prescription = () => {
     const [selectedOption, setSelectedOption] = useState<any>("Cash");
     const handlApproved = () => {
         if (selectedOption === 'Banking') {
-            console.log("Banking");
             setModalVisible(true);
             setCountdown(300);
         }
@@ -62,6 +60,9 @@ const prescription = () => {
         setModalVisible(false);
         setCountdown(300);
     }, []);
+    function handleBack() {
+        router.replace('/(tabs)/list')
+      }
     const renderHeader = (session: any) => {
         return (
             <>
@@ -138,14 +139,22 @@ const prescription = () => {
                 </View>
             </Modal>
             <ScrollView>
-                <View className='flex flex-col justify-between' style={{ height: hp(100), width: wp(100) }}>
+                {/* Back Button */}
+                <TouchableWithoutFeedback onPress={handleBack}>
+                    <View style={styles.backButton}>
+                        <Image
+                            source={require("@/assets/images/back.png")}
+                            style={styles.backIcon}
+                        />
+                    </View>
+                </TouchableWithoutFeedback>
+                <View className='flex flex-col justify-between mt-10' style={{ height: hp(100), width: wp(100) }}>
                     <StatusBar barStyle="dark-content" />
                     <View>
                         <View className='mt-20 ml-12'>
                             <Text style={styles.text_code}>#PC{(data as any)?.data?.id}</Text>
                         </View>
                         <View className='px-4 py-4'>
-
                             {
                                 isLoading ?
                                     <View className="flex flex-1 justify-center items-center h-[400px]">
@@ -272,5 +281,16 @@ const styles = StyleSheet.create({
         backgroundColor: "#0099CF",
         marginTop: 20,
         width: wp("50%")
-    }
+    },
+    backButton: {
+        position: "absolute",
+        top: hp("7%"),
+        left: wp("5%"),
+        zIndex: 1,
+      },
+      backIcon: {
+        width: wp("6%"),
+        height: wp("6%"),
+        tintColor: "black",
+      },
 })
