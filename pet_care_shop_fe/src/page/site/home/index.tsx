@@ -5,6 +5,7 @@ import { IProducts } from "../../../types/product.modal";
 // import { productId } from "../product.slice";
 import { useNavigate } from "react-router-dom";
 import useCart from "../../../shared/hook/useCart";
+import Swal from "sweetalert2";
 
 const Home = () => {
     const navigate = useNavigate()
@@ -19,8 +20,28 @@ const Home = () => {
     const { data, isLoading, isFetching } = useGetProductQuery()
 
 
+
     const handleClick = (id: number) => {
         navigate(`/detail/${id}`)
+    }
+
+    const handleAddItems = (product : IProducts) => {
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.onmouseenter = Swal.stopTimer;
+              toast.onmouseleave = Swal.resumeTimer;
+            }
+          });
+          Toast.fire({
+            icon: "success",
+            title: "Add items successfully"
+          });
+        increaseCartItem(product)
     }
 
     return (
@@ -123,7 +144,7 @@ const Home = () => {
                                                         >
                                                             <div className="flex *:text-white">
                                                                 <button className="btn btn-info" onClick={() => handleClick(product.id)}><p className="text-white">Product detail</p></button>
-                                                                <button className="btn btn-success ml-2" onClick={() => increaseCartItem(product)}>Add to cart</button>
+                                                                <button className="btn btn-success ml-2" onClick={() => handleAddItems(product)}>Add to cart</button>
                                                             </div>
                                                         </motion.div>
                                                     </div>

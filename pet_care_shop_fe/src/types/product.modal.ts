@@ -6,6 +6,7 @@ export interface IProducts {
     description: string;
     status: boolean;
     type: ProductType
+    unit: string;
   }
 
   export enum ProductType {
