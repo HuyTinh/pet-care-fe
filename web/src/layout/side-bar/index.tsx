@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUnauthenticated } from "../../pages/auth.slice";
 import { RootState } from "../../store/store";
 import { useGetEmployeeProfileQuery } from "../../pages/admin/employee.service";
-import { IEmployee } from "../../@typesemployee.type";
+import { IEmployee } from "../../@types/employee.type";
 
 
 export interface MenuItem {
@@ -24,7 +24,7 @@ export const SideBar = ({ menuItems }: SideBarProps) => {
     const navigate = useNavigate()
     const userId = useSelector((state: RootState) => state.authentication.userId);
     const [userCurrent, setUserCurrent] = useState<IEmployee>();
-    const { data: employeeProfileResponse } = useGetEmployeeProfileQuery(
+    const { data: employeeProfileResponse, isLoading: employeeProfileResponseIsLoading } = useGetEmployeeProfileQuery(
         {
             userId,
         },
@@ -61,11 +61,15 @@ export const SideBar = ({ menuItems }: SideBarProps) => {
                         <div className="flex p-2 cursor-pointer" onClick={() =>
                             (document.getElementById("admin_profile_modal") as any)?.showModal()
                         }>
-                            <div className="avatar">
-                                <div className="mask mask-squircle w-16">
-                                    <img src={userCurrent?.image_url} />
-                                </div>
-                            </div>
+                            {
+                                !employeeProfileResponseIsLoading ?
+                                    <div className="avatar">
+                                        <div className="mask mask-squircle w-16">
+                                            <img src={userCurrent?.image_url} />
+                                        </div>
+                                    </div> :
+                                    <div className="skeleton mask mask-squircle h-16 w-16"></div>
+                            }
                             <motion.div
                                 className="flex flex-col justify-center pl-4 text-white"
                                 initial={{ opacity: 0, display: "none" }}
@@ -78,7 +82,11 @@ export const SideBar = ({ menuItems }: SideBarProps) => {
                                 }}
                             >
                                 <div>Welcome back</div>
-                                <div>{userCurrent?.first_name + " " + userCurrent?.last_name}</div>
+                                {
+                                    !employeeProfileResponseIsLoading ?
+                                        <div>{userCurrent?.first_name + " " + userCurrent?.last_name}</div> :
+                                        <div className="skeleton h-6 w-full"></div>
+                                }
                             </motion.div>
                         </div>
                         <div className="flex w-full flex-colflex-1">

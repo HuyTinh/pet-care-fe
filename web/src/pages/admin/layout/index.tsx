@@ -15,7 +15,7 @@ export const AdminLayout = memo(({ menuItems, children }: AdminLayoutProps) => {
                 <div className="flex h-full">
                     <SideBar menuItems={menuItems} />
                     <div className="relative z-20 w-full pb-2 pe-4 pr-2 pt-4">
-                        <div className="flex h-full flex-1 flex-col rounded-lg border-2 border-black bg-white">
+                        <div className="flex h-full flex-1 flex-col rounded-lg border-2 border-black bg-white  overflow-auto">
                             {children}
                         </div>
                     </div>

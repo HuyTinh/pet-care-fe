@@ -72,7 +72,7 @@ export const PrescriptionTab = () => {
               !(prescriptions as any[])?.length && (
                 <div className="absolute top-0 z-50 flex h-full w-full flex-col items-center justify-center">
                   <FcCalendar size={64} className="mb-10" />
-                  <div>You don't have any appoiment</div>
+                  <div>You don't have any prescription</div>
                 </div>
               )}
             {isFetching && (
@@ -157,7 +157,7 @@ export const PrescriptionTab = () => {
                         </td>
                         <td>
                           <span
-                            className={`rounded-lg ${val.status === "PENDING_PAYMENT" && "bg-yellow-300"} ${val.status === "APPROVED" && "bg-green-300"} ${val.status === "CANCELLED" && "bg-red-300"} p-2`}
+                            className={`rounded-lg ${val.status === "PENDING_PAYMENT" && "bg-yellow-300"} ${val.status === "APPROVED" && "bg-green-300"} ${val.status === "CANCELLED" && "bg-red-300"} p-1`}
                           >
                             {val.status.replace("_", " ")}
                           </span>
