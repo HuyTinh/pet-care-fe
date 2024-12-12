@@ -28,6 +28,9 @@ export const ProtectedRoute: React.FC<{
                 case "WAREHOUSE_MANAGER":
                     navigate("/admin/warehouse");
                     break;
+                case "MANAGER":
+                    navigate("/admin/manager");
+                    break;
                 default:
                     navigate("/admin"); // Default to admin if no valid role
             }

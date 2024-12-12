@@ -45,9 +45,11 @@ export const AdminLoginForm = () => {
       case "DOCTOR":
         navigate("/admin/doctor");
         return;
-
       case "WAREHOUSE_MANAGER":
         navigate("/admin/warehouse");
+        return;
+      case "MANAGER":
+        navigate("/admin/manager");
         return;
       case "CUSTOMER":
         navigate("/");
