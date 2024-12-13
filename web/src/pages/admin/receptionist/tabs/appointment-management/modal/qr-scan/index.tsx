@@ -51,6 +51,7 @@ export const QRScanModal = memo(({
                     document.getElementById("qr_scan_appointment_modal") as any
                   ).close();
                   setQrModalVisible(false);
+                  console.log(appointmentId === result[0].rawValue)
                   if (appointmentId === result[0].rawValue) {
                     // setAppointmentId(result[0].rawValue);
                     sendMessage(appointmentId, "CHECKED_IN")

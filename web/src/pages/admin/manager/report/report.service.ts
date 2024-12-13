@@ -11,10 +11,19 @@ export const reportApi = createApi({
         getAppointmentsReportByYear: build.query<APIResponse<any>, { year: number }>({
             query: (body) => `${import.meta.env.VITE_APPOINTMENT_PATH}/report/${body.year}`
         }),
+        getAppointmentsReportByDateToDate: build.query<APIResponse<any>, any>({
+            query: (body) => ({
+                url: `${import.meta.env.VITE_APPOINTMENT_PATH}/report/date-to-date`,
+                params: {
+                    ...body
+                }
+            })
+        }),
     }),
 });
 
 // Export the generated hooks for using the above endpoints in components
 export const {
     useGetAppointmentsReportByYearQuery, // Hook for fetching employee profile
+    useGetAppointmentsReportByDateToDateQuery
 } = reportApi;

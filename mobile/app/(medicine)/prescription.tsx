@@ -27,8 +27,11 @@ const prescription = () => {
     const [selectedOption, setSelectedOption] = useState<any>("Cash");
     const handlApproved = () => {
         if (selectedOption === 'Banking') {
-            setModalVisible(true);
-            setCountdown(300);
+            console.log("banking");
+            // setModalVisible(true);
+            // setCountdown(300);
+
+
         }
         else {
             console.log("cash");
@@ -62,7 +65,7 @@ const prescription = () => {
     }, []);
     function handleBack() {
         router.replace('/(tabs)/list')
-      }
+    }
     const renderHeader = (session: any) => {
         return (
             <>
@@ -287,10 +290,10 @@ const styles = StyleSheet.create({
         top: hp("7%"),
         left: wp("5%"),
         zIndex: 1,
-      },
-      backIcon: {
+    },
+    backIcon: {
         width: wp("6%"),
         height: wp("6%"),
         tintColor: "black",
-      },
+    },
 })

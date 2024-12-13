@@ -24,7 +24,7 @@ function getMonthName(monthNumber: number) {
 }
 
 function toReportAppointmentCompareData(arr1: any, arr2: any) {
-    let minArr = () => {
+    const minArr = () => {
         let returnArr = []
 
         if (arr1?.length - arr2?.length >= 0) {
@@ -33,7 +33,7 @@ function toReportAppointmentCompareData(arr1: any, arr2: any) {
             returnArr = arr1;
         }
         return returnArr?.map((val: any) => {
-            let dateArr = val.name?.split("-");
+            const dateArr = val.name?.split("-");
             return {
                 ...val,
                 year: dateArr[1],
@@ -42,7 +42,7 @@ function toReportAppointmentCompareData(arr1: any, arr2: any) {
         })
     }
 
-    let maxArr = () => {
+    const maxArr = () => {
         let returnArr = []
 
         if (arr1?.length - arr2?.length < 0) {
@@ -51,7 +51,7 @@ function toReportAppointmentCompareData(arr1: any, arr2: any) {
             returnArr = arr1;
         }
         return returnArr?.map((val: any) => {
-            let dateArr = val.name?.split("-");
+            const dateArr = val.name?.split("-");
             return {
                 ...val,
                 year: dateArr[1],
@@ -94,9 +94,9 @@ const LineChartReportApointment = () => {
     }, [appointmentsReportByYearCompareResponse])
 
     return (
-        <div className="w-full px-5 h-96">
+        <div className="w-full h-96">
             <div className="flex w-full space-x-5 h-full">
-                <div className="w-full bg-white px-7 py-7 rounded-lg">
+                <div className="w-full bg-white px-3 py-7 rounded-lg">
                     <div className="flex justify-center gap-x-2">
                         <span className=" flex justify-center font-bold text-lg">Appointment Report
                             <span className="mx-2 px-2 bg-blue-300 rounded-lg">
