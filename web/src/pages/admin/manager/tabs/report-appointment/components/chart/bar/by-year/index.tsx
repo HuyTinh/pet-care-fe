@@ -1,6 +1,6 @@
 import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
 import { useEffect, useState } from "react"
-import { useGetAppointmentsReportByYearQuery } from "../../../../../report/report.service"
+import { useGetAppointmentsReportByYearQuery } from "../../../../../../report/report.service"
 
 function toReportAppointmentData(val: any) {
     return {
@@ -13,7 +13,7 @@ function toReportAppointmentData(val: any) {
     }
 }
 
-const BarChartReportApointment = () => {
+const BarChartReportApointmentByYear = () => {
     const [selectedYear, setSelectedYear] = useState<number>(new Date().getFullYear())
 
     const [appointmentReportByYearData, setAppointmentReportByYearData] = useState()
@@ -63,4 +63,4 @@ const BarChartReportApointment = () => {
     )
 }
 
-export default BarChartReportApointment
+export default BarChartReportApointmentByYear

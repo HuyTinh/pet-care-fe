@@ -78,7 +78,7 @@ export const AppointmentManagement = () => {
         stompClient.subscribe("/topic/exportPDF/" + sessionId, (message) => {
           if (Number(message.body)) {
 
-            generatePDF(Number(message.body));
+            // generatePDF(Number(message.body));
 
             setAppointments((prev) => prev.map(val => {
               if (val.id == message.body) {

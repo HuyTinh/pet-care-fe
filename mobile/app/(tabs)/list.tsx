@@ -23,6 +23,7 @@ import {
 } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import {
+    useCancelBillMutation,
     useCreateBillMutation,
     useGetPrescriptionByIdQuery,
     useGetPrescriptionQuery,
@@ -99,23 +100,27 @@ const Home = () => {
     const [modalVisible, setModalVisible] = useState(false);
     const [countdown, setCountdown] = useState(300);
     const [craeteBill] = useCreateBillMutation();
-    const [qrPayment, setQrPayment] = useState();
+    const [cancelBill] = useCancelBillMutation();
+    const [invoice, setInvoice] = useState();
     const [selectedOption, setSelectedOption] = useState<any>("Cash");
     const handlApproved = () => {
         if (selectedOption === 'Banking') {
             craeteBill({
                 "prescription_id": (prescriptionData?.data as any)?.id,
                 "payment_method": "BANKING",
-                "status": "PENDING",
                 "total_money": (prescriptionData?.data as any)?.total_money
             }).then(res => {
-                setQrPayment((res?.data?.data as any).checkout_response.qrCode);
+                setInvoice((res?.data?.data as any))
+                setModalVisible(true);
+                setCountdown(300);
             })
-            setModalVisible(true);
-            setCountdown(300);
         }
         else {
-            console.log("cash");
+            craeteBill({
+                "prescription_id": (prescriptionData?.data as any)?.id,
+                "payment_method": "CASH",
+                "total_money": (prescriptionData?.data as any)?.total_money
+            })
         }
     }
     const startCountdown = useCallback(() => {
@@ -141,9 +146,11 @@ const Home = () => {
     const minutes = useMemo(() => Math.floor(countdown / 60), [countdown]);
     const seconds = useMemo(() => countdown % 60, [countdown]);
     const handleCancel = useCallback(() => {
-        setModalVisible(false);
-        setCountdown(300);
-    }, []);
+        cancelBill({ invoiceId: (invoice as any).id }).then(() => {
+            setModalVisible(false);
+            setCountdown(300);
+        })
+    }, [invoice]);
     const renderHeader = (session: any) => {
         return (
             <Card className="p-1 ">
@@ -196,7 +203,7 @@ const Home = () => {
                             <View className="flex flex-row w-1/4 justify-end">
                                 <Text style={{ fontFamily: "medium" }}>
                                     x{medicine.quantity} / {""}
-                                </Text> 
+                                </Text>
                                 <Text style={{ fontFamily: "medium" }}>
                                     <Text>{medicine.calculate_unit}</Text>
                                 </Text>
@@ -222,11 +229,11 @@ const Home = () => {
                     <View style={{ width: 380, height: 320, padding: 50, backgroundColor: 'white', borderRadius: 10 }} className="flex justify-center items-center">
                         <View className="justify-center items-center">
                             <Text>
-                                <Link href="https://dl.vietqr.io/pay?app=icb&"><Image className="w-36 h-32" source={{ uri: qrPayment }} /></Link>
+                                <Link href="https://dl.vietqr.io/pay?app=icb&"><Image className="w-48 h-48" source={{ uri: (invoice as any)?.checkout_response.qrCode }} /></Link>
                             </Text>
                             <Text className="text-sm mt-2" style={{ fontFamily: "medium" }}>QR will expire after {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}</Text>
                             <Text className="items-center text-base mt-5" style={{ fontFamily: "blod" }}>Petcare thanks you for your favor!</Text>
-                            <Button style={styles.buttonModal} onPress={handleCancel} >
+                            <Button style={styles.buttonModal} onPress={() => handleCancel()} >
                                 <Text className="font-bold text-base text-white text-center">Cancel</Text>
                             </Button>
                         </View>

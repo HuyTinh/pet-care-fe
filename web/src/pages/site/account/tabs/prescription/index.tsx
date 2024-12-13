@@ -13,7 +13,7 @@ export const PrescriptionTab = () => {
   const [selectedAppointment, setSelectedAppointment] = useState<IAppointment>(
     {} as IAppointment,
   );
-  const [appointmentStatus, setAppointmentStatus] = useState<string[]>(["PENDING_PAYMENT", "CANCELLED", "APPROVED"]);
+  const [appointmentStatus, setAppointmentStatus] = useState<string[]>(["APPROVED"]);
   const [prescriptions, setPrescriptions] = useState<IAppointment[]>([]);
   const [pageNumber, setPageNumber] = useState<number>(0)
 
@@ -38,10 +38,10 @@ export const PrescriptionTab = () => {
     <AnimatePresence initial={false}>
       <div className="w-full space-y-2" key={"1"}>
         <div className="flex justify-between">
-          <select
+          {/* <select
             className="select select-bordered select-sm"
             onChange={(e) => {
-              let strVal = [...e.target.value.split(",")]
+              const strVal = [...e.target.value.split(",")]
               setAppointmentStatus(strVal)
             }}
             defaultValue={["PENDING_PAYMENT", "CANCELLED", "APPROVED"]}
@@ -50,7 +50,7 @@ export const PrescriptionTab = () => {
             <option value={["PENDING_PAYMENT"]}>Pending</option>
             <option value={["CANCELLED"]}>Cancel</option>
             <option value={["APPROVED"]}>Approved</option>
-          </select>
+          </select> */}
           < div className="join" >
             <button className="join-item btn btn-sm" onClick={() => {
               if (pageNumber - 1 >= 0) {
