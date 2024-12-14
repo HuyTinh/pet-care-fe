@@ -94,16 +94,11 @@ export const pharmacistApi = createApi({
                 method: 'POST', // POST method for creating a bill
                 body, // Request body containing the bill details
             }),
-            invalidatesTags: (result) => [
-                // Invalidates the cached customer data after updating
-                { type: "Prescriptions" as const, id: (result as any)?.data.id },
-            ],
+            invalidatesTags: (result) => [{ type: 'Prescriptions' as const, appointmentId: 'LIST' }],
         }),
         // Endpoint to create a new bill
         cancelBill: build.mutation<APIReponse<any>, any>({
             query: (body) => {
-                console.log(body);
-
                 return {
                     url: `${process.env.EXPO_PUBLIC_BILL_PATH}/invoice/${body.invoiceId}/cancelled`, // URL to create an invoice (bill)
                     method: 'PUT', // POST method for creating a bill
