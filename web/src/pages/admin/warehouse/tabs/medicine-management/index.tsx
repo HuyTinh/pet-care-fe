@@ -134,7 +134,7 @@ export default function MedicinesManagement() {
                 setFilterConditions({});
                 setCurrentPage(0);
               }}
-              className="select select-bordered"
+              className="select select-bordered "
             >
               <option value="MEDICINE">Medicine</option>
               <option value="SURGICAL_INSTRUMENTS">Surgical Instruments</option>
@@ -176,13 +176,13 @@ export default function MedicinesManagement() {
             <TbFilterX />
           </button>
           {totalPages > 0 && (
-            <div className="mt-4 flex justify-center">
+            <div className=" flex justify-center">
               <ul className="join">
                 <li>
                   <button
                     onClick={() => setCurrentPage(Math.max(0, currentPage - 1))}
                     disabled={currentPage === 0}
-                    className="btn join-item btn-sm"
+                    className="btn join-item "
                   >
                     «
                   </button>
@@ -192,22 +192,20 @@ export default function MedicinesManagement() {
                   <li key={number}>
                     <button
                       onClick={() => setCurrentPage(number - 1)}
-                      className={`btn join-item btn-sm ${
-                        currentPage === number - 1 ? "btn-active" : ""
-                      }`}
+                      className={`btn join-item  ${currentPage === number - 1 ? "btn-active" : ""
+                        }`}
                     >
                       {number}
                     </button>
                   </li>
                 ))}
-
                 <li>
                   <button
                     onClick={() =>
                       setCurrentPage(Math.min(totalPages - 1, currentPage + 1))
                     }
                     disabled={currentPage === totalPages - 1}
-                    className="btn join-item btn-sm"
+                    className="btn join-item "
                   >
                     »
                   </button>

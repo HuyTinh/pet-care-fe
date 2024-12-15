@@ -19,4 +19,4 @@ const WarehousePage = () => {
   );
 };
 
-export default { page: WarehousePage, rolesAccess: ["WAREHOUSE_MANAGER"] }
+export default { page: <WarehousePage />, rolesAccess: ["WAREHOUSE_MANAGER"] }

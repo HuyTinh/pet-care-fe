@@ -334,7 +334,7 @@ export const AddMedicineModal = () => {
               )}
             </label>
           </div>
-          <div className="mt-3 flex justify-evenly gap-x-12">
+          <div className="mt-3 flex justify-evenly gap-x-5">
             <LocationPicker
               location={location}
               setLocation={setLocation}
