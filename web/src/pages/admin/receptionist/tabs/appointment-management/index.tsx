@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useFilterAppointmentsQuery } from "../../appointment.service";
 import { IAppointment } from "../../../../../@types/appoiment.type";
-import { usePdfGenerator } from "../../../../../shared/hooks/pdf-generator";
 
 import WebSocketManager from "../../../../../config/web-socket-manager";
 import { IoQrCodeOutline } from "react-icons/io5";
@@ -24,7 +23,6 @@ export const AppointmentManagement = () => {
   const [sessionId, _setSessionId] = useState(new Date().getTime());
   const stompClient = WebSocketManager.getInstance().getClient();
   const [pageNumber, setPageNumber] = useState<number>(0)
-  const { generatePDF } = usePdfGenerator();
 
   const onFilterAppointmentSubmit = (data: any) => {
     setFilterAppointmentConditions(data); // Cập nhật điều kiện lọc
@@ -78,7 +76,7 @@ export const AppointmentManagement = () => {
         stompClient.subscribe("/topic/exportPDF/" + sessionId, (message) => {
           if (Number(message.body)) {
 
-            generatePDF(Number(message.body));
+            // generatePDF(Number(message.body));
 
             setAppointments((prev) => prev.map(val => {
               if (val.id == message.body) {

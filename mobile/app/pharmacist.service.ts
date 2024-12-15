@@ -18,7 +18,7 @@ export const pharmacistApi = createApi({
     endpoints: (build) => ({
         // Endpoint to fetch all prescriptions
         getPrescription: build.query<APIReponse<IPrescription>, void>({
-            query: () => `${process.env.EXPO_PUBLIC_MEDICAL_PRESCRIPTION_PATH}/prescription`, // API URL to fetch prescriptions
+            query: () => `${process.env.EXPO_PUBLIC_MEDICAL_PRESCRIPTION_PATH}/prescription/current`, // API URL to fetch prescriptions
             providesTags: (result) => {
                 if (result) {
                     // If the result exists, map prescription IDs to cache tags
@@ -94,6 +94,17 @@ export const pharmacistApi = createApi({
                 method: 'POST', // POST method for creating a bill
                 body, // Request body containing the bill details
             }),
+            invalidatesTags: (result) => [{ type: 'Prescriptions' as const, appointmentId: 'LIST' }],
+        }),
+        // Endpoint to create a new bill
+        cancelBill: build.mutation<APIReponse<any>, any>({
+            query: (body) => {
+                return {
+                    url: `${process.env.EXPO_PUBLIC_BILL_PATH}/invoice/${body.invoiceId}/cancelled`, // URL to create an invoice (bill)
+                    method: 'PUT', // POST method for creating a bill
+                    body, // Request body containing the bill details
+                }
+            }
         }),
     }),
 });
@@ -105,5 +116,6 @@ export const {
     useGetPrescriptionByIdQuery, // Hook for fetching a prescription by ID
     useLoginRequestMutation, // Hook for initiating a login request
     useSoftUpdateProfileMutation,
+    useCancelBillMutation,
     useGetEmployeeByAccountIdQuery, // Hook for fetching employee details by account ID
 } = pharmacistApi;

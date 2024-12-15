@@ -8,9 +8,8 @@ import {
   useGetAllVeterinaryCareQuery,
 } from "../../../../../prescription.service";
 import _ from "lodash"
-import { toast } from "react-toastify";
 import { Editor } from "@tinymce/tinymce-react";
-
+import { toast } from "react-toastify";
 
 type MakePrescriptionModalProps = {
   appointment: IAppointment;
@@ -68,19 +67,15 @@ export const MakePrescriptionModal = memo(({
 
   useEffect(() => {
     if (appointment.pets) {
-      setSelectedPet((appointment as any).pets[0].id);
+      setSelectedPet((appointment as any).pets[0]?.id);
     }
-
-    // if (appointment.services) {
-    //   setServices((appointment as any).services)
-    // }
     return () => { };
   }, [appointment]);
 
 
   return (
     <dialog id="make_prescription_modal" className="modal backdrop:!hidden">
-      <div className="modal-box w-full max-w-7xl">
+      <div className="modal-box border-2 border-black w-full max-w-7xl overflow-x-hidden">
         <div className="my-1 text-center text-3xl font-bold">
           Make Prescription
         </div>
@@ -278,15 +273,15 @@ export const MakePrescriptionModal = memo(({
             </div>
             <div>
               <button className="w-full btn btn-sm" onClick={() => {
-                let veterinary_care_id = getValues("veterinary_cares")
+                const veterinary_care_id = getValues("veterinary_cares")
 
-                let veterinary_care = _.omit(veterinaryCares.find((val: any) => val.name.trim() === veterinary_care_id), [
+                const veterinary_care = _.omit(veterinaryCares.find((val: any) => val.name.trim() === veterinary_care_id), [
                   "description", "status"
                 ]);
 
                 setPrescriptionVeterinaryCares((prevState) => [...prevState, {
-                  veterinary_care: veterinary_care.name,
-                  total_money: veterinary_care.price,
+                  veterinary_care: (veterinary_care as any).name,
+                  total_money: (veterinary_care as any).price,
                   result: editorRef.current.getContent()
                 }])
 
@@ -322,9 +317,10 @@ export const MakePrescriptionModal = memo(({
                     return sum + (val as any).total_money
                   }, 0)
                 }).then(() => {
-                  toast.success("Create prescription successful", {
+                  (document.getElementById("make_prescription_modal") as any).close()
+                  setTimeout(() => toast.success("Create prescription successful", {
                     position: "top-right"
-                  })
+                  }), 100)
                 });
               }}>Save</button>
             </div>

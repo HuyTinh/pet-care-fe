@@ -23,6 +23,7 @@ import {
 } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import {
+    useCancelBillMutation,
     useCreateBillMutation,
     useGetPrescriptionByIdQuery,
     useGetPrescriptionQuery,
@@ -32,6 +33,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { pharmacistProfileId } from "@/app/pharmacist.slice";
 import { Link, router, useFocusEffect } from "expo-router";
+import WebSocketManager from "@/config/web-socket-manager";
 const Home = () => {
     const getDateInfo = (): { day: number; month: string; year: number; dayName: string } => {
         const dateInfo = useMemo(() => {
@@ -52,7 +54,8 @@ const Home = () => {
         }, [])
         return dateInfo;
     };
-    const { data, isLoading, isFetching, isError } = useGetPrescriptionQuery();
+    const { data: prescriptionResponse, isLoading, isFetching, isError } = useGetPrescriptionQuery();
+    const [prescriptions, setPrescriptions] = useState();
     const [searchQuery, setSearchQuery] = React.useState("");
     const [searchResult, setSearchResult] = React.useState();
     const bottomSheetModalRef = useRef<BottomSheetModal>(null);
@@ -67,6 +70,12 @@ const Home = () => {
             return () => bottomSheetModalRef.current?.close()
         }, [])
     );
+    useEffect(() => {
+        console.log(12);
+
+        setPrescriptions((prescriptionResponse as any)?.data)
+    }, [prescriptionResponse?.data])
+
     const [activeSections, setActiveSections] = useState([]);
     const updateSections = (activeSections: any) => {
         setActiveSections(activeSections);
@@ -77,7 +86,7 @@ const Home = () => {
     });
     const distpath = useDispatch()
     const filterCustomer = (value: any) => {
-        return (data as any)?.data.filter((account: any) => {
+        return (prescriptions as any)?.filter((account: any) => {
             return (
                 value &&
                 account.appointment.phone_number.includes(value)
@@ -99,23 +108,52 @@ const Home = () => {
     const [modalVisible, setModalVisible] = useState(false);
     const [countdown, setCountdown] = useState(300);
     const [craeteBill] = useCreateBillMutation();
-    const [qrPayment, setQrPayment] = useState();
+    const [cancelBill] = useCancelBillMutation();
+    const [invoice, setInvoice] = useState();
     const [selectedOption, setSelectedOption] = useState<any>("Cash");
+    const stompClient = WebSocketManager.getInstance().getClient();
+    useEffect(() => {
+        if (stompClient) {
+            stompClient.onConnect = () => {
+                console.log("Connected to WebSocket");
+                // Gửi yêu cầu kết nối
+                stompClient.publish({ destination: "/app/connect" });
+                stompClient.subscribe("/topic/pharmacist-update-prescription", (message) => {
+                    const receiveData = JSON.parse(message.body);
+                    setPrescriptions((prevState: any) => [...prevState, receiveData] as any)
+                });
+            };
+
+            stompClient.onDisconnect = () => {
+                console.log("Disconnected from WebSocket");
+            };
+        }
+
+        return () => {
+            // Không gọi deactivate() ở đây
+            // stompClient?.deactivate;
+        };
+    }, [stompClient]);
     const handlApproved = () => {
         if (selectedOption === 'Banking') {
             craeteBill({
                 "prescription_id": (prescriptionData?.data as any)?.id,
                 "payment_method": "BANKING",
-                "status": "PENDING",
                 "total_money": (prescriptionData?.data as any)?.total_money
             }).then(res => {
-                setQrPayment((res?.data?.data as any).checkout_response.qrCode);
+                setInvoice((res?.data?.data as any))
+                setModalVisible(true);
+                setCountdown(300);
             })
-            setModalVisible(true);
-            setCountdown(300);
         }
         else {
-            console.log("cash");
+            craeteBill({
+                "prescription_id": (prescriptionData?.data as any)?.id,
+                "payment_method": "CASH",
+                "total_money": (prescriptionData?.data as any)?.total_money
+            }).then(res => {
+                bottomSheetModalRef.current?.close()
+            })
         }
     }
     const startCountdown = useCallback(() => {
@@ -141,9 +179,11 @@ const Home = () => {
     const minutes = useMemo(() => Math.floor(countdown / 60), [countdown]);
     const seconds = useMemo(() => countdown % 60, [countdown]);
     const handleCancel = useCallback(() => {
-        setModalVisible(false);
-        setCountdown(300);
-    }, []);
+        cancelBill({ invoiceId: (invoice as any).id }).then(() => {
+            setModalVisible(false);
+            setCountdown(300);
+        })
+    }, [invoice]);
     const renderHeader = (session: any) => {
         return (
             <Card className="p-1 ">
@@ -196,7 +236,7 @@ const Home = () => {
                             <View className="flex flex-row w-1/4 justify-end">
                                 <Text style={{ fontFamily: "medium" }}>
                                     x{medicine.quantity} / {""}
-                                </Text> 
+                                </Text>
                                 <Text style={{ fontFamily: "medium" }}>
                                     <Text>{medicine.calculate_unit}</Text>
                                 </Text>
@@ -222,11 +262,11 @@ const Home = () => {
                     <View style={{ width: 380, height: 320, padding: 50, backgroundColor: 'white', borderRadius: 10 }} className="flex justify-center items-center">
                         <View className="justify-center items-center">
                             <Text>
-                                <Link href="https://dl.vietqr.io/pay?app=icb&"><Image className="w-36 h-32" source={{ uri: qrPayment }} /></Link>
+                                <Link href="https://dl.vietqr.io/pay?app=icb&"><Image className="w-48 h-48" source={{ uri: (invoice as any)?.checkout_response.qrCode }} /></Link>
                             </Text>
                             <Text className="text-sm mt-2" style={{ fontFamily: "medium" }}>QR will expire after {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}</Text>
                             <Text className="items-center text-base mt-5" style={{ fontFamily: "blod" }}>Petcare thanks you for your favor!</Text>
-                            <Button style={styles.buttonModal} onPress={handleCancel} >
+                            <Button style={styles.buttonModal} onPress={() => handleCancel()} >
                                 <Text className="font-bold text-base text-white text-center">Cancel</Text>
                             </Button>
                         </View>
@@ -338,8 +378,8 @@ const Home = () => {
                                                             <Text className="text-[#0D74B1] text-base font-medium" style={{ fontFamily: "blod" }}>
                                                                 Họ và tên:{" "}
                                                                 <Text className="!text-black" style={{ fontFamily: "medium" }}>
-                                                                    {search.appointment.last_name}{" "}
-                                                                    {search.appointment.first_name}
+                                                                    {search.appointment?.last_name}{" "}
+                                                                    {search.appointment?.first_name}
                                                                 </Text>
                                                             </Text>
                                                             <Text className="text-[#0D74B1] text-base font-medium" style={{ fontFamily: "blod" }}>
@@ -366,7 +406,7 @@ const Home = () => {
 
                                                 </View>
                                                 :
-                                                !isFocus && !isFetching && ((data as any)?.data as IPrescription[])?.map(
+                                                !isFocus && !isFetching && (prescriptions as any)?.map(
                                                     (prescription: any, index: number) => (
                                                         <Card
                                                             className="bg-[#E7E7E8]"
@@ -381,15 +421,15 @@ const Home = () => {
                                                                     Họ và tên:{" "}
                                                                     <Text className="!text-black" style={{ fontFamily: "medium" }}>
 
-                                                                        {prescription?.appointment.last_name}{" "}
-                                                                        {prescription.appointment.first_name}
+                                                                        {prescription?.appointment?.last_name}{" "}
+                                                                        {prescription.appointment?.first_name}
                                                                     </Text>
                                                                 </Text>
                                                                 <Text className="text-[#0D74B1] text-base font-medium" style={{ fontFamily: "blod" }}>
 
                                                                     Số điện thoại:{" "}
                                                                     <Text className="!text-black" style={{ fontFamily: "medium" }}>
-                                                                        {prescription?.appointment.phone_number}
+                                                                        {prescription?.appointment?.phone_number}
                                                                     </Text>
                                                                 </Text>
                                                                 <Image

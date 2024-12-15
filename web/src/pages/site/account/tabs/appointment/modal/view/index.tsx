@@ -3,14 +3,9 @@ import { useForm } from "react-hook-form";
 import { IHospitalService } from "../../../../../../../@types/hospital-service.type";
 import { IPet } from "../../../../../../../@types/pet.type";
 import { IAppointment } from "../../../../../../../@types/appoiment.type";
-import { PetPicker } from "../../../../../../../shared/ui/pet-picker";
-import { time } from "../../../../../../../constant/time";
 import {
     displayCustomDate,
-    displayInputDate,
-    displayPlusDate,
 } from "../../../../../../../shared/helped/date";
-import { MdOutlineErrorOutline } from "react-icons/md";
 import _ from "lodash"
 
 type ViewAppointmentModalProps = {
@@ -21,9 +16,7 @@ export const ViewAppointmentModal = memo(({
     appointment,
 }: ViewAppointmentModalProps) => {
     const {
-        register,
         reset,
-        formState: { errors },
     } = useForm<any>({
         mode: "all",
         defaultValues: {}

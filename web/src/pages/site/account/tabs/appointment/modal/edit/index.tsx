@@ -24,7 +24,7 @@ export const EditAppointmentModal = ({
     (document.getElementById("edit_appointment_modal") as any).close();
   };
 
-  const [updateAppointment, { isSuccess }] = useUpdateAppointmentMutation();
+  const [updateAppointment, { isSuccess, isLoading }] = useUpdateAppointmentMutation();
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
@@ -49,6 +49,17 @@ export const EditAppointmentModal = ({
     <div>
       <dialog id="edit_appointment_modal" className="modal backdrop:!hidden">
         <div className="modal-box flex max-w-xl flex-col p-0">
+
+          {isLoading && <div className="absolute left-0 top-0 z-50 flex h-full w-full justify-center items-center bg-black/35">
+            <div className="w-64 relative">
+              <img
+                src="/src/shared/assets/images/loading.gif"
+                className="object-cover"
+                alt=""
+              />
+              <div className="text-white bg-black rounded-full absolute bottom-5 text-center w-full">Waiting for few second...</div>
+            </div>
+          </div>}
           <form className="relative p-5">
             <div className="text-center text-2xl font-bold">
               Change Detail Appointment

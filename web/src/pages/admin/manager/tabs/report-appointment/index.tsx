@@ -1,9 +1,9 @@
 
-import { FaFilter } from "react-icons/fa";
 import _ from "lodash"
 import LineChartReportApointment from "./components/chart/line";
-import BarChartReportApointment from "./components/chart/bar";
 import PieChartReportApointment from "./components/chart/pie";
+import BarChartReportApointmentByYear from "./components/chart/bar/by-year";
+import BarChartReportApointmentByDateToDate from "./components/chart/bar/by-date-to-date";
 
 const ReportAppointment = () => {
     return (
@@ -16,11 +16,15 @@ const ReportAppointment = () => {
             <LineChartReportApointment />
             <div className="mt-7 w-full px-5 h-96">
                 <div className="flex flex-row w-full space-x-5 h-full">
-                    <BarChartReportApointment />
+                    <BarChartReportApointmentByYear />
                     <PieChartReportApointment />
                 </div>
             </div>
-            {/* <FilterModal /> */}
+            <div className="mt-7 w-full px-5 h-96">
+                <div className="flex flex-row w-full space-x-5 h-full">
+                    <BarChartReportApointmentByDateToDate />
+                </div>
+            </div>
         </div>
     )
 }

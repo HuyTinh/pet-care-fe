@@ -7,6 +7,14 @@ const imageBox = {
   animate: { scale: 1.2 },
 };
 
+import { EventSource } from 'eventsource'
+
+// const es = new EventSource('https://tsm885rc-8089.asse.devtunnels.ms/api/v1/payment-service/sse/stream?channel=24')
+
+// es.addEventListener('message', (event) => {
+//   console.log(event.data)
+// })
+
 export const HomePage = () => {
   return (
     <motion.div

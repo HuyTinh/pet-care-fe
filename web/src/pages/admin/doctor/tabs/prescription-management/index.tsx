@@ -3,7 +3,6 @@ import { IAppointment } from "../../../../../@types/appoiment.type";
 import { EditPrescriptionModal, FilterAppointmentModal, FilterPrescriptionModal, MakePrescriptionModal, QRScanModal, ViewPrescriptionModal } from "./components/modal";
 import { AppointmentTable, PrescriptionTable } from "./components/table";
 
-
 export const PrescriptionManagement = () => {
   const [filterPrescriptionConditions, setFilterPrescriptionConditions] = useState<any>({});
   const [filterAppointmentConditions, setFilterAppointmentConditions] = useState<any>({});
@@ -24,6 +23,7 @@ export const PrescriptionManagement = () => {
 
   const [selectedPrescription, setSelectedPrescription] = useState<any>()
   const [qrModalVisible, setQrModalVisible] = useState<boolean>(false);
+
 
   return (
     <>

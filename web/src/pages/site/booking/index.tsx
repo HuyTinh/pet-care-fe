@@ -76,7 +76,7 @@ export const BookingPage = () => {
       <div className="space-y-5 p-4 md:p-6 lg:p-10">
         <div className="flex justify-center">
           <ul className="steps">
-            <li className={`step ${step >= 1 ? "step-info" : "step"}`}>Service</li>
+            <li className={`step ${step >= 1 ? "step-info" : "step"}`}>Date</li>
             <li className={`step ${step >= 2 ? "step-info" : "step"}`}>Customer Information</li>
             <li className={`step ${step >= 3 ? "step-info" : "step"}`}>Approved</li>
           </ul>

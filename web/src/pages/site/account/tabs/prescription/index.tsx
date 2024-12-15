@@ -3,23 +3,20 @@ import { RootState } from "../../../../../store/store";
 import { AnimatePresence, motion } from "framer-motion";
 import { FcCalendar } from "react-icons/fc";
 import { useEffect, useState } from "react";
-import { EditAppointmentModal } from "./edit-appointment-modal";
 import { IAppointment } from "../../../../../@types/appoiment.type";
 import { useFilterPrescriptionsQuery } from "../../../../admin/doctor/prescription.service";
 import { displayCustomDate } from "../../../../../shared/helped/date";
+import { ViewPrescriptionModal } from "./view-prescription-modal";
 
 export const PrescriptionTab = () => {
   const userId = useSelector((state: RootState) => state.authentication.userId);
-  const [selectedAppointment, setSelectedAppointment] = useState<IAppointment>(
-    {} as IAppointment,
-  );
-  const [appointmentStatus, setAppointmentStatus] = useState<string[]>(["PENDING_PAYMENT", "CANCELLED", "APPROVED"]);
   const [prescriptions, setPrescriptions] = useState<IAppointment[]>([]);
+  const [selectedPrescription, setSelectedPrescription] = useState()
   const [pageNumber, setPageNumber] = useState<number>(0)
 
   const { data: prescriptionsResponse, isFetching } =
     useFilterPrescriptionsQuery({
-      statues: appointmentStatus,
+      statues: ["APPROVED"],
       page: pageNumber,
       accountId: userId as any
     }, {
@@ -38,10 +35,10 @@ export const PrescriptionTab = () => {
     <AnimatePresence initial={false}>
       <div className="w-full space-y-2" key={"1"}>
         <div className="flex justify-between">
-          <select
+          {/* <select
             className="select select-bordered select-sm"
             onChange={(e) => {
-              let strVal = [...e.target.value.split(",")]
+              const strVal = [...e.target.value.split(",")]
               setAppointmentStatus(strVal)
             }}
             defaultValue={["PENDING_PAYMENT", "CANCELLED", "APPROVED"]}
@@ -50,7 +47,7 @@ export const PrescriptionTab = () => {
             <option value={["PENDING_PAYMENT"]}>Pending</option>
             <option value={["CANCELLED"]}>Cancel</option>
             <option value={["APPROVED"]}>Approved</option>
-          </select>
+          </select> */}
           < div className="join" >
             <button className="join-item btn btn-sm" onClick={() => {
               if (pageNumber - 1 >= 0) {
@@ -164,7 +161,10 @@ export const PrescriptionTab = () => {
                         </td>
                         <td>
                           <div className="flex flex-col gap-y-2">
-                            <button className="btn btn-sm">View</button>
+                            <button className="btn btn-sm" onClick={() => {
+                              (document.getElementById("view_prescription_modal") as any).showModal()
+                              setSelectedPrescription(val)
+                            }}>View</button>
                           </div>
                         </td>
                       </motion.tr>
@@ -176,7 +176,7 @@ export const PrescriptionTab = () => {
           </div>
         </div>
       </div>
-      <EditAppointmentModal selectedAppointment={selectedAppointment} />
+      <ViewPrescriptionModal prescription={selectedPrescription as any} />
     </AnimatePresence>
   );
 };
