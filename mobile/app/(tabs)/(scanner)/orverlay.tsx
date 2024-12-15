@@ -27,7 +27,7 @@ const inner = rrect(
 
 // The Overlay component renders a canvas with a DiffRect
 // DiffRect creates a visual effect by subtracting the inner rectangle from the outer one
-const Overlay = () => {
+export const Overlay = () => {
   return (
     <Canvas
       style={ // Dynamically setting the style based on the platform
@@ -41,5 +41,3 @@ const Overlay = () => {
     </Canvas>
   );
 };
-
-export default Overlay

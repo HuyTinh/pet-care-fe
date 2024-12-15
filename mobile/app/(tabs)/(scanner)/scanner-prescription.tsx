@@ -2,10 +2,10 @@ import { Alert, AppState, StyleSheet, Vibration, View } from 'react-native'
 import React, { useEffect, useRef } from 'react'
 import { BarcodeScanningResult, CameraView } from 'expo-camera'
 import { useDispatch } from 'react-redux';
+import { Overlay } from './orverlay';
 import { router } from 'expo-router';
 import { pharmacistProfileId } from '@/app/pharmacist.slice';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import Overlay from './orverlay';
 
 const scannerprescription = () => {
     const qrLock = useRef(false)

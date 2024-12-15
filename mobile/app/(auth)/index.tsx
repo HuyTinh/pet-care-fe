@@ -9,7 +9,7 @@ import {
   Modal
 } from "react-native"; // Import components from react-native
 import { Controller, SubmitHandler, useForm } from "react-hook-form"; // Import form handling from react-hook-form
-import { Button, TextInput } from "react-native-paper"; // Import UI components from react-native-paper
+import {  TextInput,Button } from "react-native-paper"; // Import UI components from react-native-paper
 import { Link, router } from "expo-router"; // Import router and Link component for navigation
 import {
   widthPercentageToDP as wp,
@@ -22,6 +22,8 @@ import { useDispatch } from "react-redux"; // For dispatching actions to the Red
 import { jwtDecode } from "jwt-decode"; // To decode JWT token
 import { IJwtPayload } from "@/@types/jwt-payload.type"; // Import JWT payload type
 import { pharmacistProfileId } from "../pharmacist.slice"; // Redux action to update pharmacist profile ID
+// import { useCameraPermissions } from "expo-camera";
+// import { Button } from "react-native";
 
 const Auth = () => {
   const [login] = useLoginRequestMutation(); // Mutation hook for logging in
@@ -45,6 +47,7 @@ const Auth = () => {
         console.error('Error retrieving token:', error); // Log error if retrieval fails
       });
   }, []);
+  // const [permisson, requestPermissions] = useCameraPermissions()
 
   // onSubmit handler for login
   const onSubmit: SubmitHandler<LoginRequest> = async (data: LoginRequest) => {
@@ -170,6 +173,9 @@ const Auth = () => {
               >
                 Login
               </Button>
+          </View>
+          <View style={styles.buttonContainer}>
+          {/* <Button onPress={requestPermissions} title='Allow camera approve'></Button> */}
           </View>
         </View>
       </TouchableWithoutFeedback>
