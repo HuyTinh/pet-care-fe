@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { FcCalendar } from "react-icons/fc";
 import { FaFilter } from "react-icons/fa";
 import { useGetAllMedicinesQuery } from "../../medicine.service";
-import { IMedicine } from "../../../../../@typesmedicine.type";
+import { IMedicine } from "../../../../../@types/prescription.type";
 import { EditMedicineModal } from "./edit-medicine-modal";
 import { AddMedicineModal } from "./add-medicine-modal";
 import { FilterMedicineModal } from "./filter-medicine-modal";
