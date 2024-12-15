@@ -1,17 +1,16 @@
 import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, TooltipProps, XAxis, YAxis } from "recharts"
 import { useEffect, useState } from "react"
-import { useGetAppointmentsReportByDateToDateQuery } from "../../../../../report.service"
 import { displayInputDate } from "../../../../../../../../../shared/helped/date";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useGetPrescriptionsReportByDateToDateQuery } from "../../../../../report.service";
 
-function toReportAppointmentData(val: any) {
+function toReportPrescriptionData(val: any) {
     return {
         name: val.date,
-        "Total": val.total_appointment,
-        "Scheduled": val.number_of_scheduled,
+        "Total": val.total_prescriptions,
+        "Processing": val.number_of_processing,
         "Approved": val.number_of_approved,
-        "Cancelled": val.number_of_cancelled,
-        "No Show": val.number_of_no_show
+        "Cancelled": val.number_of_cancelled
     }
 }
 
@@ -55,7 +54,7 @@ function getStartOfMonth() {
     return new Date(now.getFullYear(), now.getMonth(), 1); // Create a new Date object for the 1st day of the current month
 }
 
-const BarChartReportApointmentByDateToDate = () => {
+const BarChartReportPrescriptionByDateToDate = () => {
     const {
         register,
         handleSubmit,
@@ -68,19 +67,19 @@ const BarChartReportApointmentByDateToDate = () => {
     const onSubmit: SubmitHandler<any> = ((data) => {
         setFilterData(data);
     })
-    const [appointmentReportByDateToDateData, setAppointmentReportByDateToDateData] = useState()
-    const { data: appointmentsReportByDateToDateResponse } = useGetAppointmentsReportByDateToDateQuery(filterData)
+    const [prescriptionReportByDateToDateData, setPrescriptionReportByDateToDateData] = useState()
+    const { data: prescriptionsReportByDateToDateResponse } = useGetPrescriptionsReportByDateToDateQuery(filterData)
 
     useEffect(() => {
-        if (appointmentsReportByDateToDateResponse?.data) {
-            setAppointmentReportByDateToDateData(appointmentsReportByDateToDateResponse?.data.map((val: any) => toReportAppointmentData(val)))
+        if (prescriptionsReportByDateToDateResponse?.data) {
+            setPrescriptionReportByDateToDateData(prescriptionsReportByDateToDateResponse?.data.map((val: any) => toReportPrescriptionData(val)))
         }
-    }, [appointmentsReportByDateToDateResponse])
+    }, [prescriptionsReportByDateToDateResponse])
 
     return (
         <div className="flex-1 bg-white pb-16 pt-5 rounded-lg space-y-2">
             <div className="flex gap-x-2 justify-center">
-                <span className=" flex justify-center font-bold text-lg">Appointment Report - from</span>
+                <span className=" flex justify-center font-bold text-lg">Prescription Report - from</span>
                 <form onSubmit={handleSubmit(onSubmit)} className="flex gap-x-2">
                     <label className="form-control">
                         <input type="date" placeholder="Type here" defaultValue={filterData.startDate} className="input input-bordered input-sm" {...register("startDate")} />
@@ -101,7 +100,7 @@ const BarChartReportApointmentByDateToDate = () => {
                 <BarChart
                     width={500}
                     height={300}
-                    data={appointmentReportByDateToDateData}
+                    data={prescriptionReportByDateToDateData}
                     margin={{ bottom: 50 }}
                 >
                     {/* <Legend /> */}
@@ -110,14 +109,13 @@ const BarChartReportApointmentByDateToDate = () => {
                     <YAxis />
                     <Tooltip content={<CustomTooltip />} />
                     <Legend layout="horizontal" verticalAlign="top" align="center" />
-                    <Bar dataKey="Scheduled" stackId="appointment" fill="#e6e600" />
-                    <Bar dataKey="Approved" stackId="appointment" fill="#82ca9d" />
-                    <Bar dataKey="Cancelled" stackId="appointment" fill="#fc2b2b    " />
-                    <Bar dataKey="No Show" stackId="appointment" fill="#878787" />
+                    <Bar dataKey="Processing" stackId="prescription" fill="#e6e600" />
+                    <Bar dataKey="Approved" stackId="prescription" fill="#82ca9d" />
+                    <Bar dataKey="Cancelled" stackId="prescription" fill="#fc2b2b    " />
                 </BarChart>
             </ResponsiveContainer>
         </div>
     )
 }
 
-export default BarChartReportApointmentByDateToDate
+export default BarChartReportPrescriptionByDateToDate

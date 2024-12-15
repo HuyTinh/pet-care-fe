@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
-import { useGetAppointmentsReportByYearQuery } from '../../../report.service'
+import { useGetAppointmentsReportByYearQuery } from '../../../../tabs/report.service'
 import _ from "lodash"
 
 function toReportAppointmentData(val: any) {

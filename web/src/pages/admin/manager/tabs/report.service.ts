@@ -19,11 +19,25 @@ export const reportApi = createApi({
                 }
             })
         }),
+        // Endpoint to get employee profile information
+        getPrescriptionsReportByYear: build.query<APIResponse<any>, { year: number }>({
+            query: (body) => `${import.meta.env.VITE_MEDICAL_PRESCRIPTION_PATH}/report/${body.year}`
+        }),
+        getPrescriptionsReportByDateToDate: build.query<APIResponse<any>, any>({
+            query: (body) => ({
+                url: `${import.meta.env.VITE_MEDICAL_PRESCRIPTION_PATH}/report/date-to-date`,
+                params: {
+                    ...body
+                }
+            })
+        }),
     }),
 });
 
 // Export the generated hooks for using the above endpoints in components
 export const {
     useGetAppointmentsReportByYearQuery, // Hook for fetching employee profile
-    useGetAppointmentsReportByDateToDateQuery
+    useGetAppointmentsReportByDateToDateQuery,
+    useGetPrescriptionsReportByYearQuery,
+    useGetPrescriptionsReportByDateToDateQuery
 } = reportApi;

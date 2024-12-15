@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import _ from "lodash"
-import { useGetAppointmentsReportByYearQuery } from '../../../../report.service';
+import { useGetPrescriptionsReportByYearQuery } from '../../../../report.service';
 
-function toReportAppointmentData(val: any) {
+function toReportPrescriptionData(val: any) {
     return {
         name: val.month,
-        "Total": val.total_appointment,
-        "Scheduled": val.number_of_scheduled,
+        "Total": val.total_prescriptions,
+        "Processing": val.number_of_processing,
         "Approved": val.number_of_approved,
-        "Cancelled": val.number_of_cancelled,
-        "No Show": val.number_of_no_show
+        "Cancelled": val.number_of_cancelled
     }
 }
 
@@ -23,7 +22,7 @@ function getMonthName(monthNumber: number) {
     });
 }
 
-function toReportAppointmentCompareData(arr1: any, arr2: any) {
+function toReportPrescriptionCompareData(arr1: any, arr2: any) {
     const minArr = () => {
         let returnArr = []
 
@@ -69,36 +68,36 @@ function toReportAppointmentCompareData(arr1: any, arr2: any) {
     })
 }
 
-const LineChartReportApointment = () => {
+const LineChartReportPrescription = () => {
     const [selectedYear, setSelectedYear] = useState<number>(new Date().getFullYear() - 1)
 
     const [selectedStatus, setSelectedStatus] = useState<string>("Total")
-    const [appointmentReportByYearData, setAppointmentReportByYearData] = useState()
-    const [appointmentReportByYearCompareData, setAppointmentReportByYearCompareData] = useState()
-    const { data: appointmentsReportByYearResponse } = useGetAppointmentsReportByYearQuery({ year: new Date().getFullYear() })
-    const { data: appointmentsReportByYearCompareResponse } = useGetAppointmentsReportByYearQuery({ year: selectedYear })
+    const [prescriptionReportByYearData, setPrescriptionReportByYearData] = useState()
+    const [prescriptionReportByYearCompareData, setPrescriptionReportByYearCompareData] = useState()
+    const { data: prescriptionsReportByYearResponse } = useGetPrescriptionsReportByYearQuery({ year: new Date().getFullYear() })
+    const { data: prescriptionsReportByYearCompareResponse } = useGetPrescriptionsReportByYearQuery({ year: selectedYear })
 
     useEffect(() => {
-        if (appointmentsReportByYearResponse?.data) {
+        if (prescriptionsReportByYearResponse?.data) {
 
-            setAppointmentReportByYearData(appointmentsReportByYearResponse?.data.map((val: any) => toReportAppointmentData(val)))
+            setPrescriptionReportByYearData(prescriptionsReportByYearResponse?.data.map((val: any) => toReportPrescriptionData(val)))
         }
-    }, [appointmentsReportByYearResponse])
+    }, [prescriptionsReportByYearResponse])
 
 
     useEffect(() => {
-        if (appointmentsReportByYearCompareResponse?.data) {
+        if (prescriptionsReportByYearCompareResponse?.data) {
 
-            setAppointmentReportByYearCompareData(appointmentsReportByYearCompareResponse?.data.map((val: any) => toReportAppointmentData(val)))
+            setPrescriptionReportByYearCompareData(prescriptionsReportByYearCompareResponse?.data.map((val: any) => toReportPrescriptionData(val)))
         }
-    }, [appointmentsReportByYearCompareResponse])
+    }, [prescriptionsReportByYearCompareResponse])
 
     return (
         <div className="w-full h-96">
             <div className="flex w-full space-x-5 h-full">
                 <div className="w-full bg-white px-3 py-7 rounded-lg">
                     <div className="flex justify-center gap-x-2">
-                        <span className=" flex justify-center font-bold text-lg">Appointment Report
+                        <span className=" flex justify-center font-bold text-lg">Prescription Report
                             <span className="mx-2 px-2 bg-blue-300 rounded-lg">
                                 {new Date().getFullYear()}
                             </span> compare to </span>
@@ -117,10 +116,9 @@ const LineChartReportApointment = () => {
                             {
                                 [
                                     "Total",
-                                    "Scheduled",
+                                    "Processing",
                                     "Approved",
                                     "Cancelled",
-                                    "No Show"
                                 ].map((val, index) =>
                                     <option key={index} value={val}>{val}</option>)
                             }
@@ -130,7 +128,7 @@ const LineChartReportApointment = () => {
                         <AreaChart
                             width={500}
                             height={400}
-                            data={toReportAppointmentCompareData(appointmentReportByYearData, appointmentReportByYearCompareData)}
+                            data={toReportPrescriptionCompareData(prescriptionReportByYearData, prescriptionReportByYearCompareData)}
                             margin={{
                                 top: 10,
                                 right: 30,
@@ -152,4 +150,4 @@ const LineChartReportApointment = () => {
     )
 }
 
-export default LineChartReportApointment
+export default LineChartReportPrescription

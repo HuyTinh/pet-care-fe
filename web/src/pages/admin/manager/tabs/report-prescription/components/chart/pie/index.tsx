@@ -1,6 +1,6 @@
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts"
 import { useEffect, useState } from "react";
-import { useGetAppointmentsReportByYearQuery } from "../../../../report.service";
+import { useGetPrescriptionsReportByYearQuery } from "../../../../report.service";
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', "#FF0404", "#F662DD", "#0099CF"];
 const RADIAN = Math.PI / 180;
@@ -16,10 +16,11 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
     );
 };
 
-function toReportAppointmentData(val: any) {
+function toReportPrescriptionData(val: any) {
+
     return {
         name: getMonthName(val.month.split("-")[0]),
-        "value": val.total_appointment,
+        "value": val.total_prescriptions,
     }
 }
 
@@ -32,22 +33,23 @@ function getMonthName(monthNumber: number) {
     });
 }
 
-const PieChartReportApointment = () => {
+const PieChartReportPrescription = () => {
     const [selectedYear, setSelectedYear] = useState<number>(new Date().getFullYear())
 
-    const [appointmentReportByYearData, setAppointmentReportByYearData] = useState()
-    const { data: appointmentsReportByYearResponse } = useGetAppointmentsReportByYearQuery({ year: selectedYear })
+    const [prescriptionReportByYearData, setPrescriptionReportByYearData] = useState()
+    const { data: prescriptionsReportByYearResponse } = useGetPrescriptionsReportByYearQuery({ year: selectedYear })
 
     useEffect(() => {
-        if (appointmentsReportByYearResponse?.data) {
-
-            setAppointmentReportByYearData(appointmentsReportByYearResponse?.data.map((val: any) => toReportAppointmentData(val)))
+        if (prescriptionsReportByYearResponse?.data) {
+            setPrescriptionReportByYearData(prescriptionsReportByYearResponse?.data.map((val: any) => toReportPrescriptionData(val)))
         }
-    }, [appointmentsReportByYearResponse])
+    }, [prescriptionsReportByYearResponse])
+
+
     return (
         <div className="bg-white rounded-lg px-10">
             <div className="flex justify-center items-center mt-5 gap-x-2">
-                <span className=" flex justify-center font-bold text-base">Monthly Total Appointment </span>
+                <span className=" flex justify-center font-bold text-base">Monthly Total Prescription </span>
                 <select className="select select-bordered select-sm"
                     onChange={(e: any) => setSelectedYear(e.target.value)}
                 >
@@ -60,7 +62,7 @@ const PieChartReportApointment = () => {
             <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                     <Pie
-                        data={appointmentReportByYearData}
+                        data={prescriptionReportByYearData}
                         cx="50%"
                         cy="40%"
                         labelLine={false}
@@ -69,7 +71,7 @@ const PieChartReportApointment = () => {
                         fill="#8884d8"
                         dataKey="value"
                     >
-                        {(appointmentReportByYearData as any)?.map((_: any, index: any) => (
+                        {(prescriptionReportByYearData as any)?.map((_: any, index: any) => (
                             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                         ))}
                     </Pie>
@@ -80,4 +82,4 @@ const PieChartReportApointment = () => {
     )
 }
 
-export default PieChartReportApointment
+export default PieChartReportPrescription

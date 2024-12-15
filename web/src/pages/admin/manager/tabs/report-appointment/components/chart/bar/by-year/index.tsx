@@ -1,6 +1,6 @@
 import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
 import { useEffect, useState } from "react"
-import { useGetAppointmentsReportByYearQuery } from "../../../../../../report/report.service"
+import { useGetAppointmentsReportByYearQuery } from "../../../../../report.service"
 
 function toReportAppointmentData(val: any) {
     return {
