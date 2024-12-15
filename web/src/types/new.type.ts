@@ -5,4 +5,5 @@ export interface INew {
     authorNew: string;
     imageNew: string;
     contentNew: string;
+    createDate: Date;
 }
