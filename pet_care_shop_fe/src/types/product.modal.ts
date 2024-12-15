@@ -1,16 +1,10 @@
 export interface IProducts {
-    id: number;
-    name: string;
-    price: number;
-    image: string;
-    description: string;
-    status: boolean;
-    type: ProductType
-    unit: string;
-  }
+  id: number; // Product ID
+  name: string; // Product name
+  description: string; // Product description
+  price: number; // Product price
+  quantity: number; // Product quantity
+  image?: string; // Optional image URL
+  category: string; // Category name or ID
+}
 
-  export enum ProductType {
-    FOOD = "FOOD",
-    PATE = "PATE",
-    SANDBYCAT = "SANDBYCAT",
-  }

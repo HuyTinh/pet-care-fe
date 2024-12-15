@@ -14,7 +14,10 @@ import Swal from "sweetalert2";
 
 const ProductDetail = () => {
     const { id } = useParams()
-    const { data, isFetching, isLoading } = useGetProductByIdQuery(id as any)
+
+    const { data, isFetching, isLoading } = useGetProductByIdQuery({
+        productId: id as any,
+    })
 
     const { addCartItem } = useCart()
     const [count, setCount] = useState<number>(1);
@@ -22,7 +25,8 @@ const ProductDetail = () => {
     const increment = () => {
         setCount(prev => prev + 1);
     };
-    console.log("data: ", data);
+    console.log("data: ", ((data as any)?.data as IProducts[] as any)?.name);
+    console.log("data: ", id);
 
     const decrement = () => {
         setCount(prev => Math.max(0, prev - 1)); // Không cho phép giá trị nhỏ hơn 0
@@ -68,12 +72,12 @@ const ProductDetail = () => {
                                     <span className="text-[#ACACAD] font-bold" style={{ fontFamily: "blod" }}>Customer loading...</span>
                                 </div>
                                 :
-                                !isFetching && ((data as any)?.data as IProducts[]).map((product: any) =>
+                                !isFetching && 
                                     <>
                                         <div>
                                             <div>
                                                 <img
-                                                    src={product.image}
+                                                    src={((data as any)?.data as IProducts[] as any)?.name.image}
                                                     alt="Service 1"
                                                     className="h-[480px] w-full rounded object-cover shadow-lg"
                                                 />
@@ -87,18 +91,15 @@ const ProductDetail = () => {
                                             </AnimateSection>
                                             <AnimateSection>
                                                 <h1 className="text-3xl font-bold md:text-4xl lg:text-5xl">
-                                                    {product.name}
+                                                    {((data as any)?.data as IProducts[] as any)?.name}
                                                 </h1>
                                             </AnimateSection>
                                             <p className="text-base leading-relaxed md:text-lg">
-                                                {product.description}
+                                                {((data as any)?.data as IProducts[] as any)?.description}
                                             </p>
                                             <div className="flex">
                                                 <p className="font-bold text-2xl !text-[#0099CF]">
-                                                    {toCurrency(product.price)} VNĐ {"/"}
-                                                </p>
-                                                {" "}<p className="font-medium text-2xl !text-[#0099CF]">
-                                                    {product.unit}
+                                                    {toCurrency(((data as any)?.data as IProducts[] as any)?.price)} VNĐ 
                                                 </p>
                                             </div>
                                             <div className="join">
@@ -116,7 +117,7 @@ const ProductDetail = () => {
                                                 <AnimateSection>
                                                     <button
                                                         className="flex items-center justify-center gap-2 rounded-full bg-green-500/75 px-6 py-3 hover:bg-green-400/75 text-white font-bold"
-                                                        onClick={() => hanldAddItems(product, count)}
+                                                        onClick={() => hanldAddItems(((data as any)?.data as IProducts[] as any), count)}
                                                     >
                                                         <MdOutlineAddShoppingCart color="white" />
                                                         Add to cart
@@ -125,15 +126,15 @@ const ProductDetail = () => {
                                             </div>
                                             <div className="flex items-center gap-2">
                                                 <p>Product Id: </p>
-                                                <p className="font-bold text-[#454545]">#PM{product.id}</p>
+                                                <p className="font-bold text-[#454545]">#PM{((data as any)?.data as IProducts[] as any)?.id}</p>
                                             </div>
                                             <div className="flex items-center gap-2">
                                                 <p>Categories: </p>
-                                                <p className="font-bold text-[#454545]">{product.type}</p>
+                                                <p className="font-bold text-[#454545]">{((data as any)?.data as IProducts[] as any)?.category}</p>
                                             </div>
                                         </div>
                                     </>
-                                )
+                                
                         }
                     </div>
                 </section>

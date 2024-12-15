@@ -13,7 +13,7 @@ const ProductCart = () => {
 
     useEffect(() => {
         cartData
-    },[])
+    }, [])
 
     const hanldeRemoveItems = (product: IProducts) => {
         const Toast = Swal.mixin({
@@ -33,7 +33,7 @@ const ProductCart = () => {
         });
         removeCartItem(product)
     }
-console.log("so luong: ", cartData.length);
+    console.log("so luong: ", cartData.length);
 
     return (
         <motion.div
@@ -97,21 +97,27 @@ console.log("so luong: ", cartData.length);
                                     )
                             }
                         </div>
-                        <div className="space-y-6 p-4 md:p-0 *:text-black  w-1/3">
-                            <div className="border-b-2 border-slate-300 pb-3">
-                                <span className="text-2xl">CART TOTAL</span>
-                            </div>
-                            <div className="flex justify-between pb-10">
-                                <span className="font-bold">Total </span>
-                                <span className="font-bold">{toCurrency(totalPrice())} VNĐ</span>
-                            </div>
-                            <div className="flex justify-center">
-                                <button
-                                    className="flex justify-center rounded-lg bg-blue-500/75 px-6 py-3 hover:bg-blue-400/75 text-white font-bold w-[300px]">
-                                    Payment
-                                </button>
-                            </div>
-                        </div>
+                        {
+                            !cartData.length
+                                ?
+                                null
+                                :
+                                <div className="space-y-6 p-4 md:p-0 *:text-black  w-1/3">
+                                    <div className="border-b-2 border-slate-300 pb-3">
+                                        <span className="text-2xl">CART TOTAL</span>
+                                    </div>
+                                    <div className="flex justify-between pb-10">
+                                        <span className="font-bold">Total </span>
+                                        <span className="font-bold">{toCurrency(totalPrice())} VNĐ</span>
+                                    </div>
+                                    <div className="flex justify-center">
+                                        <button
+                                            className="flex justify-center rounded-lg bg-blue-500/75 px-6 py-3 hover:bg-blue-400/75 text-white font-bold w-[300px]">
+                                            Payment
+                                        </button>
+                                    </div>
+                                </div>
+                        }
                     </div>
                 </section>
             </div>

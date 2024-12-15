@@ -1,11 +1,11 @@
 import { motion } from "framer-motion";
 import { AnimateSection } from "../../../shared/ui/animate-section";
-import { useGetProductQuery } from "../product.service";
 import { IProducts } from "../../../types/product.modal";
 // import { productId } from "../product.slice";
 import { useNavigate } from "react-router-dom";
 import useCart from "../../../shared/hook/useCart";
 import Swal from "sweetalert2";
+import { useFilterProductsQuery } from "../product.service";
 
 const Home = () => {
     const navigate = useNavigate()
@@ -17,7 +17,7 @@ const Home = () => {
     const imageBox = {
         animate: { scale: 1.2 },
     };
-    const { data, isLoading, isFetching } = useGetProductQuery()
+    const { data, isLoading, isFetching } = useFilterProductsQuery({pageNumber: 0})
 
 
 
@@ -106,7 +106,7 @@ const Home = () => {
                         <div className="space-y-6">
                             <div className="flex justify-between">
                                 <div>
-                                    <span>Category 1</span>
+                                    <span>Product</span>
                                 </div>
                                 <div>
                                     <span className="underline cursor-pointer">Show more</span>
@@ -122,7 +122,7 @@ const Home = () => {
                                             </div>
                                         )
                                         :
-                                        !isFetching && ((data as any)?.data as IProducts[]).map((product: any) =>
+                                        !isFetching && ((data as any)?.data as IProducts[] as any)?.content.map((product: any) =>
                                             <AnimateSection>
                                                 <motion.div
                                                     initial="initial"
@@ -131,7 +131,7 @@ const Home = () => {
                                                     className="Service-Image relative overflow-hidden rounded"
                                                 >
                                                     <div className="absolute bottom-10 left-8 z-10">
-                                                        <p className="p-2 text-2xl font-semibold text-white">
+                                                        <p className="p-2 text-2xl font-semibold text-[#4704ff]">
                                                             {product.name}
                                                         </p>
                                                         <motion.div

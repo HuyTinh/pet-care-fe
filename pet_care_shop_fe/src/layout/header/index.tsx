@@ -7,7 +7,7 @@ import useCart from "../../shared/hook/useCart";
 export const Header = () => {
   const { scrollYPosition } = useScrollPetCare();
   const navigate = useNavigate();
-  const { cartData} = useCart()
+  const { cartData } = useCart()
 
   return (
     <div>
@@ -83,9 +83,14 @@ export const Header = () => {
               <NavLink to={"/cart"} className="mt-1">
                 <MdShoppingCartCheckout className="text-2xl" />
                 {/* Vòng tròn hiển thị số */}
-                <span className="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 bg-red-500 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
-                  {cartData.length}
-                </span>
+                {
+                  !cartData.length ?
+                    null
+                    :
+                    <span className="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 bg-red-500 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
+                      {cartData.length}
+                    </span>
+                }
               </NavLink>
             </li>
           </ul>
