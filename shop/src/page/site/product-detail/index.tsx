@@ -8,14 +8,44 @@ import { IProducts } from "../../../types/product.modal";
 import { useParams } from "react-router-dom";
 import useCart from "../../../shared/hook/useCart";
 import { toCurrency } from "../../../shared/util/number-format";
+import { useState } from "react";
+import Swal from "sweetalert2";
 
 
 const ProductDetail = () => {
     const { id } = useParams()
     const { data, isFetching, isLoading } = useGetProductByIdQuery(id as any)
 
-    const { increaseCartItem } = useCart()
+    const { addCartItem } = useCart()
+    const [count, setCount] = useState<number>(1);
 
+    const increment = () => {
+        setCount(prev => prev + 1);
+    };
+    console.log("data: ", data);
+
+    const decrement = () => {
+        setCount(prev => Math.max(0, prev - 1)); // Không cho phép giá trị nhỏ hơn 0
+    };
+
+    const hanldAddItems = (product: IProducts, quantity: number) => {
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            }
+        });
+        Toast.fire({
+            icon: "success",
+            title: "Add items successfully"
+        });
+        addCartItem(product, quantity)
+    }
 
     return (
         <motion.div
@@ -63,9 +93,19 @@ const ProductDetail = () => {
                                             <p className="text-base leading-relaxed md:text-lg">
                                                 {product.description}
                                             </p>
-                                            <p className="font-bold text-2xl !text-[#0099CF]">
-                                                {toCurrency(product.price)} VNĐ
-                                            </p>
+                                            <div className="flex">
+                                                <p className="font-bold text-2xl !text-[#0099CF]">
+                                                    {toCurrency(product.price)} VNĐ {"/"}
+                                                </p>
+                                                {" "}<p className="font-medium text-2xl !text-[#0099CF]">
+                                                    {product.unit}
+                                                </p>
+                                            </div>
+                                            <div className="join">
+                                                <button className="join-item btn" onClick={decrement}>-</button>
+                                                <button className="join-item btn"><span className="!text-black">{count}</span></button>
+                                                <button className="join-item btn" onClick={increment}>+</button>
+                                            </div>
                                             <div className="flex gap-2">
                                                 <AnimateSection>
                                                     <button
@@ -76,7 +116,7 @@ const ProductDetail = () => {
                                                 <AnimateSection>
                                                     <button
                                                         className="flex items-center justify-center gap-2 rounded-full bg-green-500/75 px-6 py-3 hover:bg-green-400/75 text-white font-bold"
-                                                        onClick={() => increaseCartItem(product)}
+                                                        onClick={() => hanldAddItems(product, count)}
                                                     >
                                                         <MdOutlineAddShoppingCart color="white" />
                                                         Add to cart
@@ -85,7 +125,7 @@ const ProductDetail = () => {
                                             </div>
                                             <div className="flex items-center gap-2">
                                                 <p>Product Id: </p>
-                                                <p className="font-bold text-[#454545]">#PM {product.id}</p>
+                                                <p className="font-bold text-[#454545]">#PM{product.id}</p>
                                             </div>
                                             <div className="flex items-center gap-2">
                                                 <p>Categories: </p>

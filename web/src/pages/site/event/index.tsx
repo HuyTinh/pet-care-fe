@@ -1,14 +1,14 @@
 import { useState } from "react";
-import useFetch from "../../../shared/hooks/useFecth";
+import useFetch from "../../../hooks/useFecth";
 
 import ReactMarkdown from 'react-markdown';
-import { displayCustomDate } from "../../../shared/helped/date";
-import { IEvent } from "../../../@types/event.type";
+import { displayCustomDate } from "../../../utils/date";
+import { IEvent } from "../../../types/event.type";
 import { Link } from "react-router-dom";
-import newFetch from "../../../shared/hooks/newFecth";
+import { INew } from "../../../types/new.type";
+import newFetch from "../../../hooks/newFecth";
 import { useNavigate } from "react-router-dom";
-import { INews } from "../../../@types/new.type";
-export const EventPage = () => {
+export const Event = () => {
 
     const { data } = useFetch('http://localhost:1337/api/events?populate=*')
     const events = (data as any)?.data || [];
@@ -26,7 +26,7 @@ export const EventPage = () => {
             <div
                 className="w-full h-64 sm:h-72 md:h-[32rem] lg:h-[42rem] bg-cover bg-center mb-5"
                 style={{
-                    backgroundImage: "url(/src/shared/assets/images/banner-even.webp)",
+                    backgroundImage: "url(/src/assets/images/banner-even.webp)",
                 }}
             ></div>
 
@@ -113,7 +113,7 @@ export const EventPage = () => {
                         aria-label="PetNew"
                         defaultChecked />
                     <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6">
-                        {news.map((newSet: INews) => (
+                        {news.map((newSet: INew) => (
                             <div className="bg-gray-100 p-6 rounded-lg mx-auto max-w-[90%] lg:max-w-[1200px] mb-8">
                                 <div className="flex justify-center">
                                     <img
@@ -125,8 +125,7 @@ export const EventPage = () => {
                                 <div className="mt-4">
                                     <p className="text-gray-500 text-sm">{newSet?.authorNew}</p>
                                     <h2 className="text-lg font-bold mt-2">{newSet?.titleNew}</h2>
-                                    <p className="text-gray-700 mt-2 line-clamp-3">{newSet?.contentNew}</p>
-
+                                    <ReactMarkdown className="text-gray-700 mt-2 line-clamp-3">{newSet?.contentNew}</ReactMarkdown>
                                     <button className="text-blue-500 font-semibold mt-2 inline-block" onClick={() => handleNew(newSet.documentId)}>
                                         Read More »
                                     </button>

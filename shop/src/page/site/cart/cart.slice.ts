@@ -49,7 +49,31 @@ const cartSlice = createSlice({
 
             state.cart = state.cart.filter((e : any) => e.product.id !== action.payload)
             localStorage.setItem("carts", JSON.stringify(state.cart))
-        }
+        },
+        addCart: (state, action: PayloadAction<any>) => {
+            let { product, updateQty } = action.payload
+            let cartItem = {
+                product: product,
+                quantity: updateQty,
+                price: product.price * updateQty
+            }
+            const existingProductIndex = state.cart.findIndex(
+                (item: any) => item.product.id === cartItem.product.id
+            );
+            if (existingProductIndex >= 0) {
+                // Nếu sản phẩm đã có trong giỏ hàng, tăng số lượng
+                state.cart[existingProductIndex].quantity += updateQty;
+                state.cart[existingProductIndex].price = state.cart[existingProductIndex].quantity * cartItem.product.price
+                if (state.cart[existingProductIndex].quantity === 0) {
+                    state.cart.splice(existingProductIndex, 1);
+                }
+            } else {
+                // Nếu sản phẩm chưa có trong giỏ hàng, thêm mới vào
+                state.cart.push(cartItem);
+            }
+            // Cập nhật lại giỏ hàng trong localStorage
+            localStorage.setItem("carts", JSON.stringify(state.cart))
+        },
     },
 })
 
@@ -58,6 +82,7 @@ const cartReducer = cartSlice.reducer;
 
 // Exporting the actions for use in components or other parts of the app
 export const {
+    addCart,
     updateCart,
     removeCart
     // Action to set the pharmacist profile ID

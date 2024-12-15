@@ -1,17 +1,16 @@
 import { useState } from "react";
-import useFetch from "../../../shared/hooks/useFecth";
-import { IBlog } from "../../../@types/blog.type"
-
-import { IComment } from "../../../@types/comment.type"
+import useFetch from "../../../hooks/useFecth";
+import { IBlog } from "../../../types/blog.type"
+import { IComment } from "../../../types/comment.type"
 import ReactMarkdown from 'react-markdown';
-import { displayCustomDate } from "../../../shared/helped/date";
+import { displayCustomDate } from "../../../utils/date";
 
-export const BlogPage = () => {
+export const Blog = () => {
 
     const { data } = useFetch('http://localhost:1337/api/blogs?populate=*')
     const blogs = (data as any)?.data || [];
     const [blog, setBlog] = useState<IBlog>();
-    const userId = 2;
+    const user_id = 2;
 
     const [content, setContent] = useState<string>("");
     const [rating, setRating] = useState(0);
@@ -37,7 +36,6 @@ export const BlogPage = () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 data: {
-                    // eslint-disable-next-line no-unsafe-optional-chaining
                     comments: [...(blog as any)?.comments.map((c: any) => {
                         if (c.id == comment.id) {
                             return comment
@@ -58,7 +56,7 @@ export const BlogPage = () => {
             <div
                 className="w-full h-64 sm:h-72 md:h-[32rem] lg:h-[42rem] bg-cover bg-center mb-5"
                 style={{
-                    backgroundImage: "url(/src/shared/assets/images/banner-blog.webp)",
+                    backgroundImage: "url(/src/assets/images/banner-blog.webp)",
                 }}
             ></div>
 
@@ -69,28 +67,29 @@ export const BlogPage = () => {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-5 p-5 *:text-[#0d74b1]">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-5 p-5 *:text-[#0d74b1] ">
                 {blogs.map((blog: IBlog) => (
                     <div
                         key={blog.id}
-                        className="bg-base-300 text-white rounded-xl p-4 flex flex-col w-[350px]"
+                        className="bg-base-300 text-white rounded-xl p-4 flex flex-col w-[350px] hover:cursor-pointer"
                         onClick={() => {
                             setBlog(blog);
                             (document.getElementById('my_modal_blog') as any)?.showModal();
                         }}
                     >
-                        <div>
+                        <div className="overflow-hidden">
                             <img
                                 src={`http://localhost:1337${(blog?.blogImage as any)?.url}`}
                                 alt="All-Access Pass"
-                                className="w-full h-56 object-cover rounded-lg"
+                                className="w-full h-56 object-cover rounded-lg transform transition-transform duration-500 hover:scale-110"
                             />
                             <h3 className="text-lg font-bold mt-4">{blog.blogTitle}</h3>
                             <div className="flex-grow"></div>
                             <div className="text-sm">{displayCustomDate(new Date(blog.dateCreateBlog))}</div>
+                            <ReactMarkdown className="text-gray-700 mt-2 line-clamp-3">{blog?.blogInstruct}</ReactMarkdown>
                             <div className='flex justify-between'>
                                 <p className="text-gray-700 mt-2">{blog.blogAuthor}</p>
-                                <p className="text-gray-700 mt-2">5 lượt xem</p>
+                                {/* <p className="text-gray-700 mt-2">5 lượt xem</p> */}
                             </div>
                         </div>
                     </div>
@@ -198,9 +197,9 @@ export const BlogPage = () => {
                                             postComments({
                                                 avatar: "a",
                                                 content: content as any,
-                                                time: "2024-10-13",
+                                                time: displayCustomDate((new Date()) as any, false) ,
                                                 user: "dua",
-                                                userId: userId,
+                                                user_id: user_id,
                                                 id: self.crypto.randomUUID() as any,
                                                 rating: rating,
                                             });
@@ -227,7 +226,7 @@ export const BlogPage = () => {
                                                 <div>
                                                     <textarea
                                                         className="whitespace-pre-line mt-2 w-[800px] h-[auto] mb-2"
-                                                        disabled={(comment as any)?.userId != userId} onChange={(e) => setContent(e.target.value as any)} >{comment.content}
+                                                        disabled={(comment as any)?.user_id != user_id} onChange={(e) => setContent(e.target.value as any)} >{comment.content}
                                                     </textarea>
                                                 </div>
                                                 <div className="mb-2">
@@ -251,11 +250,11 @@ export const BlogPage = () => {
                                                     onClick={() => eidtComments({
                                                         avatar: comment.avatar,
                                                         content: content as any,
-                                                        time: "2024-10-13",
+                                                        time: displayCustomDate((comment as any)?.time),
                                                         user: "dua",
-                                                        userId: (comment as any)?.userId,
+                                                        user_id: (comment as any)?.user_id,
                                                         id: comment.id,
-                                                        rating: 5
+                                                        rating: comment.rating
                                                     })}>Edit</button>
                                             </div>
                                         </div>

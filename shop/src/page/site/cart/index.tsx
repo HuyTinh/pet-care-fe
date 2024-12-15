@@ -4,10 +4,36 @@ import useCart from "../../../shared/hook/useCart";
 import { FaHandPointRight } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import { toCurrency } from "../../../shared/util/number-format";
+import { IProducts } from "../../../types/product.modal";
+import Swal from "sweetalert2";
+import { useEffect } from "react";
 
 const ProductCart = () => {
     const { cartData, increaseCartItem, removeCartItem, decreaseCartItem, totalPrice } = useCart()
 
+    useEffect(() => {
+        cartData
+    },[])
+
+    const hanldeRemoveItems = (product: IProducts) => {
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            }
+        });
+        Toast.fire({
+            icon: "success",
+            title: "Remove items successfully"
+        });
+        removeCartItem(product)
+    }
+console.log("so luong: ", cartData.length);
 
     return (
         <motion.div
@@ -16,34 +42,35 @@ const ProductCart = () => {
             exit={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
         >
-            <div className="!bg-white">
-                <section
-                    className="Mission flex min-h-screen items-center justify-center p-4 text-white md:p-8"
-                >
+            <div >
+                <div className="!mt-48">
+                    <span className="text-3xl font-bold ml-14 text-[#0099CF]">YOUR CART</span>
+                </div>
 
+                <section
+                    className="Mission flex min-h-screen items-center justify-center text-white -mt-5"
+                >
                     <div className="relative w-full max-w-7xl flex gap-5">
                         <div className=" w-2/3 border-r-2 border-slate-300">
                             {
-
                                 !cartData.length
                                     ?
                                     <>
                                         <div>
                                             <span className="text-3xl text-black">You haven't product</span>
-
                                         </div>
                                         <div className="mt-5 flex items-center gap-4">
-                                            <span className="text-3xl text-black">Add product is here </span> 
-                                            <FaHandPointRight color="#0099CF" size={35}/>
+                                            <span className="text-3xl text-black">Add product is here </span>
+                                            <FaHandPointRight color="#0099CF" size={35} />
                                             <NavLink to="/"><span className="text-3xl text-[#0099CF] underline">Pet Care Shop</span></NavLink>
                                         </div>
                                     </>
                                     :
                                     cartData.map((cartItem: any) =>
                                         <>
-                                            <div className="flex gap-5 items-center ">
+                                            <div className="grid gap-2 md:grid-cols-4 items-center">
                                                 <div className="flex items-center gap-5">
-                                                    <MdOutlineClose color="black" className="cursor-pointer" onClick={() => removeCartItem(cartItem.product)} />
+                                                    <MdOutlineClose color="black" className="cursor-pointer" onClick={() => hanldeRemoveItems(cartItem.product)} />
                                                     <img
                                                         src={cartItem.product.image}
                                                         alt="Service 1"
@@ -52,16 +79,16 @@ const ProductCart = () => {
                                                 </div>
                                                 <div className="flex !justify-around flex-col *:text-black">
                                                     <span className="font-bold">{cartItem.product.name}</span>
-                                                    {/* <span>1 combo / 3 tablet</span> */}
+                                                    <span>{cartItem.product.unit}</span>
                                                 </div>
-                                                <div className="ml-32">
+                                                <div className="">
                                                     <div className="join">
                                                         <button className="join-item btn" onClick={() => decreaseCartItem(cartItem.product)}>-</button>
                                                         <button className="join-item btn"><span className="!text-black">{cartItem.quantity}</span></button>
                                                         <button className="join-item btn" onClick={() => increaseCartItem(cartItem.product)}>+</button>
                                                     </div>
                                                 </div>
-                                                <div className="ml-28">
+                                                <div className="">
                                                     <span className="text-lg font-bold text-black">{toCurrency(cartItem.price)} VNĐ</span>
                                                 </div>
                                             </div>
