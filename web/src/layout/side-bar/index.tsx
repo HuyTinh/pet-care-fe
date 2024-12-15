@@ -22,6 +22,7 @@ type SideBarProps = {
 export const SideBar = ({ menuItems }: SideBarProps) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const [expand, setExpand] = useState(false)
     const userId = useSelector((state: RootState) => state.authentication.userId);
     const [userCurrent, setUserCurrent] = useState<IEmployee>();
     const { data: employeeProfileResponse, isLoading: employeeProfileResponseIsLoading } = useGetEmployeeProfileQuery(
@@ -30,7 +31,6 @@ export const SideBar = ({ menuItems }: SideBarProps) => {
         },
         { skip: !userId },
     );
-
 
     useEffect(() => {
         setUserCurrent(employeeProfileResponse?.data)
@@ -50,16 +50,17 @@ export const SideBar = ({ menuItems }: SideBarProps) => {
                     width: 0,
                 }}
                 animate={{
-                    width: 256,
+                    width: expand ? 224 : 82,
                 }}
                 transition={{
-                    duration: 1,
+                    duration: .5,
                 }}
             >
                 <div className="ps-2 ">
                     <div className="flex flex-col">
                         <div className="flex p-2 cursor-pointer" onClick={() =>
-                            (document.getElementById("admin_profile_modal") as any)?.showModal()
+                            // (document.getElementById("admin_profile_modal") as any)?.showModal()
+                            setExpand(!expand)
                         }>
                             {
                                 !employeeProfileResponseIsLoading ?
@@ -71,22 +72,25 @@ export const SideBar = ({ menuItems }: SideBarProps) => {
                                     <div className="skeleton mask mask-squircle h-16 w-16"></div>
                             }
                             <motion.div
-                                className="flex flex-col justify-center pl-4 text-white"
-                                initial={{ opacity: 0, display: "none" }}
+                                className={`left-0 text-white w-full relative`}
+                                initial={{ opacity: 0, display: "" }}
                                 animate={{
                                     opacity: 1,
                                     display: "",
                                 }}
                                 transition={{
-                                    delay: 0.8,
+                                    delay: 1,
+                                    duration: 1
                                 }}
                             >
-                                <div>Welcome back</div>
-                                {
-                                    !employeeProfileResponseIsLoading ?
-                                        <div>{userCurrent?.first_name + " " + userCurrent?.last_name}</div> :
-                                        <div className="skeleton h-6 w-full"></div>
-                                }
+                                <div className={`flex flex-col justify-center items-center w-40 h-full absolute overflow-hidden`}>
+                                    <div>Welcome back</div>
+                                    {
+                                        !employeeProfileResponseIsLoading ?
+                                            <div>{userCurrent?.first_name + " " + userCurrent?.last_name}</div> :
+                                            <div className="skeleton h-6 w-full"></div>
+                                    }
+                                </div>
                             </motion.div>
                         </div>
                         <div className="flex w-full flex-colflex-1">
@@ -94,6 +98,7 @@ export const SideBar = ({ menuItems }: SideBarProps) => {
                                 <div className="absolute left-8 z-10 space-y-5 ps-2 pt-5">
                                     {menuItems.map((item, index) => (
                                         <NavLink
+                                            end
                                             to={item.path}
                                             key={index}
                                             className="block"
@@ -103,7 +108,7 @@ export const SideBar = ({ menuItems }: SideBarProps) => {
                                                     animate={{
                                                         background: isActive ? "rgb(29 78 216)" : "",
                                                         color: isActive ? "rgb(255 255 255)" : "",
-                                                        scale: isActive ? "1.1" : "",
+                                                        scale: isActive ? "1.1" : "1",
                                                     }}
                                                 >
                                                     {item.icon}
@@ -123,7 +128,7 @@ export const SideBar = ({ menuItems }: SideBarProps) => {
                         <CiLogout size={24} />
                     </button>
                 </div>
-            </motion.div>
-        </div>
+            </motion.div >
+        </div >
     );
 };

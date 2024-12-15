@@ -1,6 +1,8 @@
 import { RouteObject } from "react-router-dom";
 import Manager from "."
 import { ProtectedRoute } from "../../../routers/protected";
+import ReportAppointment from "./tabs/report-appointment";
+import ReportPrescription from "./tabs/report-prescription";
 
 const { page, rolesAccess } = Manager
 
@@ -8,6 +10,10 @@ export const ManagerRouter: RouteObject =
 {
     path: "manager",
     element: <ProtectedRoute element={page as unknown as JSX.Element} rolesAccess={rolesAccess} />,
+    children: [
+        { index: true, element: <ReportAppointment /> },
+        { path: "prescription", element: <ReportPrescription /> }
+    ]
     // children: [
     //     { index: true, element: HomeManager as unknown as ReactNode },
     //     { path: "customer", element: CustomersManager as unknown as ReactNode },

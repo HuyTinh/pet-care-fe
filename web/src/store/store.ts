@@ -7,7 +7,7 @@ import { customerApi } from "../pages/site/customer.service";  // API service fo
 import { prescriptionApi } from "../pages/admin/doctor/prescription.service";  // API service for prescriptions
 import { medicineApi } from "../pages/admin/warehouse/medicine.service";  // API service for medicine-related operations
 import { employeeApi } from "../pages/admin/employee.service";  // API service for employee-related operations
-import { reportApi } from "../pages/admin/manager/report/report.service";
+import { reportApi } from "../pages/admin/manager/tabs/report.service";
 
 // Create the Redux store with configuration
 export const store = configureStore({

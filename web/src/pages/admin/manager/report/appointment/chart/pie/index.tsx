@@ -1,6 +1,6 @@
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts"
 import { appointmentDatePie } from "../../dummy_appointment_data";
-import { useGetAppointmentsReportByYearQuery } from "../../../report.service";
+import { useGetAppointmentsReportByYearQuery } from "../../../../tabs/report.service";
 import { useEffect, useState } from "react";
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', "#FF0404", "#F662DD", "#0099CF"];

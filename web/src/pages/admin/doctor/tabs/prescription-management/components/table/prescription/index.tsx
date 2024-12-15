@@ -2,9 +2,8 @@ import { memo, useEffect, useState } from "react";
 import { motion } from "framer-motion"
 import { FcCalendar } from "react-icons/fc";
 import { FaEye, FaFilter } from "react-icons/fa";
-import { MdOutlineModeEdit } from "react-icons/md";
+import { MdOutlineCancel, MdOutlineModeEdit } from "react-icons/md";
 import { useFilterPrescriptionsQuery } from "../../../../../prescription.service";
-
 
 type PrescriptionTableProps = {
     filterPrescriptionConditions: any
@@ -17,7 +16,7 @@ export const PrescriptionTable = memo(({ filterPrescriptionConditions, setSelect
     const {
         data: filterPrescriptionsData,
         isFetching: isFetchingFilterPrescriptionsData,
-    } = useFilterPrescriptionsQuery({ page: pageNumber, startDate: filterPrescriptionConditions['start_date'], endDate: filterPrescriptionConditions['end_date'] });
+    } = useFilterPrescriptionsQuery({ size: 20, page: pageNumber, startDate: filterPrescriptionConditions['start_date'], endDate: filterPrescriptionConditions['end_date'] });
 
     useEffect(() => {
         setPrescriptions(filterPrescriptionsData?.data?.content);
@@ -115,20 +114,19 @@ export const PrescriptionTable = memo(({ filterPrescriptionConditions, setSelect
 
                                         <td>
                                             <span
-                                                className={`${pre.status === "APPROVED" ? "bg-green-300" : pre.status === "PROCESSING" ? "bg-yellow-300" : ""} rounded-lg p-1`}
+                                                className={`${pre.status === "APPROVED" ? "bg-green-300" : pre.status === "PROCESSING" ? "bg-yellow-300" : "bg-red-300"} rounded-lg p-1`}
                                             >
                                                 {pre.status.replace("_", " ")}
                                             </span>
                                         </td>
                                         <td className="space-x-2 text-center">
-                                            <button className="btn btn-info btn-outline" onClick={() => {
+                                            <button className="btn btn-sm btn-info btn-outline" onClick={() => {
                                                 (document.getElementById("view_prescription_modal") as any).showModal()
-
                                                 setSelectedPrescription(pre);
                                             }}>
                                                 <FaEye size={24} />
                                             </button>
-                                            <button className="btn btn-neutral btn-outline" onClick={() => {
+                                            <button className="btn btn-sm btn-neutral btn-outline" onClick={() => {
                                                 (
                                                     document.getElementById(
                                                         "edit_prescription_modal",
@@ -137,6 +135,11 @@ export const PrescriptionTable = memo(({ filterPrescriptionConditions, setSelect
                                                 setSelectedPrescription(pre);
                                             }}>
                                                 <MdOutlineModeEdit size={24} />
+                                            </button>
+                                            <button
+                                                className="btn btn-outline btn-sm btn-neutral btn-error"
+                                            >
+                                                <MdOutlineCancel size={20} />
                                             </button>
                                         </td>
                                     </motion.tr>

@@ -1,34 +1,17 @@
-import { memo, useEffect, useState } from "react";
+import { memo } from "react";
 import { Scanner } from "@yudiel/react-qr-scanner";
 
-import { useGetAppointmentByIdQuery } from "../../../../appointment.service";
 
 export const QRScanModal = memo(({
   qrModalVisible,
   setQrModalVisible,
   sendMessage,
-  setSelectedAppointment,
 }: {
   qrModalVisible: boolean;
   sendMessage: (appointmentId: string, status: string) => void;
   setQrModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
   setSelectedAppointment: React.Dispatch<React.SetStateAction<any>>;
 }) => {
-  const [appointmentId, setAppointmentId] = useState<any>();
-
-  const { data: appointmentResponse } = useGetAppointmentByIdQuery(
-    { appointmentId: appointmentId },
-    {
-      skip: !appointmentId,
-    },
-  );
-
-  useEffect(() => {
-    if (appointmentResponse) {
-      setSelectedAppointment(appointmentResponse.data);
-      (document.getElementById("edit_appointment_modal") as any).showModal();
-    }
-  }, [appointmentResponse]);
 
   return (
     <dialog

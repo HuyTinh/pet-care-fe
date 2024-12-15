@@ -30,14 +30,15 @@ export const prescriptionApi = createApi({
     }),
 
     // Endpoint to filter appointments by date range and status
-    filterAppointments: build.query<APIResponse<IAppointment>, { startDate: string; endDate: string; statues: string[] }>({
-      query: ({ startDate, endDate, statues }) => {
+    filterAppointments: build.query<APIResponse<IAppointment>, { startDate: string; endDate: string; statues: string[], size?: number }>({
+      query: ({ startDate, endDate, statues, size }) => {
         return {
           url: `${import.meta.env.VITE_APPOINTMENT_PATH}/appointment/filter`, // Fetching filtered appointments
           params: {
             startDate,
             endDate,
             statues,
+            size
           },
         };
       },
@@ -59,8 +60,8 @@ export const prescriptionApi = createApi({
     }),
 
     // Endpoint to filter prescriptions by date range and pagination
-    filterPrescriptions: build.query<APIResponse<PageableResponse<IPrescription>>, { page: number; startDate?: string; endDate?: string, accountId?: number, statues?: string[] }>({
-      query: ({ startDate, endDate, page, accountId, statues }) => {
+    filterPrescriptions: build.query<APIResponse<PageableResponse<IPrescription>>, { page: number; startDate?: string; endDate?: string, accountId?: number, statues?: string[], size?: number }>({
+      query: ({ startDate, endDate, page, accountId, statues, size }) => {
         return {
           url: `${import.meta.env.VITE_MEDICAL_PRESCRIPTION_PATH}/prescription/filter`, // Fetching filtered prescriptions
           params: {
@@ -68,7 +69,8 @@ export const prescriptionApi = createApi({
             startDate,
             endDate,
             page,
-            accountId
+            accountId,
+            size
           },
         };
       },
