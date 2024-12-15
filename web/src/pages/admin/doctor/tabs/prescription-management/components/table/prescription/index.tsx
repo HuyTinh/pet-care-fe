@@ -115,7 +115,7 @@ export const PrescriptionTable = memo(({ filterPrescriptionConditions, setSelect
 
                                         <td>
                                             <span
-                                                className={`${pre.status === "APPROVED" ? "bg-green-300" : pre.status === "PENDING_PAYMENT" ? "bg-yellow-300" : ""} rounded-lg p-1`}
+                                                className={`${pre.status === "APPROVED" ? "bg-green-300" : pre.status === "PROCESSING" ? "bg-yellow-300" : ""} rounded-lg p-1`}
                                             >
                                                 {pre.status.replace("_", " ")}
                                             </span>

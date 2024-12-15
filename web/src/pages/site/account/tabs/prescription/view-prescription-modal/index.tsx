@@ -1,7 +1,6 @@
-import { memo, useRef } from "react"
-import { IPrescription } from "../../../../../../../../@types/prescription.type"
-import { displayCustomDate } from "../../../../../../../../shared/helped/date"
-import { useReactToPrint } from 'react-to-print';
+import { memo } from "react"
+import { IPrescription } from "../../../../../../@types/prescription.type";
+import { displayCustomDate } from "../../../../../../shared/helped/date";
 
 type ViewPrescriptionModalProps = {
     prescription: IPrescription
@@ -9,10 +8,6 @@ type ViewPrescriptionModalProps = {
 
 
 export const ViewPrescriptionModal = memo(({ prescription }: ViewPrescriptionModalProps) => {
-
-    const contentRef = useRef<HTMLDivElement>(null);
-    const reactToPrintFn = useReactToPrint({ contentRef, pageStyle: "p-10" });
-
     const { appointment, details } = prescription || {}
 
     const medicines = details?.map((val) => val.medicines).flat(Infinity)
@@ -21,7 +16,7 @@ export const ViewPrescriptionModal = memo(({ prescription }: ViewPrescriptionMod
     return (
         <dialog id="view_prescription_modal" className="modal">
             <div className="modal-box max-w-5xl">
-                <div ref={contentRef}>
+                <div>
                     <h3 className="font-bold text-xl text-center">Presctiption</h3>
                     <div className="py-4">
                         <div>
@@ -131,9 +126,6 @@ export const ViewPrescriptionModal = memo(({ prescription }: ViewPrescriptionMod
                             </div>
                         </div>
                     </div>
-                </div>
-                <div className="flex justify-end">
-                    <button className="btn" onClick={() => reactToPrintFn()}>Print</button>
                 </div>
             </div>
             <form method="dialog" className="modal-backdrop">

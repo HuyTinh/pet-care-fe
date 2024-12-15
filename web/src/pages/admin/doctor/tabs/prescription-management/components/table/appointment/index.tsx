@@ -6,6 +6,7 @@ import { SiGoogledocs } from "react-icons/si";
 import { motion } from "framer-motion"
 import { FcCalendar } from "react-icons/fc";
 import { FaFilter } from "react-icons/fa";
+import WebSocketManager from "../../../../../../../../config/web-socket-manager";
 
 type AppointmentTableProps = {
     filterAppointmentConditions: any
@@ -29,6 +30,35 @@ export const AppointmentTable = memo(({ filterAppointmentConditions, setSelected
         setAppointments(filterAppointmentData?.data.content);
         return () => { };
     }, [filterAppointmentData?.data]);
+
+
+
+    const stompClient = WebSocketManager.getInstance().getClient();
+    useEffect(() => {
+        if (stompClient) {
+            stompClient.onConnect = () => {
+                console.log("Connected to WebSocket");
+                // Gửi yêu cầu kết nối
+                stompClient.publish({ destination: "/app/connect" });
+                stompClient.subscribe("/topic/doctor-update-check-in-appointment", (message) => {
+                    const receiveData = JSON.parse(message.body);
+                    console.log(message.body);
+
+                    setAppointments((prevState) => [...prevState, receiveData])
+                });
+            };
+
+            stompClient.onDisconnect = () => {
+                console.log("Disconnected from WebSocket");
+            };
+        }
+
+        return () => {
+            // Không gọi deactivate() ở đây
+            // stompClient?.deactivate;
+        };
+    }, [stompClient]);
+
     return (
         <div className="space-y-3">
             <div className="flex gap-x-2">
@@ -96,7 +126,7 @@ export const AppointmentTable = memo(({ filterAppointmentConditions, setSelected
                             <div className="absolute top-0 z-50 flex h-[30rem] w-full flex-col items-center justify-center">
                                 <FcCalendar size={64} className="mb-10" />
                                 <div>You don't have any appointment</div>
-                            </div> :
+                            </div> : !isFetchingFilterAppointmentData &&
                             (appointments as IAppointment[])?.map((ap, index) => (
                                 <motion.tr key={index}>
                                     <th>#{ap.id}</th>
@@ -116,7 +146,7 @@ export const AppointmentTable = memo(({ filterAppointmentConditions, setSelected
                                         <div className="truncate">
                                             <span className="font-bold underline">
                                                 {displayCustomDate(new Date(ap.appointment_date))},{" "}
-                                                {ap.appointment_time.substring(0, 5) + "h"}
+                                                {ap.appointment_time?.substring(0, 5) + "h"}
                                             </span>
                                         </div>
                                     </td>

@@ -33,6 +33,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { pharmacistProfileId } from "@/app/pharmacist.slice";
 import { Link, router, useFocusEffect } from "expo-router";
+import WebSocketManager from "@/config/web-socket-manager";
 const Home = () => {
     const getDateInfo = (): { day: number; month: string; year: number; dayName: string } => {
         const dateInfo = useMemo(() => {
@@ -53,7 +54,8 @@ const Home = () => {
         }, [])
         return dateInfo;
     };
-    const { data, isLoading, isFetching, isError } = useGetPrescriptionQuery();
+    const { data: prescriptionResponse, isLoading, isFetching, isError } = useGetPrescriptionQuery();
+    const [prescriptions, setPrescriptions] = useState();
     const [searchQuery, setSearchQuery] = React.useState("");
     const [searchResult, setSearchResult] = React.useState();
     const bottomSheetModalRef = useRef<BottomSheetModal>(null);
@@ -68,6 +70,12 @@ const Home = () => {
             return () => bottomSheetModalRef.current?.close()
         }, [])
     );
+    useEffect(() => {
+        console.log(12);
+
+        setPrescriptions((prescriptionResponse as any)?.data)
+    }, [prescriptionResponse?.data])
+
     const [activeSections, setActiveSections] = useState([]);
     const updateSections = (activeSections: any) => {
         setActiveSections(activeSections);
@@ -78,7 +86,7 @@ const Home = () => {
     });
     const distpath = useDispatch()
     const filterCustomer = (value: any) => {
-        return (data as any)?.data.filter((account: any) => {
+        return (prescriptions as any)?.filter((account: any) => {
             return (
                 value &&
                 account.appointment.phone_number.includes(value)
@@ -103,6 +111,29 @@ const Home = () => {
     const [cancelBill] = useCancelBillMutation();
     const [invoice, setInvoice] = useState();
     const [selectedOption, setSelectedOption] = useState<any>("Cash");
+    const stompClient = WebSocketManager.getInstance().getClient();
+    useEffect(() => {
+        if (stompClient) {
+            stompClient.onConnect = () => {
+                console.log("Connected to WebSocket");
+                // Gửi yêu cầu kết nối
+                stompClient.publish({ destination: "/app/connect" });
+                stompClient.subscribe("/topic/pharmacist-update-prescription", (message) => {
+                    const receiveData = JSON.parse(message.body);
+                    setPrescriptions((prevState: any) => [...prevState, receiveData] as any)
+                });
+            };
+
+            stompClient.onDisconnect = () => {
+                console.log("Disconnected from WebSocket");
+            };
+        }
+
+        return () => {
+            // Không gọi deactivate() ở đây
+            // stompClient?.deactivate;
+        };
+    }, [stompClient]);
     const handlApproved = () => {
         if (selectedOption === 'Banking') {
             craeteBill({
@@ -120,6 +151,8 @@ const Home = () => {
                 "prescription_id": (prescriptionData?.data as any)?.id,
                 "payment_method": "CASH",
                 "total_money": (prescriptionData?.data as any)?.total_money
+            }).then(res => {
+                bottomSheetModalRef.current?.close()
             })
         }
     }
@@ -345,8 +378,8 @@ const Home = () => {
                                                             <Text className="text-[#0D74B1] text-base font-medium" style={{ fontFamily: "blod" }}>
                                                                 Họ và tên:{" "}
                                                                 <Text className="!text-black" style={{ fontFamily: "medium" }}>
-                                                                    {search.appointment.last_name}{" "}
-                                                                    {search.appointment.first_name}
+                                                                    {search.appointment?.last_name}{" "}
+                                                                    {search.appointment?.first_name}
                                                                 </Text>
                                                             </Text>
                                                             <Text className="text-[#0D74B1] text-base font-medium" style={{ fontFamily: "blod" }}>
@@ -373,7 +406,7 @@ const Home = () => {
 
                                                 </View>
                                                 :
-                                                !isFocus && !isFetching && ((data as any)?.data as IPrescription[])?.map(
+                                                !isFocus && !isFetching && (prescriptions as any)?.map(
                                                     (prescription: any, index: number) => (
                                                         <Card
                                                             className="bg-[#E7E7E8]"
@@ -388,15 +421,15 @@ const Home = () => {
                                                                     Họ và tên:{" "}
                                                                     <Text className="!text-black" style={{ fontFamily: "medium" }}>
 
-                                                                        {prescription?.appointment.last_name}{" "}
-                                                                        {prescription.appointment.first_name}
+                                                                        {prescription?.appointment?.last_name}{" "}
+                                                                        {prescription.appointment?.first_name}
                                                                     </Text>
                                                                 </Text>
                                                                 <Text className="text-[#0D74B1] text-base font-medium" style={{ fontFamily: "blod" }}>
 
                                                                     Số điện thoại:{" "}
                                                                     <Text className="!text-black" style={{ fontFamily: "medium" }}>
-                                                                        {prescription?.appointment.phone_number}
+                                                                        {prescription?.appointment?.phone_number}
                                                                     </Text>
                                                                 </Text>
                                                                 <Image
