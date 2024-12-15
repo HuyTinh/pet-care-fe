@@ -1,10 +1,10 @@
 import { memo, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
-  useCreatePrescriptionMutation,
   useGetAllCalculationUnitQuery,
   useGetAllMedicineQuery,
   useGetAllVeterinaryCareQuery,
+  useUpdatePrescriptionMutation,
 } from "../../../../../prescription.service";
 import _ from "lodash"
 import { Editor } from "@tinymce/tinymce-react";
@@ -56,7 +56,7 @@ export const EditPrescriptionModal = memo(({
   }));
 
 
-  const [createPrescription] = useCreatePrescriptionMutation()
+  const [updatePrescription] = useUpdatePrescriptionMutation()
 
   const {
     data: calculationUnitData
@@ -334,30 +334,33 @@ export const EditPrescriptionModal = memo(({
             </div>
             <div>
               <button className="btn" onClick={() => {
-                createPrescription({
-                  appointment_id: prescription.appointment.id,
-                  details: [{
-                    pet_id: selectedPet,
-                    pet_medicines: [...prescriptionMedicines].map(val => {
+                updatePrescription({
+                  prescriptionId: prescription.id,
+                  data: {
+                    status: "PROCESSING",
+                    details: [{
+                      pet_id: selectedPet,
+                      pet_medicines: [...prescriptionMedicines].map(val => {
 
-                      return _.omit({
-                        ...val,
-                        medicine_id: (medicines.find((v: any) => v.name.trim() == val.medicine) as any)?.id,
-                        calculation_id: (calculationUnits.find((v: any) => v.name == val.calculate_unit) as any)?.id,
-                        total_money: val.price * val.quantity
-                      }, ["medicine", "calculate_unit", "price"])
-                    }),
-                    pet_veterinary_cares: prescriptionVeterinaryCares,
-                    diagnosis: getValues("diagnosis"),
-                  }],
-                  total_money: [...prescriptionMedicines].reduce((sum, val) => {
-                    return sum + (val.price * val.quantity)
-                  }, 0) + [...prescriptionVeterinaryCares].reduce((sum, val) => {
-                    return sum + (val as any).total_money
-                  }, 0)
+                        return _.omit({
+                          ...val,
+                          medicine_id: (medicines.find((v: any) => v.name.trim() == val.medicine) as any)?.id,
+                          calculation_id: (calculationUnits.find((v: any) => v.name == val.calculate_unit) as any)?.id,
+                          total_money: val.price * val.quantity
+                        }, ["medicine", "calculate_unit", "price"])
+                      }),
+                      pet_veterinary_cares: prescriptionVeterinaryCares,
+                      diagnosis: getValues("diagnosis"),
+                    }],
+                    total_money: [...prescriptionMedicines].reduce((sum, val) => {
+                      return sum + (val.price * val.quantity)
+                    }, 0) + [...prescriptionVeterinaryCares].reduce((sum, val) => {
+                      return sum + (val as any).total_money
+                    }, 0)
+                  }
                 }).then(() => {
-                  (document.getElementById("make_prescription_modal") as any).close()
-                  setTimeout(() => toast.success("Create prescription successful", {
+                  (document.getElementById("edit_prescription_modal") as any).close()
+                  setTimeout(() => toast.success("Update prescription successful", {
                     position: "top-right"
                   }), 100)
                 });
