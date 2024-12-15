@@ -1,11 +1,10 @@
 import { useState } from "react";
-import useFetch from "../../../hooks/useFecth";
-import { IBlog } from "../../../types/blog.type"
-import { IComment } from "../../../types/comment.type"
-import ReactMarkdown from 'react-markdown';
-import { displayCustomDate } from "../../../utils/date";
+import useFetch from "../../../shared/hooks/useFecth";
+import { IBlog } from "../../../@types/blog.type";
+import { IComment } from "../../../@types/comment.type";
+import { displayCustomDate } from "../../../shared/helped/date";
 
-export const Blog = () => {
+export const BlogPage = () => {
 
     const { data } = useFetch('http://localhost:1337/api/blogs?populate=*')
     const blogs = (data as any)?.data || [];
@@ -197,7 +196,7 @@ export const Blog = () => {
                                             postComments({
                                                 avatar: "a",
                                                 content: content as any,
-                                                time: displayCustomDate((new Date()) as any, false) ,
+                                                time: displayCustomDate((new Date()) as any, false),
                                                 user: "dua",
                                                 user_id: user_id,
                                                 id: self.crypto.randomUUID() as any,

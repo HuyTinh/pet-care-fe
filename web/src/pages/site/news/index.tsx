@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { INew } from "../../../types/new.type";
-import newFetch from "../../../hooks/newFecth";
 import { useNavigate } from "react-router-dom";
 import ReactMarkdown from 'react-markdown';
-export const NewContent = () => {
+import newFetch from "../../../shared/hooks/newFecth";
+import { INews } from "../../../@types/new.type";
+export const NewsPage = () => {
     const { documentId } = useParams();
     const [documentIdSecond, setDocumentIdSecond] = useState(documentId);
     console.log(documentId)
@@ -53,7 +53,7 @@ export const NewContent = () => {
                 </p>
             </div>
             <div className="bg-gray-200 p-6 rounded-lg w-1/4 mb-8 hover:cursor-pointer">
-                {newss.map((newSet: INew) => (  
+                {newss.map((newSet: INews) => (
                     <div className="hover:bg-blue-300 hover:rounded p-2 transition-all duration-300">
                         <p className="text-sm font-bold" onClick={() => handleNew(newSet.documentId)}>{newSet?.titleNew}</p>
                     </div>
