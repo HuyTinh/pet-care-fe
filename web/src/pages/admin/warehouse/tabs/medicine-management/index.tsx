@@ -12,6 +12,7 @@ import { FilterMedicineModal } from "./filter-medicine-modal";
 import { displayCustomDate } from "../../../../../shared/helped/date";
 import { toCurrency } from "../../../../../shared/helped/number-format";
 import { TbFilterX } from "react-icons/tb";
+import { exportExcel } from "../../../../../shared/helped/export-excel";
 
 export default function MedicinesManagement() {
   const [selectedMedicine, setSelectedMedicine] = useState<IMedicine | null>(
@@ -71,6 +72,32 @@ export default function MedicinesManagement() {
 
   const pageNumbers = getPageNumbers();
 
+  const handleExportExcel = () => {
+    // Xuất ra file Excel
+    const header = {
+      id: "ID",
+      name: "Name",
+      quantity: "Quantity",
+      price: "Price",
+      "manufacture.name": "Manufacture Name",
+      "locations[0].area": "Area",
+      "locations[0].row_location": "Row",
+      "locations[0].column_location": "Column",
+      "calculation_units[0].name": "Caculation Units",
+      status: "Status",
+      manufacturing_date: "Manufacturing Date",
+      date_import: "Date Import",
+    };
+
+    exportExcel(
+      "", // Nếu bạn sử dụng tableId
+      medicineData?.data.content, // Dữ liệu đã được chuyển đổi
+      header, // Không cần header tùy chỉnh
+      "MedicineData.xlsx", // Tên file xuất ra
+    );
+    console.log(medicineData?.data.content);
+  };
+
   return (
     <>
       <div className="flex justify-between gap-x-2 p-2">
@@ -115,6 +142,14 @@ export default function MedicinesManagement() {
               <option value="TREATMENT_TOOLS">Treatment Tools</option>
             </select>
           </div>
+          <div>
+            <button
+              onClick={handleExportExcel}
+              className="btn btn-success ml-4 w-[130px] text-white"
+            >
+              Export Excel
+            </button>
+          </div>
         </div>
         <div className="flex items-center gap-2">
           <button
@@ -157,8 +192,9 @@ export default function MedicinesManagement() {
                   <li key={number}>
                     <button
                       onClick={() => setCurrentPage(number - 1)}
-                      className={`btn join-item btn-sm ${currentPage === number - 1 ? "btn-active" : ""
-                        }`}
+                      className={`btn join-item btn-sm ${
+                        currentPage === number - 1 ? "btn-active" : ""
+                      }`}
                     >
                       {number}
                     </button>
@@ -208,10 +244,10 @@ export default function MedicinesManagement() {
               <div>Loading medicines...</div>
             </motion.div>
           )}
-          <table className="table">
+          <table className="table" id="warehouse-table">
             <thead className="sticky top-0 bg-white">
               <tr className="text-lg">
-                <th></th>
+                <th>#</th>
                 <th
                   className="cursor-pointer"
                   onClick={() => handleSort("name")}
